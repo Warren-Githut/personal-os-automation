@@ -82,7 +82,7 @@ Má»—i session má»›i:
 
 ## INGEST TRIGGER â€” RAW FILE MENTION
 
-Khi Warren mention file tá»« `vault/30_KNOWLEDGE_BASE/raw/`:
+Khi Warren mention file tá»« `personal_personal_vault/30_KNOWLEDGE_BASE/raw/`:
 1. Tá»± check: file nÃ y Ä‘Ã£ cÃ³ wiki page chÆ°a?
 2. ChÆ°a cÃ³ â†’ prompt: "âš ï¸ [filename] chÆ°a Ä‘Æ°á»£c ingest. Muá»‘n /ingest khÃ´ng?"
 3. ÄÃ£ cÃ³ â†’ silent. KhÃ´ng lÃ m phiá»n Warren.
@@ -127,53 +127,43 @@ File cáº§n Ä‘á»c?
 
 ## SLASH COMMANDS
 
-Warren dÃ¹ng cÃ¡c lá»‡nh sau, báº¡n Ä‘á»c file tÆ°Æ¡ng á»©ng trong `.kilo/command/` vÃ  lÃ m theo tá»«ng bÆ°á»›c:
+Warren dùng các lệnh sau, bạn đọc file tương ứng trong `.kilo/command/` và làm theo từng bước:
 
-**âš ï¸ RESTATE GATE â€” má»i tÆ°Æ¡ng tÃ¡c:** â†’ Xem `.kilo/rules/00-protocol.md` R1 (khÃ´ng láº·p láº¡i á»Ÿ Ä‘Ã¢y)
+**⚠️ RESTATE GATE — mọi tương tác:** → Xem `.kilo/rules/00-protocol.md` R1 (không lặp lại ở đây)
 
-### ðŸ“¥ Data In
-- `/cph` â†’ `cph.md`
-- `/ingest [file] [domain]` â†’ `ops-ingest.md`
-- `/insight [domain]` â†’ `ops-insight.md`
-- `/process-logs` â†’ `process-logs.md`
-- `/process-notes [--hours N]` â†’ `process-notes.md`
-  > **24h rule:** Náº¿u `.last_confirmed` cÃ¡ch hiá»‡n táº¡i > 24h, há»i Warren confirm oldest trÆ°á»›c khi fetch. Apply cáº£ LU_workspace vÃ  Personal_OS.
-- `/process-voice [file]` â†’ `process-voice.md`
-- `/ingest-recipe` â†’ `ingest-recipe.md` â€” parse IKKO recipe CSVs â†’ rebuild Recipe_Index.json
+### 📥 Personal Data In
+- `/ingest [file] [domain]` → `ops-ingest.md` — ingest raw file into wiki with structured analysis
+- `/insight [domain]` → `ops-insight.md` — deep-dive analysis on a domain
+- `/process-notes [--hours N]` → `process-notes.md` — process Slack brain-dump notes
+- `/process-voice [file]` → `process-voice.md` — transcribe voice note to text
 
-### ðŸ“‹ Ops & Decisions
-- `/morning-brief` â†’ `morning-brief.md`
-- `/query [keyword]` â†’ `query.md`
-- `/decision [summary]` â†’ `decision.md`
-- `/cases [args]` â†’ `cases.md`
-- `/ops-compare [args]` â†’ `ops-compare.md`
-- `/ops-pulse` â†’ `ops-pulse.md`
-- `/ops-context-update` â†’ `ops-context-update.md`
-- `/ops-weekly-connections` â†’ `ops-weekly-connections.md`
-- `/ops-deep-research [topic]` â†’ `ops-deep-research.md`
+### 📋 Personal Ops & Decisions
+- `/personal-context-update` → `personal-context-update.md` — update CONTEXT.md Section 9 with weekly themes
+- `/personal-weekly-connections` → `personal-weekly-connections.md` — weekly cross-domain serendipity scan
+- `/query [keyword]` → `query.md` — semantic search across personal vault
+- `/decision [summary]` → `decision.md` — log a closed personal decision
+- `/cases [args]` → `cases.md` — manage personal case files
+- `/ops-deep-research [topic]` → `ops-deep-research.md` — full-vault deep research
 
-### ðŸ”§ Maintenance
-- `/lint [scope]` â†’ `lint.md`
-- `/rebuild-index [flags]` â†’ `rebuild-index.md`
+### 🔧 Maintenance
+- `/lint [scope]` → `lint.md` (personal version) — vault quality scan (domains: trading, health, family, finance)
+- `/rebuild-index [flags]` → `rebuild-index.md`
 
-| /ideas-review | ideas-review.md | Spin-off from /lint: monthly ideas review (first Sunday) |`r
-| /pnl-check | pnl-check.md | Spin-off from /lint: monthly P&L cross-check (day 10-16) |
-###  🎯 Ideas & Creativity
-- `/brainstorm [topic]` → `brainstorm.md` — divergent thinking, zero filter (khác với /explore)
-- `/generate-plan [raw requirement]` → `generate-plan.md` — formalize idea/brainstorm output thành structured plan (dùng trước /review-plan)
-- `/explore [idea]` → `explore.md` — ops feasibility filter
-- `/ruthless [target]` → `ruthless.md` — Musk Algorithm: xoá, simplify, accelerate bất cứ thứ gì (file, SOP, idea)
+### 🎯 Ideas & Review
+- `/brainstorm [topic]` → `brainstorm.md` — divergent thinking, zero filter
+- `/generate-plan [raw requirement]` → `generate-plan.md` — formalize idea into structured plan
+- `/explore [idea]` → `explore.md` — feasibility filter
+- `/ideas-review` → `ideas-review.md` — monthly ideas keep/drop review
+- `/ruthless [target]` → `ruthless.md` — Musk Algorithm: delete, simplify, accelerate
 
-###  🎯 Intake & Protocol
-- `/restate [raw input]` → `restate.md` — pre-flight check: ORION restate + clarify trước khi analyze
-### âœ… Review
-- `/review-plan [plan]` â†’ `review-plan.md`
-- `/review-audit [scope]` â†’ `review-audit.md`
-- `/review-workflow [name]` â†’ `review-workflow.md`
+### ✅ Review
+- `/review-plan [plan]` → `review-plan.md`
+- `/review-audit [scope]` → `review-audit.md` (personal version) — code review + system coherence audit
+- `/review-workflow [name]` → `review-workflow.md`
 
 ## HARD CONSTRAINTS
 
-- `vault/30_KNOWLEDGE_BASE/raw/` = **READ ONLY** â€” khÃ´ng bao giá» ghi/xÃ³a/sá»­a á»Ÿ Ä‘Ã³
+- `personal_personal_vault/30_KNOWLEDGE_BASE/raw/` = **READ ONLY** â€” khÃ´ng bao giá» ghi/xÃ³a/sá»­a á»Ÿ Ä‘Ã³
 - Táº¥t cáº£ file `.md` má»›i pháº£i cÃ³ YAML frontmatter, date format YYYY-MM-DD
 - Secrets (API keys) â†’ `.env` file, khÃ´ng Ä‘áº·t trong vault files
 - Má»—i file `.md` táº¡o ra pháº£i theo schema cá»§a tá»«ng thÆ° má»¥c (xem `AGENTS.md`)
@@ -252,7 +242,7 @@ Má»—i knowledge file pháº£i tuÃ¢n theo template trong `_INDEX.md`:
 | **Task** | `vault/_inbox/tasks.md` | Action item cÃ³ deadline |
 | **Journal** | `vault/_journal/YYYY-MM.md` | Observations, chÆ°a phÃ¢n loáº¡i |
 | **Idea** | `vault/_ideas/YYYY-MM.md` | Hypothesis, competitor intel |
-| **Case** | `vault/_cases/active/` | Timeline >1 ngÃ y HOáº¶C >1 ngÆ°á»i liÃªn quan |
+| **Case** | `personal_vault/_cases/active/` | Timeline >1 ngÃ y HOáº¶C >1 ngÆ°á»i liÃªn quan |
 
 Routing rule: >1 ngÃ y HOáº¶C >1 ngÆ°á»i â†’ CASE. CÃ²n láº¡i â†’ TASK. KhÃ´ng cháº¯c â†’ JOURNAL.
 
@@ -368,7 +358,7 @@ LU3 | W21 | Rev 728.7M (-11% WW, +26% YY) | COL 28.4%
 
 ## KHÃ”NG ÄÆ¯á»¢C PHÃ‰P
 
-- âŒ Ghi vÃ o `vault/30_KNOWLEDGE_BASE/raw/`
+- âŒ Ghi vÃ o `personal_personal_vault/30_KNOWLEDGE_BASE/raw/`
 - âŒ Sá»­a `CLAUDE.md`, `AGENTS.md`
 - âŒ Tráº£ lá»i mÆ¡ há»“ khi Warren há»i â€” luÃ´n há»i láº¡i náº¿u chÆ°a rÃµ
 - âŒ Viáº¿t code phá»©c táº¡p khi cÃ³ cÃ¡ch Ä‘Æ¡n giáº£n hÆ¡n
