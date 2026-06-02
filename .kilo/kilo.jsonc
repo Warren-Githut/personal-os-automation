@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "https://app.kilo.ai/config.json",
+  "default_agent": "orion",
+  "agent": {
+    "orion": {
+      "model": "deepseek-obsidian/deepseek-v4-flash"
+    }
+  }
+}
