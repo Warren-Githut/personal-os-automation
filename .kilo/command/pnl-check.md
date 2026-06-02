@@ -1,6 +1,7 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
 description: "Monthly P&L cross-check: compare P&L wiki vs op-log weekly sums. Run day 10-16."
+updated: 2026-06-02
 ---
 
 # /pnl-check - Monthly P&L Cross-Check

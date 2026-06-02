@@ -1,6 +1,7 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
 description: "Review ideas in _ideas/ - tag keep/promote/drop. Run first Sunday each month."
+updated: 2026-06-02
 ---
 
 # /ideas-review - Monthly Ideas Review

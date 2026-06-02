@@ -1,19 +1,25 @@
 ﻿---
 model: deepseek-obsidian/deepseek-v4-pro
-description: "Data & vault plan adversarial review adapted for ORION+Deepseek toolchain."
+description: "Personal vault plan adversarial review adapted for ORION+Deepseek toolchain — personal life domains: trading, health, family, finance."
+updated: 2026-06-02
 ---
 
-# /review-plan â€” Data & Vault Plan Adversarial Review
-# v2.1 | 2026-05-25
-# KEY CHANGES v1.4â†’v2.1:
-#   - Frontmatter: model: deepseek-obsidian/deepseek-v4-pro
-#   - All "Claude Code" references â†’ "ORION+Deepseek" / "ORION"
-#   - No toolchain changes needed â€” meta-protocol only
-# PURPOSE: Warren pastes any data/vault/structure plan â†’ vault scan â†’ 4 expert personas debate â†’ Senior Manager verdict.
-# SCOPE: Data architecture, vault structure, log formats, naming conventions, parser flows, retrieval design.
+# /review-plan — Personal Vault Adversarial Review
+# v3.0-personal | 2026-06-02
+# KEY CHANGES v2.1→v3.0-personal:
+#   - Adapted from L'Usine ops review-plan for Personal_OS vault structure and content domains
+#   - Added Step 1C: VAULT HISTORY SCAN — search past decisions, lessons, post-mortems relevant to personal plan
+#   - Step 2: Personas MUST reference vault history precedents if found
+#   - Step 4: Added VAULT HISTORY field + auto-escalate when past decision contradicts plan
+#   - Persona adapted: OPERATIONS REALIST → PERSONAL REALIST (personal life/trading/health lens)
+#   - Vault scan targets: 10_PULSE/ instead of 10_OPERATION_DATA/; wiki domains: trading, health, family_gg, finance
+#   - Domain priority: Family (GG) → Health → Finance → Trading
+#   - All content in English (R4 LANGUAGE MANDATE)
+# PURPOSE: Warren pastes any personal vault/structure plan → vault scan → 4 expert personas debate → Senior Manager verdict.
+# SCOPE: Personal vault structure, log formats, naming conventions, parser flows, retrieval design for personal domains (trading, health, family, finance).
 #        Hybrid plans (data + automation): review-plan covers data part, flags automation part for /review-workflow.
-# NOT FOR: Pure IT workflow scripts, automation-only logic â†’ use /review-workflow instead.
-# NOT FOR: Code review after writing â†’ use /review-code instead.
+# NOT FOR: Pure IT workflow scripts, automation-only logic → use /review-workflow instead.
+# NOT FOR: Code review after writing → use /review-code instead.
 
 ---
 
@@ -24,325 +30,394 @@ description: "Data & vault plan adversarial review adapted for ORION+Deepseek to
 
 ---
 
-## Core Philosophy (báº¯t buá»™c Ã¡p dá»¥ng â€” khÃ´ng ngoáº¡i lá»‡)
+## Core Philosophy (mandatory application — no exceptions)
 
-Tru?c khi review b?t k? plan nào, c? 4 personas d?c và áp d?ng 2 nguyên t?c sau:
+Before reviewing any plan, all 4 personas read and apply these 2 principles:
 
-**1. TÃ¬m bÃ i toÃ¡n gá»‘c trÆ°á»›c (The Real Problem)**
-NgÆ°á»i dÃ¹ng thÆ°á»ng mÃ´ táº£ cÃ¡i há» *muá»‘n* (má»™t tÃ­nh nÄƒng, má»™t file má»›i) chá»© khÃ´ng pháº£i cÃ¡i há» *cáº§n* (giáº£i quyáº¿t má»™t nÃºt tháº¯t thá»±c sá»±). CÃ¢u há»i báº¯t buá»™c pháº£i há»i: "Náº¿u khÃ´ng build cÃ¡i nÃ y, Ä‘iá»u gÃ¬ thá»±c sá»± bá»‹ block?" Nhiá»u khi giáº£i phÃ¡p tá»‘t nháº¥t lÃ  thay Ä‘á»•i quy trÃ¬nh váº­n hÃ nh â€” khÃ´ng cáº§n viáº¿t má»™t dÃ²ng code hay táº¡o thÃªm má»™t file nÃ o.
+**1. Find the Real Problem first**
+Users often describe what they *want* (a feature, a new file) rather than what they *need* (solving a real bottleneck). The mandatory question to ask: "If we don't build this, what really gets blocked?" Often the best solution is changing a personal habit or process — no code or new files needed.
 
-**2. Thiáº¿t káº¿ data structure trÆ°á»›c, logic sau**
-Linus Torvalds: *"Láº­p trÃ¬nh viÃªn tá»“i lo láº¯ng vá» code. Láº­p trÃ¬nh viÃªn giá»i lo láº¯ng vá» cáº¥u trÃºc dá»¯ liá»‡u."* Náº¿u luá»“ng dá»¯ liá»‡u vÃ  cÃ¡ch lÆ°u trá»¯ Ä‘Æ°á»£c thiáº¿t káº¿ Ä‘Ãºng, code xá»­ lÃ½ nÃ³ sáº½ tá»± nhiÃªn trá»Ÿ nÃªn Ä‘Æ¡n giáº£n. NgÆ°á»£c láº¡i: data structure sai â†’ má»i logic viáº¿t lÃªn trÃªn Ä‘Ã³ Ä‘á»u sai theo.
+**2. Design data structure first, logic later**
+Linus Torvalds: *"Bad programmers worry about the code. Good programmers worry about data structures."* If the data flow and storage method are designed correctly, the processing code naturally becomes simple. Conversely: wrong data structure → all logic built on top of it will also be wrong.
 
-*LÆ°u Ã½: "Design for Deletion" (module Ä‘á»™c láº­p, dá»… xÃ³a) lÃ  nguyÃªn táº¯c viáº¿t code â€” Ã¡p dá»¥ng trong `/review-code`, khÃ´ng pháº£i á»Ÿ Ä‘Ã¢y.*
-
----
-
-## Protocol â€” 5 Steps, khÃ´ng skip, khÃ´ng Ä‘oÃ¡n mÃ²
-
-> **SILENT MODE:** Cháº¡y Steps 1â€“3 nhÆ° internal reasoning â€” khÃ´ng in ra. SILENT MODE override má»i "Output báº¯t buá»™c:" trong cÃ¡c Steps bÃªn dÆ°á»›i. Ngoáº¡i lá»‡ duy nháº¥t: náº¿u cáº§n há»i Warren lÃ m rÃµ â†’ há»i trÆ°á»›c khi tiáº¿p tá»¥c. Chá»‰ in Step 4 verdict block.
+*Note: "Design for Deletion" (independent modules, easy to remove) is a coding principle — applied in `/review-code`, not here.*
 
 ---
 
-### STEP 1 â€” READ & FRAME (SILENT)
+## Protocol — 6 Steps, no skip, no guesswork
 
-Claude Ä‘á»c plan Warren paste vÃ o vÃ  format láº¡i thÃ nh:
+> **SILENT MODE:** Run Steps 1–3 as internal reasoning — do not print. SILENT MODE overrides all "Required Output:" in Steps below. Sole exception: if you need to ask Warren for clarification → ask before continuing. Only print Step 4 verdict block.
+
+---
+
+### STEP 1 — READ & FRAME (SILENT)
+
+ORION reads the plan Warren pasted in and formats it as:
 
 ```
-PLAN SUMMARY      : [1 cÃ¢u â€” what + goal]
-ASSUMED STRUCTURE : [bullet â€” cÃ¡c thÃ nh pháº§n chÃ­nh cá»§a plan]
+PLAN SUMMARY      : [1 sentence — what + goal]
+ASSUMED STRUCTURE : [bullet — main components of the plan]
 ASSUMED GOAL      : [retrievability / analysis / automation / other]
-REAL PROBLEM CHECK: [1 cÃ¢u â€” váº¥n Ä‘á» gá»‘c plan nÃ y Ä‘ang giáº£i quyáº¿t lÃ  gÃ¬?
-                     Náº¿u khÃ´ng rÃµ â†’ há»i Warren trÆ°á»›c khi tiáº¿p tá»¥c]
-CONTEXT           : L'Usine 3-store F&B | Warren OS vault | ORION+Deepseek stack
+REAL PROBLEM CHECK: [1 sentence — what root problem is this plan solving?
+                     If unclear → ask Warren before continuing]
+CONTEXT           : Warren's Personal OS vault | Personal life: family (GG), health, trading, finance | ORION+Deepseek stack
 ```
 
-Náº¿u plan quÃ¡ vague (dÆ°á»›i 3 dÃ²ng, khÃ´ng rÃµ goal) â†’ há»i 1 cÃ¢u lÃ m rÃµ trÆ°á»›c.
-Náº¿u plan lÃ  code/script (cÃ³ function, variable, import) â†’ redirect ngay: "DÃ¹ng /review-code cho code review â€” /review-plan chá»‰ cho data/vault/structure plans."
-Náº¿u Ä‘á»§ rÃµ â†’ proceed ngay, khÃ´ng há»i thÃªm.
+If the plan is too vague (under 3 lines, unclear goal) → ask 1 clarifying question first.
+If the plan is code/script (has function, variable, import) → redirect immediately: "Use /review-code for code review — /review-plan is only for data/vault/structure plans."
+If clear enough → proceed immediately, don't ask further.
 
-**Lightweight Gate** â€” check 3 Ä‘iá»u kiá»‡n sau. Náº¿u cáº£ 3 Ä‘á»u TRUE:
-- Plan cÃ³ < 3 components
-- KhÃ´ng táº¡o file má»›i hoáº·c schema má»›i
-- KhÃ´ng thay Ä‘á»•i existing data structure
+**Lightweight Gate** — check the 3 conditions below. If ALL 3 are TRUE:
+- Plan has < 3 components
+- Does not create new files or new schema
+- Does not change existing data structure
 
-â†’ Náº¿u báº¥t ká»³ Ä‘iá»u kiá»‡n nÃ o FALSE â†’ cháº¡y full protocol.
-â†’ Náº¿u cáº£ 3 TRUE â†’ output `LIGHTWEIGHT PLAN` vá»›i format sau rá»“i dá»«ng:
+→ If any condition is FALSE → run full protocol.
+→ If ALL 3 are TRUE → output `LIGHTWEIGHT PLAN` with the format below then stop:
 
 ```
 LIGHTWEIGHT VERDICT
 DECISION          : APPROVE / APPROVE WITH CONDITIONS / REJECT
-BLOCKER (náº¿u cÃ³) : [Severity: HIGH/MED] â€” [1 cÃ¢u â€” khi nÃ o fail]
-SUGGESTED NEXT STEP: [1 action duy nháº¥t]
+BLOCKER (if any)  : [Severity: HIGH/MED] — [1 sentence — when does it fail]
+SUGGESTED NEXT STEP: [1 single action]
 ```
 
-*(KhÃ´ng cáº§n OPEN QUESTIONS cho lightweight plan â€” náº¿u cÃ³ question thÃ¬ plan khÃ´ng cÃ²n lightweight, upgrade lÃªn full protocol.)*
+*(No OPEN QUESTIONS needed for lightweight plan — if there are questions, the plan isn't lightweight, upgrade to full protocol.)*
 
-LÆ°u Ã½ Ä‘áº¿m components: 1 field má»›i trong note = 1 component; fetch + save + tag = 3 components.
+Note on counting components: 1 new field in a note = 1 component; fetch + save + tag = 3 components.
 
 ---
 
-### STEP 1B â€” VAULT STRUCTURE SCAN (báº¯t buá»™c â€” khÃ´ng Ä‘Æ°á»£c Ä‘oÃ¡n mÃ², khÃ´ng dÃ¹ng memory) (SILENT)
+### STEP 1B — VAULT STRUCTURE SCAN (mandatory — must not guess, must not use memory) (SILENT)
 
-TrÆ°á»›c khi debate, ORION **pháº£i Ä‘á»c thá»±c táº¿ vault**. KhÃ´ng assume structure tá»« session trÆ°á»›c hay CONTEXT.md.
+Before debating, ORION **must read the actual vault**. Don't assume structure from a previous session or CONTEXT.md.
 
-Cháº¡y láº§n lÆ°á»£t:
-1. List thÆ° má»¥c gá»‘c vault
-2. List `10_OPERATION_DATA/`
-3. List `30_KNOWLEDGE_BASE/wiki/` vÃ  subfolder domain liÃªn quan Ä‘áº¿n plan
+Run sequentially:
+1. List `personal_vault/` root directory
+2. List `10_PULSE/`
+3. List `30_KNOWLEDGE_BASE/wiki/` and domain subfolders: `trading/`, `health/`, `family_gg/`, `finance/`, `relationship/`, `growth/`
 
 Internal structure:
 
 ```
 VAULT SCAN RESULT:
   Existing files relevant to this plan:
-    - [path/filename] â€” pattern: [append-newest-top / overwrite / one-off / unknown]
+    - [path/filename] — pattern: [append-newest-top / overwrite / one-off / unknown]
     - ...
 
   Detected data cadence:
-    - [tÃªn log] â†’ [weekly / monthly / on-demand]
+    - [log name] → [weekly / monthly / on-demand]
 
-  Proliferation check (náº¿u plan cháº¡y 12 thÃ¡ng):
-    â†’ Táº¡o [n files má»›i] hoáº·c [1 file + n entries appended]?
-    â†’ Flag ngay náº¿u answer lÃ  "nhiá»u files má»›i" â€” Ä‘Ã¢y lÃ  proliferation risk
+  Proliferation check (if plan runs 12 months):
+    → Creates [n new files] or [1 file + n entries appended]?
+    → Flag immediately if answer is "many new files" — this is a proliferation risk
 
   Data structure check:
-    â†’ Plan cÃ³ Ä‘á»‹nh nghÄ©a rÃµ data structure (fields, format, types) trÆ°á»›c khi nÃ³i Ä‘áº¿n logic khÃ´ng?
-    â†’ Náº¿u chÆ°a â†’ flag trÆ°á»›c khi debate
+    → Does the plan clearly define data structure (fields, format, types) before discussing logic?
+    → If not → flag before debate
 ```
 
-**Proliferation Risk Definition:** Báº¥t ká»³ plan nÃ o táº¡o file má»›i theo chu ká»³ (má»—i tuáº§n 1 file, má»—i thÃ¡ng 1 file) thay vÃ¬ append vÃ o 1 file growing â€” lÃ  HIGH RISK. Pattern chuáº©n trong vault nÃ y: 1 log file duy nháº¥t per domain, newest entry on top, khÃ´ng táº¡o file má»›i theo thá»i gian.
+**Proliferation Risk Definition:** Any plan that creates new files cyclically (1 file per week, 1 file per month) instead of appending to 1 growing file — is HIGH RISK. Standard pattern in this vault: 1 single log file per domain, newest entry on top, no new files created over time.
 
 ---
 
-### STEP 2 â€” 4 PERSONAS DEBATE
+### STEP 1C — VAULT HISTORY SCAN (mandatory — the vault argues against the plan itself) (SILENT)
 
-Má»—i persona tranh luáº­n Ä‘á»™c láº­p dá»±a trÃªn plan + vault scan thá»±c táº¿ á»Ÿ Step 1B.
-KhÃ´ng Ä‘Æ°á»£c Ä‘á»“ng thuáº­n dá»… dÃ ng. Má»—i persona PHáº¢I output Ä‘á»§ 3 pháº§n: Äá»’NG Ã + BLOCKER + Äá»€ XUáº¤T.
+**Purpose:** Find evidence from Warren's own personal vault — past decisions, lessons learned, post-mortems, reversed decisions — relevant to the plan under review. The vault must challenge the plan before the personas debate.
 
-**Rules báº¯t buá»™c:**
-- Blocker pháº£i cá»¥ thá»ƒ: "cÃ¡i nÃ y fail khi X xáº£y ra" â€” khÃ´ng pháº£i "cÃ³ thá»ƒ cÃ³ váº¥n Ä‘á»"
-- Äá» xuáº¥t pháº£i actionable: "thay X báº±ng Y" â€” khÃ´ng pháº£i "cáº§n cÃ¢n nháº¯c thÃªm"
-- N?u c? 4 d?ng ý hoàn toàn ? INVALID, ph?i tìm tension th?c s? tru?c khi ti?p t?c
+**Why:** Warren has accumulated decisions about his personal life, health, trading, and family in the vault. If a new plan repeats an old mistake or contradicts a confirmed decision, it must be known BEFORE building — not after coding is complete.
+
+**Run sequentially:**
+
+1. **Search CONTEXT.md §7 (Active Life Decisions)** — does the new plan conflict with any open decision?
+2. **Search `wiki/DECISION_LOG.md`** — past decisions on the same topic/domain
+3. **Search `personal_vault/_kilo/memory/LESSONS.md`** — relevant lessons learned
+4. **Search wiki/ domain folders** relevant to the plan — see domain search map below
+5. **Search memory graph** (if Kilo Code context provides access) — entities, past failures, relevant preferences
+
+**Domain search map:**
+
+| Plan domain | Files & folders to search |
+|-------------|--------------------------|
+| Trading / Stocks / BTC | CONTEXT.md §3 (Trading Profile) + wiki/trading/ + 10_PULSE/020_VNStock_Weekly_Outlook.md + 10_PULSE/021_VNStock_Macro.md |
+| Health / Fitness | CONTEXT.md §4 (Health Baseline) + wiki/health/ + 10_PULSE/050_Health_Log.md |
+| Family / GG | CONTEXT.md §2 (Family Status) + §5 (Relationships) + wiki/family_gg/ + 10_PULSE/001_GG_Communication_Guide.md + 10_PULSE/002_GG_Milestones.md |
+| Finance / Net Worth | CONTEXT.md §6 (Financial Snapshot) + wiki/finance/ (Assets.md, Net_Worth.md) |
+| Relationship / People | wiki/relationship/ + CONTEXT.md §5 |
+| Growth / Reading | wiki/growth/ |
+| Mixed / Unknown | CONTEXT.md + wiki/DECISION_LOG.md + wiki/index.md + wiki/WIKI_INDEX.md |
+
+**Keyword strategy:** Use 2-3 main keywords from PLAN SUMMARY in Step 1 + domain name. Don't search vague terms ("improve", "better"). Search concrete nouns ("GG", "emergency fund", "GAS", "bloodwork", "BTC").
+
+Internal output:
+
+```
+VAULT HISTORY RESULT:
+  Precedents found: [n]
+
+  [If n > 0, list each precedent:]
+  1. SOURCE: [path/filename — section/date if available]
+     CONTENT: [1-2 sentences summarizing the relevant finding]
+     VERDICT: SUPPORTS / CONTRADICTS / NEUTRAL
+     [If CONTRADICTS:] CONFLICT: [plan says X, vault says Y — which one is correct?]
+
+  2. SOURCE: ...
+     ...
+
+  [If n = 0:]
+  NO PRECEDENT FOUND — this plan has no history in the vault.
+  Implication: no evidence to challenge, but also no evidence the plan will work.
+
+  CRITICAL CONTRADICTION CHECK:
+  → Is there any past decision that DIRECTLY contradicts the current plan?
+  → If YES → auto-flag CRITICAL BLOCKER, feed into Step 2 debate.
+  → If NO → proceed normally.
+```
+
+**Auto-escalation rule:** If any precedent has verdict CONTRADICTS AND the source is an Active Life Decision (§7) or a confirmed lesson in LESSONS.md → this is an automatic **CRITICAL BLOCKER**. Personas in Step 2 MUST address it. Senior Manager in Step 4 MUST resolve it (either the plan changes, or the past decision is superseded with a specific reason).
 
 ---
 
-#### ðŸŸ¦ DATA ARCHITECT (30 nÄƒm kinh nghiá»‡m)
-**Lens:** Long-term structure Â· Data structure design Â· Retrievability Â· Schema consistency Â· Scalability
-**CÃ¢u há»i báº¯t buá»™c pháº£i tráº£ lá»i:**
-- "Data structure cá»§a plan nÃ y cÃ³ Ä‘Æ°á»£c Ä‘á»‹nh nghÄ©a trÆ°á»›c logic chÆ°a? Náº¿u chÆ°a, logic sáº½ sai á»Ÿ Ä‘Ã¢u?"
-- "Sau 12 thÃ¡ng vá»›i 10x data, plan nÃ y cÃ³ dá»… query khÃ´ng?"
-- "Plan nÃ y táº¡o 1 file growing hay nhiá»u files nhá»? CÃ¡i nÃ o dá»… query hÆ¡n?"
+### STEP 2 — 4 PERSONAS DEBATE
+
+Each persona debates independently based on the plan + actual vault scan from Step 1B + vault history from Step 1C.
+Must not easily agree. Each persona MUST output all 3 sections: AGREE + BLOCKER + SUGGESTION.
+
+**Mandatory rules:**
+- Blocker must be specific: "this fails when X happens" — not "there might be a problem"
+- Suggestion must be actionable: "replace X with Y" — not "needs more consideration"
+- If all 4 completely agree → INVALID, must find real tension before continuing
+- **VAULT HISTORY RULE (v3.0):** If Step 1C found ≥1 precedent with verdict CONTRADICTS or SUPPORTS, at least 2 personas MUST reference it in their arguments. Any persona that ignores vault history when relevant precedent exists = INVALID output, redo that persona. Reason: vault history is real evidence from Warren himself — stronger than any persona's opinion.
+
+---
+
+#### 🟦 DATA ARCHITECT (30 years of experience)
+**Lens:** Long-term structure · Data structure design · Retrievability · Schema consistency · Scalability
+**Mandatory questions to answer:**
+- "Is this plan's data structure defined before logic? If not, where will the logic go wrong?"
+- "After 12 months with 10x data (more trades, more health logs, more GG milestones), is this plan easy to query?"
+- "Does this plan create 1 growing file or many small files? Which is easier to query?"
 
 Output format:
 ```
-[DA] Äá»’NG Ã: ...
+[DA] AGREE: ...
 [DA] BLOCKER: ...
       Severity: CRITICAL / HIGH / MEDIUM
-      Fail scenario: [khi nÃ o cá»¥ thá»ƒ cÃ¡i nÃ y break]
-[DA] Äá»€ XUáº¤T: thay [X] báº±ng [Y] vÃ¬ [Z]
+      Fail scenario: [specifically when does this break]
+[DA] SUGGESTION: replace [X] with [Y] because [Z]
 ```
 
 ---
 
-#### ðŸŸ¥ OPERATIONS REALIST (30 nÄƒm kinh nghiá»‡m váº­n hÃ nh thá»±c táº¿)
-**Lens:** NgÆ°á»i váº­n hÃ nh thá»±c táº¿ Â· Human error Â· Workflow friction Â· Non-IT operator reality
-**KhÃ´ng pháº£i Data Scientist lÃ½ thuyáº¿t â€” lÃ  ngÆ°á»i Ä‘Ã£ tháº¥y há»‡ thá»‘ng tá»‘t bá»‹ phÃ¡ bá»Ÿi ngÆ°á»i dÃ¹ng thá»±c táº¿.**
-**CÃ¢u há»i báº¯t buá»™c pháº£i tráº£ lá»i:**
-- "Warren hoáº·c Thao dÃ¹ng cÃ¡i nÃ y má»—i tuáº§n/thÃ¡ng â€” sau 3 thÃ¡ng thÃ³i quen thay Ä‘á»•i, plan nÃ y cÃ³ cÃ²n hold khÃ´ng?"
-- "Khi input bá»‹ nháº­p sai (vÃ  sáº½ bá»‹ nháº­p sai) â€” plan nÃ y fail nhÆ° tháº¿ nÃ o? Ai detect ra?"
-- "Náº¿u Warren báº­n 2 tuáº§n khÃ´ng lÃ m â€” quay láº¡i dÃ¹ng tiáº¿p cÃ³ bá»‹ láº¡c khÃ´ng?"
+#### 🟥 PERSONAL REALIST (30 years of real-world personal habits)
+**Lens:** Personal routines · Habit sustainability · Human error · Non-IT operator reality · Trading discipline
+**Not a theoretical planner — someone who has seen good personal systems abandoned after 3 weeks.**
+**Mandatory questions to answer:**
+- "Warren uses this every week/month — after 3 months when life gets busy (GG situation, work stress), will this habit still hold?"
+- "When input is entered wrong (and it WILL be entered wrong) — how does this plan fail? Who detects it? What's the consequence for a trading decision or health log?"
+- "If Warren is busy with work or family for 2 weeks and doesn't maintain this — can he pick it back up without getting lost?"
+- "Is this plan compatible with Warren's current life priorities? (Family → Health → Finance → Trading)"
 
 Output format:
 ```
-[OR] Äá»’NG Ã: ...
-[OR] BLOCKER: ...
+[PR] AGREE: ...
+[PR] BLOCKER: ...
       Severity: CRITICAL / HIGH / MEDIUM
-      Fail scenario: [human error cá»¥ thá»ƒ nÃ o sáº½ xáº£y ra â€” vÃ  háº­u quáº£]
-[OR] Äá»€ XUáº¤T: thay [X] báº±ng [Y] vÃ¬ [Z]
+      Fail scenario: [what specific human error or habit failure will occur — and the consequence]
+[PR] SUGGESTION: replace [X] with [Y] because [Z]
 ```
 
 ---
 
-#### ðŸŸ© IT DEVELOPER / ORION (30 nÄƒm kinh nghiá»‡m)
-**Lens:** Implementability Â· Failure modes Â· Maintainability Â· Design for deletion
-**CÃ¢u há»i báº¯t buá»™c pháº£i tráº£ lá»i:**
-- "Khi plan nÃ y fail (vÃ  nÃ³ sáº½ fail), nÃ³ fail nhÆ° tháº¿ nÃ o vÃ  ai fix Ä‘Æ°á»£c?"
-- "CÃ³ pattern nÃ o trong vault hiá»‡n táº¡i giáº£i quyáº¿t váº¥n Ä‘á» tÆ°Æ¡ng tá»± chÆ°a? Táº¡i sao khÃ´ng reuse?"
-- "Náº¿u 1 pháº§n cá»§a plan nÃ y cáº§n thay Ä‘á»•i sau 6 thÃ¡ng â€” pháº£i Ä‘á»¥ng vÃ o máº¥y chá»—?"
+#### 🟩 IT DEVELOPER / ORION (30 years of experience)
+**Lens:** Implementability · Failure modes · Maintainability · Design for deletion
+**Mandatory questions to answer:**
+- "When this plan fails (and it WILL fail), how does it fail and who can fix it?"
+- "Is there any pattern in the current vault that solves a similar problem? Why not reuse it?"
+- "If 1 part of this plan needs changing after 6 months — how many places get touched?"
 
 Output format:
 ```
-[DEV] Äá»’NG Ã: ...
+[DEV] AGREE: ...
 [DEV] BLOCKER: ...
        Severity: CRITICAL / HIGH / MEDIUM
-       Fail scenario: [cá»¥ thá»ƒ â€” lá»—i gÃ¬, ai detect, ai fix]
-[DEV] Äá»€ XUáº¤T: thay [X] báº±ng [Y] vÃ¬ [Z]
+       Fail scenario: [specific — what error, who detects, who fixes]
+[DEV] SUGGESTION: replace [X] with [Y] because [Z]
 ```
 
 ---
 
-#### ?? RUTHLESS DELETER (Musk Algorithm lens — 30 nam c?t lãng phí)
+#### 🟨 RUTHLESS DELETER (Musk Algorithm lens — 30 years of cutting waste)
 **Lens:** Question · Delete · Simplify · Accelerate · Automate-last
-**Tri?t lý:** "The best part is no part. The best process is no process."
-**Không ph?i critic — là th? san deletion.** N?u xoá 1 ph?n plan mà <10% ph?i add l?i ? xoá chua d?.
+**Philosophy:** "The best part is no part. The best process is no process."
+**Not a critic — a deletion hunter.** If removing 1 part of the plan needs <10% added back → you haven't deleted enough.
 
-**Câu h?i b?t bu?c tr? l?i (theo dúng th? t?, không skip):**
+**Mandatory questions to answer (in strict order, no skip):**
 
-1. **Delete what?** Component nào trong plan này có th? xoá hoàn toàn mà ops v?n ch?y? (Li?t kê t?ng component, cho verdict KEEP/DELETE t?ng cái. T?i thi?u 1 DELETE — n?u không có, plan dang over-scoped ho?c Deleter chua làm vi?c d?).
+1. **Delete what?** Which components in this plan can be completely removed while personal ops still runs? (List each component, give verdict KEEP/DELETE for each. Minimum 1 DELETE — if none, the plan is over-scoped or Deleter hasn't worked hard enough).
 
-2. **Simplify what (sau khi dã delete)?** Cái nào còn l?i có th? don gi?n hon? (Prose thay table? Append thay file m?i? Inline thay link?). KHÔNG simplify cái l? ra ph?i delete ? câu 1.
+2. **Simplify what (after deleting)?** What remains that can be simpler? (Prose instead of table? Append instead of new file? Inline instead of link?). DO NOT simplify what should have been deleted in question 1.
 
-3. **Cycle time?** Plan này t? idea d?n result m?t bao nhiêu l?n Warren ph?i d?ng tay? C?t du?c bu?c nào? Feedback loop bao lâu m?i bi?t plan dúng/sai? N?u >2 tu?n m?i detect l?i ? flag CRITICAL.
+3. **Cycle time?** From idea to result, how many times does Warren have to touch this? Which steps can be cut? How long is the feedback loop to know if the plan is right/wrong? If >2 weeks to detect an error → flag CRITICAL.
 
-4. **Automating broken?** Ph?n auto-implement / parser / script trong plan này — có dang automate quy trình anh chua verify manual không? N?u YES ? flag CRITICAL: "Run manual N times first, then automate."
+4. **Automating broken?** Is the auto-implement / parser / script in this plan automating a process that hasn't been verified manually? If YES → flag CRITICAL: "Run manual N times first, then automate."
 
 Output format:
-`
-[RD] DELETE: [component(s) d? xu?t xoá hoàn toàn] — fail mode n?u xoá: [c? th?]
-[RD] SIMPLIFY: [ch? ph?n còn l?i sau DELETE]
-[RD] CYCLE TIME: [n touchpoints, feedback loop = X ngày] — c?t: [d? xu?t]
+```
+[RD] DELETE: [component(s) proposed for complete removal] — fail mode if deleted: [specific]
+[RD] SIMPLIFY: [only the parts remaining after DELETE]
+[RD] CYCLE TIME: [n touchpoints, feedback loop = X days] — cut: [proposal]
 [RD] AUTOMATION CHECK: [SAFE / RISK — broken process?]
-[RD] BLOCKER (n?u có): [Severity] — [scenario]
+[RD] BLOCKER (if any): [Severity] — [scenario]
 [RD] VERDICT: PLAN OVER-BUILT / RIGHT-SIZED / UNDER-SPECIFIED
-`
+```
 
-**Anti-pattern:** N?u RD output "không có gì d? xoá" — INVALID. Redo persona RD (không reset plan review). Sau 2 retry v?n INVALID ? output ?? RD UNABLE TO FIND DELETIONS — escalation to Senior Manager và SM t? judge.
+**Anti-pattern:** If RD outputs "nothing to delete" — INVALID. Redo persona RD (don't reset plan review). After 2 retries still INVALID → output 🟨 RD UNABLE TO FIND DELETIONS — escalation to Senior Manager and SM self-judges.
 
-### STEP 3 â€” CROSS-EXAMINATION
+---
 
-Sau khi 4 personas xong, identify tension thá»±c sá»± giá»¯a 2 personas (khÃ´ng pháº£i agreement).
-Cháº¡y 1 vÃ²ng exchange ngáº¯n â€” má»—i bÃªn pháº£i dÃ¹ng data/logic tá»« vault scan, khÃ´ng dÃ¹ng opinion.
+### STEP 3 — CROSS-EXAMINATION
+
+After 4 personas complete, identify real tension between 2 personas (not agreement).
+Run 1 round of short exchange — each side must use data/logic from the vault scan, not opinion.
 
 Format:
 ```
-[DA â†’ OR]: "..."
-[OR â†’ DA]: "..."
+[DA → PR]: "..."
+[PR → DA]: "..."
 
-hoáº·c
+or
 
-[DEV â†’ DA]: "..."
-[DA â†’ DEV]: "..."
+[DEV → DA]: "..."
+[DA → DEV]: "..."
 
-hoáº·c
+or
 
-[OR â†’ DEV]: "..."
-[DEV â†’ OR]: "..."
+[PR → DEV]: "..."
+[DEV → PR]: "..."
+
+or
+
+[RD → DA]: "..."
+[DA → RD]: "..."
+
+or
+
+[RD → PR]: "..."
+[PR → RD]: "..."
+
+or
+
+[RD → DEV]: "..."
+[DEV → RD]: "..."
 ```
 
-Tá»‘i Ä‘a 2 exchanges. Dá»«ng khi tension Ä‘Æ°á»£c identify rÃµ hoáº·c resolved.
-Náº¿u khÃ´ng cÃ³ CRITICAL blocker khÃ¡c nhau giá»¯a cÃ¡c personas â†’ output `No structural tension found` vÃ  skip tháº³ng Step 4. KhÃ´ng force exchanges khi khÃ´ng cÃ³ tension thá»±c sá»±.
+Maximum 2 exchanges. Stop when tension is clearly identified or resolved.
+If no CRITICAL blockers differ between personas → output `No structural tension found` and skip straight to Step 4. Don't force exchanges when there's no real tension.
+
+**v3.0 addition:** If Step 1C flagged CRITICAL CONTRADICTION, cross-examination MUST include at least 1 exchange about that contradiction — even if personas agree. Vault history contradictions must not be skipped.
 
 ---
 
-### STEP 4 â€” SENIOR MANAGER VERDICT
+### STEP 4 — SENIOR MANAGER VERDICT
 
-Senior Manager qu?n lý c? 4 ngu?i trên. Không thiên v? persona nào. Không thiên v? plan g?c c?a Warren.
-Äá»c toÃ n bá»™ debate + vault scan, Ä‘Æ°a ra verdict cuá»‘i cÃ¹ng.
+Senior Manager manages all 4 personas above. No favoritism toward any persona. No favoritism toward Warren's original plan.
+Read the entire debate + vault scan + vault history, deliver the final verdict.
 
 ```
-
-ho?c
-
-[RD ? DA]: "..."
-[DA ? RD]: "..."
-
-ho?c
-
-[RD ? OR]: "..."
-[OR ? RD]: "..."
-
-ho?c
-
-[RD ? DEV]: "..."
-[DEV ? RD]: "..."
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PLAN REVIEW VERDICT
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-DECISION: ðŸŸ¢ APPROVE / ðŸŸ¡ APPROVE WITH CONDITIONS / ðŸ”´ REJECT
+DECISION: 🟢 APPROVE / 🟡 APPROVE WITH CONDITIONS / 🔴 REJECT
 
-REAL PROBLEM CONFIRMED: [YES â€” plan giáº£i quyáº¿t Ä‘Ãºng váº¥n Ä‘á» gá»‘c] /
-                         [NO â€” plan giáº£i quyáº¿t symptom, khÃ´ng pháº£i root cause]
+REAL PROBLEM CONFIRMED: [YES — plan solves the correct root problem] /
+                         [NO — plan solves a symptom, not the root cause]
 
-VAULT IMPACT      : [+n files má»›i] / [+n entries vÃ o existing file] / [no change]
-PROLIFERATION RISK: NONE / LOW / HIGH â€” [lÃ½ do 1 cÃ¢u]
+VAULT HISTORY      : [n precedents found] — [ALIGNED / CONFLICTING / NO PRECEDENT]
+                     [If CONFLICTING:]
+                     ⚠️ PAST DECISION: [source — 1-sentence summary]
+                        RESOLUTION: [plan changed to align / past decision superseded because: ...]
+
+VAULT IMPACT      : [+n new files] / [+n entries into existing file] / [no change]
+PROLIFERATION RISK: NONE / LOW / HIGH — [1-sentence reason]
 DELETION YIELD    : [n components removed by RD] — [% plan reduced]
 
 BLOCKERS RESOLVED : n/[total raised]
-UNRESOLVED RISKS  : [list â€” chá»‰ nhá»¯ng cÃ¡i chÆ°a cÃ³ answer]
+UNRESOLVED RISKS  : [list — only those without answers]
 
-CONDITIONS: (náº¿u APPROVE WITH CONDITIONS â€” tá»‘i Ä‘a 3, cá»¥ thá»ƒ)
-  1. [thay Ä‘á»•i cá»¥ thá»ƒ â€” khÃ´ng vague]
+CONDITIONS: (if APPROVE WITH CONDITIONS — max 3, specific)
+  1. [specific change — not vague]
   2. ...
   3. ...
 
-OPEN QUESTIONS: (chá»‰ xuáº¥t hiá»‡n náº¿u cÃ³ Ä‘iá»ƒm thá»±c sá»± ambiguous â€” bá» qua section nÃ y náº¿u plan Ä‘Ã£ rÃµ)
-  [CÃ¢u há»i] â†’ RECOMMENDED: [answer] | No-friction: [1 cÃ¢u] | Long-term: [1 cÃ¢u] | Trade-off: [1 cÃ¢u]
+OPEN QUESTIONS: (only appears if there are truly ambiguous points — skip this section if the plan is clear)
+  [Question] → RECOMMENDED: [answer] | No-friction: [1 sentence] | Long-term: [1 sentence] | Trade-off: [1 sentence]
 
-CONFIDENCE: [HIGH / MOD / LOW] â€” [1 cÃ¢u lÃ½ do]
+CONFIDENCE: [HIGH / MOD / LOW] — [1-sentence reason]
 
-SUGGESTED NEXT STEP: [1 action duy nháº¥t â€” Warren lÃ m gÃ¬ tiáº¿p theo]
+SUGGESTED NEXT STEP: [1 single action — what Warren does next]
 
-HYBRID PLAN NOTE: (chá»‰ xuáº¥t hiá»‡n náº¿u Ã­t nháº¥t 1 persona raise MEDIUM+ blocker liÃªn quan Ä‘áº¿n automation logic)
-  â†’ "Automation part cÃ³ blocker chÆ°a cover: [tÃªn blocker] â€” cháº¡y /review-workflow Ä‘á»ƒ review tiáº¿p."
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+HYBRID PLAN NOTE: (only appears if at least 1 persona raised a MEDIUM+ blocker related to automation logic)
+  → "Automation part has an uncovered blocker: [blocker name] — run /review-workflow for further review."
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**APPROVE** = Real Problem confirmed, 0 CRITICAL blockers, proliferation risk NONE/LOW
-**APPROVE WITH CONDITIONS** = cÃ³ blockers nhÆ°ng cÃ³ specific fix â€” list ra tá»‘i Ä‘a 3
-**REJECT** = Real Problem sai HOáº¶C cÃ³ CRITICAL blocker khÃ´ng resolve Ä‘Æ°á»£c â†’ propose alternative ngay
+**APPROVE** = Real Problem confirmed, 0 CRITICAL blockers, proliferation risk NONE/LOW, vault history ALIGNED or NO PRECEDENT
+**APPROVE WITH CONDITIONS** = has blockers but with specific fix — list max 3. Or vault history CONFLICTING but with specific resolution.
+**REJECT** = Real Problem wrong OR has CRITICAL blocker that can't be resolved OR vault history CONFLICTING without valid resolution → propose alternative immediately
 
 ---
 
-**DELETION YIELD rule:** DELETION YIELD = count từ RD's final DELETE list sau khi Senior Manager concurrence. SM chỉ override nếu disagree cụ thể với từng DELETE và ghi rõ lý do.
+**DELETION YIELD rule:** DELETION YIELD = count from RD's final DELETE list after Senior Manager concurrence. SM only overrides if specifically disagreeing with each DELETE and stating the reason clearly.
 
-### SAU KHI APPROVE â€” SPEC BLOCK (báº¯t buá»™c náº¿u trigger thá»a)
+### AFTER APPROVE — SPEC BLOCK (mandatory if trigger met)
 
-**Trigger** â€” auto-fire náº¿u Ã­t nháº¥t 1 trong 2:
-- APPROVE WITH CONDITIONS cÃ³ â‰¥ 1 condition, HOáº¶C
-- Plan cÃ³ > 3 components
+**Trigger** — auto-fire if at least 1 of 2:
+- APPROVE WITH CONDITIONS has ≥ 1 condition, OR
+- Plan has > 3 components
 
-Náº¿u trigger thá»a â†’ Claude **pháº£i** append Spec block vÃ o `memory/project_[tÃªn].md` ngay trong cÃ¹ng session:
+If trigger met → ORION **must** append Spec block into `personal_vault/_kilo/memory/project_[name].md` in the same session:
 
 ```
 ## Spec (approved YYYY-MM-DD)
-Problem     : [1 cÃ¢u â€” Real Problem Ä‘Ã£ confirmed]
-Approach    : [Senior Manager verdict tÃ³m táº¯t â€” 2-3 cÃ¢u]
-Constraints : [list conditions tá»« APPROVE WITH CONDITIONS â€” hoáº·c NONE]
+Problem     : [1 sentence — confirmed Real Problem]
+Approach    : [Senior Manager verdict summary — 2-3 sentences]
+Constraints : [list conditions from APPROVE WITH CONDITIONS — or NONE]
+History     : [vault precedents referenced — or NO PRECEDENT]
 Status      : PLANNING
-Next        : [1 action cá»¥ thá»ƒ Claude hoáº·c Warren lÃ m Ä‘áº§u session tiáº¿p]
-Steps       : (xem bÃªn dÆ°á»›i náº¿u complex)
+Next        : [1 specific action ORION or Warren does at the start of the next session]
+Steps       : (see below if complex)
 ```
 
 **Rules:**
-- `project_[tÃªn].md` = file memory cá»§a feature nÃ y. Náº¿u chÆ°a tá»“n táº¡i â†’ Claude táº¡o file má»›i vá»›i frontmatter chuáº©n + Spec block, Ä‘á»“ng thá»i append 1 dÃ²ng index vÃ o `MEMORY.md`.
-- `Status` luÃ´n báº¯t Ä‘áº§u lÃ  `PLANNING`. Claude update thÃ nh `CODING` khi báº¯t Ä‘áº§u viáº¿t code, `DONE` khi `/review-code` SHIP.
-- `Next` pháº£i actionable â€” khÃ´ng pháº£i "tiáº¿p tá»¥c build" mÃ  lÃ  "viáº¿t parser X" hoáº·c "cháº¡y /review-code cho file Y".
-- Náº¿u APPROVE (khÃ´ng cÃ³ conditions) VÃ€ plan â‰¤ 3 components â†’ **khÃ´ng** táº¡o Spec block. Feature Ä‘á»§ nhá» Ä‘á»ƒ hoÃ n thÃ nh trong 1 session.
-- **Implementation Steps (auto â€” no friction cho Warren):** Náº¿u plan áº£nh hÆ°á»Ÿng >3 files HOáº¶C cÃ³ logic phá»©c táº¡p (multi-step parser, cross-file dependencies) â†’ Claude tá»± append steps vÃ o Spec block, khÃ´ng há»i Warren:
+- `project_[name].md` = memory file for this feature. If it doesn't exist → ORION creates a new file with standard frontmatter + Spec block.
+- `Status` always starts as `PLANNING`. ORION updates to `CODING` when starting to write code, `DONE` when `/review-code` SHIP.
+- `Next` must be actionable — not "continue building" but "write trading parser" or "run /review-code for health log script".
+- If APPROVE (no conditions) AND plan ≤ 3 components → **don't** create Spec block. Feature is small enough to complete in 1 session.
+- **Implementation Steps (auto — no friction for Warren):** If plan affects >3 files OR has complex logic (multi-step parser, cross-file dependencies) → ORION auto-appends steps to Spec block, doesn't ask Warren:
   ```
   Steps:
-    1. [file/function cá»¥ thá»ƒ] â€” [lÃ m gÃ¬]
-    2. [file/function cá»¥ thá»ƒ] â€” [lÃ m gÃ¬]
+    1. [specific file/function] — [what to do]
+    2. [specific file/function] — [what to do]
     3. ...
   ```
-  Claude tá»± judge complexity. Warren khÃ´ng cáº§n lÃ m gÃ¬ â€” chá»‰ Ä‘á»c náº¿u muá»‘n.
+  ORION self-judges complexity. Warren doesn't need to do anything — just reads if desired.
 
-### SAU KHI APPROVE â€” AUTO-IMPLEMENT (tá»± Ä‘á»™ng chuyá»ƒn sang Code)
+### AFTER APPROVE — AUTO-IMPLEMENT (auto-switch to Code)
 
-Ngay sau khi táº¡o Spec block (hoáº·c náº¿u khÃ´ng cáº§n Spec block â€” ngay sau verdict APPROVE):
+Immediately after creating Spec block (or if Spec block not needed — immediately after APPROVE verdict):
 
-â†’ Claude **tá»± Ä‘á»™ng switch sang Code mode**: `switch_mode(mode_slug="code", reason="/review-plan APPROVE â€” implementing [tÃªn feature] per approved spec")`
+→ ORION **auto-switches to Code mode**: `switch_mode(mode_slug="code", reason="/review-plan APPROVE — implementing [feature name] per approved spec")`
 
-â†’ Báº¯t Ä‘áº§u implement ngay â€” táº¡o/sá»­a file theo Spec, **khÃ´ng cáº§n Warren confirm thÃªm láº§n nÃ o ná»¯a**.
+→ Start implementing immediately — create/edit files per Spec, **don't need Warren to confirm again**.
 
 **Rules:**
-- Warren's duy nháº¥t confirmation point = paste plan vÃ o Ä‘áº§u session. Sau APPROVE, ORION tá»± Ä‘á»™ng cháº¡y tiáº¿p.
-- Náº¿u APPROVE WITH CONDITIONS â†’ implement cÃ¡c conditions trÆ°á»›c, pháº§n cÃ²n láº¡i sau. KhÃ´ng há»i láº¡i.
-- Náº¿u REJECT â†’ dá»«ng láº¡i. KhÃ´ng auto-implement.
-- Warren chá»‰ can thiá»‡p náº¿u tháº¥y ORION Ä‘i sai hÆ°á»›ng â€” khÃ´ng cáº§n can thiá»‡p trÆ°á»›c.
+- Warren's only confirmation point = pasting the plan at the start of the session. After APPROVE, ORION auto-continues.
+- If APPROVE WITH CONDITIONS → implement conditions first, remaining parts after. Don't ask again.
+- If REJECT → stop. Don't auto-implement.
+- Warren only intervenes if ORION goes off track — no need to intervene beforehand.
 
 ---
 
-**v2.2 | 2026-05-25 | ORION+Deepseek adaptation: frontmatter, agent name references. No toolchain changes â€” meta-protocol only. Added auto-implement after APPROVE.**
+**v3.0-personal | 2026-06-02 | Adapted from L'Usine ops review-plan for Personal_OS vault. Key adaptations: 10_PULSE/ scan instead of 10_OPERATION_DATA/, wiki domain search map for personal domains (trading/health/family/finance), OPERATIONS REALIST → PERSONAL REALIST with personal habit lens. Step 1C: search CONTEXT §7 Active Life Decisions + DECISION_LOG.md + domain-specific files. Added R4 LANGUAGE MANDATE compliance.**

@@ -1,6 +1,7 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
 description: "Musk Algorithm applied to any target — file, SOP, wiki page, idea, process. 5-step ruthless deletion lens."
+updated: 2026-06-02
 ---
 
 # /ruthless — Musk Algorithm Deletion Lens
@@ -14,52 +15,52 @@ description: "Musk Algorithm applied to any target — file, SOP, wiki page, idea,
 ## Usage
 
 ```
-/ruthless [tên file, path, ho?c paste text]
+/ruthless [file name, path, or paste text]
 ```
 
 **Auto-detect modes:**
-- Match du?c file trong vault (tên ho?c path) ? d?c file ? ruthless
-- Match >1 file ? list cho Warren ch?n (show path + trích 3 dòng d?u)
-- Match 1 file ? show path, h?i confirm tru?c khi ch?y
-- Không match file nào ? treat input nhu raw text ? ruthless tr?c ti?p (không confirm)
+- File matched in vault (name or path) ? read file ? ruthless
+- Match >1 file ? list for Warren to select (show path + excerpt first 3 lines)
+- Match 1 file ? show path, ask to confirm before running
+- No file matched ? treat input as raw text ? ruthless directly (no confirm)
 
 ---
 
-## Protocol — 5-Step Musk Algorithm (b?t bu?c, không skip, không d?o th? t?)
+## Protocol — 5-Step Musk Algorithm (mandatory, no skip, no reorder)
 
 ### STEP 1 — Question requirements
 
-Ð?c target. Tr? l?i:
-- Target này dang gi?i quy?t v?n d? gì?
-- Problem có th?t không, hay là symptom?
-- N?u xoá target này, h?u qu? th?c t? là gì? (c? th?, không vague)
-- Ai/di?u gì b? ?nh hu?ng?
+Read target. Answer:
+- What problem is this target solving?
+- Is the problem real, or is it a symptom?
+- If this target is deleted, what is the actual consequence? (specific, not vague)
+- Who/what is affected?
 
 ### STEP 2 — Try to delete
 
-Identify parts c?a target có th? xoá hoàn toàn.
-- Li?t kê t?ng component/section/step c?a target
-- Cho verdict KEEP/DELETE t?ng cái
-- T?i thi?u 1 DELETE — n?u không ? INVALID, redo
-- Sau 2 retry v?n không tìm du?c DELETE ? output "?? RD UNABLE TO FIND DELETIONS — target is minimal or analysis exhausted. Keep as-is recommended unless new context emerges."
+Identify parts of the target that can be completely deleted.
+- List each component/section/step of the target
+- Give verdict KEEP/DELETE for each
+- Minimum 1 DELETE — if none ? INVALID, redo
+- After 2 retries still no DELETE found ? output "?? RD UNABLE TO FIND DELETIONS — target is minimal or analysis exhausted. Keep as-is recommended unless new context emerges."
 
 ### STEP 3 — Simplify (after deletion)
 
-Cho ph?n còn l?i:
-- Có th? don gi?n hon không? (prose ? bullet? 5 steps ? 3 steps?)
-- KHÔNG simplify cái l? ra ph?i delete ? Step 2
+For remaining parts:
+- Can it be simpler? (prose ? bullet? 5 steps ? 3 steps?)
+- Do NOT simplify what should have been deleted in Step 2
 
 ### STEP 4 — Accelerate cycle time
 
-- T? lúc start d?n lúc có k?t qu? m?t bao lâu?
-- Có th? c?t bu?c trung gian nào?
-- Feedback loop bao lâu m?i bi?t dúng/sai?
+- From start to result, how long does it take?
+- Which intermediate steps can be cut?
+- How long is the feedback loop to determine right/wrong?
 
 ### STEP 5 — Automate (last, with warning)
 
-- Có dang automate quy trình chua verify manual không?
-- N?u YES ? flag CRITICAL: "Run manual N times first, then automate."
-- N?u NO ? proceed
+- Is the process being automated without manual verification?
+- If YES ? flag CRITICAL: "Run manual N times first, then automate."
+- If NO ? proceed
 
 ---
 
@@ -67,24 +68,24 @@ Cho ph?n còn l?i:
 
 ```
 ??????????????????????????????????????
-RUTHLESS VERDICT — [target summary 1 câu]
+RUTHLESS VERDICT — [target summary 1 sentence]
 ??????????????????????????????????????
 
-TARGET: [tên file / path / raw text summary]
-SIZE: [n dòng ho?c n ký t?]
+TARGET: [file name / path / raw text summary]
+SIZE: [n lines or n characters]
 
-[RD] STEP 1 — QUESTION: [câu tr? l?i 2-3 dòng — v?n d? g?c]
+[RD] STEP 1 — QUESTION: [2-3 sentence answer — root problem]
 
 [RD] STEP 2 — DELETE:
-  - [component 1]: KEEP / DELETE — [lý do]
-  - [component 2]: KEEP / DELETE — [lý do]
+  - [component 1]: KEEP / DELETE — [reason]
+  - [component 2]: KEEP / DELETE — [reason]
   - ...
 
-[RD] STEP 3 — SIMPLIFY: [ch? ph?n còn l?i sau Step 2]
+[RD] STEP 3 — SIMPLIFY: [only remaining parts after Step 2]
   - [suggestion 1]
   - [suggestion 2]
 
-[RD] STEP 4 — CYCLE TIME: [estimate] — c?t: [d? xu?t]
+[RD] STEP 4 — CYCLE TIME: [estimate] — cut: [suggestion]
 
 [RD] STEP 5 — AUTOMATION CHECK: [SAFE / RISK — broken process?]
 
@@ -92,7 +93,7 @@ SIZE: [n dòng ho?c n ký t?]
 RECOMMENDED ACTION:
   ??? DELETE / ?? CUT [n] components / ?? RESTRUCTURE / ? KEEP AS-IS
 
-REASON: [1-2 câu — d?a trên Step 2 analysis]
+REASON: [1-2 sentences — based on Step 2 analysis]
 ??????????????????????????????????????
 ```
 
@@ -100,37 +101,37 @@ REASON: [1-2 câu — d?a trên Step 2 analysis]
 
 | Verdict | Action |
 |---|---|
-| ??? DELETE | Warren xoá file / xoá ph?n n?i dung |
-| ?? CUT components | Warren edit file, xoá các component marked DELETE |
-| ?? RESTRUCTURE | T?o plan cho restructure (/generate-plan ? /review-plan) |
-| ? KEEP AS-IS | Không làm gì — target dã t?i uu |
+| ??? DELETE | Warren deletes file / deletes content section |
+| ?? CUT components | Warren edits file, removes components marked DELETE |
+| ?? RESTRUCTURE | Create plan for restructure (/generate-plan ? /review-plan) |
+| ? KEEP AS-IS | Do nothing — target is already optimal |
 
 ---
 
 ## Rules
 
-- Steps 1-5 b?t bu?c, không skip, không d?o th? t?. Automate là step cu?i cùng = di?u ki?n b?t bu?c.
-- Step 2 ph?i có t?i thi?u 1 DELETE — n?u không, redo. Sau 2 retry ? escalate message.
-- Không suggest automate tru?c khi verify manual workflow.
-- Không modify file tr?c ti?p — ch? recommend action. Warren quy?t d?nh edit.
+- Steps 1-5 mandatory, no skipping, no reordering. Automate is the last step = mandatory condition.
+- Step 2 must have at least 1 DELETE — if not, redo. After 2 retries ? escalate message.
+- Do not suggest automate before manual workflow is verified.
+- Do not modify files directly — only recommend action. Warren decides to edit.
 
 ---
 
 ## Anti-patterns
 
-- ? Automate Step 2-3 khi Step 1 chua hoàn thành — ph?i di dúng th? t?
-- ? B? qua Step 2 (delete) d? di th?ng Simplify — sai Musk Algorithm
-- ? Skip Step 4 (cycle time) vì "không liên quan d?n content file" — cycle time áp d?ng cho process, không ch? file content
-- ? Modify file tr?c ti?p — /ruthless là diagnostic, không ph?i surgical tool
-- ? S? d?ng khi target dã du?c /review-plan review — dã có RD persona trong review plan
+- ? Automate Step 2-3 when Step 1 is not complete — must follow correct order
+- ? Skip Step 2 (delete) to go straight to Simplify — wrong Musk Algorithm
+- ? Skip Step 4 (cycle time) because "not relevant to content file" — cycle time applies to process, not just file content
+- ? Modify files directly — /ruthless is diagnostic, not a surgical tool
+- ? Use when target has already been /review-plan reviewed — RD persona already exists in review plan
 
 ---
 
 ## Integration
 
-/ruthless là **phiên b?n standalone** c?a RUTHLESS DELETER persona trong /review-plan.
-- Trong /review-plan: RD ch? dánh deletion c?a 1 plan (dã có structure + components)
-- /ruthless: RD dánh b?t c? th? gì (file, SOP, wiki page, idea text) — linh ho?t hon, pre-filter
+/ruthless is the **standalone version** of the RUTHLESS DELETER persona in /review-plan.
+- In /review-plan: RD only evaluates deletion of 1 plan (already has structure + components)
+- /ruthless: RD evaluates anything (file, SOP, wiki page, idea text) — more flexible, pre-filter
 
 **Flow suggestion:** /ruthless ? RD recommends restructure ? /generate-plan ? /review-plan ? code
 

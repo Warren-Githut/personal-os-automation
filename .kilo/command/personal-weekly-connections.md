@@ -1,6 +1,7 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
 description: "Weekly cross-domain connections for Personal OS. ORION reads 10 personal sources, finds correlations across trading/health/family/finance, writes to rolling log."
+updated: 2026-06-02
 ---
 
 # /personal-weekly-connections — Weekly Cross-Domain Connections (Personal OS)

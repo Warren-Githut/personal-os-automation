@@ -1,6 +1,7 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
 description: "Personal vault linting protocol — scan Personal_OS wiki for stale pages, orphans, frontmatter gaps, contradictions. Adapted for personal domains: family, trading, health, finance."
+updated: 2026-06-02
 ---
 
 # Lint Protocol — Slash Command (Personal OS)
