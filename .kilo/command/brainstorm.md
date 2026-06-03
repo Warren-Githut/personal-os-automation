@@ -1,6 +1,6 @@
 ---
-model: deepseek-obsidian/deepseek-v4-pro
-description: "Structured brainstorming protocol — divergent thinking, no ops feasibility filter. Context -> Diverge -> Cluster -> Converge -> Commit. Does NOT touch vault or write files unless Warren chooses capture gate."
+
+description: "Structured brainstorming protocol — divergent thinking, no ops feasibility filter. Context → Diverge → Cluster → Converge → Commit. Does NOT touch vault or write files unless Warren chooses capture gate."
 updated: 2026-06-02
 ---
 
@@ -8,7 +8,7 @@ updated: 2026-06-02
 # v1.0 | 2026-05-30
 # PURPOSE: Generate ideas, explore possibilities, connect concepts — NOT filtered by ops feasibility.
 #          Output is thinking only, does not write files. Optional capture gate after converge.
-# FLOW: Context -> Diverge -> Cluster -> Converge -> Commit -> (optional) Capture Gate
+# FLOW: Context → Diverge → Cluster → Converge → Commit → (optional) Capture Gate
 # DIFFERENCE FROM /explore: /explore = ops feasibility filter (should we do it).
 #                           /brainstorm = creative divergent thinking (what can we do).
 
@@ -49,13 +49,13 @@ Define the framework for brainstorming:
 
 ```
 🎯 TOPIC   : [1 sentence — problem/opportunity Warren wants to brainstorm]
-DOMAIN    : [trading / health / family / finance / growth / mixed]
-CONSTRAINTS: [budget / time / knowledge / technology / none]
+DOMAIN    : [ops / labour / menu / marketing / CX / personal / mixed]
+CONSTRAINTS: [budget / time / headcount / technology / none]
 GOAL      : [create / solve problem / explore opportunity / connect concepts]
 ```
 
-If topic is vague (<5 words, unclear domain) -> ask 1 clarifying question first.
-If clear -> proceed.
+If topic is vague (<5 words, unclear domain) → ask 1 clarifying question first.
+If clear → proceed.
 
 ---
 
@@ -85,17 +85,17 @@ Group 5-10 ideas into 2-4 clusters by common theme/characteristics:
 
 ```
 🗂️ Cluster A: [theme name — 2-3 words]
-   -> Idea 1, Idea 3, Idea 7
-   -> [1 sentence — commonality of this cluster]
+   → Idea 1, Idea 3, Idea 7
+   → [1 sentence — commonality of this cluster]
 
 🗂️ Cluster B: [theme name]
-   -> Idea 2, Idea 5
-   -> [1 sentence — commonality]
+   → Idea 2, Idea 5
+   → [1 sentence — commonality]
 
 ...
 ```
 
-If ideas are too diverse to cluster -> skip clustering, proceed directly to Converge.
+If ideas are too diverse to cluster → skip clustering, proceed directly to Converge.
 
 ---
 
@@ -105,9 +105,9 @@ Use criteria to select:
 
 | Criteria | Weight | Description |
 |---|---|---|
-| Impact | ★★★ | Does it solve a real problem? |
+| Ops Impact | ★★★ | Does it solve a real problem? |
 | Effort | ★★ | Can it be done in 1-4 weeks? |
-| Alignment | ★★★ | Does it align with current priorities (Family -> Health -> Trading -> Finance)? |
+| Alignment | ★★★ | Does it align with priority (CX → Labour → Revenue)? |
 
 **Top 3 Ideas:**
 
@@ -150,9 +150,9 @@ After Commit, ask **exactly once**:
 
 **Rules:**
 - Ask only once. Ask "top ideas" — do NOT ask for each idea individually.
-- If y -> create file `_ideas/brainstorms/YYYY-MM-DD_[topic].md` with YAML frontmatter (`created: YYYY-MM-DD`, `title: [topic]`, `domain: [domain]`) + top 3 ideas + commit actions.
-- If n -> stop. Write nothing.
-- If Warren says "only save idea #2" -> save only idea #2, flexible.
+- If y → create file `_ideas/brainstorms/YYYY-MM-DD_[topic].md` with YAML frontmatter (`created: YYYY-MM-DD`, `title: [topic]`, `domain: [domain]`) + top 3 ideas + commit actions.
+- If n → stop. Write nothing.
+- If Warren says "only save idea #2" → save only idea #2, flexible.
 
 ---
 
@@ -162,32 +162,33 @@ After Commit, ask **exactly once**:
 - ❌ Write files without going through capture gate
 - ❌ Use /brainstorm when Warren needs /explore (ops feasibility) — /explore uses Q1/Q2/Q3 filter
 - ❌ Brainstorm about technical implementation ("how to code") — this is design, use /review-plan
-- ❗ If a proposal requires building a feature -> recommend running /explore after brainstorm to verify value
+- ❗ If a proposal requires building a feature → recommend running /explore after brainstorm to verify ops value
 
 ---
 
 ## Example
 
 ```
-Warren: /brainstorm ideas to improve GG access situation
+Warren: /brainstorm ideas to increase LU5 evening revenue
 
-ORION: [Context -> Diverge 7 ideas -> Cluster 3 themes -> Converge top 2 -> Commit -> Capture Gate]
+ORION: [Context → Diverge 7 ideas → Cluster 3 themes → Converge top 2 → Commit → Capture Gate]
 
-🎯 TOPIC: Improve GG access situation
-DOMAIN: family
+🎯 TOPIC: Increase LU5 evening revenue
+DOMAIN: ops/marketing
 
-🌱 Ideas: (7 ideas — legal consultation, mediation, written proposal, 
-           social worker involvement, family counseling, direct communication, 
-           documentation-based custody petition)
+🌱 Ideas: (7 ideas — happy hour, live music, dinner combo,
+           GrabFood focus, corporate event, pop-up kitchen, loyalty)
 
 🗂️ Clusters:
-   A: Legal — legal consultation, custody petition, lawyer
-   B: Communication — mediation, written proposal, counseling
-   C: Third-party — social worker, mediator
+   A: Pricing — happy hour, dinner combo
+   B: Experience — live music, pop-up kitchen
+   C: Channel — GrabFood focus, corporate event
 
-🎯 #1: Legal Consultation (first step: research family lawyers in Saigon)
+🎯 #1: Dinner Combo (fixed-price 3-course)
+   First step: analyze which dishes have the highest margin to build the combo
 
-🎯 #2: Written Proposal (first step: draft a non-confrontational proposal letter)
+🎯 #2: Corporate Event Package
+   First step: get reception list from mall management
 
 📝 Save top ideas to _ideas/brainstorms/? y / n
 ```

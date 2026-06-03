@@ -1,22 +1,19 @@
 ﻿---
-model: deepseek-obsidian/deepseek-v4-pro
-description: "Personal vault plan adversarial review adapted for ORION+Deepseek toolchain — personal life domains: trading, health, family, finance."
+
+description: "Data & vault plan adversarial review adapted for ORION+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
-# /review-plan — Personal Vault Adversarial Review
-# v3.0-personal | 2026-06-02
-# KEY CHANGES v2.1→v3.0-personal:
-#   - Adapted from L'Usine ops review-plan for Personal_OS vault structure and content domains
-#   - Added Step 1C: VAULT HISTORY SCAN — search past decisions, lessons, post-mortems relevant to personal plan
+# /review-plan — Data & Vault Plan Adversarial Review
+# v3.0 | 2026-06-02
+# KEY CHANGES v2.1→v3.0:
+#   - Added Step 1C: VAULT HISTORY SCAN — search past decisions, lessons, post-mortems relevant to plan
 #   - Step 2: Personas MUST reference vault history precedents if found
 #   - Step 4: Added VAULT HISTORY field + auto-escalate when past decision contradicts plan
-#   - Persona adapted: OPERATIONS REALIST → PERSONAL REALIST (personal life/trading/health lens)
-#   - Vault scan targets: 10_PULSE/ instead of 10_OPERATION_DATA/; wiki domains: trading, health, family_gg, finance
-#   - Domain priority: Family (GG) → Health → Finance → Trading
-#   - All content in English (R4 LANGUAGE MANDATE)
-# PURPOSE: Warren pastes any personal vault/structure plan → vault scan → 4 expert personas debate → Senior Manager verdict.
-# SCOPE: Personal vault structure, log formats, naming conventions, parser flows, retrieval design for personal domains (trading, health, family, finance).
+#   - Spec block: Added History field
+#   - All content translated to English (R4 LANGUAGE MANDATE)
+# PURPOSE: Warren pastes any data/vault/structure plan → vault scan → 4 expert personas debate → Senior Manager verdict.
+# SCOPE: Data architecture, vault structure, log formats, naming conventions, parser flows, retrieval design.
 #        Hybrid plans (data + automation): review-plan covers data part, flags automation part for /review-workflow.
 # NOT FOR: Pure IT workflow scripts, automation-only logic → use /review-workflow instead.
 # NOT FOR: Code review after writing → use /review-code instead.
@@ -35,7 +32,7 @@ updated: 2026-06-02
 Before reviewing any plan, all 4 personas read and apply these 2 principles:
 
 **1. Find the Real Problem first**
-Users often describe what they *want* (a feature, a new file) rather than what they *need* (solving a real bottleneck). The mandatory question to ask: "If we don't build this, what really gets blocked?" Often the best solution is changing a personal habit or process — no code or new files needed.
+Users often describe what they *want* (a feature, a new file) rather than what they *need* (solving a real bottleneck). The mandatory question to ask: "If we don't build this, what really gets blocked?" Often the best solution is changing the operational process — no code or new files needed.
 
 **2. Design data structure first, logic later**
 Linus Torvalds: *"Bad programmers worry about the code. Good programmers worry about data structures."* If the data flow and storage method are designed correctly, the processing code naturally becomes simple. Conversely: wrong data structure → all logic built on top of it will also be wrong.
@@ -60,7 +57,7 @@ ASSUMED STRUCTURE : [bullet — main components of the plan]
 ASSUMED GOAL      : [retrievability / analysis / automation / other]
 REAL PROBLEM CHECK: [1 sentence — what root problem is this plan solving?
                      If unclear → ask Warren before continuing]
-CONTEXT           : Warren's Personal OS vault | Personal life: family (GG), health, trading, finance | ORION+Deepseek stack
+CONTEXT           : L'Usine 3-store F&B | Warren OS vault | ORION+Deepseek stack
 ```
 
 If the plan is too vague (under 3 lines, unclear goal) → ask 1 clarifying question first.
@@ -93,9 +90,9 @@ Note on counting components: 1 new field in a note = 1 component; fetch + save +
 Before debating, ORION **must read the actual vault**. Don't assume structure from a previous session or CONTEXT.md.
 
 Run sequentially:
-1. List `personal_vault/` root directory
-2. List `10_PULSE/`
-3. List `30_KNOWLEDGE_BASE/wiki/` and domain subfolders: `trading/`, `health/`, `family_gg/`, `finance/`, `relationship/`, `growth/`
+1. List vault root directory
+2. List `10_OPERATION_DATA/`
+3. List `30_KNOWLEDGE_BASE/wiki/` and domain subfolders relevant to the plan
 
 Internal structure:
 
@@ -123,31 +120,19 @@ VAULT SCAN RESULT:
 
 ### STEP 1C — VAULT HISTORY SCAN (mandatory — the vault argues against the plan itself) (SILENT)
 
-**Purpose:** Find evidence from Warren's own personal vault — past decisions, lessons learned, post-mortems, reversed decisions — relevant to the plan under review. The vault must challenge the plan before the personas debate.
+**Purpose:** Find evidence from Warren's own vault — past decisions, lessons learned, post-mortems, reversed decisions — relevant to the plan under review. The vault must challenge the plan before the personas debate.
 
-**Why:** Warren has accumulated decisions about his personal life, health, trading, and family in the vault. If a new plan repeats an old mistake or contradicts a confirmed decision, it must be known BEFORE building — not after coding is complete.
+**Why:** Warren has accumulated hundreds of operational decisions in the vault. If a new plan repeats an old mistake or contradicts a confirmed decision, it must be known BEFORE building — not after coding is complete.
 
 **Run sequentially:**
 
-1. **Search CONTEXT.md §7 (Active Life Decisions)** — does the new plan conflict with any open decision?
-2. **Search `wiki/DECISION_LOG.md`** — past decisions on the same topic/domain
-3. **Search `personal_vault/_kilo/memory/LESSONS.md`** — relevant lessons learned
-4. **Search wiki/ domain folders** relevant to the plan — see domain search map below
+1. **Search §10 of CONTEXT.md** (if structure supports it) — does the new plan conflict with any open Active Decisions?
+2. **Search `wiki/DECISION_LOG.md`** (if it exists) — past decisions on the same topic/domain
+3. **Search `_kilo/memory/LESSONS.md`** — relevant lessons learned
+4. **Search wiki/ domain folders** relevant to the plan (e.g.: plan about COGS → search `wiki/menu_cogs/`; plan about staffing → search `wiki/labour_costs/`)
 5. **Search memory graph** (if Kilo Code context provides access) — entities, past failures, relevant preferences
 
-**Domain search map:**
-
-| Plan domain | Files & folders to search |
-|-------------|--------------------------|
-| Trading / Stocks / BTC | CONTEXT.md §3 (Trading Profile) + wiki/trading/ + 10_PULSE/020_VNStock_Weekly_Outlook.md + 10_PULSE/021_VNStock_Macro.md |
-| Health / Fitness | CONTEXT.md §4 (Health Baseline) + wiki/health/ + 10_PULSE/050_Health_Log.md |
-| Family / GG | CONTEXT.md §2 (Family Status) + §5 (Relationships) + wiki/family_gg/ + 10_PULSE/001_GG_Communication_Guide.md + 10_PULSE/002_GG_Milestones.md |
-| Finance / Net Worth | CONTEXT.md §6 (Financial Snapshot) + wiki/finance/ (Assets.md, Net_Worth.md) |
-| Relationship / People | wiki/relationship/ + CONTEXT.md §5 |
-| Growth / Reading | wiki/growth/ |
-| Mixed / Unknown | CONTEXT.md + wiki/DECISION_LOG.md + wiki/index.md + wiki/WIKI_INDEX.md |
-
-**Keyword strategy:** Use 2-3 main keywords from PLAN SUMMARY in Step 1 + domain name. Don't search vague terms ("improve", "better"). Search concrete nouns ("GG", "emergency fund", "GAS", "bloodwork", "BTC").
+**Keyword strategy:** Use 2-3 main keywords from PLAN SUMMARY in Step 1 + domain name. Don't search vague terms ("improve", "better"). Search concrete nouns ("Sharon", "COGS", "Dinh Bien", "OIL", "LU5 lease").
 
 Internal output:
 
@@ -174,7 +159,7 @@ VAULT HISTORY RESULT:
   → If NO → proceed normally.
 ```
 
-**Auto-escalation rule:** If any precedent has verdict CONTRADICTS AND the source is an Active Life Decision (§7) or a confirmed lesson in LESSONS.md → this is an automatic **CRITICAL BLOCKER**. Personas in Step 2 MUST address it. Senior Manager in Step 4 MUST resolve it (either the plan changes, or the past decision is superseded with a specific reason).
+**Auto-escalation rule:** If any precedent has verdict CONTRADICTS AND the source is an Active Decision or a confirmed lesson in LESSONS.md → this is an automatic **CRITICAL BLOCKER**. Personas in Step 2 MUST address it. Senior Manager in Step 4 MUST resolve it (either the plan changes, or the past decision is superseded with a specific reason).
 
 ---
 
@@ -195,7 +180,7 @@ Must not easily agree. Each persona MUST output all 3 sections: AGREE + BLOCKER 
 **Lens:** Long-term structure · Data structure design · Retrievability · Schema consistency · Scalability
 **Mandatory questions to answer:**
 - "Is this plan's data structure defined before logic? If not, where will the logic go wrong?"
-- "After 12 months with 10x data (more trades, more health logs, more GG milestones), is this plan easy to query?"
+- "After 12 months with 10x data, is this plan easy to query?"
 - "Does this plan create 1 growing file or many small files? Which is easier to query?"
 
 Output format:
@@ -209,22 +194,21 @@ Output format:
 
 ---
 
-#### 🟥 PERSONAL REALIST (30 years of real-world personal habits)
-**Lens:** Personal routines · Habit sustainability · Human error · Non-IT operator reality · Trading discipline
-**Not a theoretical planner — someone who has seen good personal systems abandoned after 3 weeks.**
+#### 🟥 OPERATIONS REALIST (30 years of real-world operations)
+**Lens:** Real operator · Human error · Workflow friction · Non-IT operator reality
+**Not a theoretical Data Scientist — someone who has seen good systems abandoned by real users.**
 **Mandatory questions to answer:**
-- "Warren uses this every week/month — after 3 months when life gets busy (GG situation, work stress), will this habit still hold?"
-- "When input is entered wrong (and it WILL be entered wrong) — how does this plan fail? Who detects it? What's the consequence for a trading decision or health log?"
-- "If Warren is busy with work or family for 2 weeks and doesn't maintain this — can he pick it back up without getting lost?"
-- "Is this plan compatible with Warren's current life priorities? (Family → Health → Finance → Trading)"
+- "Warren or Thao use this every week/month — after 3 months of habits changing, will this plan still hold?"
+- "When input is entered wrong (and it WILL be entered wrong) — how does this plan fail? Who detects it?"
+- "If Warren is busy for 2 weeks and doesn't maintain it — can he pick it back up without getting lost?"
 
 Output format:
 ```
-[PR] AGREE: ...
-[PR] BLOCKER: ...
+[OR] AGREE: ...
+[OR] BLOCKER: ...
       Severity: CRITICAL / HIGH / MEDIUM
-      Fail scenario: [what specific human error or habit failure will occur — and the consequence]
-[PR] SUGGESTION: replace [X] with [Y] because [Z]
+      Fail scenario: [what specific human error will occur — and the consequence]
+[OR] SUGGESTION: replace [X] with [Y] because [Z]
 ```
 
 ---
@@ -254,7 +238,7 @@ Output format:
 
 **Mandatory questions to answer (in strict order, no skip):**
 
-1. **Delete what?** Which components in this plan can be completely removed while personal ops still runs? (List each component, give verdict KEEP/DELETE for each. Minimum 1 DELETE — if none, the plan is over-scoped or Deleter hasn't worked hard enough).
+1. **Delete what?** Which components in this plan can be completely removed while ops still runs? (List each component, give verdict KEEP/DELETE for each. Minimum 1 DELETE — if none, the plan is over-scoped or Deleter hasn't worked hard enough).
 
 2. **Simplify what (after deleting)?** What remains that can be simpler? (Prose instead of table? Append instead of new file? Inline instead of link?). DO NOT simplify what should have been deleted in question 1.
 
@@ -283,8 +267,8 @@ Run 1 round of short exchange — each side must use data/logic from the vault s
 
 Format:
 ```
-[DA → PR]: "..."
-[PR → DA]: "..."
+[DA → OR]: "..."
+[OR → DA]: "..."
 
 or
 
@@ -293,8 +277,8 @@ or
 
 or
 
-[PR → DEV]: "..."
-[DEV → PR]: "..."
+[OR → DEV]: "..."
+[DEV → OR]: "..."
 
 or
 
@@ -303,8 +287,8 @@ or
 
 or
 
-[RD → PR]: "..."
-[PR → RD]: "..."
+[RD → OR]: "..."
+[OR → RD]: "..."
 
 or
 
@@ -377,7 +361,7 @@ HYBRID PLAN NOTE: (only appears if at least 1 persona raised a MEDIUM+ blocker r
 - APPROVE WITH CONDITIONS has ≥ 1 condition, OR
 - Plan has > 3 components
 
-If trigger met → ORION **must** append Spec block into `personal_vault/_kilo/memory/project_[name].md` in the same session:
+If trigger met → ORION **must** append Spec block into `memory/project_[name].md` in the same session:
 
 ```
 ## Spec (approved YYYY-MM-DD)
@@ -391,9 +375,9 @@ Steps       : (see below if complex)
 ```
 
 **Rules:**
-- `project_[name].md` = memory file for this feature. If it doesn't exist → ORION creates a new file with standard frontmatter + Spec block.
+- `project_[name].md` = memory file for this feature. If it doesn't exist → ORION creates a new file with standard frontmatter + Spec block, and appends 1 index line to `MEMORY.md`.
 - `Status` always starts as `PLANNING`. ORION updates to `CODING` when starting to write code, `DONE` when `/review-code` SHIP.
-- `Next` must be actionable — not "continue building" but "write trading parser" or "run /review-code for health log script".
+- `Next` must be actionable — not "continue building" but "write parser X" or "run /review-code for file Y".
 - If APPROVE (no conditions) AND plan ≤ 3 components → **don't** create Spec block. Feature is small enough to complete in 1 session.
 - **Implementation Steps (auto — no friction for Warren):** If plan affects >3 files OR has complex logic (multi-step parser, cross-file dependencies) → ORION auto-appends steps to Spec block, doesn't ask Warren:
   ```
@@ -420,4 +404,4 @@ Immediately after creating Spec block (or if Spec block not needed — immediate
 
 ---
 
-**v3.0-personal | 2026-06-02 | Adapted from L'Usine ops review-plan for Personal_OS vault. Key adaptations: 10_PULSE/ scan instead of 10_OPERATION_DATA/, wiki domain search map for personal domains (trading/health/family/finance), OPERATIONS REALIST → PERSONAL REALIST with personal habit lens. Step 1C: search CONTEXT §7 Active Life Decisions + DECISION_LOG.md + domain-specific files. Added R4 LANGUAGE MANDATE compliance.**
+**v3.0 | 2026-06-02 | Added Step 1C: Vault History Scan — vault self-challenges plan using past decisions/lessons/post-mortems. Step 2 vault history reference rule. Step 4 VAULT HISTORY field + auto-escalation. Spec block added History field. All content translated to English (R4 LANGUAGE MANDATE).**

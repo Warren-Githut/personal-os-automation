@@ -1,5 +1,6 @@
-﻿{
+{
   "$schema": "https://app.kilo.ai/config.json",
+  "instructions": [".kilo/rules/*.md", "personal_vault/.kilo/rules/*.md"],
   "default_agent": "orion",
   "agent": {
     "orion": {

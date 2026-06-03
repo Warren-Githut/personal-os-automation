@@ -1,12 +1,12 @@
----
-model: deepseek-obsidian/deepseek-v4-pro
+﻿---
+
 description: "Knowledge capture from web/YouTube/social — ORION creates atomic .md file in _growth/ + updates _INDEX.md"
 updated: 2026-06-02
 ---
 
-# /capture — Knowledge Capture (Personal_OS)
+# /capture — Knowledge Capture
 
-# v1.0 | 2026-06-02 | Personal_OS adaptation
+# v1.0 | 2026-05-29 | Phase 2
 # PURPOSE: Warren pastes link/text → ORION parses → creates atomic .md file in _growth/ → updates _INDEX.md
 # Non-IT friendly: ORION asks clarifying questions, suggests tags, auto-detects source type.
 
@@ -15,14 +15,14 @@ updated: 2026-06-02
 ## Usage
 
 ```
-/capture [URL or text] [optional: --vault personal|lu] [optional: --tags tag1,tag2]
+/capture [URL or text] [optional: --vault lu|personal] [optional: --tags tag1,tag2]
 ```
 
 Example:
 ```
 /capture https://youtube.com/watch?v=xxx
 /capture "Book Radical Candor has this good idea..." --tags leadership,communication
-/capture https://x.com/user/status/xxx --vault lu --tags ops,cx
+/capture https://x.com/user/status/xxx --vault personal --tags trading,psychology
 ```
 
 ---
@@ -51,9 +51,9 @@ Determine target vault:
 
 | Condition | Vault |
 |-----------|-------|
-| Tags include `#trading`, `#health`, `#parenting`, `#gg`, `#personal`, `#finance`, `#btc` | `personal` (Personal_OS) |
 | Tags include `#lu`, `#lu3`, `#lu5`, `#lu7`, `#ops`, `#leadership`, `#cx`, `#cogs`, `#labour` | `lu` (Warren_OS_Local) |
-| Warren specifies `--vault personal` or `--vault lu` | As specified |
+| Tags include `#trading`, `#health`, `#parenting`, `#gg`, `#personal`, `#finance`, `#btc` | `personal` (Personal_OS) |
+| Warren specifies `--vault lu` or `--vault personal` | As specified |
 | **Unclear** → ask Warren 1 question | Wait for confirmation |
 
 ### STEP 3 — SUGGEST & CONFIRM (non-friction)
@@ -67,7 +67,7 @@ ORION suggests then asks Warren to confirm **exactly once**:
 → Tags: [suggested tags]
 → Source: [source_type] — [source_name]
 
-OK? (type "ok" or edit: "domain: trading, tags: psychology, risk")
+OK? (type "ok" or edit: "domain: leadership, tags: comm, feedback")
 ```
 
 **Rule:**
@@ -81,12 +81,12 @@ ORION creates `.md` file in the correct directory:
 
 | Vault | Path |
 |-------|------|
-| `personal` | `C:\Users\khoans\Documents\Personal_OS\personal_vault\_growth\` |
 | `lu` | `C:\Users\khoans\Documents\Warren_OS_Local\vault\_growth\` |
+| `personal` | `C:\Users\khoans\Documents\Personal_OS\personal_vault\_growth\` |
 
 **File name:** `YYYY-MM-DD_[slugified-title].md`
 - `slugified-title`: lowercase, no diacritics, replace spaces with `-`, max 80 characters
-- Example: `2026-06-02_trading-psychology-book-summary.md`
+- Example: `2026-05-29_cach-noi-chuyen-voi-nhan-vien-khi-vi-pham-ky-luat.md`
 
 **Template file (ORION must follow EXACTLY):**
 
@@ -113,7 +113,7 @@ status: active              # required
 - [Key point 2]
 - [Key point 3]
 
-## Application
+## [Application for L'Usine / Application]
 - [Where can this be applied — 1-2 sentences]
 
 ## Notes
@@ -121,8 +121,8 @@ status: active              # required
 ```
 
 > **Note:** The "Application" section changes by vault:
-> - Personal vault → `## Application`
 > - LU vault → `## Application for L'Usine`
+> - Personal vault → `## Application`
 
 
 ### STEP 4.5 — CROSS-LINK DETECTION (if Warren mentions continuation)
@@ -153,8 +153,8 @@ ORION lists 1-3 best matching files, asks 1 question:
 
 ```
 Found related files:
-  [1] 2026-06-01_trading-psychology-book.md (trading)
-  [2] 2026-05-15_risk-management-framework.md (trading)
+  [1] 2026-05-29_cach-noi-chuyen-voi-nhan-vien-khi-vi-pham-ky-luat.md (leadership)
+  [2] 2026-05-15_radical-candor-framework.md (leadership)
 
 Link with which file? (number, "all", or "none")
 ```
@@ -177,18 +177,19 @@ After creating new file, ORION appends to **last line** of **both files**:
 
 ---
 
-> 📎 Related: [[2026-06-01_trading-psychology-book|Part 1 — Trading Psychology Book Summary]]
+> 📎 Related: [[2026-05-29_cach-noi-chuyen-voi-nhan-vien-khi-vi-pham-ky-luat|Part 1 — How to talk to employees when they violate discipline]]
 ```
 
 **Old file (Part 1) — ORION appends to end:**
 ```
-
 ---
 
-> 📎 See also: [[2026-06-02_trading-psychology-p2|Part 2 — (part 2 title)]]
+> 📎 See also: [[2026-05-30_cach-noi-chuyen-voi-nhan-vien-p2|Part 2 — (part 2 title)]]
 ```
 
 **Link format:**
+- LU vault: `[[filename|Part N — title]]`
+- Personal vault: same
 - Always use `---` (horizontal rule) to separate from main content
 - Always append at **end of file**, do not insert in the middle of content
 
@@ -214,7 +215,7 @@ ORION updates `_INDEX.md` in the same directory:
 
 **Example new row:**
 ```
-| 2026-06-02 | [2026-06-02_trading-psychology-book.md](2026-06-02_trading-psychology-book.md) | trading | psychology, risk | YouTube — Trading Psychology | Key lessons from trading psychology book | 2026-06-02 |
+| 2026-05-29 | [2026-05-29_cach-noi-chuyen-voi-nhan-vien.md](2026-05-29_cach-noi-chuyen-voi-nhan-vien.md) | leadership | communication, feedback | YouTube — Simon Sinek | How to talk to employees when they violate discipline | 2026-05-29 |
 ```
 
 ### OUTPUT
@@ -222,8 +223,8 @@ ORION updates `_INDEX.md` in the same directory:
 After completion, ORION reports:
 
 ```
-✅ Capture complete → `_growth/2026-06-02_trading-psychology-book.md`
-Tags: trading, psychology | Vault: Personal_OS
+✅ Capture complete → `_growth/2026-05-29_cach-noi-chuyen-voi-nhan-vien.md`
+Tags: leadership, communication | Vault: L'Usine
 ```
 
 ---
@@ -249,4 +250,4 @@ Tags: trading, psychology | Vault: Personal_OS
 
 ---
 
-**v1.0 | 2026-06-02 | Personal_OS adaptation — default vault changed to 'personal'. Routing table updated to prioritize personal tags. Application section defaults to personal.**
+**v1.0 | 2026-05-29 | Phase 2 — Knowledge Capture Pipeline**

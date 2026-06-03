@@ -1,5 +1,5 @@
 ---
-model: deepseek-obsidian/deepseek-v4-pro
+
 description: "Musk Algorithm applied to any target — file, SOP, wiki page, idea, process. 5-step ruthless deletion lens."
 updated: 2026-06-02
 ---
@@ -19,14 +19,14 @@ updated: 2026-06-02
 ```
 
 **Auto-detect modes:**
-- File matched in vault (name or path) ? read file ? ruthless
-- Match >1 file ? list for Warren to select (show path + excerpt first 3 lines)
-- Match 1 file ? show path, ask to confirm before running
-- No file matched ? treat input as raw text ? ruthless directly (no confirm)
+- File matched in vault (by name or path) ? read file ? ruthless
+- Match >1 file ? list for Warren to choose (show path + excerpt first 3 lines)
+- Match 1 file ? show path, ask confirm before running
+- No file match ? treat input as raw text ? ruthless directly (no confirm)
 
 ---
 
-## Protocol — 5-Step Musk Algorithm (mandatory, no skip, no reorder)
+## Protocol — 5-Step Musk Algorithm (mandatory, no skipping, no reordering)
 
 ### STEP 1 — Question requirements
 
@@ -40,25 +40,25 @@ Read target. Answer:
 
 Identify parts of the target that can be completely deleted.
 - List each component/section/step of the target
-- Give verdict KEEP/DELETE for each
-- Minimum 1 DELETE — if none ? INVALID, redo
-- After 2 retries still no DELETE found ? output "?? RD UNABLE TO FIND DELETIONS — target is minimal or analysis exhausted. Keep as-is recommended unless new context emerges."
+- Give KEEP/DELETE verdict for each
+- Minimum 1 DELETE — otherwise ? INVALID, redo
+- After 2 retries still can't find DELETE ? output "? RD UNABLE TO FIND DELETIONS — target is minimal or analysis exhausted. Keep as-is recommended unless new context emerges."
 
 ### STEP 3 — Simplify (after deletion)
 
-For remaining parts:
+For the remaining parts:
 - Can it be simpler? (prose ? bullet? 5 steps ? 3 steps?)
 - Do NOT simplify what should have been deleted in Step 2
 
 ### STEP 4 — Accelerate cycle time
 
 - From start to result, how long does it take?
-- Which intermediate steps can be cut?
-- How long is the feedback loop to determine right/wrong?
+- Can any intermediate steps be cut?
+- How long is the feedback loop to know right/wrong?
 
 ### STEP 5 — Automate (last, with warning)
 
-- Is the process being automated without manual verification?
+- Are you automating a process not yet verified manually?
 - If YES ? flag CRITICAL: "Run manual N times first, then automate."
 - If NO ? proceed
 
@@ -74,7 +74,7 @@ RUTHLESS VERDICT — [target summary 1 sentence]
 TARGET: [file name / path / raw text summary]
 SIZE: [n lines or n characters]
 
-[RD] STEP 1 — QUESTION: [2-3 sentence answer — root problem]
+[RD] STEP 1 — QUESTION: [2-3 line answer — root problem]
 
 [RD] STEP 2 — DELETE:
   - [component 1]: KEEP / DELETE — [reason]
@@ -101,8 +101,8 @@ REASON: [1-2 sentences — based on Step 2 analysis]
 
 | Verdict | Action |
 |---|---|
-| ??? DELETE | Warren deletes file / deletes content section |
-| ?? CUT components | Warren edits file, removes components marked DELETE |
+| ??? DELETE | Warren deletes file / deletes content portion |
+| ?? CUT components | Warren edits file, deletes components marked DELETE |
 | ?? RESTRUCTURE | Create plan for restructure (/generate-plan ? /review-plan) |
 | ? KEEP AS-IS | Do nothing — target is already optimal |
 
@@ -110,20 +110,20 @@ REASON: [1-2 sentences — based on Step 2 analysis]
 
 ## Rules
 
-- Steps 1-5 mandatory, no skipping, no reordering. Automate is the last step = mandatory condition.
-- Step 2 must have at least 1 DELETE — if not, redo. After 2 retries ? escalate message.
-- Do not suggest automate before manual workflow is verified.
-- Do not modify files directly — only recommend action. Warren decides to edit.
+- Steps 1-5 mandatory, no skipping, no reordering. Automate is last step = mandatory condition.
+- Step 2 must have minimum 1 DELETE — otherwise, redo. After 2 retries ? escalate message.
+- Don't suggest automation before verifying manual workflow.
+- Don't modify files directly — only recommend action. Warren decides to edit.
 
 ---
 
 ## Anti-patterns
 
-- ? Automate Step 2-3 when Step 1 is not complete — must follow correct order
+- ? Automate Steps 2-3 when Step 1 is not yet complete — must follow correct order
 - ? Skip Step 2 (delete) to go straight to Simplify — wrong Musk Algorithm
-- ? Skip Step 4 (cycle time) because "not relevant to content file" — cycle time applies to process, not just file content
+- ? Skip Step 4 (cycle time) because "not relevant to content files" — cycle time applies to processes, not just file content
 - ? Modify files directly — /ruthless is diagnostic, not a surgical tool
-- ? Use when target has already been /review-plan reviewed — RD persona already exists in review plan
+- ? Use when target has already been /review-plan reviewed — RD persona is already in review plan
 
 ---
 
