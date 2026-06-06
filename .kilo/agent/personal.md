@@ -162,7 +162,7 @@ Warren uses the following commands. Read the corresponding file in `.kilo/comman
 ### Life Ops
 - `/daily` -> `daily.md`
 - `/morning-brief` -> `morning-brief.md`
-- `/weekly` -> `weekly.md`
+- `/personal-weekly-knowledge-extraction` -> `personal-weekly-knowledge-extraction.md` — Sun 18:00: weekly pulse review + Warren-confirmed knowledge extraction
 - `/cases [args]` -> `cases.md`
 - `/personal-context-update` -> `personal-context-update.md`
 - `/query [keyword]` -> `query.md` — search files/content/tags across vault
@@ -381,3 +381,5 @@ GAS | Q1 | PE 8.5x | Margin 40% | Debt ↓
 - ❌ Cite numbers from stub files (data_status: stub)
 - ❌ Include GG's full name, school, address, or photos in any vault file
 - ❌ Vent about co-parenting in vault — factual only
+
+

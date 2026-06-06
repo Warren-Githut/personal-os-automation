@@ -1,11 +1,11 @@
 ---
 model: deepseek-obsidian/deepseek-v4-flash
 description: "Pre-flight check — ORION reads raw input, emits RESTATE:/CLARIFY: scaffold, waits for Warren confirm before proceeding"
-updated: 2026-06-02
+updated: 2026-06-04
 ---
 
 # /restate — Pre-Flight Restate + Clarify Gate
-# v1.0 | 2026-05-31
+# v1.1 | 2026-06-04
 # PURPOSE: Warren brain-dump raw input → ORION auto restate + clarify, wait for confirm → proceed.
 # POSITION IN WORKFLOW: Raw input → /restate → ORION restates/clarifies → Warren confirm "ok" → analysis.
 # WHY: R1 (RESTATE GATE) in system prompt is reactive. /restate is proactive — Warren intentionally
@@ -35,6 +35,15 @@ Analyze input → generate 2 lines:
 ```
 RESTATE: <summary of Warren's request in 1-2 sentences — exact, no additions, no omissions>
 CLARIFY: <max 3 questions about ambiguities; if none, write exactly "None — proceeding">
+
+**IMPORTANT v1.1:** Each CLARIFY question MUST include a **suggested/optimal answer** right after the question, so Warren can just confirm or correct instead of typing from scratch.
+
+Format:
+```
+CLARIFY:
+1. [question] → SUGGESTED: [optimal answer] | Alternative: [other option if applicable]
+2. [question] → SUGGESTED: [optimal answer] | Alternative: [other option if applicable]
+```
 ─────────────────
 Confirm this restate is correct? If correct type "ok" — if wrong correct it.
 ```
@@ -53,6 +62,7 @@ Auto analyze and respond as a normal request.
 
 ## Anti-patterns
 
+- Open-ended clarifying questions without suggested answers → WRONG. v1.1: every CLARIFY must include SUGGESTED answer.
 - After confirm, ask again "what do you need analyzed?" → WRONG. $ARGUMENTS already available, ORION auto proceeds.
 - After confirm reply "ok, received" with no analysis → WRONG. Must complete the response.
 - Modifying Warren's intent during restate → WRONG. Restate must be faithful.

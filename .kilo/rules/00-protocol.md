@@ -1,4 +1,4 @@
----
+﻿---
 description: Hard protocol rules - enforced mechanically, not by trust
 version: 1.5
 updated: 2026-06-03
@@ -99,42 +99,16 @@ ORION must self-check:
 ### 5.1 Detection logic
 1. Read `vault/LUSINE_TODO_Kanban.md` at the start of every new session
 2. Find cards containing `[[_cases/active/{slug}]]` where every `[ ]` under that case is now `[x]`
-3. If found → flag to Warren exactly once:
-   `"📋 Case "{slug}": all tasks done. Close it? [y]"`
-4. If Warren says "y" → run `Step 3 — /cases close {slug}` from cases.md (archive, lessons, decision, Kanban move)
-5. If Warren says "n" or any other reply → skip, do not ask again this session
+3. If found â†’ flag to Warren exactly once:
+   `"ðŸ“‹ Case "{slug}": all tasks done. Close it? [y]"`
+4. If Warren says "y" â†’ run `Step 3 â€” /cases close {slug}` from cases.md (archive, lessons, decision, Kanban move)
+5. If Warren says "n" or any other reply â†’ skip, do not ask again this session
 
 ### 5.2 Scope
 - **Only** applies to cards linked to active cases via `[[_cases/active/{slug}]]`
-- Standalone tasks (no case link) are NOT covered — user decides via Kanban drag
+- Standalone tasks (no case link) are NOT covered â€” user decides via Kanban drag
 - Only runs on **first response of new session**, not mid-session
 
 ### 5.3 Enforcement
 - If ORION misses a fully-done case card and doesn't flag it -> minor protocol violation
 - If ORION flags the same case twice in one session -> violation (ask only once)
-
-## R6. DUAL-VAULT AUTO-SYNC - silent sync after every edit
-
-**After every edit/write to a file in `scope: both` (see `vault/DUAL_VAULT_PAIRS.md`):**
-
-### 6.1 Auto-sync trigger
-1. Read `vault/DUAL_VAULT_PAIRS.md` to find the paired personal vault file
-2. Read target file content
-3. If content differs → apply same edit to target file
-4. Commit: `"adopt(pair): {filename}"`
-5. Silent — do not notify Warren unless write fails
-
-### 6.2 Scope
-- Only applies to files with `scope: both` in the mapping
-- Does NOT apply to `personal_only` or `lusine_only` files
-- Sync direction: from this (lusine) vault → personal vault
-
-### 6.3 Fallback
-If auto-sync fails (target vault not accessible, file locked, etc.):
-- Do NOT block the original edit
-- Flag once to Warren: "⚠️ Auto-sync failed for {filename}. Run /adopt {filename} manually."
-- Warren can run `/adopt` later
-
-### 6.4 Enforcement
-- If ORION edits a `scope: both` file and does NOT attempt sync -> minor protocol violation
-- Sync failure that blocks the original edit -> violation (sync must be non-blocking)
