@@ -110,22 +110,25 @@ STEPS:
 
 ---
 
-## STEP 4 — NEXT ACTION
+## STEP 4 — CONFIRM GATE
 
-After outputting plan block:
+After outputting plan block, ORION **must ask Warren**:
 
 ```
 📋 Plan ready.
 
-Next step: Paste block above into:
-  /review-plan [paste plan here]
-  
+Any changes? Or proceed to /review-plan?
+```
+
+### Rules:
+- ORION waits for Warren's response. Do not auto-proceed.
+- **If Warren suggests changes** → ORION updates the plan accordingly → re-output the updated plan → ask again: "Any changes? Or proceed to /review-plan?"
+- **If Warren says "review-plan" or "/review-plan"** → ORION auto-loads /review-plan and pipes the plan in. Warren does NOT need to manually paste — the plan is already in context.
+- **If Warren says "ok" / "go ahead" / "yes"** → same as "review-plan" — auto-pipe.
+
 → /review-plan will run 3 personas debate + Senior Manager verdict.
 → After APPROVE: auto-implement.
 → After implement: /review-audit → SHIP.
-```
-
-**Do not auto-pipe** — Warren pastes manually to control the flow.
 
 ---
 
@@ -152,7 +155,7 @@ After outputting plan, ask **once only**:
 ## Anti-patterns
 
 - ❌ Filter idea — /generate-plan is not /explore. If input needs filtering → recommend /explore
-- ❌ Auto-pipe to /review-plan — Warren pastes manually for control
+- ❌ Auto-pipe to /review-plan without asking Warren first — must ask "Any changes or /review-plan?" and wait for confirm
 - ❌ Vault scan too deep — /generate-plan only needs lightweight scan, not full content
 - ❌ Create file without going through capture gate
 - ❌ Write index entry — plan is a temporary artifact, no index needed
@@ -191,7 +194,7 @@ STEPS:
   3. /review-audit → SHIP
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📋 Paste plan into /review-plan [paste] to review.
+📋 Plan ready. Any changes? Or proceed to /review-plan?
 
 📝 Save this plan? y / n
 ```
@@ -199,3 +202,4 @@ STEPS:
 ---
 
 **v1.0 | 2026-05-30 | Initial version — Structured plan generator. Bridges brainstorm/ideas → /review-plan. No auto-pipe, optional capture gate.**
+
