@@ -1,24 +1,24 @@
 ﻿---
 
-description: "Weekly cross-domain connection finder. ORION reads 10 sources from past 7 days, finds correlations/causality/contradictions/amplifications across domains, writes to rolling log. Complement to /ops-CONTEXT-update."
-updated: 2026-06-02
+description: "Weekly cross-domain connection finder. ORION reads pulse files (per PULSE_INDEX.md) + contextual sources from past 7 days, finds correlations/causality/contradictions/amplifications across personal domains, writes to rolling log. Complement to /personal-context-update."
+updated: 2026-06-07
 ---
 
-# /ops-weekly-connections — Weekly Cross-Domain Connections (L'Usine Ops)
-# v1.0 | 2026-05-27
-# PURPOSE: Every Sunday, ORION scans 10 sources → finds cross-domain patterns (serendipity) → writes rolling log.
+# /personal-weekly-connections — Weekly Cross-Domain Connections (Personal OS)
+# v1.0 | 2026-06-07
+# PURPOSE: Every Sunday, ORION scans pulse files (per PULSE_INDEX.md) + contextual sources → finds cross-domain patterns (serendipity) → writes rolling log.
 # SCHEDULE: Calendar recurring Sun 17:00 GMT+7
-# COMPLEMENT: /ops-CONTEXT-update (Mon 7AM) — connections feed into context themes.
+# COMPLEMENT: /personal-context-update (Mon) — connections feed into context themes.
 
 ---
 
 ## USAGE
 
 ```
-/ops-weekly-connections
+/personal-weekly-connections
 ```
 
-No arguments. ORION reads 10 sources automatically.
+No arguments. ORION reads sources automatically (file list per PULSE_INDEX.md §Pulse Files).
 
 ---
 
@@ -28,12 +28,12 @@ No arguments. ORION reads 10 sources automatically.
 
 **Goal:** Ensure no conflicting sources exist before running connections analysis. Connecting data from 2 conflicting sources produces false insights.
 
-1. Check known duplication patterns (same list as lint Section H):
-   - **Tasks:** LUSINE_TODO_Kanban.md vs _inbox/tasks.md -> Kanban is source
+1. Check known duplication patterns:
+   - **Tasks:** TODO_Kanban.md vs _inbox/tasks.md -> Kanban is source
    - **Active cases:** _cases/active/ files vs indexes -> files on disk are source
-   - **Store KPIs:** CONTEXT.md vs wiki pages -> wiki is source, CONTEXT is snapshot
-   - **Recipe data:** raw/recipes/ CSVs vs Recipe_Index.json -> raw CSVs are source
-   - **Command registry:** .kilo/command/*.md vs lusine.md -> commands define one each
+   - **Life facts:** CONTEXT.md vs wiki pages -> wiki is source, CONTEXT is snapshot
+   - **Pulse data:** 10_PULSE files vs PULSE_INDEX.md -> files are source, index is derived
+   - **Command registry:** .kilo/command/*.md vs personal.md -> commands define one each
 2. For each pattern where both files exist AND both have content:
    -> ⚠️ Flag as DUPLICATE source of truth
    -> Suggest which file to keep (and why)
@@ -49,9 +49,9 @@ No arguments. ORION reads 10 sources automatically.
    -> Apply fix (delete/redirect duplicate), THEN proceed to Step 1.
 4. If no duplicates found -> silent pass, proceed to Step 1.
 
-### Step 1 — Read 9 sources (silent)
+### Step 1 — Read sources (silent)
 
-Same 10 sources as `/ops-CONTEXT-update`, but read with a **correlation lens**, not urgency lens.
+Same source categories as `/personal-context-update`, but read with a **correlation lens**, not urgency lens.
 
 **⚠️ Source availability:** If source does not exist or is empty → skip, note `⚠️ [source_name]: unavailable` in internal notes. Do not block flow.
 
@@ -59,14 +59,15 @@ Same 10 sources as `/ops-CONTEXT-update`, but read with a **correlation lens**, 
 |---|--------|-----------------|
 | 1 | `_journal/YYYY-MM.md` | Recurring frustrations, observations linking 2+ topics |
 | 2 | `_cases/active/*.md` | Cases that may explain metric anomalies |
-| 3 | `10_OPERATION_DATA/morning_briefs/morning_briefs_log.md` | 2-3 most recent briefs — flags that span multiple stores/domains |
-| 4 | `_kilo/ACTIVITY_LOG.md` | Files created/modified — any wiki page + pulse log touched same week? |
-| 5 | `10_OPERATION_DATA/*_Log.md` | All 8 pulse logs — look for co-movement between metrics |
-| 6 | `30_KNOWLEDGE_BASE/wiki/**` | Wiki pages created/modified — any insight relevant to current pulse? |
-| 7 | `00_CORE_LOGIC/SYSTEM_VIEW.md` | 4-week KPI trends — any metric moving opposite to expectation? |
-| 8 | `_ideas/YYYY-MM.md` | New ideas that connect to existing cases/metrics |
-| 9 | `00_CORE_LOGIC/CONTEXT.md` | Current Section 5 — any theme from last Monday now showing cross-domain effects? |
-| 10 | `10_OPERATION_DATA/weekly_connections_log.md` | Previous week's connections — any pattern continuing or escalating? |
+| 3 | `_kilo/ACTIVITY_LOG.md` | Files created/modified — any wiki page + pulse log touched same week? |
+| 4 | `10_PULSE/` (from `PULSE_INDEX.md §Pulse Files`) | All pulse files — co-movement between personal domains |
+| 5 | `30_KNOWLEDGE_BASE/wiki/**` | Wiki pages created/modified — any insight relevant to current pulse? |
+| 6 | `00_CORE_LOGIC/PERSONAL_CALENDAR.md` | Calendar events, appointments — any pattern affecting other domains? |
+| 7 | `HOME.md` | Dashboard — portfolio, net worth, life KPI overview |
+| 8 | `_ideas/YYYY-MM.md` | New ideas that connect to existing cases/themes |
+| 9 | `00_CORE_LOGIC/CONTEXT.md` | Section 9 — any theme from last Monday now showing cross-domain effects? |
+| 10 | `10_PULSE/weekly_connections_log.md` | Previous week's connections — any pattern continuing or escalating? |
+| 11 | `10_PULSE/Weekly_Synthesis.md` | Latest week's synthesis — extraction candidates to elevate? |
 
 ### Step 2 — Find connections (4 signal types)
 
@@ -79,7 +80,7 @@ Same 10 sources as `/ops-CONTEXT-update`, but read with a **correlation lens**, 
 
 ### Step 3 — Write to rolling log
 
-Write directly to `10_OPERATION_DATA/weekly_connections_log.md`. Newest on top.
+Write directly to `10_PULSE/weekly_connections_log.md`. Newest on top.
 
 Output format:
 
@@ -88,12 +89,12 @@ Output format:
 
 | # | Connection | Domains | Evidence | Signal | Feedback |
 |---|---|---|---|---|---|
-| 1 | [1-line description] | labour ↔ revenue | [source link], [source link] | 🔴 Correlation |
-| 2 | [1-line description] | case ↔ CX | [source link] | 🟡 Causality |
+| 1 | [1-line description] | finance ↔ trading | [source link], [source link] | 🔴 Correlation |
+| 2 | [1-line description] | health ↔ finance | [source link] | 🟡 Causality |
 
 **📊 Stats:** [N] connections | [M] domains involved
 **🔗 Most connected domain:** [domain name]
-**💡 Feed into Monday's /ops-CONTEXT-update:** [1-2 connections worth elevating to theme]
+**💡 Feed into Monday's /personal-context-update:** [1-2 connections worth elevating to theme]
 ```
 
 ### Edge case: No connections
@@ -107,10 +108,10 @@ Domains are operating independently, no cross signals.
 
 ### Step 4 — Cross-reference with CONTEXT.md
 
-After writing, mention which connections (if any) should be considered for Monday's `/ops-CONTEXT-update`:
+After writing, mention which connections (if any) should be considered for Monday's `/personal-context-update`:
 
 ```
-💡 Suggestions for Monday's /ops-CONTEXT-update:
+💡 Suggestions for Monday's /personal-context-update:
 - Connection #2 (causality) could become a theme if not yet resolved
 - Connection #1 (correlation) should be monitored another week before elevating
 ```
@@ -126,7 +127,7 @@ Each connection in the weekly log supports inline feedback markers:
 - `<!-- fb:[NOISE] @YYYY-MM-DD -->` — false positive, skip. 2x [NOISE] = permanent skip
 - `<!-- fb:[WATCH] @YYYY-MM-DD -->` — monitor, keep showing
 
-**Weekly checkpoint:** Monday `/ops-context-update` includes "Acknowledge connections from Sunday" with batch-mark option.
+**Weekly checkpoint:** Monday `/personal-context-update` includes "Acknowledge connections from Sunday" with batch-mark option.
 
 **Permanent skip rule:** Same connection marked [NOISE] 2 consecutive weeks → ORION auto-skips permanently.
 
@@ -137,7 +138,7 @@ Each connection in the weekly log supports inline feedback markers:
 1. **Do not invent connections** — if no real pattern, say directly "none".
 2. **Minimum 1 meaningful connection** — if week is quiet, write "No significant cross-domain patterns this week." Do not force weak connections.
 3. **Trace to source** — each connection must have at least 2 evidence links from 2 different domains.
-4. **Do not overlap with /ops-CONTEXT-update** — this is a serendipity engine, not prioritization. Do not output "top 3 themes".
+4. **Do not overlap with /personal-context-update** — this is a serendipity engine, not prioritization. Do not output "top 3 themes".
 5. **Write directly to log** — no need to wait for Warren to confirm (unlike context-update). This is observation, not decision.
 6. **Signal tag mandatory** — each connection must have 🔴🟡🟢 signal type.
 7. **Compare to previous week** — if same connection appears 2 consecutive weeks, clearly note "🔄 Week 2 — becoming a pattern".
