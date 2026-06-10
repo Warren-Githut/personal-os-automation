@@ -4,7 +4,68 @@ description: "Data ingestion protocol (Validate → Gate 1 → Delta Mode → 8-
 updated: 2026-06-02
 ---
 
-# /ops-ingest — Ingest Protocol
+> **NGON NGU: Toan bo van ban viet vao vault (wiki pages, log.md, WIKI_INDEX.md, index.md, va bat ky file .md nao khac) PHAI bang tieng Viet co dau day du. KHONG XAI EMOJI (nguy co font loi).**
+>
+> Cac ngoai le: ten section headings chuan (Summary, Key Insights, Actions, Supporting Data, etc.) co the giu tieng Anh. Thuat ngu chuyen mon chua co tu tuong duong (backtick). Ten file, duong dan, code block giu nguyen tieng Anh.
+>
+> **Vi pham quy tac nay = commit bi tu choi (xem R4 trong 00-protocol.md).**
+
+---
+
+## WIKI PAGE TEMPLATE — ORION PHAI DOC TRUOC KHI VIET
+
+ORION phai doc template nay TRUOC KHI viet bat ky wiki page nao. Output phai follow EXACTLY cau truc duoi day. KHONG duoc thay doi thu tu sections, KHONG bo section tru khi co ghi "omit if".
+
+```
+---
+name: "Page Title"
+domain: "[domain]"
+type: "analysis | reference | tracking"
+status: "active"
+last_updated: "YYYY-MM-DD"
+source: "[filename]"
+tags: ["tag1", "tag2"]
+related: ["Related_File.md"]
+---
+
+# [Page Title]
+
+> **Executive Summary**
+> - [Bullet 1 — key finding / most important data point]
+> - [Bullet 2 — critical insight or warning]
+> - [Bullet 3 — actionable decision or recommendation]
+
+## Summary
+2-3 sentences, what this data says.
+
+## Actions
+TOP 3 ACTIONS block (from ACTION BLOCK section above).
+
+## Key Insights
+- [bullet point with confidence tag]
+- [bullet point with confidence tag]
+
+## Delta vs Previous Period
+[delta comparison table — omit if DELTA_CONTEXT was null]
+
+## Supporting Data
+[Key tables/numbers from source file]
+
+## Full 8-step Analysis
+Steps 1-7 with confidence tags.
+
+## Debate
+[Debate panel output — omit if debate was skipped]
+
+## Cross-References
+- [[Related_File]]
+- [[Another_File]]
+```
+
+**Rule: Tat ca noi dung bang tieng Viet co dau. KHONG emoji. KHONG thay doi thu tu template.**
+
+
+# /ops-ingestProtocol
 # v4.2 | 2026-05-26
 # ORION+Deepseek adaptation — toolchain replacements (Grep→search_files, Read→read_file, python→execute_command)
 # v4.0 base: Delta Mode + ACTION BLOCK + Conditional Debate
@@ -292,15 +353,18 @@ related: ["Related_File.md"]
 ---
 ```
 
-Body template (this order):
-1. **Summary** — 2-3 sentences, what this data says
-2. **⚡ Actions** — TOP 3 ACTIONS block (from ACTION BLOCK step above)
-3. **Key Insights** — bullet points, each with confidence tag
-4. **Δ vs Previous Period** — delta comparison table (omit section if DELTA_CONTEXT was null)
-5. **Supporting Data** — key tables/numbers from source file
-6. **Full 8-step Analysis** — Steps 1-7 with confidence tags
-7. **Debate** — debate panel output (omit section if debate was skipped)
-8. **Cross-References** — related wiki pages
+Body template (this order) — XEM CANONICAL TEMPLATE O DAU FILE (section "WIKI PAGE TEMPLATE"):
+1. **Executive Summary** — 3 bullet points: key finding, critical insight, actionable decision
+2. **Summary** — 2-3 sentences, what this data says
+3. **Actions** — TOP 3 ACTIONS block (from ACTION BLOCK step above)
+4. **Key Insights** — bullet points, each with confidence tag
+5. **Delta vs Previous Period** — delta comparison table (omit if DELTA_CONTEXT was null)
+6. **Supporting Data** — key tables/numbers from source file
+7. **Full 8-step Analysis** — Steps 1-7 with confidence tags
+8. **Debate** — debate panel output (omit if debate was skipped)
+9. **Cross-References** — related wiki pages
+
+> **ORION phai doc template o dau file truoc khi viet. Neu khong nho cau truc, cuon len dau file xem lai.**
 
 Rules: Do NOT overwrite existing files. Name conflict → append `_v2`, flag to Warren.
 
@@ -347,4 +411,5 @@ git commit -m "Ingest: [filename] → [domain]/[Page_Name].md | [date]"
 
 **v4.2 | 2026-05-26 | Removed GATE 0 (Smart Compress) — Gemini compression deprecated per Warren's decision. Raw files read directly.**
 **Flow: Validate → Gate 1 → Delta Mode → 8-step Analysis → Gate 2 → ACTION BLOCK → Debate (conditional) → Gate 3 → Write**
+
 
