@@ -1,12 +1,12 @@
 ---
 
-description: "Deep-dive research assistant. ORION reads all relevant vault knowledge (wiki, pulse logs, cases, journal, raw) to answer a specific question with structured memo — What We Know, Suspect, Don't Know. Inline output, no auto-wiki."
+description: "Deep-dive research assistant. Hermes reads all relevant vault knowledge (wiki, pulse logs, cases, journal, raw) to answer a specific question with structured memo — What We Know, Suspect, Don't Know. Inline output, no auto-wiki."
 updated: 2026-06-02
 ---
 
 # /ops-deep-research — Deep Research (L'Usine Ops)
 # v1.0 | 2026-05-27
-# PURPOSE: Warren asks a deep question → ORION reads all relevant vault knowledge → structured research memo. On-demand, no schedule.
+# PURPOSE: Warren asks a deep question → Hermes reads all relevant vault knowledge → structured research memo. On-demand, no schedule.
 # NOT: /ops-pulse (snapshot), /ops-context-update (weekly synthesis), /review-plan (evaluate plan), /ops-weekly-connections (cross-domain patterns)
 
 ---

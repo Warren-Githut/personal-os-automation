@@ -3,13 +3,13 @@ description: "Morning brief for L'Usine ops -- daily or weekly snapshot"
 updated: 2026-06-02
 ---
 
-# /ops-morning-brief — ORION+Deepseek Adaptation
+# /ops-morning-brief — Hermes+Deepseek Adaptation
 # v2.0 | 2026-05-25
-# PURPOSE: Daily ops brief + weekly snapshot. Ported from Claude Code toolchain to ORION+Deepseek.
+# PURPOSE: Daily ops brief + weekly snapshot. Ported from Claude Code toolchain to Hermes+Deepseek.
 # KEY CHANGES v1→v2:
-#   - Claude Code Grep → ORION search_files()
-#   - Claude Code Glob → ORION list_files()
-#   - Claude Code Bash (git) → ORION execute_command() with [cd vault/] prefix
+#   - Claude Code Grep → Hermes search_files()
+#   - Claude Code Glob → Hermes list_files()
+#   - Claude Code Bash (git) → Hermes execute_command() with [cd vault/] prefix
 #   - Claude Code memory paths → vault/projects/ native files
 #   - Slack DM step → REMOVED
 #   - Scheduled agent (06:00 GMT+7) → ON-DEMAND only
@@ -183,7 +183,7 @@ Output ONLY this format — no preamble:
 
 After outputting the brief, prepend to `10_OPERATION_DATA/morning_briefs/morning_briefs_log.md`:
 
-**How to prepend (ORION method):**
+**How to prepend (Hermes method):**
 ```
 1. read_file(path="10_OPERATION_DATA/morning_briefs/morning_briefs_log.md")
    → old_content = result
@@ -201,7 +201,7 @@ After outputting the brief, prepend to `10_OPERATION_DATA/morning_briefs/morning
 If file doesn't exist: create new with header:
 ```
 # Morning Briefs Log — L'Usine
-_1 file growing. Newest entry on top. On-demand (ORION+Deepseek)._
+_1 file growing. Newest entry on top. On-demand (Hermes+Deepseek)._
 
 ---
 ```
@@ -276,7 +276,7 @@ Output ONLY this format — no preamble:
 **Step 1 — Prepend to weekly_briefs_log.md (rolling):**
 Prepend to `10_OPERATION_DATA/morning_briefs/weekly_briefs_log.md`:
 
-**How to prepend (ORION method):**
+**How to prepend (Hermes method):**
 ```
 1. read_file(path="10_OPERATION_DATA/morning_briefs/weekly_briefs_log.md")
    → old_content = result
@@ -298,7 +298,7 @@ status: active
 ---
 
 # Weekly Briefs Log — L'Usine
-_1 file growing. Newest entry on top. On-demand (ORION+Deepseek)._
+_1 file growing. Newest entry on top. On-demand (Hermes+Deepseek)._
 
 ---
 ```
@@ -310,8 +310,8 @@ execute_command(
 )
 ```
 
-> **Slack DM step has been REMOVED** — ORION+Deepseek does not have Slack MCP integration.
-> Weekly brief is on-demand only (no scheduled trigger — Claude Code's `claude.ai/code/routines/` is not available in ORION).
+> **Slack DM step has been REMOVED** — Hermes+Deepseek does not have Slack MCP integration.
+> Weekly brief is on-demand only (no scheduled trigger — Claude Code's `claude.ai/code/routines/` is not available in Hermes).
 
 ### Final step — SYSTEM_VIEW Full Refresh
 
@@ -340,6 +340,6 @@ After brief is generated and saved:
 
 **Snooze rule for repeated flags:** Flags appearing unchanged in 2+ consecutive briefs are auto-collapsed with `<!-- fb:[WATCH] @YYYY-MM-DD -->` marker. Warren can promote back by removing the marker.
 
-**Permanent skip:** Flags marked `[NOISE]` 2 consecutive times → ORION auto-skips on all future briefs.
+**Permanent skip:** Flags marked `[NOISE]` 2 consecutive times → Hermes auto-skips on all future briefs.
 
 **Weekly checkpoint:** Monday `/ops-context-update` includes batch review of all snoozed/active flags.

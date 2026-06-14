@@ -1,6 +1,6 @@
 ﻿---
 
-description: "Case management (list/detail/close/new) adapted for ORION+Deepseek toolchain. v3.1: atomic close, dual-index validation, encoding-safe writes."
+description: "Case management (list/detail/close/new) adapted for Hermes+Deepseek toolchain. v3.1: atomic close, dual-index validation, encoding-safe writes."
 updated: 2026-06-02
 ---
 
@@ -18,7 +18,7 @@ updated: 2026-06-02
 #   - Explicit tool call references: list_files(), read_file(), write_to_file(), execute_command()
 #   - Calendar MCP: uses MCP_TOOLS_QUERY pattern (UUID from Config block)
 #   - Slack MCP: uses MCP_TOOLS_QUERY pattern (UUID from Config block)
-#   - File move/create folder → ORION apply_diff / execute_command compatible
+#   - File move/create folder → Hermes apply_diff / execute_command compatible
 
 ## Config
 
@@ -55,7 +55,7 @@ NOTE: Update UUIDs if workspace reconnect (see process-notes.md Config block).
 > **Encoding rule:** All .md file write/edit operations MUST use Kilo edit/write tool. Do not use execute_command + PowerShell
 > (Set-Content/Out-File) because PowerShell corrupts UTF-8 Vietnamese characters. Exception: mkdir + move file (must use PS).
 
-**ORION tool:**
+**Hermes tool:**
 `
 list_files(path="_cases/active/")
 list_files(path="_cases/closed/")         # validate closed index too
@@ -108,7 +108,7 @@ Find last_updated line in frontmatter of both index files → update to today.
 
 ## Step 1 — List OPEN cases
 
-**ORION tool:**
+**Hermes tool:**
 `
 list_files(path="_cases/active/")
 `
@@ -144,7 +144,7 @@ If no cases → "No open cases."
 
 ## Step 2 — /cases {keyword}: view full case
 
-**ORION tool:**
+**Hermes tool:**
 `
 read_file(path="_cases/active/{matched-filename}")
 `
@@ -173,13 +173,13 @@ If match multiple cases → list them, Warren picks number → read selected fil
    (c) Decision Made: [final decision — 1-2 sentences, MANDATORY]
    (d) Lessons Learned: [optional — type "skip" if none]
    `
-   - ORION drafts (c) from case timeline content — Warren only approves/edits.
+   - Hermes drafts (c) from case timeline content — Warren only approves/edits.
    - (a) and (b): if Warren types ordinal numbers instead of text → auto-convert:
      Type: hr_movement=1, supplier=2, customer=3, ops=4, financial=5, project=6
      Outcome: resolved=1, unresolved=2, escalated=3
-   - (c) mandatory — ORION drafts from timeline then asks: "Decision Made — my draft: '[draft]'. OK? [y/edit]"
+   - (c) mandatory — Hermes drafts from timeline then asks: "Decision Made — my draft: '[draft]'. OK? [y/edit]"
      If Warren types "skip" 1st time → remind: "Decision Made is the most important field for second brain. Even 1 short sentence works."
-     If Warren types "skip" 2nd time → ORION uses draft automatically, append with tag [auto-drafted]. Do not block close, do not leave blank.
+     If Warren types "skip" 2nd time → Hermes uses draft automatically, append with tag [auto-drafted]. Do not block close, do not leave blank.
 6. Append Closing Record at end of file before move:
    `markdown
    ---
@@ -194,7 +194,7 @@ If match multiple cases → list them, Warren picks number → read selected fil
    - Fire conditions: Lessons Learned ≠ "—" AND Decision Made ≠ [auto-drafted]
    - If conditions met → prompt Warren:
      "⚠️ Case [{slug}] has digest-worthy insight: [{Decision Made first 60 chars}]. Want to /ingest? (y/skip)"
-   - Warren "y" → ORION suggests: /ingest {slug}.md {inferred_domain} and runs immediately
+   - Warren "y" → Hermes suggests: /ingest {slug}.md {inferred_domain} and runs immediately
    - Warren "skip" or no reply → continue Step 6 normally. Silent.
    - Do not fire if: Lessons Learned = "—" OR Decision Made = [auto-drafted]
 
@@ -213,7 +213,7 @@ If match multiple cases → list them, Warren picks number → read selected fil
    | project | Archive case. Project folder projects/*/ kept as-is — this is permanent record. Create Calendar reminder: "📁 {project_name} — Review LESSONS_LEARNED" on follow_up date of case (fallback: closed + 180 days if follow_up is null or follow_up < closed date). |
 
 9. **Append into _cases/closed/CLOSED_CASES_INDEX.md** (newest on top -- insert row after separator row):
-   **ORION tool:** edit(filePath, oldString=separatorRow, newString=separatorRow + newline + newRow)
+   **Hermes tool:** edit(filePath, oldString=separatorRow, newString=separatorRow + newline + newRow)
    **Separator row (exact match):** `|---|---|---|---|---|---|`
    ```
    New row: | {YYYY-MM-DD} | {type} | {slug} | {stores joined} | {Decision Made first 100 chars} | [[_cases/closed/{YYYY-MM}/{slug}]] |
@@ -226,13 +226,13 @@ If match multiple cases → list them, Warren picks number → read selected fil
    ```
    **Encoding safety:** Use Kilo edit tool (NOT Set-Content).
 10. **Remove from _cases/ACTIVE_CASES_INDEX.md** -- find table row with slug = {matched-slug} and delete.
-    **ORION tool:** edit(filePath, oldString=fullRowText, newString="") -- use exact row string including leading/trailing |
+    **Hermes tool:** edit(filePath, oldString=fullRowText, newString="") -- use exact row string including leading/trailing |
     **Separator row (exact match):** `| ---------- | -------- | ---------------------------- | ------------- | -------------------------------------------------------------------------- | ---------- | ------------------------------------------------------ |`
     After removal, **run Section 0** to validate index is clean after close.
     Format: | {YYYY-MM-DD} | {priority} | {slug} | {stores} | {summary} | {follow_up} | [[_cases/active/{filename}]] |
     If ACTIVE_CASES_INDEX.md does not exist, silent (fallback, created if needed).
 11. Create folder _cases/closed/{YYYY-MM}/ if not yet exists — do not ask Warren.
-    **ORION tool:**
+    **Hermes tool:**
     `
     execute_command(command="mkdir \"_cases\\closed\\{YYYY-MM}\"")
     `
@@ -243,7 +243,7 @@ If match multiple cases → list them, Warren picks number → read selected fil
     `
 12. Move file to _cases/closed/{YYYY-MM}/.
     **Critical order:** Step 12 is the LAST STEP of the close flow — all writes (Closing Record, frontmatter, indexes) must complete BEFORE the move. If move fails, file stays in _cases/active/, Section 0 will re-add to index → recoverable.
-    **ORION tool:**
+    **Hermes tool:**
     `
     execute_command(command="Move-Item -LiteralPath \"_cases\\active\\{old_filename}\" -Destination \"_cases\\closed\\{YYYY-MM}\\{old_filename}\" -Force")
     `
@@ -300,7 +300,7 @@ into wiki entries with Dataview frontmatter. Reminder set: 2026-07-20.
 4. If Warren enters natural date ("next Monday"), convert to ISO and confirm: "I understand this as {YYYY-MM-DD}. Correct?" -- wait for Warren confirmation. Prefer ISO date input for reliability.
 5. Keywords = what Warren types after new — auto-filled into **Keywords** field.
 6. Create file _cases/active/{YYYY-MM}_{slug}.md with standard template (includes **Follow-up:** field).
-   **ORION tool:**
+   **Hermes tool:**
    `
    write_to_file(path="_cases/active/{YYYY-MM}_{slug}.md", content="...")
    `
@@ -311,7 +311,7 @@ into wiki entries with Dataview frontmatter. Reminder set: 2026-07-20.
      - description: Summary from (a) + file path
      - timeZone: "Asia/Bangkok"
      - overrideReminders: [{"method": "popup", "minutes": 480}] ← 8am popup
-   - **ORION MCP call:**
+   - **Hermes MCP call:**
      `
      invoke_mcp(tool="mcp__9c3c0487-380e-4b71-b396-a5454457cd40__create_event",
        params={ summary, allDay:true, startTime, endTime, timeZone, overrideReminders, description })
@@ -324,7 +324,7 @@ into wiki entries with Dataview frontmatter. Reminder set: 2026-07-20.
    - If Warren typed "no" → skip Calendar.
 
 8. **Append into _cases/ACTIVE_CASES_INDEX.md:**
-   **ORION tool:** edit(filePath, oldString=separatorRow, newString=separatorRow + newline + newRow)
+   **Hermes tool:** edit(filePath, oldString=separatorRow, newString=separatorRow + newline + newRow)
    **Separator row (exact match):** `| ---------- | -------- | ---------------------------- | ------------- | -------------------------------------------------------------------------- | ---------- | ------------------------------------------------------ |`
    ```
    New row (newest on top -- insert after separator): | {YYYY-MM-DD} | {priority} | {slug} | {stores joined} | {summary} | {follow_up} | [[_cases/active/{filename}]] |
@@ -376,4 +376,4 @@ into wiki entries with Dataview frontmatter. Reminder set: 2026-07-20.
 
 **v3.0 | 2026-05-29 | First-principle fix: files = source of truth, index = derived view. Pre-Flight Validation Gate runs on every operation.**
 
-**v2.0 | 2026-05-25 | ORION+Deepseek adaptation: frontmatter, Config block (MCP UUIDs), explicit tool calls. Index management (v1.6): Step 8A retained.**
+**v2.0 | 2026-05-25 | Hermes+Deepseek adaptation: frontmatter, Config block (MCP UUIDs), explicit tool calls. Index management (v1.6): Step 8A retained.**

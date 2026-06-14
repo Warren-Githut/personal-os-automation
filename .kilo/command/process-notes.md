@@ -13,7 +13,7 @@ updated: 2026-06-02
 # KEY CHANGES v3.0->v3.1:
 #   - Replaced Calendar MCP with push_gcal.py (Service Account)
 # KEY CHANGES v2.7.1->v3.0:
-#   - Added frontmatter with model: orion-deepseek-reasoner
+#   - Added frontmatter with model: hermes-deepseek-reasoner
 
 ## Config
 ```
@@ -265,7 +265,7 @@ Wait for Warren to reply **once**. Do not save anything before confirm.
 
 ### Step 6 — Save notes (use write_to_file / apply_diff)
 
-All file writes execute **sequentially one file at a time** (ORION does not support parallel writes).
+All file writes execute **sequentially one file at a time** (Hermes does not support parallel writes).
 - **Create new / overwrite:** `write_to_file(path="...", content="...")`
 - **Append / insert within file:** `apply_diff(path="...", diff="...")` — use SEARCH block to locate insertion point.
 - **Journal / Ideas (newest on top):** `apply_diff()` insert after `---` header (SEARCH block = `---\n\n`, REPLACE = `---\n{new entry}\n\n`).

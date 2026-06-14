@@ -1,13 +1,13 @@
 ---
 model: deepseek-obsidian/deepseek-v4-pro
-description: "Deep-dive research assistant. ORION reads all relevant vault knowledge (wiki, pulse logs, cases, journal, raw) to answer a specific question with structured memo — What We Know, Suspect, Don't Know. Inline output, no auto-wiki."
+description: "Deep-dive research assistant. Hermes reads all relevant vault knowledge (wiki, pulse logs, cases, journal, raw) to answer a specific question with structured memo — What We Know, Suspect, Don't Know. Inline output, no auto-wiki."
 updated: 2026-06-02
 ---
 
 # /deep-research — Deep Research (Personal_OS)
 # v1.0 | 2026-06-02
 # Personal_OS adaptation of /ops-deep-research v1.0
-# PURPOSE: Warren asks a deep question → ORION reads all relevant vault knowledge → structured research memo. On-demand, no schedule.
+# PURPOSE: Warren asks a deep question → Hermes reads all relevant vault knowledge → structured research memo. On-demand, no schedule.
 
 ---
 

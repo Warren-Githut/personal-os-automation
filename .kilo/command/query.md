@@ -1,6 +1,6 @@
 ---
 
-description: "Vault search protocol (wiki graph + cases + tasks + op logs) adapted for ORION+Deepseek toolchain."
+description: "Vault search protocol (wiki graph + cases + tasks + op logs) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 

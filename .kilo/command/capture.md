@@ -1,14 +1,14 @@
 ﻿---
 
-description: "Knowledge capture from web/YouTube/social — ORION creates atomic .md file in _growth/ + updates _INDEX.md"
+description: "Knowledge capture from web/YouTube/social — Hermes creates atomic .md file in _growth/ + updates _INDEX.md"
 updated: 2026-06-02
 ---
 
 # /capture — Knowledge Capture
 
 # v1.0 | 2026-05-29 | Phase 2
-# PURPOSE: Warren pastes link/text → ORION parses → creates atomic .md file in _growth/ → updates _INDEX.md
-# Non-IT friendly: ORION asks clarifying questions, suggests tags, auto-detects source type.
+# PURPOSE: Warren pastes link/text → Hermes parses → creates atomic .md file in _growth/ → updates _INDEX.md
+# Non-IT friendly: Hermes asks clarifying questions, suggests tags, auto-detects source type.
 
 ---
 
@@ -31,7 +31,7 @@ Example:
 
 ### STEP 1 — PARSE & AUTO-DETECT
 
-ORION parses input, auto-detects:
+Hermes parses input, auto-detects:
 
 | Input has | Auto-detect | Confidence |
 |----------|------------|------------|
@@ -43,7 +43,7 @@ ORION parses input, auto-detects:
 | URL podcast / spotify | `source_type: podcast` | HIGH |
 | Cannot detect | `source_type: other` | LOW |
 
-If URL present → ORION fetches to get title/description (use `webfetch`).
+If URL present → Hermes fetches to get title/description (use `webfetch`).
 
 ### STEP 2 — VAULT ROUTING
 
@@ -58,7 +58,7 @@ Determine target vault:
 
 ### STEP 3 — SUGGEST & CONFIRM (non-friction)
 
-ORION suggests then asks Warren to confirm **exactly once**:
+Hermes suggests then asks Warren to confirm **exactly once**:
 
 ```
 → Capture to: [vault]/_growth/
@@ -77,7 +77,7 @@ OK? (type "ok" or edit: "domain: leadership, tags: comm, feedback")
 
 ### STEP 4 — CREATE FILE
 
-ORION creates `.md` file in the correct directory:
+Hermes creates `.md` file in the correct directory:
 
 | Vault | Path |
 |-------|------|
@@ -88,7 +88,7 @@ ORION creates `.md` file in the correct directory:
 - `slugified-title`: lowercase, no diacritics, replace spaces with `-`, max 80 characters
 - Example: `2026-05-29_cach-noi-chuyen-voi-nhan-vien-khi-vi-pham-ky-luat.md`
 
-**Template file (ORION must follow EXACTLY):**
+**Template file (Hermes must follow EXACTLY):**
 
 ```yaml
 ---
@@ -127,7 +127,7 @@ status: active              # required
 
 ### STEP 4.5 — CROSS-LINK DETECTION (if Warren mentions continuation)
 
-**Trigger phrases** — ORION auto-detects when Warren says:
+**Trigger phrases** — Hermes auto-detects when Warren says:
 - "part 2", "phần 2", "p2", "next", "nối tiếp", "continuation"
 - "related to file...", "similar to file...", "same topic as..."
 - "link with...", "supplement to..."
@@ -138,7 +138,7 @@ status: active              # required
 
 #### 4.5A — Find related files
 
-ORION scans `_INDEX.md` in target vault, finds matching files by:
+Hermes scans `_INDEX.md` in target vault, finds matching files by:
 
 | Search method | Priority |
 |----------|---------|
@@ -149,7 +149,7 @@ ORION scans `_INDEX.md` in target vault, finds matching files by:
 
 #### 4.5B — Confirm with Warren
 
-ORION lists 1-3 best matching files, asks 1 question:
+Hermes lists 1-3 best matching files, asks 1 question:
 
 ```
 Found related files:
@@ -159,11 +159,11 @@ Found related files:
 Link with which file? (number, "all", or "none")
 ```
 
-Warren selects → ORION proceeds.
+Warren selects → Hermes proceeds.
 
 #### 4.5C — Create cross-link
 
-After creating new file, ORION appends to **last line** of **both files**:
+After creating new file, Hermes appends to **last line** of **both files**:
 
 **New file (Part 2):**
 ```
@@ -180,7 +180,7 @@ After creating new file, ORION appends to **last line** of **both files**:
 > 📎 Related: [[2026-05-29_cach-noi-chuyen-voi-nhan-vien-khi-vi-pham-ky-luat|Part 1 — How to talk to employees when they violate discipline]]
 ```
 
-**Old file (Part 1) — ORION appends to end:**
+**Old file (Part 1) — Hermes appends to end:**
 ```
 ---
 
@@ -195,7 +195,7 @@ After creating new file, ORION appends to **last line** of **both files**:
 
 #### 4.5D — Multiple related files
 
-If Warren chooses "all" → ORION links new file with **all** selected files:
+If Warren chooses "all" → Hermes links new file with **all** selected files:
 - New file has multiple `📎 Related: [[...]]` lines
 - Each old file has 1 `📎 See also: [[new file]]` line
 
@@ -203,7 +203,7 @@ If Warren chooses "all" → ORION links new file with **all** selected files:
 
 ### STEP 5 — UPDATE INDEX
 
-ORION updates `_INDEX.md` in the same directory:
+Hermes updates `_INDEX.md` in the same directory:
 
 1. **Add 1 new row** to File Index table — **at top** (newest on top)
 2. Update **Stats** (total files + last updated)
@@ -220,7 +220,7 @@ ORION updates `_INDEX.md` in the same directory:
 
 ### OUTPUT
 
-After completion, ORION reports:
+After completion, Hermes reports:
 
 ```
 ✅ Capture complete → `_growth/2026-05-29_cach-noi-chuyen-voi-nhan-vien.md`
@@ -231,7 +231,7 @@ Tags: leadership, communication | Vault: L'Usine
 
 ## Error Handling
 
-| Situation | ORION handles |
+| Situation | Hermes handles |
 |-----------|------------|
 | URL fetch fail (timeout, block) | Write `source_name: "[Could not fetch — Warren fills in]"` |
 | File already exists (duplicate name) | Add suffix `-2`, `-3` to filename |

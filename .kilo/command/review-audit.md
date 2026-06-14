@@ -12,8 +12,8 @@ updated: 2026-06-02
 #   - SYSTEM COHERENCE CHECK: New cross-reference integrity audit for multi-file changes
 #   - Step 1: "CODE INTAKE" → "INTAKE" — accepts single file OR batch (N files)
 #   - Step 5: "CODE REVIEW VERDICT" → "REVIEW-AUDIT VERDICT"
-# PURPOSE: After ORION+Deepseek finishes writing code/script → 3 experts review single-file quality → if multi-file, run system coherence audit → Senior QA Manager verdict: SHIP / CONDITIONAL SHIP / REWORK.
-# SCOPE: Any script/parser/command ORION+Deepseek writes for Warren OS vault (Python + Markdown protocols). Single-file review + multi-file cross-reference integrity.
+# PURPOSE: After Hermes+Deepseek finishes writing code/script → 3 experts review single-file quality → if multi-file, run system coherence audit → Senior QA Manager verdict: SHIP / CONDITIONAL SHIP / REWORK.
+# SCOPE: Any script/parser/command Hermes+Deepseek writes for Warren OS vault (Python + Markdown protocols). Single-file review + multi-file cross-reference integrity.
 # COMPANION: Use after /review-plan (plan first → code next → review-audit before shipping).
 # TWO MODES: (1) Single file: /review-audit [file] — like old /review-code. (2) System audit: /review-audit — auto-detects recent git changes, runs coherence checks.
 
@@ -66,9 +66,9 @@ Before reviewing, all 3 experts read and apply the following philosophy:
 
 ### STEP 1 — INTAKE (SILENT)
 
-**Mode 1 — Single file:** ORION reads the specified file/code snippet.
+**Mode 1 — Single file:** Hermes reads the specified file/code snippet.
 
-**Mode 2 — System audit (no argument):** ORION auto-detects recent git changes (`git diff --name-status HEAD~1` or `git diff --name-status --cached` if staged). Reads all changed files. If >10 files → priority: command files (.kilo/command/*.md) → index files (CLAUDE.md, *_INDEX.md, *_Hub.md) → content files (wiki, pulse, cases) → scripts.
+**Mode 2 — System audit (no argument):** Hermes auto-detects recent git changes (`git diff --name-status HEAD~1` or `git diff --name-status --cached` if staged). Reads all changed files. If >10 files → priority: command files (.kilo/command/*.md) → index files (CLAUDE.md, *_INDEX.md, *_Hub.md) → content files (wiki, pulse, cases) → scripts.
 
 Internal intake (single file):
 ```
@@ -213,7 +213,7 @@ If Dry-run PASS → consider stress test verified in practice.
 **PROTOCOL LOGIC CHECK** (mandatory for Markdown command files — automatic, don't ask Warren):
 
 If the code under review is a **Markdown command/protocol file** (`.claude/commands/*.md` or `.md` file defining a flow):
-→ ORION must trace the entire flow before verdict. No skipping.
+→ Hermes must trace the entire flow before verdict. No skipping.
 
 ```
 [QA] PROTOCOL LOGIC TRACE:
@@ -244,13 +244,13 @@ If only non-critical (stale reference, wording) → flag in NON-CRITICAL ISSUES.
 
 **SYSTEM COHERENCE CHECK** (only triggers in Mode 2 — batch/system audit with ≥2 files changed — automatic, don't ask Warren):
 
-When reviewing ≥2 files changed simultaneously, ORION must check cross-reference integrity. This is the new part of /review-audit that old /review-code didn't have.
+When reviewing ≥2 files changed simultaneously, Hermes must check cross-reference integrity. This is the new part of /review-audit that old /review-code didn't have.
 
 ```
 [SC] REGISTRATION CHECK:
-  - Is each newly created file registered in index/CLAUDE.md/ORION.md?
+  - Is each newly created file registered in index/CLAUDE.md/Hermes.md?
   - Are deleted files still referenced in the index?
-  - Scan: CLAUDE.md, ORION.md, *_INDEX.md, *_Hub.md, index.md
+  - Scan: CLAUDE.md, Hermes.md, *_INDEX.md, *_Hub.md, index.md
   (If pass → "PASS — all new files registered, no orphan references")
 
 [SC] SOURCE ALIGNMENT:
@@ -456,7 +456,7 @@ Code change (parser, script, command protocol, automation)
   ├─ New feature (new parser, new script, automation)?
   │   └─ /review-plan  → APPROVE / REJECT
   │           ↓ (after approval)
-  │     ORION+Deepseek writes code
+  │     Hermes+Deepseek writes code
   │           ↓
   │     /review-audit   → SHIP / REWORK
   │

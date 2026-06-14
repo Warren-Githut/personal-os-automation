@@ -171,7 +171,7 @@ After Commit, ask **exactly once**:
 ```
 Warren: /brainstorm ideas to increase LU5 evening revenue
 
-ORION: [Context → Diverge 7 ideas → Cluster 3 themes → Converge top 2 → Commit → Capture Gate]
+Hermes: [Context → Diverge 7 ideas → Cluster 3 themes → Converge top 2 → Commit → Capture Gate]
 
 🎯 TOPIC: Increase LU5 evening revenue
 DOMAIN: ops/marketing

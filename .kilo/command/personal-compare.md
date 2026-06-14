@@ -1,12 +1,12 @@
 ---
 
-description: "Cross-store comparison (LU3/LU5/LU7) — 1 metric, multiple stores, instant table. Adapted for ORION+Deepseek toolchain."
+description: "Cross-store comparison (LU3/LU5/LU7) — 1 metric, multiple stores, instant table. Adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
 # /ops-compare — Cross-Store Comparison
 # v1.0 | 2026-05-27
-# ORION+Deepseek adaptation: read_file (data source), search_files (find latest), execute_command (CSV parse)
+# Hermes+Deepseek adaptation: read_file (data source), search_files (find latest), execute_command (CSV parse)
 # PURPOSE: Compare 1 metric across LU3/LU5/LU7 without hopping between 3 files.
 # OUTPUT: Temporary analysis only. Never auto-writes to wiki. Warren decides via /ops-ingest.
 
@@ -115,7 +115,7 @@ Add 2-3 bullet insights below table:
 
 ### Step 4 — Recommend + Ask Warren (per CLAUDE.md §3C)
 
-**Mandatory: ORION self-recommends A/B/C with reasoning first, then Warren decides.**
+**Mandatory: Hermes self-recommends A/B/C with reasoning first, then Warren decides.**
 
 ```
 📊 **{Metric} comparison — {Period}** done.

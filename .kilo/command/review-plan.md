@@ -1,6 +1,6 @@
 ﻿---
 
-description: "Data & vault plan adversarial review adapted for ORION+Deepseek toolchain."
+description: "Data & vault plan adversarial review adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
@@ -49,7 +49,7 @@ Linus Torvalds: *"Bad programmers worry about the code. Good programmers worry a
 
 ### STEP 1 — READ & FRAME (SILENT)
 
-ORION reads the plan Warren pasted in and formats it as:
+Hermes reads the plan Warren pasted in and formats it as:
 
 ```
 PLAN SUMMARY      : [1 sentence — what + goal]
@@ -57,7 +57,7 @@ ASSUMED STRUCTURE : [bullet — main components of the plan]
 ASSUMED GOAL      : [retrievability / analysis / automation / other]
 REAL PROBLEM CHECK: [1 sentence — what root problem is this plan solving?
                      If unclear → ask Warren before continuing]
-CONTEXT           : L'Usine 3-store F&B | Warren OS vault | ORION+Deepseek stack
+CONTEXT           : L'Usine 3-store F&B | Warren OS vault | Hermes+Deepseek stack
 ```
 
 If the plan is too vague (under 3 lines, unclear goal) → ask 1 clarifying question first.
@@ -87,7 +87,7 @@ Note on counting components: 1 new field in a note = 1 component; fetch + save +
 
 ### STEP 1B — VAULT STRUCTURE SCAN (mandatory — must not guess, must not use memory) (SILENT)
 
-Before debating, ORION **must read the actual vault**. Don't assume structure from a previous session or CONTEXT.md.
+Before debating, Hermes **must read the actual vault**. Don't assume structure from a previous session or CONTEXT.md.
 
 Run sequentially:
 1. List vault root directory
@@ -213,7 +213,7 @@ Output format:
 
 ---
 
-#### 🟩 IT DEVELOPER / ORION (30 years of experience)
+#### 🟩 IT DEVELOPER / Hermes (30 years of experience)
 **Lens:** Implementability · Failure modes · Maintainability · Design for deletion
 **Mandatory questions to answer:**
 - "When this plan fails (and it WILL fail), how does it fail and who can fix it?"
@@ -361,7 +361,7 @@ HYBRID PLAN NOTE: (only appears if at least 1 persona raised a MEDIUM+ blocker r
 - APPROVE WITH CONDITIONS has ≥ 1 condition, OR
 - Plan has > 3 components
 
-If trigger met → ORION **must** append Spec block into `memory/project_[name].md` in the same session:
+If trigger met → Hermes **must** append Spec block into `memory/project_[name].md` in the same session:
 
 ```
 ## Spec (approved YYYY-MM-DD)
@@ -370,37 +370,37 @@ Approach    : [Senior Manager verdict summary — 2-3 sentences]
 Constraints : [list conditions from APPROVE WITH CONDITIONS — or NONE]
 History     : [vault precedents referenced — or NO PRECEDENT]
 Status      : PLANNING
-Next        : [1 specific action ORION or Warren does at the start of the next session]
+Next        : [1 specific action Hermes or Warren does at the start of the next session]
 Steps       : (see below if complex)
 ```
 
 **Rules:**
-- `project_[name].md` = memory file for this feature. If it doesn't exist → ORION creates a new file with standard frontmatter + Spec block, and appends 1 index line to `MEMORY.md`.
-- `Status` always starts as `PLANNING`. ORION updates to `CODING` when starting to write code, `DONE` when `/review-code` SHIP.
+- `project_[name].md` = memory file for this feature. If it doesn't exist → Hermes creates a new file with standard frontmatter + Spec block, and appends 1 index line to `MEMORY.md`.
+- `Status` always starts as `PLANNING`. Hermes updates to `CODING` when starting to write code, `DONE` when `/review-code` SHIP.
 - `Next` must be actionable — not "continue building" but "write parser X" or "run /review-code for file Y".
 - If APPROVE (no conditions) AND plan ≤ 3 components → **don't** create Spec block. Feature is small enough to complete in 1 session.
-- **Implementation Steps (auto — no friction for Warren):** If plan affects >3 files OR has complex logic (multi-step parser, cross-file dependencies) → ORION auto-appends steps to Spec block, doesn't ask Warren:
+- **Implementation Steps (auto — no friction for Warren):** If plan affects >3 files OR has complex logic (multi-step parser, cross-file dependencies) → Hermes auto-appends steps to Spec block, doesn't ask Warren:
   ```
   Steps:
     1. [specific file/function] — [what to do]
     2. [specific file/function] — [what to do]
     3. ...
   ```
-  ORION self-judges complexity. Warren doesn't need to do anything — just reads if desired.
+  Hermes self-judges complexity. Warren doesn't need to do anything — just reads if desired.
 
 ### AFTER APPROVE — AUTO-IMPLEMENT (auto-switch to Code)
 
 Immediately after creating Spec block (or if Spec block not needed — immediately after APPROVE verdict):
 
-→ ORION **auto-switches to Code mode**: `switch_mode(mode_slug="code", reason="/review-plan APPROVE — implementing [feature name] per approved spec")`
+→ Hermes **auto-switches to Code mode**: `switch_mode(mode_slug="code", reason="/review-plan APPROVE — implementing [feature name] per approved spec")`
 
 → Start implementing immediately — create/edit files per Spec, **don't need Warren to confirm again**.
 
 **Rules:**
-- Warren's only confirmation point = pasting the plan at the start of the session. After APPROVE, ORION auto-continues.
+- Warren's only confirmation point = pasting the plan at the start of the session. After APPROVE, Hermes auto-continues.
 - If APPROVE WITH CONDITIONS → implement conditions first, remaining parts after. Don't ask again.
 - If REJECT → stop. Don't auto-implement.
-- Warren only intervenes if ORION goes off track — no need to intervene beforehand.
+- Warren only intervenes if Hermes goes off track — no need to intervene beforehand.
 
 ---
 

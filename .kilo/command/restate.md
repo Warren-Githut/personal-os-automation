@@ -1,15 +1,15 @@
 ---
 model: deepseek-obsidian/deepseek-v4-flash
-description: "Pre-flight check — ORION reads raw input, emits RESTATE:/CLARIFY: scaffold, waits for Warren confirm before proceeding"
+description: "Pre-flight check — Hermes reads raw input, emits RESTATE:/CLARIFY: scaffold, waits for Warren confirm before proceeding"
 updated: 2026-06-04
 ---
 
 # /restate — Pre-Flight Restate + Clarify Gate
 # v1.1 | 2026-06-04
-# PURPOSE: Warren brain-dump raw input → ORION auto restate + clarify, wait for confirm → proceed.
-# POSITION IN WORKFLOW: Raw input → /restate → ORION restates/clarifies → Warren confirm "ok" → analysis.
+# PURPOSE: Warren brain-dump raw input → Hermes auto restate + clarify, wait for confirm → proceed.
+# POSITION IN WORKFLOW: Raw input → /restate → Hermes restates/clarifies → Warren confirm "ok" → analysis.
 # WHY: R1 (RESTATE GATE) in system prompt is reactive. /restate is proactive — Warren intentionally
-#       triggers before ORION touches the input, mechanical backup, not dependent on model "remembering".
+#       triggers before Hermes touches the input, mechanical backup, not dependent on model "remembering".
 
 ---
 
@@ -51,7 +51,7 @@ Confirm this restate is correct? If correct type "ok" — if wrong correct it.
 ### STEP 3 — Confirm Gate
 
 - Warren says "ok" / "correct" → proceed STEP 4.
-- Warren corrects/disagrees → ORION adjust restate per feedback → re-emit → re-confirm.
+- Warren corrects/disagrees → Hermes adjust restate per feedback → re-emit → re-confirm.
 
 ### STEP 4 — Proceed with Analysis
 
@@ -63,7 +63,7 @@ Auto analyze and respond as a normal request.
 ## Anti-patterns
 
 - Open-ended clarifying questions without suggested answers → WRONG. v1.1: every CLARIFY must include SUGGESTED answer.
-- After confirm, ask again "what do you need analyzed?" → WRONG. $ARGUMENTS already available, ORION auto proceeds.
+- After confirm, ask again "what do you need analyzed?" → WRONG. $ARGUMENTS already available, Hermes auto proceeds.
 - After confirm reply "ok, received" with no analysis → WRONG. Must complete the response.
 - Modifying Warren's intent during restate → WRONG. Restate must be faithful.
 

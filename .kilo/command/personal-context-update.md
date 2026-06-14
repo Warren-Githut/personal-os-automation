@@ -1,12 +1,12 @@
 ﻿---
 
-description: "Weekly context update for CONTEXT.md Section 5. ORION reads 10 sources from past 7 days, drafts up to 3 themes, waits for Warren's confirm before writing."
+description: "Weekly context update for CONTEXT.md Section 5. Hermes reads 10 sources from past 7 days, drafts up to 3 themes, waits for Warren's confirm before writing."
 updated: 2026-06-02
 ---
 
 # /ops-CONTEXT-update — Weekly Context Update (L'Usine Ops)
 # v1.0 | 2026-05-27
-# PURPOSE: Every Monday morning, ORION proactively synthesizes the past week → draft Section 5 → wait for Warren confirm → write CONTEXT.md.
+# PURPOSE: Every Monday morning, Hermes proactively synthesizes the past week → draft Section 5 → wait for Warren confirm → write CONTEXT.md.
 # SCHEDULE: Calendar recurring Mon 7:00 AM GMT+7 → Warren triggers `/ops-CONTEXT-update`
 
 ---
@@ -17,7 +17,7 @@ updated: 2026-06-02
 /ops-CONTEXT-update
 ```
 
-No arguments. ORION reads 10 sources automatically.
+No arguments. Hermes reads 10 sources automatically.
 
 ---
 

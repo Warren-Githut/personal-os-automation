@@ -1,12 +1,12 @@
 ﻿---
 
-description: "Vault linting protocol (hybrid: script + LLM) adapted for ORION+Deepseek toolchain."
+description: "Vault linting protocol (hybrid: script + LLM) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
 # Lint Protocol — Slash Command
 # v4.0 | 2026-05-31
-# ORION+Deepseek adaptation — Read→read_file, Write→write_to_file, Grep→search_files, python→execute_command, agent name update
+# Hermes+Deepseek adaptation — Read→read_file, Write→write_to_file, Grep→search_files, python→execute_command, agent name update
 
 ## Purpose
 Scan Warren OS vault for data quality issues: stale pages, orphaned files, contradictions, missing cross-references, frontmatter gaps. Categorized by severity so Warren knows what needs immediate attention vs. what's low priority.
@@ -40,7 +40,7 @@ If cache is empty, Step 1 will detect this and prompt you to rebuild first.
 
 ---
 
-## Steps ORION Will Execute
+## Steps Hermes Will Execute
 
 ### 1. READ CACHE + RUN SCRIPTS
 - `read_file(path="30_KNOWLEDGE_BASE/wiki/FRONTMATTER_CACHE.json")` (1 tool call — replaces ~88 individual file reads)
@@ -201,7 +201,7 @@ Display full lint report, then ask:
 ```
 Lint complete: [N] Critical, [N] Warning, [N] Info issues found.
 
-ORION's recommended actions (in priority order):
+Hermes's recommended actions (in priority order):
 1. [Most urgent Critical issue] → suggested fix: [specific action]
 2. [Next Critical or Warning] → suggested fix: [specific action]
 3. [...continue for all Critical + Warning items]
@@ -216,7 +216,7 @@ I cannot auto-fix (need your judgment):
   - Orphaned pages — requires you to confirm intent (keep / archive / link)
 
 Options:
-  y        → approve all auto-fixes ORION listed above
+  y        → approve all auto-fixes Hermes listed above
   [list]   → specify which auto-fixes to apply (e.g., "fix frontmatter only")
   n        → no auto-fixes, log findings only
 ```
@@ -318,6 +318,6 @@ Sections 5B and 5C have been spun out into separate commands for single responsi
 
 ---
 
-**v2.1 | 2026-05-05 | Added: ORION-proposes priority order at Step 4 with y/list/n options. Explicit separation of auto-fixable vs judgment-required issues.**
+**v2.1 | 2026-05-05 | Added: Hermes-proposes priority order at Step 4 with y/list/n options. Explicit separation of auto-fixable vs judgment-required issues.**
 **v3.0 | 2026-05-25 | Script + LLM hybrid: mechanical checks (B/C/D/E) via lint_mechanical.py reading FRONTMATTER_CACHE.json. LLM only handles A/F/G. --quick flag for fast scans.**
-**v3.1 | 2026-05-25 | ORION+Deepseek adaptation — Read→read_file, Write→write_to_file, Grep→search_files, python→execute_command, agent name update**
+**v3.1 | 2026-05-25 | Hermes+Deepseek adaptation — Read→read_file, Write→write_to_file, Grep→search_files, python→execute_command, agent name update**

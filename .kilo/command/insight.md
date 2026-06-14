@@ -22,12 +22,12 @@ updated: 2026-06-02
 
 Parameters:
 - **[domain]** = `trading` | `health` | `family_gg` | `finance`
-- **[title_or_reference]** = optional — short name for the insight (if blank, ORION infers from content)
+- **[title_or_reference]** = optional — short name for the insight (if blank, Hermes infers from content)
 
-**Input modes (ORION auto-detects):**
+**Input modes (Hermes auto-detects):**
 1. Warren pastes raw data inline (text, numbers, table, CSV, notes)
 2. Warren references a file: `personal_vault/30_KNOWLEDGE_BASE/raw/[filename]` or any vault path
-3. Warren says an idea/observation/lesson in conversation — ORION captures it
+3. Warren says an idea/observation/lesson in conversation — Hermes captures it
 4. Warren provides a URL or external reference
 
 **Auto-trigger (no need to type /insight):**
@@ -85,13 +85,13 @@ Based on input type:
 Never modify the source file or original text.
 
 **Auto-infer from content:**
-ORION infers: data type | period (if mentioned) | key themes | page name | contradictions with existing wiki
+Hermes infers: data type | period (if mentioned) | key themes | page name | contradictions with existing wiki
 
 ---
 
 ## ═══ GATE 1 — DATA GATE ═══
 
-*Purpose: Confirm ORION read/understood the raw data correctly before analysis.*
+*Purpose: Confirm Hermes read/understood the raw data correctly before analysis.*
 
 ```
 📋 DATA GATE — [inferred_title]
@@ -143,7 +143,7 @@ Wait for Warren. **y** = continue analysis. **n** = journal-only, STOP immediate
 4. If match found → Read its **Summary** and **Key Insights** sections only.
 5. Store as `DELTA_CONTEXT`. Do NOT display separately.
 
-ORION MUST reference DELTA_CONTEXT in analysis when available:
+Hermes MUST reference DELTA_CONTEXT in analysis when available:
 - Step 1 (Steel Man): "vs [existing insight]: [theme] was [X], now [Y]"
 - Step 2 (Real Problems): "this is new" or "confirms [prev insight]"
 - Step 7 (Commitment): reference previous entry
@@ -204,7 +204,7 @@ If yes → revise Steps 1–4, re-display. If no → continue.
 Check same-period or same-theme wiki pages in OTHER domains. Surface combined signals only if data exists.
 If no same-period data → skip silently.
 
-**Step 7 — ORION's Commitment**
+**Step 7 — Hermes's Commitment**
 Auto-fill from data only (no speculation):
 - Insight value: [1-sentence — what makes this worth keeping]
 - Actionable implication: [what should Warren DO with this insight]
@@ -406,7 +406,7 @@ Warren: /insight health
 Warren: My sleep quality has been consistently below 6.5/10 this month.
         Compared to last month where it averaged 7.2/10. Something is off.
 
-ORION: [Runs Validate → Gate 1 → Wiki Gate (Warren: y) → Delta → 8-step
+Hermes: [Runs Validate → Gate 1 → Wiki Gate (Warren: y) → Delta → 8-step
         → Gate 2 → Action Block → Gate 3 → Write → Commit]
 
 ✅ INSIGHT CAPTURED
@@ -420,7 +420,7 @@ Warren: /insight finance VNStock_Outlook
 Warren: Read file personal_vault/30_KNOWLEDGE_BASE/raw/VNStock_Weekly_Outlook.csv
         and give insight on market trend.
 
-ORION: [Runs Read → Gate 1 → Wiki Gate → ...]
+Hermes: [Runs Read → Gate 1 → Wiki Gate → ...]
 ```
 
 ### Example 3: No explicit command (auto-trigger)
@@ -428,7 +428,7 @@ ORION: [Runs Read → Gate 1 → Wiki Gate → ...]
 Warren: Remember this: my trading win rate dropped to 45% this week
         but risk management improved — possibly getting more selective.
 
-ORION: [Auto-detects as insight request → runs full pipeline → asks Warren
+Hermes: [Auto-detects as insight request → runs full pipeline → asks Warren
         to confirm domain and wiki-gate before analysis]
 ```
 
@@ -437,7 +437,7 @@ ORION: [Auto-detects as insight request → runs full pipeline → asks Warren
 Warren: /insight health
 Warren: this month my step count increased slightly by 3%, likely just seasonality
 
-ORION: [Runs Validate → Read → Gate 1]
+Hermes: [Runs Validate → Read → Gate 1]
 
 📝 WIKI GATE — Write this insight to wiki?
 Wiki: health/Insight_Step_Count_Slight_Increase.md
@@ -445,7 +445,7 @@ Summary: Step count increased 3% — likely seasonal, not structural
 
 Warren: n
 
-ORION: ✅ Saved to _journal/2026-06.md — not wiki-worthy. STOP.
+Hermes: ✅ Saved to _journal/2026-06.md — not wiki-worthy. STOP.
 ```
 
 ---

@@ -1,12 +1,12 @@
 ﻿---
 
-description: "Log parsing pipeline (auto-detect → select → run → insight check → commit) adapted for ORION+Deepseek toolchain."
+description: "Log parsing pipeline (auto-detect → select → run → insight check → commit) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
 # /process-logs
 # v2.0 | 2026-05-26
-# A single command — ORION auto-detects and asks which parser to run.
+# A single command — Hermes auto-detects and asks which parser to run.
 # v2.0: Added WIKI INSIGHT CHECK after parse — surfaces potential insights, Warren decides which to /ingest.
 
 ---
@@ -17,7 +17,7 @@ updated: 2026-06-02
 /process-logs
 ```
 
-No arguments needed. ORION automatically:
+No arguments needed. Hermes automatically:
 1. `list_files(path="_inbox/exports/")` check new files
 2. Ask Warren which parser to run (if multiple options)
 3. Run and write log
@@ -26,7 +26,7 @@ No arguments needed. ORION automatically:
 
 ## AUTO-DETECT FLOW
 
-When Warren types `/process-logs`, ORION follows this order:
+When Warren types `/process-logs`, Hermes follows this order:
 
 ### Step 1 — Scan inbox
 ```
@@ -79,7 +79,7 @@ After successful write → ask Warren if they want to delete files in `_inbox/ex
 | 2 | LTO | `.claude/skills/lto_weekly_parser.py` | GSheet tab "LTO Log" | `04_LTO_Weekly_Log.md` | Weekly |
 | 3 | Google Reviews | `.claude/skills/google_review_parser.py` | GSheet tab "Google Review Log" | `05_Google_Review_Weekly_Log.md` | Weekly |
 | 4 | GrabFood | `.claude/skills/grabfood_parser.py` | GSheet tab "Grabfood" | `06_GrabFood_Weekly_Log.md` | Weekly |
-| 5 | Revenue | **MANUAL** — Warren paste screenshot Power BI | PNG → ORION extract | `01_Weekly_Revenue_Log.md` | Weekly |
+| 5 | Revenue | **MANUAL** — Warren paste screenshot Power BI | PNG → Hermes extract | `01_Weekly_Revenue_Log.md` | Weekly |
 | 6 | HR | `.claude/skills/hr_movements_parser.py` | Excel drop (HR sends Friday) | `02_HR_Weekly_Log.md` | Weekly |
 | 7 | COL Weekly | `.claude/skills/col_weekly_parser.py` | GSheet COL_Weekly | `07_COL_Weekly_Log.md` | Weekly |
 
@@ -104,7 +104,7 @@ GSheet ID (all parsers): `1ZtIocc_Ic1z-tO1JGd4ZLnRB_7ZHHkvpJ5emaWJyeEE`
 
 *Purpose: After all log entries are written, surface potential wiki-worthy insights for Warren to review. NEVER auto-write to wiki.*
 
-After all parsers finish and logs are written, ORION scans the output and presents:
+After all parsers finish and logs are written, Hermes scans the output and presents:
 
 ```
 📝 POTENTIAL WIKI INSIGHTS (from this run)
@@ -120,7 +120,7 @@ Which to /ops-ingest into wiki? Type number (1, 2...) or "none".
 **Rules:**
 - Only surface items with 🔴 flags OR clear trend breaks vs previous period.
 - Each suggestion must include a confidence tag [HIGH/MOD/LOW].
-- If Warren selects a number → ORION triggers `/ops-ingest [filename] [domain]` with the corresponding raw file. Do NOT write wiki directly.
+- If Warren selects a number → Hermes triggers `/ops-ingest [filename] [domain]` with the corresponding raw file. Do NOT write wiki directly.
 - If Warren says "none" → skip. No wiki touched.
 - If no noteworthy insights → skip this block silently. Do not show empty.
 

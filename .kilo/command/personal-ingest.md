@@ -1,6 +1,6 @@
 ﻿---
 
-description: "Data ingestion protocol (Validate → Gate 1 → Delta Mode → 8-step Analysis → Gate 2 → ACTION BLOCK → Debate → Gate 3 → Write) adapted for ORION+Deepseek toolchain."
+description: "Data ingestion protocol (Validate → Gate 1 → Delta Mode → 8-step Analysis → Gate 2 → ACTION BLOCK → Debate → Gate 3 → Write) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
@@ -12,9 +12,9 @@ updated: 2026-06-02
 
 ---
 
-## WIKI PAGE TEMPLATE — ORION PHAI DOC TRUOC KHI VIET
+## WIKI PAGE TEMPLATE — Hermes PHAI DOC TRUOC KHI VIET
 
-ORION phai doc template nay TRUOC KHI viet bat ky wiki page nao. Output phai follow EXACTLY cau truc duoi day. KHONG duoc thay doi thu tu sections, KHONG bo section tru khi co ghi "omit if".
+Hermes phai doc template nay TRUOC KHI viet bat ky wiki page nao. Output phai follow EXACTLY cau truc duoi day. KHONG duoc thay doi thu tu sections, KHONG bo section tru khi co ghi "omit if".
 
 ```
 ---
@@ -67,7 +67,7 @@ Steps 1-7 with confidence tags.
 
 # /ops-ingestProtocol
 # v4.2 | 2026-05-26
-# ORION+Deepseek adaptation — toolchain replacements (Grep→search_files, Read→read_file, python→execute_command)
+# Hermes+Deepseek adaptation — toolchain replacements (Grep→search_files, Read→read_file, python→execute_command)
 # v4.0 base: Delta Mode + ACTION BLOCK + Conditional Debate
 # v4.2: Removed GATE 0 (Smart Compress) — Gemini compression deprecated. Raw files read directly.
 
@@ -115,7 +115,7 @@ Stop immediately if any fail.
 
 Read full file directly. Never modify raw file.
 
-ORION infers: file type | period | stores | key metrics | page name | contradictions with existing wiki.
+Hermes infers: file type | period | stores | key metrics | page name | contradictions with existing wiki.
 
 ---
 
@@ -150,7 +150,7 @@ Wait for Warren. Correct and re-display if needed.
 4. If match found → Read its **Summary** and **Key Insights** sections only (not full analysis).
 5. Store as `DELTA_CONTEXT` for use in Steps 1-7. Do NOT display separately.
 
-ORION MUST reference DELTA_CONTEXT in analysis when available:
+Hermes MUST reference DELTA_CONTEXT in analysis when available:
 - Step 1 (Steel Man): "vs [prev period]: [metric] moved from X → Y"
 - Step 2 (Real Problems): "this is new vs last period" or "this persists from [prev period]"
 - Step 7 (Commitment): KPI table includes prev period column for comparison
@@ -220,7 +220,7 @@ Check same-period wiki pages in OTHER domains. Surface combined signals only if 
 Example: Revenue↓ + COGS✅ + COL✅ → revenue is the real problem, not cost.
 If no same-period data → skip silently. Do not speculate.
 
-**Step 7 — ORION's Commitment**
+**Step 7 — Hermes's Commitment**
 Auto-fill from data only (no speculation):
 - Tracking plan: [specific metric] → [owner] → [review date]
 - Monthly KPI table: LU3 / LU5 / LU7 (partial fill if data missing)
@@ -311,7 +311,7 @@ Your call? A / B / hold
 
 Warren's A/B choice feeds into Step 8 and the wiki page. "hold" = pause, no write.
 
-**Step 8 — ORION's Commitment** (auto-fills after Warren's call)
+**Step 8 — Hermes's Commitment** (auto-fills after Warren's call)
 - Tracking plan tied to Warren's chosen option
 - Monthly KPI table: LU3 / LU5 / LU7 (partial fill if data missing)
 - Next ingest trigger: [what data would update this analysis]
@@ -364,7 +364,7 @@ Body template (this order) — XEM CANONICAL TEMPLATE O DAU FILE (section "WIKI 
 8. **Debate** — debate panel output (omit if debate was skipped)
 9. **Cross-References** — related wiki pages
 
-> **ORION phai doc template o dau file truoc khi viet. Neu khong nho cau truc, cuon len dau file xem lai.**
+> **Hermes phai doc template o dau file truoc khi viet. Neu khong nho cau truc, cuon len dau file xem lai.**
 
 Rules: Do NOT overwrite existing files. Name conflict → append `_v2`, flag to Warren.
 

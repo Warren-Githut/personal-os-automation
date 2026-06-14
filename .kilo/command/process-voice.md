@@ -1,6 +1,6 @@
 ---
 
-description: "Voice note processing protocol (transcribe → classify → enrich → archive) adapted for ORION+Deepseek toolchain."
+description: "Voice note processing protocol (transcribe → classify → enrich → archive) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 

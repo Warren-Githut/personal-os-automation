@@ -1,13 +1,13 @@
 ﻿---
 
-description: "Idea intake & ops impact filter adapted for ORION+Deepseek toolchain. ORION reads vault, self-answers 3 questions, self-verdicts."
+description: "Idea intake & ops impact filter adapted for Hermes+Deepseek toolchain. Hermes reads vault, self-answers 3 questions, self-verdicts."
 updated: 2026-06-02
 ---
 
 # /explore — Idea Intake & Ops Impact Filter
 # v1.3 | 2026-05-31
 # OPTIMIZATION: Cache-first YAML reads (Condition 2)
-# PURPOSE: Filter raw ideas BEFORE /review-plan. ORION reads vault, self-answers, self-verdicts.
+# PURPOSE: Filter raw ideas BEFORE /review-plan. Hermes reads vault, self-answers, self-verdicts.
 # Warren doesn't need to formulate plan upfront — just dump raw ideas.
 # POSITION IN WORKFLOW: Idea → /explore → (GO) /review-plan or /review-workflow → code → /review-code
 
@@ -31,11 +31,11 @@ updated: 2026-06-02
 
 ## Core Principle (no exceptions)
 
-ORION is the primary worker — not Warren.
-- ORION reads vault → self-answers 3 questions → self-verdicts
-- Warren only corrects if ORION reads vault data INCORRECTLY
+Hermes is the primary worker — not Warren.
+- Hermes reads vault → self-answers 3 questions → self-verdicts
+- Warren only corrects if Hermes reads vault data INCORRECTLY
 - Warren CANNOT override verdict with opinion/feeling
-- If Warren pushes back without vault evidence → ORION restates
+- If Warren pushes back without vault evidence → Hermes restates
   evidence and keeps verdict: *"No new vault data in the pushback.
   Verdict stands: [restate]"*
 
@@ -46,7 +46,7 @@ ORION is the primary worker — not Warren.
 No guessing. No memory usage. Read actual files.
 
 **Trivial check (before reading vault):**
-ORION self-asks: "Is this request a modification of something existing, not creating a new feature?"
+Hermes self-asks: "Is this request a modification of something existing, not creating a new feature?"
 
 Trivial = fix/update existing content: typo, number, date, 1-line edit, delete line.
 NOT trivial = add feature, create new file, build automation, idea from outside vault.
@@ -88,7 +88,7 @@ If not trivial → continue reading vault per domain map below.
 
 ## STEP 2 — SELF-ANSWER 3 QUESTIONS (from vault data, no speculation)
 
-ORION self-asks and self-answers. Each answer must cite specific file/data.
+Hermes self-asks and self-answers. Each answer must cite specific file/data.
 
 **Q1 — Ops Block: If we don't build this, is ops truly blocked?**
 
@@ -118,11 +118,11 @@ If idea scope is clearly small (1 file, 1 field, 1 line edit):
 → Q1 ALWAYS mandatory even for lightweight — this is the main filter.
 → Faster verdict.
 
-ORION self-judges scope. If unsure → run full 3 questions.
+Hermes self-judges scope. If unsure → run full 3 questions.
 
 ---
 
-## STEP 4 — VERDICT (ORION self-decides, does not ask Warren)
+## STEP 4 — VERDICT (Hermes self-decides, does not ask Warren)
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -156,9 +156,9 @@ NO-GO: "[Specific reason from Q1/Q2/Q3 — not opinion]
 
 ## STEP 5 — GO: AUTO-GENERATE PLAN + PIPE TO REVIEW (only when GO)
 
-Warren does not write the plan. ORION does it all.
+Warren does not write the plan. Hermes does it all.
 
-**ORION self-executes immediately after GO verdict:**
+**Hermes self-executes immediately after GO verdict:**
 
 1. Generate plan from explore findings:
    ```
@@ -198,4 +198,4 @@ Q1 NOT REAL + Q2 PARTIAL → NO-GO: "No real ops block. [File X] already covers.
 
 ---
 
-**v1.3 | 2026-05-31 | ORION+Deepseek adaptation — agent name + frontmatter**
+**v1.3 | 2026-05-31 | Hermes+Deepseek adaptation — agent name + frontmatter**

@@ -1,6 +1,6 @@
 ---
 
-description: "Decision log protocol (create/close operational decisions) adapted for ORION+Deepseek toolchain."
+description: "Decision log protocol (create/close operational decisions) adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
@@ -36,7 +36,7 @@ Formalize operational decisions: clarify context → apply Critical Thinking →
 
 ---
 
-## Steps ORION Will Execute
+## Steps Hermes Will Execute
 
 ---
 
@@ -46,7 +46,7 @@ Formalize operational decisions: clarify context → apply Critical Thinking →
 
 **Field A (trigger) requires Warren's answer — only Warren knows why this decision is happening.**
 
-For fields B–F, ORION proposes answers based on CONTEXT.md and CLAUDE.md, then asks Warren to confirm or override.
+For fields B–F, Hermes proposes answers based on CONTEXT.md and CLAUDE.md, then asks Warren to confirm or override.
 
 **PAUSE — display this prompt:**
 
@@ -56,25 +56,25 @@ Decision: [decision_summary]
 A. What triggered this? (REQUIRED — only you know this)
    → [leave blank for Warren to fill]
 
-B. Scope: [ORION's proposed scope based on decision summary]
+B. Scope: [Hermes's proposed scope based on decision summary]
    → Override? (or press y to accept)
 
-C. Timeline: [ORION's proposed timeline based on decision type + review date guidelines]
+C. Timeline: [Hermes's proposed timeline based on decision type + review date guidelines]
    → Override? (or press y to accept)
 
-D. Key stakeholders: [ORION's proposed list based on scope]
+D. Key stakeholders: [Hermes's proposed list based on scope]
    → Override? (or press y to accept)
 
-E. Success metric: [ORION's proposed KPI based on decision domain]
+E. Success metric: [Hermes's proposed KPI based on decision domain]
    → Override? (or press y to accept)
 
-F. Constraints / trade-offs: [ORION's proposed constraints based on CONTEXT.md active decisions]
+F. Constraints / trade-offs: [Hermes's proposed constraints based on CONTEXT.md active decisions]
    → Override? (or press y to accept)
 
 Reply with A's answer + any overrides for B–F. Type y for any field you accept as-is.
 ```
 
-**How ORION proposes B–F:**
+**How Hermes proposes B–F:**
 - B (scope): infer from decision summary keywords (e.g., "system-wide" if no store mentioned; "LU7" if LU7 named)
 - C (timeline): apply review date guidelines — staffing → 4–6 weeks; menu/LTO → 4–8 weeks; marketing → 2–4 weeks; cost → end of next full month
 - D (stakeholders): default "Store Managers + Head Chef"; add "Head Chef" if menu decision; add "Mr. Pang" if cost structure or system-wide
@@ -136,7 +136,7 @@ Scope: [Warren's B]
 Effective: [Warren's C]
 
 ## Steel Man
-[ORION's 2–3 sentence strongest version]
+[Hermes's 2–3 sentence strongest version]
 
 ## Real Problems & Trade-offs
 **Short-term fix:** [immediate impact]
@@ -184,7 +184,7 @@ Here is the full decision entry for [decision_summary].
 
 Options:
   y        → approve as-is, save to Decision Log
-  [edit]   → type any specific changes, ORION will update and re-show
+  [edit]   → type any specific changes, Hermes will update and re-show
   
 Note: once saved, Steel Man and Hardest Question are locked.
 Status Log is where outcomes get added later.
@@ -253,9 +253,9 @@ Use when a previously open decision has been resolved and should move to archive
 
 ### 2. COLLECT OUTCOME
 
-**Field A (what actually happened) requires Warren's answer — ORION was not present.**
+**Field A (what actually happened) requires Warren's answer — Hermes was not present.**
 
-For fields B and C, ORION proposes based on CONTEXT.md and Decision Log context.
+For fields B and C, Hermes proposes based on CONTEXT.md and Decision Log context.
 
 **PAUSE — display this prompt:**
 
@@ -266,15 +266,15 @@ Originally decided: [date from Decision Log] | Scope: [scope] | Review date: [re
 A. Outcome: What actually happened? (REQUIRED — describe in 1–3 sentences)
    → [leave blank for Warren to fill]
 
-B. Result: [ORION's proposed result based on any known data in context]
+B. Result: [Hermes's proposed result based on any known data in context]
    Options: Success ✅ | Partial 🟡 | Failed ❌ | Cancelled
    → Override? (or press y to accept)
 
-C. Learnings: [ORION's proposed learning based on the Hardest Question from original entry]
+C. Learnings: [Hermes's proposed learning based on the Hardest Question from original entry]
    → Override, expand, or type y to accept (optional — type "skip" to leave blank)
 ```
 
-**How ORION proposes B–C:**
+**How Hermes proposes B–C:**
 - B (result): if any wiki pages or context mention outcome data (e.g., revenue figures, pilot results), propose the matching result category; otherwise propose "Partial 🟡" as conservative default
 - C (learnings): re-read the original Hardest Question from the Decision Log entry; propose a learning that directly answers whether that question played out
 
@@ -334,23 +334,23 @@ execute_command(command="git log --oneline -1")
 ### Create
 ```
 Warren: /decision Rollout LU7 Festive Menu to LU3 and LU5
-ORION: [Step 1 — asks A/B/C required + D/E/F optional]
+Hermes: [Step 1 — asks A/B/C required + D/E/F optional]
 Warren: A. LU7 pilot ran Apr–May, +8% revenue. B. LU3 first, LU5 second. C. LU3: June 15, LU5: July 1.
-ORION: [Step 2 — Critical Thinking] [Step 3 — draft] [Step 4 — shows Warren]
+Hermes: [Step 2 — Critical Thinking] [Step 3 — draft] [Step 4 — shows Warren]
 Warren: Approved. Add kill criteria: if LU3 <3% lift in month 1, pause LU5.
-ORION: [Updates draft] [Steps 5–8 — saves, commits]
+Hermes: [Updates draft] [Steps 5–8 — saves, commits]
 → Commit: abc1234
 ```
 
 ### Close
 ```
 Warren: /decision close LU7 Festive Menu to LU3 and LU5
-ORION: Found in §10. Outcome?
+Hermes: Found in §10. Outcome?
 Warren: A. LU3 hit +6% in month 1. LU5 launched July 1. B. Success ✅. C. Stage rollout was right call.
-ORION: [Updates DECISION_LOG, removes from §10, commits]
+Hermes: [Updates DECISION_LOG, removes from §10, commits]
 → Commit: def5678
 ```
 
 ---
 
-**v2.2 | 2026-05-25 | ORION+Deepseek adaptation: frontmatter, agent name update, toolchain wrappers (read_file/apply_diff/execute_command). | v2.1 | 2026-05-05 | Added: ORION-proposes pattern for fields B–F (Flow A Step 1) and B–C (Flow B Step 2). Field A always requires Warren. y to accept any ORION proposal, type to override.**
+**v2.2 | 2026-05-25 | Hermes+Deepseek adaptation: frontmatter, agent name update, toolchain wrappers (read_file/apply_diff/execute_command). | v2.1 | 2026-05-05 | Added: Hermes-proposes pattern for fields B–F (Flow A Step 1) and B–C (Flow B Step 2). Field A always requires Warren. y to accept any Hermes proposal, type to override.**

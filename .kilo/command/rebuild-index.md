@@ -1,12 +1,12 @@
 ﻿---
 model: deepseek-obsidian/deepseek-v4-flash
-description: "Wiki index reconciliation + graph rebuild adapted for ORION+Deepseek toolchain."
+description: "Wiki index reconciliation + graph rebuild adapted for Hermes+Deepseek toolchain."
 updated: 2026-06-02
 ---
 
 # /rebuild-index â€” WIKI_INDEX Reconciliation + Graph Rebuild
 # v2.2 | 2026-06-02
-# ORION+Deepseek adaptation â€” Globâ†’list_files, Readâ†’read_file, Writeâ†’write_to_file, pythonâ†’execute_command
+# Hermes+Deepseek adaptation â€” Globâ†’list_files, Readâ†’read_file, Writeâ†’write_to_file, pythonâ†’execute_command
 
 ---
 
@@ -218,7 +218,7 @@ tags: ["guide", "reference", "index"]
 ## 📌 Need help?
 
 - Can't find a command? → /query [keyword]
-- Unsure about a file? → Tell ORION the filename
+- Unsure about a file? → Tell Hermes the filename
 - Something wrong? → /lint [scope] to scan for issues
 
 ---

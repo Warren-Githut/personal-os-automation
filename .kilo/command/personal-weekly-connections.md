@@ -1,12 +1,12 @@
 ﻿---
 
-description: "Weekly cross-domain connection finder. ORION reads pulse files (per PULSE_INDEX.md) + contextual sources from past 7 days, finds correlations/causality/contradictions/amplifications across personal domains, writes to rolling log. Complement to /personal-context-update."
+description: "Weekly cross-domain connection finder. Hermes reads pulse files (per PULSE_INDEX.md) + contextual sources from past 7 days, finds correlations/causality/contradictions/amplifications across personal domains, writes to rolling log. Complement to /personal-context-update."
 updated: 2026-06-07
 ---
 
 # /personal-weekly-connections — Weekly Cross-Domain Connections (Personal OS)
 # v1.0 | 2026-06-07
-# PURPOSE: Every Sunday, ORION scans pulse files (per PULSE_INDEX.md) + contextual sources → finds cross-domain patterns (serendipity) → writes rolling log.
+# PURPOSE: Every Sunday, Hermes scans pulse files (per PULSE_INDEX.md) + contextual sources → finds cross-domain patterns (serendipity) → writes rolling log.
 # SCHEDULE: Calendar recurring Sun 17:00 GMT+7
 # COMPLEMENT: /personal-context-update (Mon) — connections feed into context themes.
 
@@ -18,7 +18,7 @@ updated: 2026-06-07
 /personal-weekly-connections
 ```
 
-No arguments. ORION reads sources automatically (file list per PULSE_INDEX.md §Pulse Files).
+No arguments. Hermes reads sources automatically (file list per PULSE_INDEX.md §Pulse Files).
 
 ---
 
@@ -129,7 +129,7 @@ Each connection in the weekly log supports inline feedback markers:
 
 **Weekly checkpoint:** Monday `/personal-context-update` includes "Acknowledge connections from Sunday" with batch-mark option.
 
-**Permanent skip rule:** Same connection marked [NOISE] 2 consecutive weeks → ORION auto-skips permanently.
+**Permanent skip rule:** Same connection marked [NOISE] 2 consecutive weeks → Hermes auto-skips permanently.
 
 ---
 

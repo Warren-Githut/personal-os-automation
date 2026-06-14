@@ -54,7 +54,7 @@ Stop immediately if any fail.
 
 Read full file directly. Never modify raw file.
 
-ORION infers: file type | period | key metrics | page name | contradictions with existing wiki.
+Hermes infers: file type | period | key metrics | page name | contradictions with existing wiki.
 
 ---
 
@@ -88,7 +88,7 @@ Wait for Warren. Correct and re-display if needed.
 4. If match found → Read its **Summary** and **Key Insights** sections only (not full analysis).
 5. Store as `DELTA_CONTEXT` for use in Steps 1-7. Do NOT display separately.
 
-ORION MUST reference DELTA_CONTEXT in analysis when available:
+Hermes MUST reference DELTA_CONTEXT in analysis when available:
 - Step 1 (Steel Man): "vs [prev period]: [metric] moved from X → Y"
 - Step 2 (Real Problems): "this is new vs last period" or "this persists from [prev period]"
 - Step 7 (Commitment): KPI table includes prev period column for comparison
@@ -158,7 +158,7 @@ Check same-period wiki pages in OTHER domains. Surface combined signals only if 
 Example: Trading P&L↓ + Health✅ + Finance✅ → trading is the real problem, not health/finance.
 If no same-period data → skip silently. Do not speculate.
 
-**Step 7 — ORION's Commitment**
+**Step 7 — Hermes's Commitment**
 Auto-fill from data only (no speculation):
 - Tracking plan: [specific metric] → [owner] → [review date]
 - Next ingest trigger: [what data would update this analysis]
@@ -243,7 +243,7 @@ Your call? A / B / hold
 
 Warren's A/B choice feeds into Step 8 and the wiki page. "hold" = pause, no write.
 
-**Step 8 — ORION's Commitment** (auto-fills after Warren's call)
+**Step 8 — Hermes's Commitment** (auto-fills after Warren's call)
 - Tracking plan tied to Warren's chosen option
 - Next ingest trigger: [what data would update this analysis]
 

@@ -40,7 +40,7 @@ updated: 2026-06-02
 
 /generate-plan **does not filter** — Warren has already decided to build. It only formalizes:
 - Input: raw concept (may be messy, not yet structured)
-- Process: ORION reads input + vault context → structures into 6 sections
+- Process: Hermes reads input + vault context → structures into 6 sections
 - Output: plan ready-to-paste into /review-plan
 - No Python coding, no data changes, no index entry creation
 
@@ -48,7 +48,7 @@ updated: 2026-06-02
 
 ## STEP 1 — CLASSIFY INPUT
 
-ORION reads input, self-classifies:
+Hermes reads input, self-classifies:
 
 **Trivial check:**
 Input is 1 clear sentence, small scope (fix 1 line, update 1 field, rename 1 file)?
@@ -65,7 +65,7 @@ Input <3 words, unclear domain or unclear purpose?
 
 ## STEP 2 — VAULT CONTEXT (optional — lightweight scan)
 
-ORION self-judges: is reading vault necessary?
+Hermes self-judges: is reading vault necessary?
 - If input is self-contained enough (e.g.: "create script to calculate average cover per store") → skip, plan only.
 - If input needs cross-reference with vault (e.g.: "create command for new workflow") → light read:
   1. Check CONTEXT.md — existing workflows, cadence
@@ -78,7 +78,7 @@ ORION self-judges: is reading vault necessary?
 
 ## STEP 3 — GENERATE PLAN
 
-ORION generates plan with **6 mandatory sections**:
+Hermes generates plan with **6 mandatory sections**:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -106,13 +106,13 @@ STEPS:
 **Rules:**
 - No vague language: "might", "should consider" → replace with "will", "needs"
 - Each KPI must have a measurement method — not just "increase efficiency" but "reduce 5 minutes per run"
-- File paths must exist in vault (or will be created) — ORION verifies
+- File paths must exist in vault (or will be created) — Hermes verifies
 
 ---
 
 ## STEP 4 — CONFIRM GATE
 
-After outputting plan block, ORION **must ask Warren**:
+After outputting plan block, Hermes **must ask Warren**:
 
 ```
 📋 Plan ready.
@@ -121,9 +121,9 @@ Any changes? Or proceed to /review-plan?
 ```
 
 ### Rules:
-- ORION waits for Warren's response. Do not auto-proceed.
-- **If Warren suggests changes** → ORION updates the plan accordingly → re-output the updated plan → ask again: "Any changes? Or proceed to /review-plan?"
-- **If Warren says "review-plan" or "/review-plan"** → ORION auto-loads /review-plan and pipes the plan in. Warren does NOT need to manually paste — the plan is already in context.
+- Hermes waits for Warren's response. Do not auto-proceed.
+- **If Warren suggests changes** → Hermes updates the plan accordingly → re-output the updated plan → ask again: "Any changes? Or proceed to /review-plan?"
+- **If Warren says "review-plan" or "/review-plan"** → Hermes auto-loads /review-plan and pipes the plan in. Warren does NOT need to manually paste — the plan is already in context.
 - **If Warren says "ok" / "go ahead" / "yes"** → same as "review-plan" — auto-pipe.
 
 → /review-plan will run 3 personas debate + Senior Manager verdict.
@@ -148,7 +148,7 @@ After outputting plan, ask **once only**:
 - If n → stop. Write nothing.
 - If Warren implements immediately → default n (no need to save).
 - **If this plan creates a NEW COMMAND →** remind Warren: "Remember to update .kilo/agent/lusine.md SLASH COMMANDS section with the new command."
-  (ORION does not auto-update — Warren reviews manually first.)
+  (Hermes does not auto-update — Warren reviews manually first.)
 
 ---
 
@@ -168,7 +168,7 @@ After outputting plan, ask **once only**:
 ```
 Warren: /generate-plan create script to auto-calculate average cover per hour for all 3 stores
 
-ORION:
+Hermes:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PLAN: Auto Average Cover Calculator
 
