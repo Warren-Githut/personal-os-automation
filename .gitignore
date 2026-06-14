@@ -13,3 +13,4 @@ Thumbs.db
 
 # personal_vault has its own git repo
 personal_vault/
+.tmp.driveupload/
