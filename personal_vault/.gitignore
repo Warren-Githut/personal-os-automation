@@ -1,0 +1,60 @@
+﻿# Secrets â€” NEVER commit
+.env
+.env.*
+*.key
+*.pem
+secrets/
+**/private_key*
+**/wallet_*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Obsidian cache
+.obsidian/workspace*
+.obsidian/cache
+
+# Raw input (large files)
+20_INPUT_RAW/voice/*.m4a
+20_INPUT_RAW/voice/*.mp3
+20_INPUT_RAW/voice/*.wav
+
+# Binary files in knowledge base â€” keep locally, backup via Google Drive
+30_KNOWLEDGE_BASE/raw/*.pdf
+30_KNOWLEDGE_BASE/raw/*.xlsx
+30_KNOWLEDGE_BASE/raw/*.xls
+30_KNOWLEDGE_BASE/raw/*.docx
+30_KNOWLEDGE_BASE/raw/*.jpg
+30_KNOWLEDGE_BASE/raw/*.jpeg
+30_KNOWLEDGE_BASE/raw/*.png
+30_KNOWLEDGE_BASE/raw/*.mp4
+30_KNOWLEDGE_BASE/raw/*.mov
+
+# Inbox voice files (downloaded from Slack)
+_inbox/voice/
+
+# Slack duplicate guard
+scripts/.last_processed_ts.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Trading bot artifacts
+trading_bot/logs/
+trading_bot/__pycache__/
+trading_bot/*.pyc
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env
+# Private / secrets (Google Service Account keys, etc.)
+_private/
+scripts/_rss_fetch_log.txt
+.playwright-mcp/
+google-login.png
+_tmp_broker/

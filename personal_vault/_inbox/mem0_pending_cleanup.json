@@ -1,0 +1,42 @@
+{
+  "profile": "personal",
+  "date": "2026-07-12",
+  "memories": [
+    {
+      "id": "cfa12292-1b50-42d7-a3d7-a3e67d5630a2",
+      "summary": "User verified FAISS personal profile on 2026-07-08",
+      "reason": "noise",
+      "detail": "Temp action log — xác nhận verification, không còn giá trị sau 7 ngày"
+    },
+    {
+      "id": "c0e5130d-0e09-45e7-aa1a-4c421cf0f3df",
+      "summary": "User reverified FAISS personal profile on 2026-07-08",
+      "reason": "duplicate",
+      "detail": "Trùng nội dung với entry #1 (verified), chỉ khác từ 'reverified'. Cả 2 đều noise."
+    },
+    {
+      "id": "8c32a53d-5df1-4c68-b538-4239a5779839",
+      "summary": "Hermes Desktop is an agent surface that has been fully retired, and its Kilo Code and Cursor have been replaced",
+      "reason": "noise",
+      "detail": "Stale/incorrect — Hermes Desktop đang active (cron job này chạy trên nó). Thông tin lỗi thời từ đợt cleanup cũ."
+    },
+    {
+      "id": "45db3e15-3a5d-4f8c-84c0-7af51afefa92",
+      "summary": "Warren's personal memory context includes a weekly briefs log, and state-snapshots are kept as rollback",
+      "reason": "noise",
+      "detail": "Mô tả cấu trúc file mơ hồ, không phải preference/rule/lesson. Stale."
+    },
+    {
+      "id": "18619d80-9863-4f7e-8ebf-1825497d74e9",
+      "summary": "The user wants to purge legacy tool protocol (LIVE config vs HISTORY/CACHE, dot/underscore prefixes)",
+      "reason": "noise",
+      "detail": "Task artifact từ 1 session cleanup cụ thể. Quá detail, không còn giá trị durable."
+    },
+    {
+      "id": "4c86d43d-64cf-4157-98b0-a83f76f021bb",
+      "summary": "The user is looking for documentation on how to purge legacy tool protocol",
+      "reason": "noise",
+      "detail": "Câu hỏi mơ hồ được capture — không phải fact/lesson. Không có giá trị durable."
+    }
+  ]
+}

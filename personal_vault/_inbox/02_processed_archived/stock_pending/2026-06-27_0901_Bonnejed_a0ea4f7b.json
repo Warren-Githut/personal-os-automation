@@ -1,0 +1,64 @@
+{
+  "msg_id": "19ee8647a0ea4f7b",
+  "broker": "Bonnejed",
+  "date": "2026-06-21",
+  "subject": "Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026",
+  "route_proposal": "weekly",
+  "summary": {
+    "route": "weekly",
+    "thi_truong": [
+      "🟢 VN-Index hồi phục sau bốn tuần điều chỉnh, lấy lại mốc 1.800 và đóng cửa tuần ở 1.830,47 điểm (+2,2% so với tuần trước)",
+      "🟢 Thanh khoản cải thiện so với vùng đáy, dao động 16,7 - 25,4 nghìn tỷ Đồng/phiên (đáy tuần trước khoảng 15,8 nghìn tỷ Đồng)",
+      "🔴 Khối ngoại bán ròng trong tuần với tổng giá trị khoảng 2.900 tỷ Đồng (~118 triệu USD) trên HOSE; lũy kế từ đầu năm đã vượt 77.000 tỷ Đồng",
+      "🔴 Độ rộng kém tích cực và chuyển sang tiêu cực phiên 19/6 khi áp lực chốt lời lan rộng, trong tuần đáo hạn phái sinh VN30",
+      "🟢 Dòng tiền tập trung cao độ vào nhóm VIC, đỉnh điểm phiên 19/6 khi VIC, VHM, VRE đồng loạt tăng kịch trần sau thông tin VHM chia cổ tức 2025"
+    ],
+    "vi_mo": [
+      "🔴 CPI Mỹ tháng 5 ở mức 4,2% YoY củng cố khả năng Fed duy trì lập trường thắt chặt đến ít nhất cuối 2026",
+      "🔴 Giá dầu thế giới duy trì ở mức cao (~90 USD/thùng) do căng thẳng Mỹ–Iran chưa có dấu hiệu hạ nhiệt, tác động hai chiều lên chi phí sản xuất và lạm phát",
+      "🟢 Fitch Ratings giữ nguyên tín nhiệm Việt Nam ở mức BB+, triển vọng Ổn định; Việt Nam đặt mục tiêu đạt hạng Đầu tư vào 2030",
+      "🔴 Rà soát khả năng tiếp cận thị trường của MSCI ngày 18/6 không thay đổi ở mọi tiêu chí, làm giảm khả năng được thêm vào danh sách theo dõi nâng hạng tại kỳ phân loại 23/6"
+    ],
+    "nganh": [
+      "🟢 Ngân hàng – Thông tư 08/2026/TT-NHNN mở thêm dư địa tín dụng cho nhóm quốc doanh (VCB, BID, CTG) qua việc tính lại 20% tiền gửi Kho bạc vào LDR",
+      "🟢 Khu công nghiệp – FDI đăng ký 5 tháng đạt 24,81 tỷ USD, dịch chuyển chuỗi cung ứng toàn cầu tiếp tục là catalyst dài hạn cho KBC, IDC, SIP, BCM",
+      "🟢 Bất động sản – Chính phủ thúc đẩy Nghị quyết 29 tháo gỡ pháp lý (hạn chật 30/8/2026); định giá nhiều mã ở vùng hấp dẫn sau nhịp giảm sâu",
+      "🟢 Dầu khí – Giá dầu WTI neo cao ~90 USD/thùng; dự án Cá Voi Xanh (~5 tỷ USD) tiến gần FID 2027",
+      "🟢 Công nghệ thông tin – Quyết định 982/QĐ-TTg đặt mục tiêu xuất khẩu công nghệ số 55 tỷ USD/năm đến 2030; FPT và CMG hưởng lợi câu chuyện chuyển đổi số và AI toàn cầu"
+    ],
+    "tickers": [
+      "VIC",
+      "VHM",
+      "VRE",
+      "VCB",
+      "BID",
+      "CTG",
+      "KBC",
+      "IDC",
+      "SIP",
+      "BCM",
+      "FPT",
+      "CMG",
+      "TCB"
+    ]
+  },
+  "entry_body": "## 2026-W25 (tuần 15/06–21/06) — Bonnejed\n\n### Macro context\n🔴 CPI Mỹ tháng 5 ở mức 4,2% YoY củng cố khả năng Fed duy trì lập trường thắt chặt đến ít nhất cuối 2026\n🔴 Giá dầu thế giới duy trì ở mức cao (~90 USD/thùng) do căng thẳng Mỹ–Iran chưa có dấu hiệu hạ nhiệt, tác động hai chiều lên chi phí sản xuất và lạm phát\n🟢 Fitch Ratings giữ nguyên tín nhiệm Việt Nam ở mức BB+, triển vọng Ổn định; Việt Nam đặt mục tiêu đạt hạng Đầu tư vào 2030\n🔴 Rà soát khả năng tiếp cận thị trường của MSCI ngày 18/6 không thay đổi ở mọi tiêu chí, làm giảm khả năng được thêm vào danh sách theo dõi nâng hạng tại kỳ phân loại 23/6\n\n### Sector highlights\n| Nhóm | Động lực | Rủi ro |\n|---|---|---|\n| Bonnejed coverage | [...] | [...] |\n\n### Watchlist update\n| Ticker | IV est | Price | MOS% | Action |\n|---|---|---|---|---|\n| VIC | [...] | [...] | [...] | [...] |\n| VHM | [...] | [...] | [...] | [...] |\n| VRE | [...] | [...] | [...] | [...] |\n| VCB | [...] | [...] | [...] | [...] |\n| BID | [...] | [...] | [...] | [...] |\n| CTG | [...] | [...] | [...] | [...] |\n| KBC | [...] | [...] | [...] | [...] |\n| IDC | [...] | [...] | [...] | [...] |\n| SIP | [...] | [...] | [...] | [...] |\n| BCM | [...] | [...] | [...] | [...] |\n\n### Holdings check (thesis intact?)\n-\n\n### Strategy\n- Ngắn hạn: [...]\n- Dài hạn: [...]\n- Tránh: [...]\n\n### Source\nGmail — Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026\n\n",
+  "target_file": "020_VNStock_Weekly_Outlook.md",
+  "tickers": [
+    "VIC",
+    "VHM",
+    "VRE",
+    "VCB",
+    "BID",
+    "CTG",
+    "KBC",
+    "IDC",
+    "SIP",
+    "BCM",
+    "FPT",
+    "CMG",
+    "TCB"
+  ],
+  "status": "routed",
+  "pending_since": "2026-06-27T09:01:29.834555+07:00"
+}

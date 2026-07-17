@@ -1,0 +1,64 @@
+{
+  "msg_id": "19ee8647a0ea4f7b",
+  "broker": "Bonnejed",
+  "date": "2026-06-21",
+  "subject": "Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026",
+  "route_proposal": "weekly",
+  "summary": {
+    "route": "weekly",
+    "thi_truong": [
+      "🟢 VN-Index hồi phục +2,2% lên 1.830,47 điểm, lấy lại mốc 1.800.",
+      "🔴 Độ rộng kém tích cực, chuyển tiêu cực phiên 19/6 do áp lực chốt lời lan rộng.",
+      "🔴 Khối ngoại bán ròng 2.900 tỷ Đồng trong tuần, lũy kế từ đầu năm vượt 77.000 tỷ.",
+      "🟢 Nhóm Vingroup (VIC, VHM, VRE) đồng loạt tăng kịch trần nhờ thông tin VHM chia cổ tức.",
+      "🔴 Thanh khoản cải thiện nhưng chưa bền vững, cần phục hồi trên 1 tỷ USD/phiên và độ rộng lan tỏa."
+    ],
+    "vi_mo": [
+      "🔴 CPI Mỹ tháng 5 ở 4,2% YoY củng cố khả năng Fed duy trì thắt chặt đến cuối 2026.",
+      "🔴 Giá dầu thế giới duy trì mức cao (~90 USD/thùng) do căng thẳng Mỹ-Iran chưa hạ nhiệt.",
+      "🟢 Fitch giữ tín nhiệm Việt Nam BB+, triển vọng Ổn định; mục tiêu đạt hạng Đầu tư vào 2030.",
+      "🟢 Mục tiêu tăng trưởng GDP 2026 từ 8% trở lên, được củng cố bởi dòng vốn FDI và xuất khẩu."
+    ],
+    "nganh": [
+      "🟢 Ngân hàng: Thông tư 08/2026/TT-NHNN mở thêm dư địa tín dụng cho VCB, BID, CTG (~37.000 tỷ Đồng).",
+      "🟢 Khu công nghiệp: FDI đăng ký 5 tháng đạt 24,81 tỷ USD, lợi thế dài hạn cho KBC, IDC, SIP, BCM.",
+      "🟢 Bất động sản: Chính phủ thúc đẩy Nghị quyết 29 tháo gỡ pháp lý; định giá hấp dẫn sau nhịp giảm.",
+      "🟢 Dầu khí: Giá dầu WTI neo cao ~90 USD/thùng; dự án Cá Voi Xanh tiến gần FID 2027.",
+      "🟢 Công nghệ thông tin: Quyết định 982/QĐ-TTg mục tiêu xuất khẩu 55 tỷ USD/năm; FPT, CMG hưởng lợi."
+    ],
+    "tickers": [
+      "VIC",
+      "VHM",
+      "VRE",
+      "FPT",
+      "TCB",
+      "VCB",
+      "BID",
+      "CTG",
+      "KBC",
+      "IDC",
+      "SIP",
+      "BCM",
+      "CMG"
+    ]
+  },
+  "entry_body": "## 2026-W25 (tuần 15/06–21/06) — Bonnejed\n\n### Macro context\n🔴 CPI Mỹ tháng 5 ở 4,2% YoY củng cố khả năng Fed duy trì thắt chặt đến cuối 2026.\n🔴 Giá dầu thế giới duy trì mức cao (~90 USD/thùng) do căng thẳng Mỹ-Iran chưa hạ nhiệt.\n🟢 Fitch giữ tín nhiệm Việt Nam BB+, triển vọng Ổn định; mục tiêu đạt hạng Đầu tư vào 2030.\n🟢 Mục tiêu tăng trưởng GDP 2026 từ 8% trở lên, được củng cố bởi dòng vốn FDI và xuất khẩu.\n\n### Sector highlights\n| Nhóm | Động lực | Rủi ro |\n|---|---|---|\n| Bonnejed coverage | [...] | [...] |\n\n### Watchlist update\n| Ticker | IV est | Price | MOS% | Action |\n|---|---|---|---|---|\n| VIC | [...] | [...] | [...] | [...] |\n| VHM | [...] | [...] | [...] | [...] |\n| VRE | [...] | [...] | [...] | [...] |\n| FPT | [...] | [...] | [...] | [...] |\n| TCB | [...] | [...] | [...] | [...] |\n| VCB | [...] | [...] | [...] | [...] |\n| BID | [...] | [...] | [...] | [...] |\n| CTG | [...] | [...] | [...] | [...] |\n| KBC | [...] | [...] | [...] | [...] |\n| IDC | [...] | [...] | [...] | [...] |\n\n### Holdings check (thesis intact?)\n-\n\n### Strategy\n- Ngắn hạn: [...]\n- Dài hạn: [...]\n- Tránh: [...]\n\n### Source\nGmail — Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026\n\n",
+  "target_file": "020_VNStock_Weekly_Outlook.md",
+  "tickers": [
+    "VIC",
+    "VHM",
+    "VRE",
+    "FPT",
+    "TCB",
+    "VCB",
+    "BID",
+    "CTG",
+    "KBC",
+    "IDC",
+    "SIP",
+    "BCM",
+    "CMG"
+  ],
+  "status": "pending",
+  "pending_since": "2026-06-22T09:00:32.675658+07:00"
+}

@@ -1,0 +1,37 @@
+{
+  "msg_id": "19ee04736557a4c5",
+  "broker": "Bonnejed",
+  "date": "2026-06-19",
+  "subject": "Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trường toàn cầu của TTCK Việt Nam",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 Báo cáo MSCI đánh giá tích cực về tiến độ nâng hạng thị trường Việt Nam lên thị trường mới nổi.",
+      "🔴 TTCK Việt Nam vẫn nằm trong danh sách theo dõi nâng hạng (Frontier Market) do một số tiêu chí chưa đáp ứng.",
+      "🟢 Dòng vốn ngoại kỳ vọng gia tăng nếu Việt Nam được nâng hạng trong kỳ đánh giá tới.",
+      "🔴 Áp lực tỷ giá và thanh khoản thị trường có thể ảnh hưởng đến quyết định của MSCI.",
+      "🟢 Các cải cách gần đây về giao dịch ký quỹ và room ngoại được ghi nhận là bước tiến tích cực."
+    ],
+    "vi_mo": [
+      "🟢 Chính phủ đã sửa đổi quy định về pre-funding, giúp nhà đầu tư nước ngoài dễ giao dịch hơn.",
+      "🔴 Khả năng chuyển đổi tiền tệ (VND) vẫn bị hạn chế đối với các giao dịch vốn lớn.",
+      "🟢 Các biện pháp nới lỏng room ngoại tại một số ngành được MSCI đánh giá cao.",
+      "🔴 Yêu cầu về thanh toán bù trừ trung tâm (CCP) chưa đáp ứng đầy đủ tiêu chuẩn quốc tế.",
+      "🟢 Cơ quan quản lý đang tích cực làm việc với MSCI để tháo gỡ các rào cản kỹ thuật."
+    ],
+    "nganh": [
+      "🟢 Ngành chứng khoán kỳ vọng hưởng lợi từ dòng vốn ngoại đổ vào nếu nâng hạng thành công.",
+      "🔴 Ngành ngân hàng có thể chịu áp lực cạnh tranh về room tín dụng và quy định sở hữu nước ngoài.",
+      "🟢 Ngành bất động sản và bán lẻ thu hút sự quan tâm của nhà đầu tư ngoại nhờ câu chuyện nâng hạng.",
+      "🔴 Ngành dầu khí ít có tác động trực tiếp từ đánh giá MSCI do đặc thù ngành.",
+      "🟢 Ngành công nghệ thông tin được hưởng lợi gián tiếp từ dòng vốn đầu tư gián tiếp nước ngoài (FII)."
+    ],
+    "tickers": []
+  },
+  "entry_body": "## 2026-06-19 — Bonnejed — Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trườ\n\n### Narrative\n🟢 Báo cáo MSCI đánh giá tích cực về tiến độ nâng hạng thị trường Việt Nam lên thị trường mới nổi.\n🔴 TTCK Việt Nam vẫn nằm trong danh sách theo dõi nâng hạng (Frontier Market) do một số tiêu chí chưa đáp ứng.\n🟢 Dòng vốn ngoại kỳ vọng gia tăng nếu Việt Nam được nâng hạng trong kỳ đánh giá tới.\n🔴 Áp lực tỷ giá và thanh khoản thị trường có thể ảnh hưởng đến quyết định của MSCI.\n🟢 Các cải cách gần đây về giao dịch ký quỹ và room ngoại được ghi nhận là bước tiến tích cực.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [N/A]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trường toàn cầu của TTCK Việt Nam\n\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [],
+  "status": "pending",
+  "pending_since": "2026-06-25T09:56:20.030880+07:00"
+}

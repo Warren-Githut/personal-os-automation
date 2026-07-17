@@ -1,0 +1,81 @@
+{
+  "msg_id": "19f206d5407e4dcf",
+  "broker": "Bonnejed",
+  "date": "2026-07-02",
+  "subject": "Fwd: Cơ hội đầu tư | 02/07/2026",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 Nghị quyết 10 lần đầu đưa mục tiêu nâng hạng TTCK (MSCI) trước 2030 vào văn bản chính thức, tăng độ tin cậy lộ trình.",
+      "🟢 Phát triển thị trường vốn, Trung tâm tài chính quốc tế và thí điểm sàn tài sản mã hóa được xác định là nhiệm vụ riêng.",
+      "🔴 Tác động dòng tiền chưa tức thời, phụ thuộc vào tốc độ thể chế hóa giai đoạn 2026–2028."
+    ],
+    "vi_mo": [
+      "🟢 Mục tiêu FDI giải ngân 30–40 tỷ USD/năm (2026–2030), cao hơn ~30–45% so với mức kỷ lục 27,6 tỷ USD năm 2025.",
+      "🟢 Định hướng FDI chuyển từ 'hợp tác' sang 'kiến tạo năng lực quốc gia', gắn với tự chủ chiến lược và chuyển giao công nghệ.",
+      "🔴 Khoảng cách hiện trạng – tham vọng lớn: tỷ lệ giải ngân/vốn đăng ký lũy kế chỉ ~64%, nội địa hóa và giá trị gia tăng trong nước thấp.",
+      "🟢 Khu vực FDI hiện đóng góp ~20–21% GDP và ~72% xuất khẩu, là nền tảng vững chắc để đạt mục tiêu ~30% GDP vào 2045."
+    ],
+    "nganh": [
+      "🟢 Bất động sản KCN, hạ tầng cảng biển, cao tốc, logistics hưởng lợi trực tiếp từ dòng vốn FDI giải ngân.",
+      "🟢 Năng lượng (điện, khí) được hưởng lợi từ nhu cầu tăng cao từ các KCN và dự án mới.",
+      "🟢 Chứng khoán (BSI, HCM, VND, VCI, SSI) hưởng lợi kỳ vọng từ câu chuyện nâng hạng và phát triển thị trường vốn.",
+      "🔴 Ngân hàng hưởng lợi gián tiếp qua tín dụng xanh và dịch vụ vốn, nhưng phụ thuộc tốc độ thể chế hóa."
+    ],
+    "tickers": [
+      "GAS",
+      "POW",
+      "NT2",
+      "SZC",
+      "SIP",
+      "IDC",
+      "VHM",
+      "VTP",
+      "DVP",
+      "GMD",
+      "HAH",
+      "VOS",
+      "VSC",
+      "BSI",
+      "HCM",
+      "VND",
+      "VCI",
+      "SSI",
+      "TCB",
+      "MBB",
+      "BID",
+      "CTG",
+      "VCB"
+    ]
+  },
+  "entry_body": "## 2026-07-02 — Bonnejed — Fwd: Cơ hội đầu tư | 02/07/2026\n\n### Narrative\n🟢 Nghị quyết 10 lần đầu đưa mục tiêu nâng hạng TTCK (MSCI) trước 2030 vào văn bản chính thức, tăng độ tin cậy lộ trình.\n🟢 Phát triển thị trường vốn, Trung tâm tài chính quốc tế và thí điểm sàn tài sản mã hóa được xác định là nhiệm vụ riêng.\n🔴 Tác động dòng tiền chưa tức thời, phụ thuộc vào tốc độ thể chế hóa giai đoạn 2026–2028.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [GAS, POW, NT2, SZC, SIP, IDC, VHM, VTP, DVP, GMD, HAH, VOS, VSC, BSI, HCM, VND, VCI, SSI, TCB, MBB, BID, CTG, VCB]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Cơ hội đầu tư | 02/07/2026\n\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [
+    "GAS",
+    "POW",
+    "NT2",
+    "SZC",
+    "SIP",
+    "IDC",
+    "VHM",
+    "VTP",
+    "DVP",
+    "GMD",
+    "HAH",
+    "VOS",
+    "VSC",
+    "BSI",
+    "HCM",
+    "VND",
+    "VCI",
+    "SSI",
+    "TCB",
+    "MBB",
+    "BID",
+    "CTG",
+    "VCB"
+  ],
+  "status": "routed",
+  "pending_since": "2026-07-06T09:31:02.083663+07:00"
+}

@@ -1,0 +1,55 @@
+{
+  "msg_id": "19ef8d14534ec514",
+  "broker": "Bonnejed",
+  "date": "2026-06-24",
+  "subject": "Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng khoán 2026",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 MSCI chính thức nâng hạng thị trường chứng khoán Việt Nam lên Emerging Markets từ tháng 9/2026",
+      "🟢 Chỉ số VN-Index ghi nhận mức tăng 3,5% trong phiên công bố kết quả review",
+      "🟢 Dòng vốn ngoại dự kiến tăng mạnh với quy mô ước tính 5-10 tỷ USD trong 12 tháng tới"
+    ],
+    "vi_mo": [
+      "🟢 Các cải cách về thanh toán bù trừ và đăng ký chứng khoán được MSCI đánh giá cao",
+      "🟢 Chính phủ điều chỉnh quy định về sở hữu nước ngoài và thời gian thanh toán T+2",
+      "🔴 Rào cản về chất lượng báo cáo tài chính bằng tiếng Anh và minh bạch thông tin vẫn còn tồn tại"
+    ],
+    "nganh": [
+      "🟢 Ngành chứng khoán hưởng lợi trực tiếp từ thanh khoản gia tăng (SSI, VND, HCM)",
+      "🟢 Ngân hàng thương mại được kỳ vọng thu hút vốn ngoại nhờ định giá thấp và tăng trưởng tín dụng (VCB, CTG, BID)",
+      "🟢 Các mã vốn hóa lớn như VIC, VNM, HPG được ETF mua ròng mạnh sau nâng hạng"
+    ],
+    "tickers": [
+      "GAS",
+      "PVD",
+      "SSI",
+      "VND",
+      "HCM",
+      "VCB",
+      "CTG",
+      "BID",
+      "VIC",
+      "VNM",
+      "HPG"
+    ]
+  },
+  "entry_body": "## 2026-06-24 — Bonnejed — Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng\n\n### Narrative\n🟢 MSCI chính thức nâng hạng thị trường chứng khoán Việt Nam lên Emerging Markets từ tháng 9/2026\n🟢 Chỉ số VN-Index ghi nhận mức tăng 3,5% trong phiên công bố kết quả review\n🟢 Dòng vốn ngoại dự kiến tăng mạnh với quy mô ước tính 5-10 tỷ USD trong 12 tháng tới\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [GAS, PVD, SSI, VND, HCM, VCB, CTG, BID, VIC, VNM, HPG]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng khoán 2026\n\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [
+    "GAS",
+    "PVD",
+    "SSI",
+    "VND",
+    "HCM",
+    "VCB",
+    "CTG",
+    "BID",
+    "VIC",
+    "VNM",
+    "HPG"
+  ],
+  "status": "routed",
+  "pending_since": "2026-06-27T09:01:12.313450+07:00"
+}

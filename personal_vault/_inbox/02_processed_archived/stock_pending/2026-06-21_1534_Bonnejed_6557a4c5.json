@@ -1,0 +1,57 @@
+{
+  "msg_id": "19ee04736557a4c5",
+  "broker": "Bonnejed",
+  "date": "2026-06-19",
+  "subject": "Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trường toàn cầu của TTCK Việt Nam",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 MSCI tiếp tục đưa Việt Nam vào danh sách theo dõi nâng hạng lên thị trường mới nổi, tạo kỳ vọng tích cực cho dòng vốn ngoại.",
+      "🔴 Các tiêu chí về thanh toán bù trừ và ký quỹ trước giao dịch vẫn chưa được đáp ứng đầy đủ, kéo dài thời gian xem xét.",
+      "🟢 Thị trường chứng khoán Việt Nam ghi nhận mức thanh khoản và định giá hấp dẫn so với các thị trường cùng hạng."
+    ],
+    "vi_mo": [
+      "🟢 Báo cáo khuyến nghị Việt Nam áp dụng cơ chế NVDR để tháo gỡ nút thắt về tỷ lệ sở hữu nước ngoài.",
+      "🔴 Yêu cầu ký quỹ trước giao dịch (pre-funding) làm tăng chi phí và rủi ro thanh khoản cho nhà đầu tư ngoại.",
+      "🟢 Chính phủ đang đẩy mạnh cải cách hệ thống thanh toán và lưu ký, dự kiến hoàn thiện trong năm 2026."
+    ],
+    "nganh": [
+      "🟢 Ngành chứng khoán hưởng lợi từ kỳ vọng nâng hạng và gia tăng dòng vốn đầu tư gián tiếp.",
+      "🔴 Ngành bất động sản chịu áp lực do room nước ngoài bị hạn chế và chưa có giải pháp thay thế rõ ràng.",
+      "🟢 Ngành ngân hàng được hưởng lợi nhờ tăng trưởng tín dụng và cải thiện thanh khoản thị trường."
+    ],
+    "tickers": [
+      "VIC",
+      "VHM",
+      "VNM",
+      "HPG",
+      "GAS",
+      "VCB",
+      "BID",
+      "CTG",
+      "MBB",
+      "SSI",
+      "VND",
+      "HCM"
+    ]
+  },
+  "entry_body": "---\ndomain: trading\ntype: pulse\nstatus: active\ncreated: 2026-06-19\nlast_updated: 2026-06-19\ntags: [macro, bonnejed, VIC, VHM, VNM, HPG, GAS]\nsource: gmail_bonnejed\nbroker: Bonnejed\nroute: macro\ntickers: [\"VIC\", \"VHM\", \"VNM\", \"HPG\", \"GAS\", \"VCB\", \"BID\", \"CTG\", \"MBB\", \"SSI\", \"VND\", \"HCM\"]\nreport_date: 2026-06-19\n---\n\n## 2026-06-19 — Bonnejed — Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trườ\n\n### Narrative\n🟢 MSCI tiếp tục đưa Việt Nam vào danh sách theo dõi nâng hạng lên thị trường mới nổi, tạo kỳ vọng tích cực cho dòng vốn ngoại.\n🔴 Các tiêu chí về thanh toán bù trừ và ký quỹ trước giao dịch vẫn chưa được đáp ứng đầy đủ, kéo dài thời gian xem xét.\n🟢 Thị trường chứng khoán Việt Nam ghi nhận mức thanh khoản và định giá hấp dẫn so với các thị trường cùng hạng.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [VIC, VHM, VNM, HPG, GAS, VCB, BID, CTG, MBB, SSI, VND, HCM]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Báo cáo Đánh giá của MSCI về khả năng tiếp cận thị trường toàn cầu của TTCK Việt Nam\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [
+    "VIC",
+    "VHM",
+    "VNM",
+    "HPG",
+    "GAS",
+    "VCB",
+    "BID",
+    "CTG",
+    "MBB",
+    "SSI",
+    "VND",
+    "HCM"
+  ],
+  "status": "routed",
+  "pending_since": "2026-06-21T15:34:45.427223+07:00"
+}

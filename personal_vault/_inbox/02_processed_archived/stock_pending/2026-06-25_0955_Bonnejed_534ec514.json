@@ -1,0 +1,46 @@
+{
+  "msg_id": "19ef8d14534ec514",
+  "broker": "Bonnejed",
+  "date": "2026-06-24",
+  "subject": "Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng khoán 2026",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 MSCI đánh giá tích cực về tiến trình cải cách thị trường vốn Việt Nam.",
+      "🔴 Yêu cầu minh bạch và thanh khoản vẫn là thách thức để đạt chuẩn nâng hạng.",
+      "🟢 Kỳ vọng dòng vốn ngoại đổ vào mạnh nếu Việt Nam được nâng hạng lên thị trường mới nổi.",
+      "🔴 Áp lực điều chỉnh danh mục từ các quỹ ETF có thể gây biến động ngắn hạn."
+    ],
+    "vi_mo": [
+      "🟢 Chính phủ tiếp tục thực hiện các cam kết về minh bạch và tự do hóa tài khoản vốn.",
+      "🔴 Rủi ro tỷ giá và lạm phát có thể ảnh hưởng đến lộ trình nâng hạng.",
+      "🟢 Các chính sách ưu đãi đầu tư nước ngoài được củng cố nhằm thu hút vốn dài hạn.",
+      "🔴 Yêu cầu về quyền sở hữu và nhà đầu tư nước ngoài vẫn còn hạn chế."
+    ],
+    "nganh": [
+      "🟢 Ngành tài chính – chứng khoán hưởng lợi từ sự gia tăng thanh khoản và dòng vốn.",
+      "🟢 Bất động sản và bán lẻ được kỳ vọng thu hút vốn ngoại nhờ tiềm năng tăng trưởng.",
+      "🔴 Ngành ngân hàng có thể chịu áp lực cạnh tranh từ yêu cầu minh bạch cao hơn.",
+      "🟢 Công nghệ và năng lượng tái tạo nhận được sự quan tâm từ nhà đầu tư quốc tế."
+    ],
+    "tickers": [
+      "VIC",
+      "VNM",
+      "HPG",
+      "GAS",
+      "PVD"
+    ]
+  },
+  "entry_body": "## 2026-06-24 — Bonnejed — Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng\n\n### Narrative\n🟢 MSCI đánh giá tích cực về tiến trình cải cách thị trường vốn Việt Nam.\n🔴 Yêu cầu minh bạch và thanh khoản vẫn là thách thức để đạt chuẩn nâng hạng.\n🟢 Kỳ vọng dòng vốn ngoại đổ vào mạnh nếu Việt Nam được nâng hạng lên thị trường mới nổi.\n🔴 Áp lực điều chỉnh danh mục từ các quỹ ETF có thể gây biến động ngắn hạn.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [VIC, VNM, HPG, GAS, PVD]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Báo cáo Đánh giá của MSCI về nâng hạng thị trường chứng khoán 2026\n\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [
+    "VIC",
+    "VNM",
+    "HPG",
+    "GAS",
+    "PVD"
+  ],
+  "status": "pending",
+  "pending_since": "2026-06-25T09:55:35.049098+07:00"
+}

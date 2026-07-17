@@ -1,0 +1,65 @@
+{
+  "msg_id": "19ee8647a0ea4f7b",
+  "broker": "Bonnejed",
+  "date": "2026-06-21",
+  "subject": "Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026",
+  "route_proposal": "weekly",
+  "summary": {
+    "route": "weekly",
+    "thi_truong": [
+      "🟢 VN-Index tăng 2,2% lên 1.830,47 điểm, phục hồi sau bốn tuần điều chỉnh.",
+      "🟢 Thanh khoản cải thiện, dao động 16.700-25.400 tỷ đồng/phiên (đáy tuần trước 15.800 tỷ).",
+      "🔴 Độ rộng kém tích cực, phiên 19/6 chuyển tiêu cực do áp lực chốt lời lan rộng.",
+      "🔴 Khối ngoại bán ròng 2.900 tỷ đồng trên HOSE; lũy kế từ đầu năm vượt 77.000 tỷ.",
+      "🟢 Đà hồi phục nhờ tâm lý toàn cầu cải thiện và lực kéo từ nhóm Vingroup."
+    ],
+    "vi_mo": [
+      "🟢 Fitch giữ nguyên tín nhiệm Việt Nam BB+, triển vọng Ổn định; chỉ còn cách hạng đầu tư một bậc.",
+      "🔴 CPI Mỹ tháng 5 ở mức 4,2% YoY, củng cố khả năng Fed duy trì thắt chặt đến cuối 2026.",
+      "🔴 Giá dầu Brent về quanh 76 USD/thùng, nhưng giá WTI neo cao ~90 USD do căng thẳng Mỹ-Iran.",
+      "🟢 MSCI rà soát ngày 18/6 không thay đổi tiêu chí, giảm khả năng được thêm vào danh sách theo dõi nâng hạng.",
+      "🟢 Nghị quyết 29 tháo gỡ pháp lý bất động sản với hạn chật 30/8/2026."
+    ],
+    "nganh": [
+      "🟢 Ngân hàng: Thông tư 08/2026/TT-NHNN mở thêm dư địa tín dụng cho nhóm quốc doanh (VCB, BID, CTG).",
+      "🟢 Khu công nghiệp: FDI đăng ký 5 tháng đạt 24,81 tỷ USD; dịch chuyển chuỗi cung ứng là catalyst dài hạn.",
+      "🟢 Bất động sản: Định giá nhiều mã hấp dẫn sau nhịp giảm sâu; catalyst từ Nghị quyết 29.",
+      "🟢 Dầu khí: Giá dầu WTI neo cao ~90 USD/thùng; dự án Cá Voi Xanh tiến gần FID 2027.",
+      "🟢 Công nghệ thông tin: Quyết định 982/QĐ-TTg đặt mục tiêu xuất khẩu công nghệ số 55 tỷ USD/năm đến 2030."
+    ],
+    "tickers": [
+      "VIC",
+      "VHM",
+      "VRE",
+      "FPT",
+      "TCB",
+      "KBC",
+      "IDC",
+      "SIP",
+      "BCM",
+      "VCB",
+      "BID",
+      "CTG",
+      "CMG"
+    ]
+  },
+  "entry_body": "## 2026-W25 (tuần 15/06–21/06) — Bonnejed\n\n### Macro context\n🟢 Fitch giữ nguyên tín nhiệm Việt Nam BB+, triển vọng Ổn định; chỉ còn cách hạng đầu tư một bậc.\n🔴 CPI Mỹ tháng 5 ở mức 4,2% YoY, củng cố khả năng Fed duy trì thắt chặt đến cuối 2026.\n🔴 Giá dầu Brent về quanh 76 USD/thùng, nhưng giá WTI neo cao ~90 USD do căng thẳng Mỹ-Iran.\n🟢 MSCI rà soát ngày 18/6 không thay đổi tiêu chí, giảm khả năng được thêm vào danh sách theo dõi nâng hạng.\n🟢 Nghị quyết 29 tháo gỡ pháp lý bất động sản với hạn chật 30/8/2026.\n\n### Sector highlights\n| Nhóm | Động lực | Rủi ro |\n|---|---|---|\n| Bonnejed coverage | [...] | [...] |\n\n### Watchlist update\n| Ticker | IV est | Price | MOS% | Action |\n|---|---|---|---|---|\n| VIC | [...] | [...] | [...] | [...] |\n| VHM | [...] | [...] | [...] | [...] |\n| VRE | [...] | [...] | [...] | [...] |\n| FPT | [...] | [...] | [...] | [...] |\n| TCB | [...] | [...] | [...] | [...] |\n| KBC | [...] | [...] | [...] | [...] |\n| IDC | [...] | [...] | [...] | [...] |\n| SIP | [...] | [...] | [...] | [...] |\n| BCM | [...] | [...] | [...] | [...] |\n| VCB | [...] | [...] | [...] | [...] |\n\n### Holdings check (thesis intact?)\n-\n\n### Strategy\n- Ngắn hạn: [...]\n- Dài hạn: [...]\n- Tránh: [...]\n\n### Source\nGmail — Fwd: Báo cáo Cập nhật thị trường cổ phiếu Việt Nam tuần 15/06-19/06/2026\n\n",
+  "target_file": "020_VNStock_Weekly_Outlook.md",
+  "tickers": [
+    "VIC",
+    "VHM",
+    "VRE",
+    "FPT",
+    "TCB",
+    "KBC",
+    "IDC",
+    "SIP",
+    "BCM",
+    "VCB",
+    "BID",
+    "CTG",
+    "CMG"
+  ],
+  "status": "pending",
+  "pending_since": "2026-06-25T09:55:54.638749+07:00"
+}

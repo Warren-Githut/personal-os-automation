@@ -1,0 +1,41 @@
+{
+  "msg_id": "19ecde50f90f2057",
+  "broker": "Bonnejed",
+  "date": "2026-06-16",
+  "subject": "Fwd: Báo cáo Phân tích chi tiết Công ty Cổ phần Tập đoàn Hòa Phát",
+  "route_proposal": "sector",
+  "summary": {
+    "route": "sector",
+    "thi_truong": [
+      "🟢 Vốn hóa HPG đạt ~196.700 tỷ đồng, thuộc nhóm vốn hóa lớn trên HOSE.",
+      "🟢 P/E TTM 9,3x — thấp hơn ~30% so với trung bình 5 năm 13,6x.",
+      "🟢 P/B 1,4x nằm ở vùng thấp lịch sử (đáy 1,1x năm 2022).",
+      "🔴 Khối ngoại bán ròng gần đây, phản ánh phân kỳ nhận định ngắn hạn.",
+      "🟢 Free float ~58%, room ngoại còn lại ~27,5%."
+    ],
+    "vi_mo": [
+      "🟢 Quyết định chống bán phá giá HRC có hiệu lực chính thức từ 07/2025, bảo vệ thị trường nội địa 55% doanh thu.",
+      "🔴 Rủi ro từ nguồn cung dư thừa của Trung Quốc (xuất khẩu thép 9–11 triệu tấn/tháng vùng đỉnh).",
+      "🔴 Nợ vay cao 92.174 tỷ, Net Debt/EBITDA ~2,2x; chi phí lãi vay ~3.100 tỷ/năm — nhạy cảm với lãi suất.",
+      "🟢 Chu kỳ đầu tư công bước vào cao điểm, đặc biệt dự án đường sắt Bắc–Nam 67 tỷ USD.",
+      "🔴 Chính sách CBPG có thể bị điều chỉnh theo áp lực WTO/FTA; thị trường xuất khẩu ASEAN/EU có thể áp thuế tự vệ."
+    ],
+    "nganh": [
+      "🟢 HPG là nhà sản xuất thép số 1 Việt Nam và Đông Nam Á, TOP 30 thế giới với công suất 16 triệu tấn/năm.",
+      "🟢 Q1/2026 bứt phá: doanh thu 52.901 tỷ (+40,6% YoY), LNST >9.000 tỷ (+170% YoY).",
+      "🟢 Biên gộp 2025 phục hồi lên 15,7% nhờ chênh lệch giá nguyên liệu – thành phẩm cải thiện và CBPG.",
+      "🟢 EPS 2026E dự kiến 2.600–3.000 đồng/cp; Dung Quất 2 bước vào giai đoạn thu hoạch.",
+      "🔴 Rủi ro giá HRC giảm sâu dưới 460 USD/tấn sẽ ảnh hưởng tiêu cực đến biên lợi nhuận."
+    ],
+    "tickers": [
+      "HPG"
+    ]
+  },
+  "entry_body": "---\ndomain: trading\ntype: pulse\nstatus: active\ncreated: 2026-06-16\nlast_updated: 2026-06-16\ntags: [sector, bonnejed, HPG]\nsource: gmail_bonnejed\nbroker: Bonnejed\nroute: sector\ntickers: [\"HPG\"]\nreport_date: 2026-06-16\n---\n\n## 2026-06-16 — Bonnejed — Fwd: Báo cáo Phân tích chi tiết Công ty Cổ phần Tập đoàn Hòa\n\n### Narrative\n🟢 Vốn hóa HPG đạt ~196.700 tỷ đồng, thuộc nhóm vốn hóa lớn trên HOSE.\n🟢 P/E TTM 9,3x — thấp hơn ~30% so với trung bình 5 năm 13,6x.\n🟢 P/B 1,4x nằm ở vùng thấp lịch sử (đáy 1,1x năm 2022).\n🔴 Khối ngoại bán ròng gần đây, phản ánh phân kỳ nhận định ngắn hạn.\n🟢 Free float ~58%, room ngoại còn lại ~27,5%.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [HPG]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Báo cáo Phân tích chi tiết Công ty Cổ phần Tập đoàn Hòa Phát\n",
+  "target_file": "023_VNStock_Sector.md",
+  "tickers": [
+    "HPG"
+  ],
+  "status": "routed",
+  "pending_since": "2026-06-21T15:35:16.993631+07:00"
+}

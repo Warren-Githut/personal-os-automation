@@ -1,0 +1,76 @@
+{
+  "msg_id": "19f2ae6f8142b089",
+  "broker": "Bonnejed",
+  "date": "2026-07-04",
+  "subject": "Fwd: Cơ hội đầu tư | 04/07/2026",
+  "route_proposal": "macro",
+  "summary": {
+    "route": "macro",
+    "thi_truong": [
+      "🟢 29 luật có hiệu lực từ 01/07/2026, trọng tâm 4 luật tác động trực tiếp tới thị trường vốn.",
+      "🔴 Tác động phân hóa theo ngành, không dàn đều cho toàn thị trường.",
+      "🟢 Điểm chung xuyên suốt: chuyển từ tiền kiểm sang hậu kiểm dựa trên dữ liệu.",
+      "🟢 Ưu đãi thuế hướng dòng tiền vào kênh đầu tư qua quỹ, giảm tỷ lệ giao dịch trực tiếp."
+    ],
+    "vi_mo": [
+      "🟢 Luật Thuế TNCN 2025 miễn 100% thuế chuyển nhượng CCQ mở nắm giữ trên 2 năm.",
+      "🟢 Giảm 50% thuế TNCN lợi tức từ quỹ đầu tư chứng khoán/BĐS (chờ nghị định).",
+      "🟢 Luật Thương mại điện tử 2025 siết hàng giả/hàng lậu, buộc sàn ngoại lập pháp nhân tại Việt Nam.",
+      "🟢 Luật Xây dựng 2025 mở rộng diện miễn giấy phép, rút ngắn chuẩn bị đầu tư dự án.",
+      "🟢 Luật Quản lý thuế 2025 yêu cầu hộ kinh doanh kê khai theo doanh thu thực tế, hỗ trợ ngân hàng."
+    ],
+    "nganh": [
+      "🟢 Ngành quản lý quỹ hưởng lợi rõ nhờ ưu đãi thuế, dòng tiền vào quỹ tăng.",
+      "🟢 Công ty chứng khoán hưởng lợi gián tiếp qua sở hữu/phân phối chứng chỉ quỹ.",
+      "🟢 Bán lẻ có thương hiệu hưởng lợi khi hàng giả, hàng lậu bị siết chặt trên TMĐT.",
+      "🟢 Xây dựng và bất động sản nhà ở hưởng lợi nhờ miễn giấy phép, đẩy nhanh tiến độ.",
+      "🟢 Ngân hàng hưởng lợi gián tiếp từ cơ chế quản lý thuế mới (VCB, BID, CTG, TCB, MBB)."
+    ],
+    "tickers": [
+      "TCX",
+      "SSI",
+      "HCM",
+      "VCI",
+      "VND",
+      "MWG",
+      "FRT",
+      "DGW",
+      "VHM",
+      "KDH",
+      "VGC",
+      "VCG",
+      "NLG",
+      "CTD",
+      "VCB",
+      "BID",
+      "CTG",
+      "TCB",
+      "MBB"
+    ]
+  },
+  "entry_body": "## 2026-07-04 — Bonnejed — Fwd: Cơ hội đầu tư | 04/07/2026\n\n### Narrative\n🟢 29 luật có hiệu lực từ 01/07/2026, trọng tâm 4 luật tác động trực tiếp tới thị trường vốn.\n🔴 Tác động phân hóa theo ngành, không dàn đều cho toàn thị trường.\n🟢 Điểm chung xuyên suốt: chuyển từ tiền kiểm sang hậu kiểm dựa trên dữ liệu.\n🟢 Ưu đãi thuế hướng dòng tiền vào kênh đầu tư qua quỹ, giảm tỷ lệ giao dịch trực tiếp.\n\n### Impact assessment\n- VN market impact: [...]\n- Affected sectors: [...]\n- Related tickers: [TCX, SSI, HCM, VCI, VND, MWG, FRT, DGW, VHM, KDH, VGC, VCG, NLG, CTD, VCB, BID, CTG, TCB, MBB]\n\n### Watch points\n- [...]\n\n### Source\nGmail — Fwd: Cơ hội đầu tư | 04/07/2026\n\n",
+  "target_file": "021_VNStock_Macro.md",
+  "tickers": [
+    "TCX",
+    "SSI",
+    "HCM",
+    "VCI",
+    "VND",
+    "MWG",
+    "FRT",
+    "DGW",
+    "VHM",
+    "KDH",
+    "VGC",
+    "VCG",
+    "NLG",
+    "CTD",
+    "VCB",
+    "BID",
+    "CTG",
+    "TCB",
+    "MBB"
+  ],
+  "status": "routed",
+  "pending_since": "2026-07-06T09:30:21.058467+07:00"
+}

@@ -1,0 +1,18 @@
+# Auto-detect text files and normalize line endings* text=auto
+*.md text
+*.py text
+*.json text
+*.jsonc text
+*.yml text
+*.yaml text
+*.mjs text
+*.gs text
+*.sh text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.png binary
+*.pdf binary
+*.jpg binary
+*.xlsx binary
+*.docx binary
