@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Warren//Hermes Stock Sync//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:warren-vault-pl-sync-2026-07@hermes
+DTSTAMP:20260717T100000Z
+DTSTART;TZID=Asia/Ho_Chi_Minh:20260801T100000
+DTEND;TZID=Asia/Ho_Chi_Minh:20260801T110000
+RRULE:FREQ=MONTHLY;BYMONTHDAY=1;INTERVAL=1
+SUMMARY:[Vault] Kiểm tra P/L + Stock-Price-Sync
+DESCRIPTION:Manual fallback check (phòng cron 15:30 T2-T6 fail).\n\nCopy-paste vào Hermes chat:\n"Chạy stock-price-sync, check Holdings.md P/L có update không. Nếu cron fail hoặc giá không đổi → báo ngay."\n\nChecklist:\n- P/L tổng portfolio có âm không? Bao nhiêu %?\n- Từng mã (GAS/PVD/PNJ) P/L TỔNG có đúng không?\n- Giá live có khớp sàn không (Entrade API)?\n- Nếu P-Lab kết luận → update Thesis PNJ status.
+BEGIN:VALARM
+TRIGGER:-PT12H
+ACTION:DISPLAY
+DESCRIPTION:[Vault] Kiểm tra P/L + Stock-Price-Sync (ngày mai 10g)
+END:VALARM
+END:VEVENT
+END:VCALENDAR
