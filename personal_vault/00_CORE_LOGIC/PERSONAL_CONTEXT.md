@@ -56,7 +56,7 @@ last_updated: 2026-07-13
 |---|---|---|---|
 | 🏛️ | **Visitation-enforcement case reopened (07/12) — Warren đã đóng 17.2M (vượt 11M QĐ 575) nhưng Khanh cản trở, đòi 20M + gắn điều kiện thăm con. Cùng lúc child support 11M/tháng từ 10/7 định hình burn = 36M/tháng (25M cá nhân + 11M).** | `_cases/active/legal_quyen_tham_nom_GG.md` (OPEN, priority high): Khanh có tin nhắn tự thú "đéo thoả thuận dc mốc này thì nghĩa vụ m đéo làm dc" = exhibit A sạch. QĐ 575 hiệu lực, Warren làm đúng nghĩa vụ. EF gap giờ quantify được: 108-216M (3-6 tháng). W28→W29: **FLIPPED từ unknown → KNOWN + enforcement reopened**. | (1) Gửi văn bản thiện chí Bước 1 (trích QĐ 575, đề xuất lịch 1-2 lần/tuần); (2) Screenshot nguyên văn tin nhắn Khanh (exhibit A), KHÔNG xóa; (3) Tiếp tục đóng 11M ngày 10 tới, TUYỆT ĐỐI KHÔNG đóng 20M; (4) Giao LS soạn công văn Bước 2. |
 | 🏥 | **LDL 4.50 / ApoB 120 vẫn chưa có intervention 42 ngày — 050_Health_Log untouched từ 06/01. Trong khi đó weight 61kg đã xác nhận là NEW stable baseline (không phải anomaly), sleep excellent (quality ~89).** | `051_Sleep_Log.md` (07/12 = 90 quality, 61kg 19-day stable baseline); `050_Health_Log.md` (last 06/01, LDL 4.50 ↑ từ 3.49, ApoB 120 >100). Daily_Pulse gap 23 ngày (last 06/19) — capture discipline chọn lọc. W26→W28→W29: **CONFIRMED STABLE weight, nhưng LDL/ApoB THIẾU can thiệp VẪN PERSISTS**. | Book repeat lipid panel (target 09/2026: LDL <3.35, ApoB <100). Cắt béo bão hòa (gen APOA5/PPARG). Accept Sleep_Log làm primary health pulse, backfill Daily_Pulse hoặc chấp nhận gap. |
-| 🏦 | **Oil $87→$72 làm mất tailwind PVD/GAS near-term — watchlist giờ 9 tickers (VCB, BID, FPT, PNJ added) all YELLOW/RED, vẫn 100% cash + 0 EF + thêm 11M/tháng drain mới.** | `021_VNStock_Macro.md` (Brent $71.94, UAE tăng cung <$70); `Candidates_Watchlist.md` (9 tickers, last_updated 07/13): FPT +18-25% upside (rẻ nhất %), PVD sát IV (-1%), GAS -13%, VCB +2-8%, BID +16-23%, PNJ +11-30%, HPG +34%, MWG 0%, NLG -11%. FTSE Sep 21 upgrade (~2 tỷ USD) vẫn catalyst dài hạn. W26→W29: **TAILWIND REMOVED + WIDENING**. | Chưa entry — 0 EF + 11M drain mới cản. Nếu deploy: FPT % upside lớn nhất nhưng giá vẫn dưới IV. Recheck PVD (<28k) / GAS (<70k). Red-flag check bắt buộc trước mọi entry. |
+| 🏦 | *(stock domain đã tách sang Stock_OS — xem Stock_OS/stock_vault/10_PULSE/021_VNStock_Macro.md)* | — | — |
 
 ---
 
@@ -75,7 +75,7 @@ last_updated: 2026-07-13
 ### 11B. Known Cognitive Patterns (push back here)
 - **Trading FOMO.** When the market moves up without Warren in position, impulse is
   to chase or lower entry standards. Hermes must enforce red-flag financial checks
-  before any entry — GAS, VN30, or any new position. Trigger phrase: "red-flag check."
+  before any entry — see Stock_OS red-flag protocol. Trigger phrase: "red-flag check."
 - **Health optimism bias.** Warren tends to underreport or postpone health issues
   (last bloodwork: TODO, no workout cadence). Hermes surfaces these proactively when
   health-related topics arise — not as nagging, but as factual gaps.
@@ -98,7 +98,7 @@ last_updated: 2026-07-13
 ### 11D. What Warren Trusts vs. Questions
 - **Trusts:** Financial data from verified sources (TCBS, VNDirect), structured
   frameworks (DCF, SOTP), explicit tradeoff tables, time/cost estimates.
-- **Questions:** "Feeling" about a stock without financials to back it, vague
+- **Questions:** "Feeling" without data to back it, vague
   health advice, proposals without a concrete next action.
 - **Red flag for Hermes:** If Warren says "chốt luôn" or "ok làm đi" on a trading
   decision without red-flag check → pause and confirm scope before proceeding.
@@ -111,4 +111,4 @@ last_updated: 2026-07-13
 - **GG access blocked.** Any legal/financial decision regarding GG must consider
   access constraints first.
 - **Moratorium on new vault features** until existing Personal OS tools have
-  real usage data (Daily_Pulse backfilled, /personal-stock-ingest tested, /lint validated).
+  real usage data (Daily_Pulse backfilled, /lint validated).

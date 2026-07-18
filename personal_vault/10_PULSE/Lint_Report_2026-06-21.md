@@ -42,14 +42,6 @@ Total issues  : 82
 ### .archive / .kilo arch / scripts
 - Một loạt file không có frontmatter: đây là vùng thường không phải nội dung vault, nhưng nếu áp dụng chung rule thì vẫn bị phát hiện
 
-### Wiki trading
-- `030-Companies/031-GAS/Thesis.md`
-- `030-Companies/033-NVL/Thesis.md`
-- `030-Companies/034-PVD/Thesis.md`
-- `030-Companies/035-HPG/Thesis.md`
-
-→ 4 thesis dùng `status: watching` — cần chốt lại thuộc set hợp lệ hay mở rộng linter cho phép `watching`
-
 ## Khuyến nghị
 
 1. **Tiêu chuẩn status chung:** định nghĩa rõ giá trị hợp lệ. Ví dụ mở rộng: `active, archived, draft, OPEN, CLOSED, stub, watching, deprecated, unprocessed, approved, CODING, PLANNING`.

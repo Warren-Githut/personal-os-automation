@@ -33,10 +33,10 @@ domain: "personal"
 - **Health:** BMI ~21.5, 16:8 intermittent fasting, sleep avg ~7h35. Workout: 0. LDL/ApoB cần intervention.
 - **Family:** Separated (2026-05). GG (con trai, 6 tuổi) — access đang bị blocked. Bố mẹ ở Saigon.
 - **Finance:** Net worth ~700tr VND, monthly burn ~25tr, emergency fund: **0 tháng.**
-- **Trading:** Xem STOCK_USER.md — đây là profile riêng cho stock domain.
+- **Trading:** Xem Stock_OS (`Stock_OS/stock_vault/00_CORE_LOGIC/STOCK_USER.md`) — đây là vault riêng cho stock domain.
 
 > Vault: `personal_vault/00_CORE_LOGIC/PERSONAL_USER.md`
-> Stock profile đồng nghiệp: `personal_vault/00_CORE_LOGIC/STOCK_USER.md`
+> Stock profile đồng nghiệp: `Stock_OS/stock_vault/00_CORE_LOGIC/STOCK_USER.md`
 
 ---
 
@@ -82,7 +82,7 @@ Warren là **cùng 1 người**, nhưng:
 
 | Profile | Góc nhìn | File |
 |---|---|---|
-| stock-profile | Investor — VN equities, BTC, Polymarket | `STOCK_USER.md`, `STOCK_CONTEXT.md` |
+| stock-profile | Investor — VN equities, BTC, Polymarket | `Stock_OS/stock_vault/00_CORE_LOGIC/STOCK_USER.md`, `STOCK_CONTEXT.md` |
 | personal_profile | Con người hằng ngày — health, family, work | `PERSONAL_USER.md`, `PERSONAL_CONTEXT.md` |
 
 **Hard rule:** Không lẫn lộn. Khi ở stock-profile, ko tự động đưa personal info vào phân tích. Khi ở personal_profile, ko tự động đưa stock analysis vào health/family advice.

@@ -11,7 +11,6 @@ name: Personal OS Wiki
 
 Domains:
 - [[01_about_GG]] — GG, co-parenting, family calendar
-- [[03_Investing]] — VN equities, frameworks
 - [[02_Health]] — fitness, bloodwork, doctor
 - [[04_Growth]] — reading, courses, reflection
 

@@ -13,7 +13,6 @@ generated_from: 00_WIKI_INDEX.md
 |--------|-----------------|----------------|-------|
 | family_gg | GG, parenting, con, calendar, gift, genetic profile | 30_KNOWLEDGE_BASE/wiki/01_GG/ | aa_About_GG/01_about_GG.md là entry point tong hop |
 | health | suc khoe, genetics, GPro, doctor, morning routine, baseline | 30_KNOWLEDGE_BASE/wiki/02_Health/ | GPro_Index.md cho genetics; ab_Doctor_Reports/ cho bloodwork |
-| investing | co phieu, thesis, BCTC, dinh gia, GAS, NLG, NVL, PVD | 30_KNOWLEDGE_BASE/wiki/03_Investing/ | VN_Equities/030-Companies/{Ticker}/Thesis.md cho tung co phieu |
-|| growth | reading, sach, development, phat trien | 30_KNOWLEDGE_BASE/wiki/04_Growth/ | Reading_Log.md cho book notes |
+| growth | reading, sach, development, phat trien | 30_KNOWLEDGE_BASE/wiki/04_Growth/ | Reading_Log.md cho book notes |
 | trading | crypto, BTC, polymarket, market, VN-Index, VN30 | 30_KNOWLEDGE_BASE/wiki/trading/ | Directory chua ton tai tren disk - data tu smart-env cache. Neu can query, dung PULSE files lam nguon tam thoi |
-| 10_PULSE | daily pulse, sleep log, stock outlook, market pulse, weekly synthesis | 10_PULSE/ | Pulse files cap nhat hang ngay. 00_PULSE_INDEX.md la entry point — doc truoc de biet file nao can |
+| 10_PULSE | daily pulse, sleep log, market pulse, weekly synthesis | 10_PULSE/ | Pulse files cap nhat hang ngay. 00_PULSE_INDEX.md la entry point — doc truoc de biet file nao can |

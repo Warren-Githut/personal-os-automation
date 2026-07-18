@@ -30,42 +30,10 @@ related_paths:
 
 ---
 
-## 03_Investing/VN_Equities/
+## 03_Investing (MOVED)
 
-| file | ticker | type | thesis_snapshot | last_updated |
-|------|--------|------|-----------------|--------------|
-| `03_Investing/VN_Equities/Holdings.md` | — | tracking | Positions + concentration check (currently 100% cash) | — |
-| `03_Investing/VN_Equities/Candidates_Watchlist.md` | — | tracking | Refined candidates list — GAS entry with Thesis link, awaiting monthly screening | — |
-
----
-
-## 03_Investing/VN_Equities/020-Sectors/
-
-| file | sector | type | key_insights | last_updated |
-|------|--------|------|---------------|--------------|
-| `03_Investing/VN_Equities/020-Sectors/Ngan-hang/DHCĐ-2026-Tong-hop-14-ngan-hang.md` | Ngân hàng | analysis | Đại hội đồng cổ đông 14 ngân hàng — biên lãi ròng hẹp, Basel III, tăng vốn. Core: ACB✅, TCB✅, VCB (nắm giữ). Tránh: STB❌ | 2026-06-23 |
-| `03_Investing/VN_Equities/020-Sectors/Ngan-hang/Thong-tu-25-2026-NHNN-Tac-dong-ngan-hang.md` | Ngân hàng | analysis | Thông tư 25/2026 — nới trần vốn ngắn hạn cho vay trung dài hạn từ 30% lên 40%, Big 4 hưởng lợi kép. Ngân hàng tư nhân chỉ hưởng từ nới trần. Không thay đổi luận điểm đầu tư. | 2026-06-23 |
-| `03_Investing/VN_Equities/020-Sectors/Chung-khoan/29-Luat-2026-Tac-dong-TTCK.md` | Chứng khoán | analysis | 29 Luật hiệu lực 01/07/2026 — 4 luật trọng tâm (Thuế TNCN, Xây dựng, TMĐT, Quản lý thuế). Chứng khoán/quản lý quỹ hưởng lợi ưu đãi thuế CCQ mở. Bán lẻ hưởng lợi từ siết hàng giả. | 2026-07-04 |
-
----
-
-## 03_Investing/VN_Equities/030-Companies/
-
-| company | files | key_insights | last_updated |
-|---------|-------|---------------|--------------|
-| `GAS` | Thesis, Anti-thesis, BCTC, Catalyst-watch | Rev +30.5% (FY2025). GREEN. EPS 4,647. Margin 12.6%. Recv improved. OCF 1.13x. Watch gia <70,000. | — |
-| `NLG` | Thesis, Anti-thesis, BCTC, Catalyst-watch | CLEAN. Core housing -39%. Composite IV ~19k-23k. Land bank SOTP needed. | — |
-|| `NVL` | Thesis, Anti-thesis, BCTC, Catalyst-watch | HIGH RISK (4/6). D/E 323%, OCF am. KHONG MUA. | — |
-|| `PNJ` | Thesis, Anti-thesis, BCTC, Catalyst-watch | #1 jewelry VN. EPS 7,652. Integrity Gate 8/11. P/E 7.7x. PwC audit. **⚠️ P-Lab scandal (T7/2026)** — chờ kết luận. | 2026-07-05 |
-| `PVD` | Thesis, Anti-thesis, BCTC, Catalyst-watch | GREEN (0/6). Deloitte. EPS 1,868 (+48.8%). FCF am. IV ~31k. Gia sat intrinsic (30,750). Cho pullback <28k. | — |
-
----
-
-## 03_Investing/ (root)
-
-| file | type | status | notes | last_updated |
-|------|------|--------|-------|--------------|
-| `03_Investing/Frameworks.md` | reference | active | Reusable sector/macro mental models — oil, rates, FX spillovers | — |
+> ⚠️ Stock domain đã tách sang `Stock_OS/stock_vault/30_KNOWLEDGE_BASE/wiki/03_Investing/`.
+> Personal_OS không còn dữ liệu cổ phiếu. Query stock → mở Stock_OS vault.
 
 ---
 
@@ -105,7 +73,7 @@ related_paths:
 |-----------|---------|
 | Hồ sơ GG, calendar, gift tracking | `01_GG/aa_About_GG/` |
 | Health baseline, doctor reports, genetics | `02_Health/` |
-| VN equities thesis, BCTC, watchlist | `03_Investing/` |
+| VN equities thesis, BCTC, watchlist | `Stock_OS/stock_vault/30_KNOWLEDGE_BASE/wiki/03_Investing/` (đã tách) |
 | Reading log, development | `04_Growth/` |
 | Tất cả decisions | `DECISION_LOG.md` |
 | Wiki change log | `log.md` |
