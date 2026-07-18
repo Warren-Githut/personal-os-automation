@@ -58,3 +58,6 @@ scripts/_rss_fetch_log.txt
 .playwright-mcp/
 google-login.png
 _tmp_broker/
+
+# Hide script artifacts from git
+scripts/
