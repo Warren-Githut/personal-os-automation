@@ -1,3 +1,9 @@
 {
-  "promptDelete": false
+  "promptDelete": false,
+  "userIgnoreFilters": [
+    "scripts",
+    "scripts/**",
+    "__pycache__",
+    "__pycache__/**"
+  ]
 }
