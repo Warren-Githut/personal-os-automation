@@ -2,12 +2,18 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-07-17
+last_updated: 2026-07-18
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-07-18
+- **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
+- **FLAGGED: Daily_Pulse.md gap 29 ngày** — không có entry từ 2026-06-19.
+- **FLAGGED: Health log gap (Daily_Pulse)** — health log cuối 2026-06-19 trong Daily_Pulse (29 ngày). Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn được cập nhật đều (entry cuối 2026-07-17, hôm qua) → health data thực tế vẫn được log riêng, chỉ chưa phản ánh lên Daily_Pulse.
+- **RESOLVED: Court case CLOSED** (2026-07-03) — QĐ 575/2026/QĐST-HNGĐ thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng. File tại `_cases/closed/legal_divorce_court_GG_access.md`. Body vẫn còn CRITICAL GAP note cũ (từ lúc mở) nhưng frontmatter `status: CLOSED` xác nhận đã xong — không cần reset follow_up.
 
 ## 2026-07-17
 - **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
