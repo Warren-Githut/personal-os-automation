@@ -3,8 +3,8 @@ name: 00_WIKI_INDEX
 type: index
 status: active
 domain: personal
-last_updated: 2026-07-14
-total_files: 21
+last_updated: 2026-07-19
+total_files: 22
 scope: personal_vault/30_KNOWLEDGE_BASE/wiki
 index_first_rule: Always read this file before citing personal wiki pages; if a referenced page is missing, update here instead of searching blindly
 auto_update: Hermes must update this table whenever wiki files are added/removed/renamed
@@ -41,7 +41,8 @@ related_paths:
 
 | file | period | type | key_insights | last_updated |
 |------|--------|------|---------------|--------------|
-| `02_Health/aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md` | 2026-05 | reference | 171cm/63kg/BMI 21.5, fasting 16:8, no conditions — bloodwork TBD | — |
+| `02_Health/aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md` | 2026-06 | reference | 171cm/63kg/BMI 21.5, fasting 16:8; mỡ máu LDL cao nhưng TG/HDL tuyệt vời (0.23-0.56, nhạy insulin) | 2026-07-19 |
+| `02_Health/aa_Bloodwork_Health_Baseline/100_Biomarker_Interpretation.md` | 2026-07 | reference | Cách đọc chỉ số máu (knowledge, tách khỏi data) — TG/HDL ratio: <2 tuyệt vời, >3 kháng insulin | 2026-07-19 |
 | `02_Health/Morning_Routine.md` | 2026-05 | reference | Morning routine protocol — wake, weigh, fast, move, think | — |
 | `aa_About_Me/01_Warren_Profile.md` | 2026-06 | reference | Personal profile — life priorities, key relationships, communication style | — |
 | `02_Health/ab_Doctor_Reports/2026-06-02_personal_doctor.md` | 2026-06 | analysis | Baseline health assessment — 10 bloodwork records (2024-2026), comprehensive panel review | — |

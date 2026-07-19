@@ -3,7 +3,7 @@ domain: health
 tags: ["health"]
 type: reference
 status: active
-last_updated: 2026-06-11
+last_updated: 2026-07-19
 ---
 
 # Health Baseline — Warren
@@ -31,11 +31,11 @@ last_updated: 2026-06-11
 | 2026-01-13 | 5.5% | 4.91 mmol/L | 1.03 | ✅ HOMA-IR xuất sắc |
 
 ## Trục mỡ máu
-| Date | LDL | Chol TP | HDL | Trig | ApoB | Flag |
+| Date | LDL | Chol TP | HDL | Trig | TG/HDL | ApoB | Flag |
 |---|---|---|---|---|---|---|
-| 2026-01-13 | 4.17 | 6.13 | 1.73 | 0.50 | — | 🔴 LDL cao |
-| 2026-03-18 | 3.49 | 5.41 | 1.74 | 0.40 | — | 🟡 cải thiện |
-| 2026-06-11 | 4.50 | 6.27 | 1.41 | 0.79 | 120.51 | 🔴 tăng lại, ApoB >100 |
+| 2026-01-13 | 4.17 | 6.13 | 1.73 | 0.50 | 0.29 | — | 🔴 LDL cao |
+| 2026-03-18 | 3.49 | 5.41 | 1.74 | 0.40 | 0.23 | — | 🟡 cải thiện |
+| 2026-06-11 | 4.50 | 6.27 | 1.41 | 0.79 | 0.56 | 120.51 | 🔴 tăng lại, ApoB >100 |
 
 ## Trục gan (baseline đầu tiên)
 | Date | ALT | AST | GGT | ALP | Albumin | PT/INR | Flag |
