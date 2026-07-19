@@ -30,8 +30,8 @@ domain: "personal"
 
 ## Portfolio hiện tại (health, family)
 
-- **Health:** BMI ~21.5, 16:8 intermittent fasting, sleep avg ~7h35. Workout: 0. LDL/ApoB cần intervention.
-- **Family:** Separated (2026-05). GG (con trai, 6 tuổi) — access đang bị blocked. Bố mẹ ở Saigon.
+- **Health:** BMI ~20.9 (171cm/61kg, updated 07/13; 63kg cũ), 16:8 intermittent fasting, sleep avg ~7h35. Workout: 0. LDL/ApoB cần intervention.
+| **Family:** Divorced (QĐ 575/2026/QĐST-HNGĐ, 25/6/2026, finalized 07/03). GG (con trai, 6 tuổi) — access đang bị blocked. Bố mẹ ở Saigon.
 - **Finance:** Net worth ~700tr VND, monthly burn ~25tr, emergency fund: **0 tháng.**
 - **Trading:** Xem Stock_OS (`Stock_OS/stock_vault/00_CORE_LOGIC/STOCK_USER.md`) — đây là vault riêng cho stock domain.
 

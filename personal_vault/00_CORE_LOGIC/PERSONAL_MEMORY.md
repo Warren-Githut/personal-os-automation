@@ -16,15 +16,16 @@ domain: "personal"
 > Chỉ update sau `/compress-personal-memory` + Warren approve.
 >
 > **Auto-sync (read-only):** Hermes đọc file này đầu mỗi session → apply rules.
-> **Built-in memory** (`memory` tool) auto-saves mặc định — Hermes tự động ghi nhớ facts durable.
 >
-> **Built-in memory là cache tạm — KHÔNG phải SSOT.** Mất built-in memory không sao,
-> mất PERSONAL_MEMORY.md là mất tất cả. Warren chỉ cần sửa file vault là đủ.
+> **Built-in memory** (`memory` tool) = cache tạm, Hermes tự quản lý (2200-char cap).
+> **KHÔNG phải SSOT.** Mất built-in memory không sao, mất PERSONAL_MEMORY.md là mất tất cả.
+> Warren chỉ cần sửa file vault là đủ.
 >
-> ⚠️ **2 MEMORY STORES — distinct (Warren 2026-07-09):**
-> - **(a) Hermes built-in memory** = `memory` tool = **HARD 2,200-char WRITE CAP**. Hermes **tự do prune stale + add mới khi đầy** (Warren KO ý kiến, native management). **ANTI-LOOP (chỉ cho b):** KHÔNG loop xóa entry (a) để nhét content (b) — (b) push qua Python script riêng, không qua `memory` tool.
-> - **(b) mem0 FAISS local** = **SEPARATE, UNLIMITED** store. **CHỈ ghi khi Warren chạy `/compress-memory`** (distill raw → mem0). Hermes KHÔNG ghi mem0 trực tiếp. mem0 không bao giờ đầy.
-> - `_personal_memory_raw.md` = SSOT unlimited (append-only). /compress-memory distill → PERSONAL_MEMORY.md + push mem0 (b).
+> ⚠️ **VAULT-ONLY MEMORY — NO MEM0 (2026-07-09, áp dụng toàn bộ personal_profile):**
+> mem0 FAISS đã bỏ hoàn toàn. Không còn vector DB, không `memory` tool writes vào mem0.
+> - **SSOT duy nhất** = `_personal_memory_raw.md` (append-only, unlimited) → distill qua `/compress-personal-memory` → `PERSONAL_MEMORY.md`.
+> - Hermes KHÔNG dùng mem0. Script `mem0_push_*.py` đã obsolete — ignore.
+> - ANTI-LOOP: KHÔNG loop xóa built-in memory để nhét content khác — built-in tự prune.
 >
 > **Language:** Tiếng Việt (có dấu)
 >
@@ -60,8 +61,8 @@ Warren chạy `/compress-personal-memory` ~1 lần/tháng hoặc sau 3-4 session
 5. **Apply** — Warren OK → ghi đè `00_CORE_LOGIC/PERSONAL_MEMORY.md`
 6. **Clean raw** — clear `personal_vault/_inbox/_personal_memory_raw.md`
 7. **Ontology reconcile** — scan toàn vault `type:` values + cây folder vs `00_CORE_LOGIC/PERSONAL_ONTOLOGY.md` (personal-domain types) → diff → propose node type/edge mới hoặc drift → Warren OK → update PERSONAL_ONTOLOGY.md + ghi `## 🔄 Reconciliation Log`. (Borrow từ bài ontology-constrained memory: schema phải scan định kỳ để không lệch thực tế.)
-8. **Push mem0** — hỏi Warren "có push durable facts lên mem0 không?"
-9. **Report** — "Đã distill X raw entries → Y rules. Ontology reconciled (N diff). Archive tại _archives/memory/."
+8. **Report** — "Đã distill X raw entries → Y rules. Ontology reconciled (N diff). Archive tại _archives/memory/."
+> (bỏ bước Push mem0 — vault-only, không dùng mem0.)
 
 ---
 
@@ -77,7 +78,7 @@ Warren chạy `/compress-personal-memory` ~1 lần/tháng hoặc sau 3-4 session
 
 ## Write Governance
 
-**HARD RULE:** Hermes không tự động write vào: **PERSONAL_MEMORY.md, PERSONAL_USER.md, hay mem0 (b).**
+**HARD RULE:** Hermes không tự động write vào: **PERSONAL_MEMORY.md, PERSONAL_USER.md.** (Vault-only — KHÔNG dùng mem0.)
 > **Built-in memory (a)** (`memory` tool) = Hermes tự do quản lý, Warren không can thiệp.
 
 Mọi proposed write phải qua **2 gates**:
@@ -91,7 +92,7 @@ Chỉ WRITE khi:
 1. **Direct command** — Warren nói "lưu", "nhớ giùm", "ghi vào memory" → execute ngay
 2. **End-of-session proposal** — Hermes proposes lessons → Warren approves → **append vào `personal_vault/_inbox/_personal_memory_raw.md`**
 3. **PERSONAL_USER.md update** — Hermes phát hiện preference mới → propose → Warren approve → ghi
-4. **`/compress-personal-memory`** — distills raw → proposes PERSONAL_MEMORY.md edits → Warren approve → WRITE + SYNC mem0 (b)
+4. **`/compress-personal-memory`** — distills raw → proposes PERSONAL_MEMORY.md edits → Warren approve → WRITE (vault-only, không mem0)
 
 ---
 
@@ -99,7 +100,7 @@ Chỉ WRITE khi:
 
 *Cách Warren muốn mọi thứ vận hành trong personal context. Hermes tuân thủ mặc định.*
 
-- **[2026-07-09] Memory model 2-store:** (a) Hermes built-in (`memory` tool, 2200 cap) = Hermes tự do prune stale + add mới (native, Warren KO ý kiến). (b) mem0 FAISS local = separate unlimited, CHỈ `/compress-memory` ghi. SSOT = `_personal_memory_raw.md`. ANTI-LOOP: KHÔNG loop xóa entry (a) để nhét (b) — (b) push qua Python, không qua `memory` tool.
+- **[2026-07-09] Vault-only memory model:** SSOT = `_personal_memory_raw.md` → distill → `PERSONAL_MEMORY.md`. mem0 FAISS đã bỏ. Built-in `memory` tool = cache tạm (2200 cap), Hermes tự prune, không phải SSOT. KHÔNG dùng mem0.
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
 

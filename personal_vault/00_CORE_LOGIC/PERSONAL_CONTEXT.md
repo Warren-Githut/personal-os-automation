@@ -32,14 +32,14 @@ last_updated: 2026-07-13
   — Access: Warren có quyền thăm nom theo QĐ tòa (thực tế vẫn bị cản trở)
   — Child support: **11.000.000 đ/tháng, ngày 10 DL hàng tháng** (bắt đầu 10/7/2026)
   — Hết cấp dưỡng: khi GG đủ tuổi trưởng thành theo PL
-- **Case note:** `legal_divorce_court_GG_access` — closed. QĐ lưu tại `vault/legal/quyet_dinh_ly_hon_2026-07-03.pdf`
+| **Case note:** `legal_divorce_court_GG_access` — closed (original divorce case). QĐ lưu tại `vault/legal/quyet_dinh_ly_hon_2026-07-03.pdf`. ⚠️ NEW enforcement case `legal_quyen_tham_nom_GG.md` OPEN từ 07/12 (xem §9).
 
 ---
 
 ## 4. HEALTH BASELINE
 
 - DOB: 1983-10-09 | Age: 42
-- Height / Weight: 171cm / 63kg | BMI ~21.5 (healthy range)
+| Height / Weight: 171cm / 61kg | BMI ~20.9 (updated 07/13; 63kg giá trị cũ — healthy range)
 - Resting HR / BP: _(TODO — add when measured)_
 - Conditions / allergies: None known
 - Last bloodwork date: _(TODO)_
@@ -87,7 +87,7 @@ last_updated: 2026-07-13
   with tradeoffs when this topic surfaces.
 
 ### 11C. Communication Preferences
-- Vietnamese input, English output (vault files always English).
+| Tiếng Việt có dấu cho mọi vault file (English chỉ cho data/trading terms, YAML, code). Vietnamese input.
 - Direct. No throat-clearing, no trailing summaries, no "great question."
 - Conclusion first, evidence second. If Warren has to read 3 paragraphs to find
   the recommendation, Hermes failed.
