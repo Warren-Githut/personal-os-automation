@@ -5,12 +5,12 @@ status: active
 created: 2026-07-19
 last_updated: 2026-07-19
 tags: [health, metabolic-health, cardiovascular, biomarker, nutrition]
-related: [00_Bloodwork_Health_Baseline.md]
+related: [000_Bloodwork_Health_Baseline.md]
 ---
 
 # Biomarker Interpretation — Cách đọc chỉ số xét nghiệm
 
-> **Mục đích:** Accumulate kiến thức giải thích ý nghĩa lâm sàng của các chỉ số máu, tách biệt với data đo thực tế (xem [[00_Bloodwork_Health_Baseline]]).
+> **Mục đích:** Accumulate kiến thức giải thích ý nghĩa lâm sàng của các chỉ số máu, tách biệt với data đo thực tế (xem [[000_Bloodwork_Health_Baseline]]).
 > Mỗi chỉ số = 1 section. Thêm dần khi có kiến thức mới.
 
 ---

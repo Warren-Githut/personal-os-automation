@@ -41,7 +41,7 @@ related_paths:
 
 | file | period | type | key_insights | last_updated |
 |------|--------|------|---------------|--------------|
-| `02_Health/aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md` | 2026-06 | reference | 171cm/63kg/BMI 21.5, fasting 16:8; mỡ máu LDL cao nhưng TG/HDL tuyệt vời (0.23-0.56, nhạy insulin) | 2026-07-19 |
+| `02_Health/aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baseline.md` | 2026-06 | reference | 171cm/63kg/BMI 21.5, fasting 16:8; mỡ máu LDL cao nhưng TG/HDL tuyệt vời (0.23-0.56, nhạy insulin) | 2026-07-19 |
 | `02_Health/aa_Bloodwork_Health_Baseline/100_Biomarker_Interpretation.md` | 2026-07 | reference | Cách đọc chỉ số máu (knowledge, tách khỏi data) — TG/HDL ratio: <2 tuyệt vời, >3 kháng insulin | 2026-07-19 |
 | `02_Health/Morning_Routine.md` | 2026-05 | reference | Morning routine protocol — wake, weigh, fast, move, think | — |
 | `aa_About_Me/01_Warren_Profile.md` | 2026-06 | reference | Personal profile — life priorities, key relationships, communication style | — |

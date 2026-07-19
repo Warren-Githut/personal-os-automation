@@ -4,7 +4,7 @@ tags: ["health", "personal"]
 type: reference
 status: active
 last_updated: 2026-06-01
-related: [../02_Health/aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md, ../02_Health/Morning_Routine.md, ../../00_CORE_LOGIC/PERSONAL_CONTEXT.md]
+related: [../02_Health/aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baseline.md, ../02_Health/Morning_Routine.md, ../../00_CORE_LOGIC/PERSONAL_CONTEXT.md]
 ---
 
 - **Full name:** Nguyễn Sĩ Khoa

@@ -23,7 +23,7 @@ last_updated: 2026-06-08
 - Sleep avg: 7.5h (Jun 3–7, 5 entries) | Range: 6h–8h
 - Weight: stable 63kg
 - Quality trend: 91 → 92 → 88 → 83 (Jun 4 dip) → 87
-- Extracted → [[00_Bloodwork_Health_Baseline]]: none this week
+- Extracted → [[000_Bloodwork_Health_Baseline]]: none this week
 
 ### 💰 Money / Trading
 - Trades: 0
@@ -58,7 +58,7 @@ last_updated: 2026-06-08
 ### 🏥 Health
 - Sleep avg: {hours}h | Range: {min}-{max}h
 - Weight: {trend}
-- Extracted → [[00_Bloodwork_Health_Baseline]]: {what was ingested, if any}
+- Extracted → [[000_Bloodwork_Health_Baseline]]: {what was ingested, if any}
 
 ### 💰 Money / Trading
 - Trades: {N} | Direction: {up/down/flat}
@@ -70,7 +70,7 @@ last_updated: 2026-06-08
 
 ### 📋 Ingested to Permanent Files
 - [[GG_Milestones]] — {summary}
-- [[00_Bloodwork_Health_Baseline]] — {summary}
+- [[000_Bloodwork_Health_Baseline]] — {summary}
 - [[DECISION_LOG]] — {summary}
 - [[People_Index]] — {summary}
 - Other: {file} — {summary}

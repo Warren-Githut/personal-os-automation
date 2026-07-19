@@ -6,7 +6,7 @@ tags: [health, doctor, bloodwork]
 last_updated: 2026-06-02
 related:
   - 10_PULSE/050_Health_Log.md
-  - ../aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md
+  - ../aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baseline.md
   - wiki/health/Morning_Routine.md
   - 00_CORE_LOGIC/PERSONAL_CONTEXT.md
 ---
@@ -22,7 +22,7 @@ Warren | 42 | BMI 21.5 | IF 16:8 (8pm->12pm)
 
 ## Data Sources
 - 10_PULSE/050_Health_Log.md â€” 10 DIAG Lab results (2024-01-22 -> 2026-03-18)
-- ../aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md
+- ../aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baseline.md
 - wiki/health/Morning_Routine.md
 - 10_PULSE/Daily_Pulse.md
 - 00_CORE_LOGIC/PERSONAL_CONTEXT.md
@@ -78,7 +78,7 @@ Warren | 42 | BMI 21.5 | IF 16:8 (8pm->12pm)
 ---
 
 ## Tracking Gaps (TODO)
-- [ ] HR (resting) â€” can do va dien vao 00_Bloodwork_Health_Baseline.md
+- [ ] HR (resting) â€” can do va dien vao 000_Bloodwork_Health_Baseline.md
 - [ ] BP â€” can do va dien
 - [ ] Sleep log â€” can bat dau track trong Daily_Pulse
 - [ ] Workout cadence â€” can co routine on dinh

@@ -5,7 +5,7 @@ type: reference
 status: active
 last_updated: 2026-05-24
 related:
-  - aa_Bloodwork_Health_Baseline/00_Bloodwork_Health_Baseline.md
+  - aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baseline.md
 ---
 
 # Morning Routine — 3-Minute Insulin Protocol
