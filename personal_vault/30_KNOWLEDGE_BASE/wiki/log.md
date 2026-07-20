@@ -9,7 +9,9 @@ tags:
 
 # Log
 
-## 2026-07-18
+## 2026-07-20
+- **UPDATE: `/personal-weekly-connections` cron.** Added W29 (13/07–19/07) — 5 connections, 6 domains. Key: (1) Stock domain PURGED to Stock_OS 07/13 (git 528b2c6) — trading cross-ref now broken from personal vault; (2) Visitation-enforcement case STALE 7d, Action Checklist all `[ ]`, exhibit A unbused; (3) Weight 61→62kg (+1kg), LDL/ApoB gap widens to 49d; (4) Daily_Pulse gap 23→29d regression; (5) Court CLOSED zero-churn 7 days.
+
 - **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
 - **FLAGGED: Daily_Pulse.md gap 29 ngày** — không có entry từ 2026-06-19.
 - **FLAGGED: Health log gap (Daily_Pulse)** — health log cuối 2026-06-19 trong Daily_Pulse (29 ngày). Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn được cập nhật đều (entry cuối 2026-07-17, hôm qua) → health data thực tế vẫn được log riêng, chỉ chưa phản ánh lên Daily_Pulse.

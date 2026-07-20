@@ -1,12 +1,12 @@
 ---
-last_updated: 2026-07-13
+last_updated: 2026-07-20
 domain: meta
 type: pulse
 status: active
 tags:
   - weekly-connections
   - cross-domain
-entries: 7
+entries: 8
 related:
   - ../00_CORE_LOGIC/STOCK_CONTEXT.md
   - ../00_CORE_LOGIC/PERSONAL_CONTEXT.md
@@ -14,6 +14,38 @@ related:
 ---
 
 # Weekly Connections Log
+
+## 2026-W29 (13/07–19/07)
+
+| # | Connection | Domains | Evidence | Signal |
+|---|---|---|---|---|
+| 1 | **Stock domain PURGED from Personal_OS (07/13) — trading data moved to Stock_OS, breaking the trading↔finance cross-domain chain that W22-W28 tracked** — Git commit `528b2c6` ("split stock domain to Stock_OS: purge stock files and rewrite indices") removed Candidates_Watchlist, 020_VNStock_Weekly_Outlook, 021_VNStock_Macro, company theses (PVD/GAS/MWG/NLG/PNJ/HPC/FPT/VCB/BID) khỏi personal_vault. PERSONAL_CONTEXT §9 xác nhận: "stock domain đã tách sang Stock_OS". Hệ quả: weekly_connections không còn đọc được trading pulse trực tiếp từ personal vault → connection #3/#4 từ W24-W28 (oil vs PVD/GAS, watchlist widening) giờ phải cross-reference Stock_OS. 0 EF + 11M/month drain vẫn nguyên, nhưng catalyst tracking tách rời. | trading ↔ meta ↔ finance | [git log](../.git/log) (`528b2c6` 07/13 stock split); [PERSONAL_CONTEXT §9](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) ("stock domain đã tách sang Stock_OS"); [weekly_connections_log W28](../10_PULSE/weekly_connections_log.md) (#3/#4 traded on 021_Macro + Watchlist — nay purged) | 🟡 Contradiction — W28→W29: **STRUCTURAL SPLIT** |
+| 2 | **Visitation-enforcement case STALE 7 days — Warren paid 17.2M, Khanh obstructs, but ZERO of 8 Action Checklist items executed (no Bước 1 văn bản, no exhibit A screenshot, no lawyer letter)** — Case `legal_quyen_tham_nom_GG.md` OPEN từ 07/12, last_updated 07/12. Qua 7 ngày không có update mới. Action Checklist (#1-#8) toàn bộ `[ ]` — chưa gửi văn bản thiện chí Bước 1, chưa screenshot tin nhắn Khanh (exhibit A), chưa giao LS soạn công văn Bước 2. Warren đã làm đúng nghĩa vụ tài chính (17.2M > 11M) nhưng mặt trận pháp lý hoàn toàn tĩnh. Khanh có tin nhắn tự thú "đéo thoả thuận dc mốc này thì nghĩa vụ m đéo làm dc" = exhibit A sạch đang bị bỏ phí. | legal ↔ family_gg | [`legal_quyen_tham_nom_GG.md`](../_cases/active/legal_quyen_tham_nom_GG.md) (OPEN 07/12, Action Checklist all `[ ]`, last_updated 07/12); [PERSONAL_CONTEXT §9](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (case reopened, Warren paid 17.2M); [log.md](../30_KNOWLEDGE_BASE/wiki/log.md) (07/13-07/19: no visitation update, only court CLOSED flags) | 🔴 Critical gap — W28→W29: **STALE (no action 7d)** |
+| 3 | **Weight ticked UP 61→62kg while LDL/ApoB intervention STILL missing 49 days — health data disciplined via Sleep_Log, but 050_Health_Log untouched since 06/01** — W28 xác nhận 61kg = new stable baseline (19d). W29: 07/13=61kg → 07/14 onward = 62kg consistent (6 entries). +1kg trong 1 tuần, vẫn trong healthy range (BMI ~21.2). NHƯNG: 050_Health_Log last_updated 06/01 → LDL 4.50/ApoB 120 từ panel 06/11 VẪN chưa có dietary intervention logged (49 ngày). Sleep quality avg ~88 (07/16 dip to 80), BP 96-99/71-72 normal, fasting 18h consistent. Meta: capture discipline vẫn chọn lọc — Sleep_Log excellent, Daily_Pulse 29-day gap, 050_Health_Log 49-day gap. | health ↔ meta | [051_Sleep_Log](../10_PULSE/051_Sleep_Log.md) (07/13=61kg → 07/14-19=62kg, 7 entries); [050_Health_Log](../10_PULSE/050_Health_Log.md) (last_updated 06/01, LDL/ApoB unaddressed); [Daily_Pulse](../10_PULSE/Daily_Pulse.md) (last 06/19, 29-day gap); [log.md](../30_KNOWLEDGE_BASE/wiki/log.md) (07/13-19: Daily_Pulse gap 26→29 ngày) | 🟡 Correlation — W28→W29: **WEIGHT +1kg, LDL GAP WIDENS** |
+| 4 | **Daily_Pulse gap now 29 days (was 23 in W28) — capture discipline regression in the 5-bullet journal while Sleep_Log stays pristine** — W28 flagged Daily_Pulse gap 23 ngày. W29: gap lên 29 ngày (last entry 06/19). Process-notes cron chạy sạch mỗi ngày nhưng không có input mới từ Warren. Sleep_Log (051) vẫn được update thủ công đều đặn (07/19 = entry mới nhất). Nghịch lý: health pulse riêng hoạt động tốt, nhưng tổng hợp 5-domain (GG/Money/Mind/People) hoàn toàn tịt ngóm. Không có GG contact log, không có Money note, không có People note trong 29 ngày. | meta ↔ family_gg ↔ finance | [Daily_Pulse](../10_PULSE/Daily_Pulse.md) (last 06/19); [051_Sleep_Log](../10_PULSE/051_Sleep_Log.md) (07/19 active); [log.md](../30_KNOWLEDGE_BASE/wiki/log.md) (07/13-19 daily "Daily_Pulse.md gap 26→29 ngày") | 🟡 Correlation — W28→W29: **GAP WIDENED 23→29d** |
+| 5 | **Court CLOSED status rock-stable across W29 — 7 consecutive daily confirmations, no follow_up churn, blocker #1 from W22-W27 officially dead** — Log.md ghi "RESOLVED: Court case CLOSED" mỗi ngày 07/13→07/19 (7 lần). QĐ 575/2026/QĐST-HNGĐ thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng. File tại `_cases/closed/`. Không còn follow_up check (status không đổi từ 07/03). So với W22-W27 (16-day critical gap, follow_up reset 5 lần) → giờ là zero-churn stable state. Đây là nền tảng vững cho các quyết định tài chính/thăm nom. | legal ↔ family_gg | [log.md](../30_KNOWLEDGE_BASE/wiki/log.md) (07/13-19: 7× "Court case CLOSED" flags); [`_cases/closed/legal_divorce_court_GG_access.md`](../_cases/closed/legal_divorce_court_GG_access.md) (status CLOSED); [PERSONAL_CONTEXT §2](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (divorced, 11M/month) | 🟢 Amplification — W28→W29: **STABLE (zero churn)** |
+
+**📊 Stats:** 5 connections | 6 domains involved (trading, meta, finance, legal, family_gg, health)
+
+**🔗 Most connected domain:** meta (appears in 3 of 5 connections: #1, #3, #4)
+
+**🔄 Previous week (W28) comparison:**
+| Connection | W28 status | W29 change |
+|---|---|---|
+| #1 (court RESOLVED, visitation reopened) | 🔴 Critical gap → RESOLVED + NEW | **SPLIT** — trading data purged to Stock_OS (07/13), visitation case now STALE 7d |
+| #2 (visitation-enforcement OPEN) | 🔴 Critical gap — NEW | **STALE** — no action in 7 days, checklist all `[ ]` |
+| #3 (weight 61kg stable, LDL missing 42d) | 🟡 Correlation — CONFIRMED STABLE | **WEIGHT +1kg (61→62), LDL gap 42→49d** |
+| #4 (capture discipline selective) | 🟡 Correlation — SELECTIVE PERSISTS | **REGRESSED** — Daily_Pulse gap 23→29d |
+| #5 (court CLOSED stable) | 🟢 Amplification — RESOLVED | **ZERO CHURN** — 7 consecutive daily confirmations |
+
+**💡 Feed into /personal-context-update (Monday):**
+1. **[HIGH] Visitation case STALE 7 days — Action Checklist all `[ ]`.** Gửi văn bản Bước 1 (trích QĐ 575, đề xuất lịch 1-2 lần/tuần) + screenshot tin nhắn Khanh (exhibit A) NGAY. 17.2M đã đóng, vị thế mạnh, nhưng tĩnh = bỏ phí leverage.
+2. **[MOD] Stock domain split → trading tracking moved to Stock_OS.** Weekly cross-domain synthesis phải cross-reference Stock_OS thay vì personal vault. 0 EF + 11M drain vẫn nguyên, catalyst view tách rời.
+3. **[MOD] Health: weight 62kg (+1kg), LDL/ApoB intervention STILL missing 49 days.** 050_Health_Log untouched since 06/01. Book repeat lipid panel (target 09/2026). Sleep_Log excellent (7d, quality ~88).
+4. **[MOD] Daily_Pulse gap 29 days — capture regression.** Sleep_Log active but 5-bullet journal dead. Backfill or accept Sleep_Log as primary; log GG contact + Money notes manually.
+5. **[LOW] Court CLOSED stable 7 days — zero churn.** No action needed; baseline confirmed.
+
+---
 
 ## 2026-W28 (06/07–12/07)
 
