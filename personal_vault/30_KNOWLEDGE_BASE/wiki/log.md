@@ -2,7 +2,7 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-07-18
+last_updated: 2026-07-20
 tags:
   - meta
 ---
@@ -10,8 +10,13 @@ tags:
 # Log
 
 ## 2026-07-20
-- **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ Visitation-enforcement CASE FILE MẤT TÍCH khỏi vault (W29 ghi OPEN, scan 07/20 = `_cases/active/` rỗng, file không tồn tại); (2) 🏥 LDL/ApoB gap 49d, weight 62kg (+1kg), Daily_Pulse gap 29d; (3) 🏦 Stock domain purged to Stock_OS 07/13, trading ra khỏi personal scope.
-- **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
+- **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ Visitation-enforcement case OPEN nhưng STALE (tồn tại tại `_cases/active/legal_quyen_tham_nom_GG.md` — scan trước ghi "mất tích" là SAI, file thực tế CÓ); (2) 🏥 LDL/ApoB gap 49d, weight 62kg (+1kg), Daily_Pulse gap 29d; (3) 🏦 Stock domain purged to Stock_OS 07/13, trading ra khỏi personal scope.
+- **PROCESSED: `/process-notes` cron (07/20 06:00).** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
+- **FLAGGED: Daily_Pulse.md gap 31 ngày** — entry cuối 2026-06-19, hôm nay 2026-07-20. Capture regression tiếp diễn (W29→W30: 29→31d).
+- **FLAGGED: Health log gap (Daily_Pulse)** — Daily_Pulse Health cuối 2026-06-19 (31d). Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn cập nhật đều (entry cuối 2026-07-19, hôm qua) → health data thực tế vẫn log riêng, chỉ chưa phản ánh lên Daily_Pulse. **Recommend:** chấp nhận Sleep_Log làm primary,或进行 backfill Daily_Pulse.
+- **STATUS: Court case CLOSED đã confirm** — `legal_divorce_court_GG_access.md` tại `_cases/closed/`, resolution_date 2026-07-03 (QĐ 575/2026). Không cần reset follow_up.
+- **🆕 FLAGGED: Active case STALE — `legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12` (8 ngày không update). Toàn bộ Action Checklist (8 mục) vẫn `[ ]`. Không có `follow_up` field → không auto-reset, nhưng CẦN Warren review: (1) B1 soạn văn bản thăm nom, (2) B6 screenshot exhibit A, (3) B7 công văn luật sư. Đóng 11M ngày 10 tới vẫn nguyên nghĩa vụ.
+- **CORRECTION:** Bản log `personal-context-update` W30 ghi case "mất tích khỏi vault" là SAI — file `_cases/active/legal_quyen_tham_nom_GG.md` tồn tại, chỉ là STALE. Đã flag để Warren đối chiếu.
 - **FLAGGED: Daily_Pulse.md gap 29 ngày** — không có entry từ 2026-06-19.
 - **FLAGGED: Health log gap (Daily_Pulse)** — health log cuối 2026-06-19 trong Daily_Pulse (29 ngày). Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn được cập nhật đều (entry cuối 2026-07-17, hôm qua) → health data thực tế vẫn được log riêng, chỉ chưa phản ánh lên Daily_Pulse.
 - **RESOLVED: Court case CLOSED** (2026-07-03) — QĐ 575/2026/QĐST-HNGĐ thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng. File tại `_cases/closed/legal_divorce_court_GG_access.md`. Body vẫn còn CRITICAL GAP note cũ (từ lúc mở) nhưng frontmatter `status: CLOSED` xác nhận đã xong — không cần reset follow_up.
