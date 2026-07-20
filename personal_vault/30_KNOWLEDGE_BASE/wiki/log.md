@@ -10,7 +10,12 @@ tags:
 # Log
 
 ## 2026-07-20
-- **UPDATE: `/personal-weekly-connections` cron.** Added W29 (13/07–19/07) — 5 connections, 6 domains. Key: (1) Stock domain PURGED to Stock_OS 07/13 (git 528b2c6) — trading cross-ref now broken from personal vault; (2) Visitation-enforcement case STALE 7d, Action Checklist all `[ ]`, exhibit A unbused; (3) Weight 61→62kg (+1kg), LDL/ApoB gap widens to 49d; (4) Daily_Pulse gap 23→29d regression; (5) Court CLOSED zero-churn 7 days.
+- **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ Visitation-enforcement CASE FILE MẤT TÍCH khỏi vault (W29 ghi OPEN, scan 07/20 = `_cases/active/` rỗng, file không tồn tại); (2) 🏥 LDL/ApoB gap 49d, weight 62kg (+1kg), Daily_Pulse gap 29d; (3) 🏦 Stock domain purged to Stock_OS 07/13, trading ra khỏi personal scope.
+- **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
+- **FLAGGED: Daily_Pulse.md gap 29 ngày** — không có entry từ 2026-06-19.
+- **FLAGGED: Health log gap (Daily_Pulse)** — health log cuối 2026-06-19 trong Daily_Pulse (29 ngày). Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn được cập nhật đều (entry cuối 2026-07-17, hôm qua) → health data thực tế vẫn được log riêng, chỉ chưa phản ánh lên Daily_Pulse.
+- **RESOLVED: Court case CLOSED** (2026-07-03) — QĐ 575/2026/QĐST-HNGĐ thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng. File tại `_cases/closed/legal_divorce_court_GG_access.md`. Body vẫn còn CRITICAL GAP note cũ (từ lúc mở) nhưng frontmatter `status: CLOSED` xác nhận đã xong — không cần reset follow_up.
+|| 07:00 | update | [`00_CORE_LOGIC/PERSONAL_CONTEXT.md`](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) | /personal-context-update cron: updated Section 9 W30 (07/20–07/26) — 3 themes: visitation case file missing từ vault, LDL/ApoB gap 49d + weight 62kg, stock domain purged to Stock_OS. |
 
 - **PROCESSED: `/process-notes` cron.** Inbox trống (0 items). stock_pending trống (0 JSONs). Không có gì để route/archive.
 - **FLAGGED: Daily_Pulse.md gap 29 ngày** — không có entry từ 2026-06-19.

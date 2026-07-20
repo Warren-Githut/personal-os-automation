@@ -2,7 +2,7 @@
 domain: personal
 type: context
 status: active
-last_updated: 2026-07-13
+last_updated: 2026-07-20
 ---
 
 # PERSONAL_CONTEXT — Warren's Personal Snapshot
@@ -50,13 +50,13 @@ last_updated: 2026-07-13
 
 ## 9. THIS WEEK
 
-> **Update:** Every Monday morning. Hermes reads 11 data sources from past 7 days, synthesizes up to 3 themes. **Last updated: 2026-07-13 (W29: 07/13–07/19).** 7-day scan: 12 git commits, 34 vault files modified, NEW visitation-enforcement case opened 07/12; court RESOLVED 07/03 (QĐ 575); oil fell $87→$72; watchlist expanded to 9 tickers.
+> **Update:** Every Monday morning. Hermes reads 11 data sources from past 7 days, synthesizes up to 3 themes. **Last updated: 2026-07-20 (W30: 07/20–07/26).** 7-day scan: 12 git commits (07/13–07/20), vault files modified (health capture + weekly_connections), stock domain purged to Stock_OS (07/13, `528b2c6`), `_cases/active/` EMPTY, Daily_Pulse gap 29+ ngày.
 
 | # | Current question | What I'm reading/researching | Decision needed |
 |---|---|---|---|
-| 🏛️ | **Visitation-enforcement case reopened (07/12) — Warren đã đóng 17.2M (vượt 11M QĐ 575) nhưng Khanh cản trở, đòi 20M + gắn điều kiện thăm con. Cùng lúc child support 11M/tháng từ 10/7 định hình burn = 36M/tháng (25M cá nhân + 11M).** | `_cases/active/legal_quyen_tham_nom_GG.md` (OPEN, priority high): Khanh có tin nhắn tự thú "đéo thoả thuận dc mốc này thì nghĩa vụ m đéo làm dc" = exhibit A sạch. QĐ 575 hiệu lực, Warren làm đúng nghĩa vụ. EF gap giờ quantify được: 108-216M (3-6 tháng). W28→W29: **FLIPPED từ unknown → KNOWN + enforcement reopened**. | (1) Gửi văn bản thiện chí Bước 1 (trích QĐ 575, đề xuất lịch 1-2 lần/tuần); (2) Screenshot nguyên văn tin nhắn Khanh (exhibit A), KHÔNG xóa; (3) Tiếp tục đóng 11M ngày 10 tới, TUYỆT ĐỐI KHÔNG đóng 20M; (4) Giao LS soạn công văn Bước 2. |
-| 🏥 | **LDL 4.50 / ApoB 120 vẫn chưa có intervention 42 ngày — 050_Health_Log untouched từ 06/01. Trong khi đó weight 61kg đã xác nhận là NEW stable baseline (không phải anomaly), sleep excellent (quality ~89).** | `051_Sleep_Log.md` (07/12 = 90 quality, 61kg 19-day stable baseline); `050_Health_Log.md` (last 06/01, LDL 4.50 ↑ từ 3.49, ApoB 120 >100). Daily_Pulse gap 23 ngày (last 06/19) — capture discipline chọn lọc. W26→W28→W29: **CONFIRMED STABLE weight, nhưng LDL/ApoB THIẾU can thiệp VẪN PERSISTS**. | Book repeat lipid panel (target 09/2026: LDL <3.35, ApoB <100). Cắt béo bão hòa (gen APOA5/PPARG). Accept Sleep_Log làm primary health pulse, backfill Daily_Pulse hoặc chấp nhận gap. |
-| 🏦 | *(stock domain đã tách sang Stock_OS — xem Stock_OS/stock_vault/10_PULSE/021_VNStock_Macro.md)* | — | — |
+| 🏛️ | **⚠️ Visitation-enforcement case FILE ĐÃ BIẾN MẤT khỏi vault — W29 (07/13) ghi `legal_quyen_tham_nom_GG.md` OPEN/STALE, nhưng scan 07/20: `_cases/active/` RỖNG, file không tồn tại ở bất kỳ đâu trong `_cases/`. Court divorce case vẫn CLOSED zero-churn (7 ngày confirm).** | `weekly_connections_log.md` W29 (#2) — flag case STALE 7d, Action Checklist all `[ ]`; nhưng `search_files` toàn vault = 0 kết quả cho "tham_nom/visitation/access" trong `_cases/`. Khả năng: (a) case đã được resolve + move sang `_cases/closed/` nhưng chưa log, hoặc (b) file bị purge cùng đợt Stock_OS split (07/13) mà không archive. Child support 11M/tháng + 17.2M đã đóng vẫn nguyên. W29→W30: **CASE FILE MẤT TÍCH — CẦN XÁC NHẬN**. | (1) Xác nhận với Warren: case thăm nom đã xong (move sang closed) hay bị mất file? (2) Nếu còn active → recreate file từ exhibit A (tin nhắn Khanh) + Action Checklist; (3) Tiếp tục đóng 11M ngày 10 tới, KHÔNG đóng 20M. |
+| 🏥 | **LDL 4.50 / ApoB 120 vẫn chưa có intervention 49 ngày — 050_Health_Log untouched từ 06/01. Weight 61→62kg (+1kg, W28→W29), BMI ~21.2 healthy. Sleep excellent (quality 88-92).** | `051_Sleep_Log.md` (07/13=61kg → 07/14-19=62kg consistent, 7 entries; BP 96-99/71-72 normal; fasting 18h stable); `050_Health_Log.md` (last_updated 06/01, LDL/ApoB gap 49d). Daily_Pulse gap 29+ ngày (last 06/19) — capture regression tiếp diễn. W29→W30: **WEIGHT +1kg STABLE, LDL/ApoB GAP WIDENS 42→49d, Daily_Pulse GAP 23→29d**. | Book repeat lipid panel (target 09/2026: LDL <3.35, ApoB <100). Cắt béo bão hòa (gen APOA5/PPARG). Accept Sleep_Log làm primary; backfill Daily_Pulse hoặc chấp nhận gap (đã 29 ngày). |
+| 🏦 | **Stock domain đã tách hoàn toàn sang Stock_OS (07/13, git `528b2c6`) — personal vault KHÔNG còn trading pulse. 0 EF + 11M/tháng drain nguyên, capital vẫn blocked.** | `weekly_connections_log.md` W29 (#1): Candidates_Watchlist + theses (PVD/GAS/MWG/NLG/PNJ/HPC/FPT/VCB/BID) purged khỏi personal_vault. Weekly synthesis phải cross-reference Stock_OS thay vì vault này. Catalyst tracking (FTSE Sep 21, LDR easing) giờ tách rời khỏi personal context. W29→W30: **STRUCTURAL SPLIT — trading ra khỏi scope cá nhân**. | Không action trong personal vault. Khi bàn trading → mở Stock_OS. Vẫn flag 0 EF + 11M drain mỗi khi Warren định xuống tiền. |
 
 ---
 
