@@ -1,0 +1,22 @@
+# Hermes Cron Job Spec — telegram-capture-sleep
+# Máy mới: hermes cron create --schedule "*/30 7-10 * * *" --name "telegram-capture-sleep" \
+#   --script telegram_capture_sleep_runner.py --no-agent --deliver local \
+#   --enabled-toolsets terminal
+# (wrapper telegram_capture_sleep_runner.py phải nằm trong ~/.hermes/scripts/)
+job_id: "200706218440"
+name: telegram-capture-sleep
+schedule: "*/30 7-10 * * *"
+repeat: forever
+deliver: local
+no_agent: true
+enabled_toolsets:
+  - terminal
+script: telegram_capture_sleep_runner.py
+prompt: >-
+  Poll Telegram (1-1 @LUsinePersonalBot) for new [capture-sleep] messages;
+  propose draft; on 'ok' reply write to 051_Sleep_Log.md, sync GSheet,
+  git commit+push; on 'skip' discard.
+notes: >-
+  Wrapper chạy telegram_health_poller.py --once (trong personal_vault/scripts/).
+  Script chính nằm trong Git (personal_vault/scripts/telegram_health_poller.py)
+  để máy mới clone là có. Token bot nằm ngoài repo (AppData/Local/LUsinePersonalBot/.env).
