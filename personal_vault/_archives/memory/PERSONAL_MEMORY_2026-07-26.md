@@ -103,7 +103,6 @@ Chỉ WRITE khi:
 - **[2026-07-09] Vault-only memory model:** SSOT = `_personal_memory_raw.md` → distill → `PERSONAL_MEMORY.md`. mem0 FAISS đã bỏ. Built-in `memory` tool = cache tạm (2200 cap), Hermes tự prune, không phải SSOT. KHÔNG dùng mem0.
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
-- **[2026-07-26] Cron telegram-capture-sleep schedule:** `*/15 7-10 * * *` (mỗi 15 phút, CHỈ 7:00–10:00 sáng). Không chạy cả ngày. Script: `scripts/telegram_health_poller.py`.
 
 ---
 
@@ -113,8 +112,6 @@ Chỉ WRITE khi:
 
 - **[2026-07-09] Underscore-prefix scan miss:** Quét deletion lọt `_kilo` vì pattern `.kilo` (dot). Luôn scan BOTH dot-prefix (`.kilo`, `.kilocode`, `.cursor`) VÀ underscore-prefix (`_kilo`, `_archive/kilo-*`) ở vault + home + profile dirs.
 - **[Setup] Personal domain ban:** Lần đầu setup personal_profile thiếu HARD RULE "personal domain cấm stock" ở SOUL.md → bổ sung sau lint. Luôn lint SOUL sau edit.
-- **[2026-07-26] Cron telegram-capture-sleep:** Phải gọi `scripts/telegram_health_poller.py` (script thật). Tên cũ `telegram_capture_sleep_runner.py` KHÔNG tồn tại → cron báo error. Luôn verify script path tồn tại trước định nghĩa cron.
-- **[2026-07-26] Ack trước dup-check:** Acknowledgement (✅ Đã nhận) PHẢI đặt TRƯỚC `is_duplicate`. Nếu để sau → Bố gửi ngày trùng → không thấy "báo nhận". Format: `✅ Đã nhận [capture-sleep] {date} — đang xử lý...` (tick xanh lá).
 
 ---
 
@@ -122,8 +119,7 @@ Chỉ WRITE khi:
 
 *Patterns quan sát được từ đời sống hoặc Warren approach. Hermes chủ động apply.*
 
-- **[2026-07-26] Telegram getUpdates chỉ trả incoming TỪ USER:** Bot tự gửi (outgoing) KHÔNG nằm trong poll queue → không thể self-test bằng cách bot tự send. Muốn test e2e phải Bố gửi từ app Telegram.
-- **[2026-07-26] Telegram offset consume-once:** Nếu script crash giữa lúc xử lý, offset đã nhảy qua → tin nhắn mất vĩnh viễn. Fragile "consume rồi mới draft". Cần ack/draft gửi THÀNH CÔNG trước khi save_offset.
+*(Còn trống — fill dần khi có patterns mới.)*
 
 ---
 
@@ -134,4 +130,3 @@ Chỉ WRITE khi:
 - **[2026-07-09] Purge legacy tool protocol:** Phân biệt LIVE config (auth.json, commands/*.md, skills/*/SKILL.md — sửa/xóa) vs HISTORY/CACHE (cron/output/*.md, sessions/*.json, state-snapshots/* — để nguyên, xóa=nuốt rollback). Reference docs nhắc tool (deletion-discipline.md, hermes-agent SKILL bảng provider) cũng để nguyên vì đúng mục đích.
 - **[2026-07-03] Memory architecture:** PERSONAL_MEMORY.md = SSOT vault file; built-in memory = cache tạm (mất không sao). Hermes đọc SSOT đầu session. 4 file riêng biệt: SOUL (identity/rules) | USER (đối tượng) | MEMORY (bộ nhớ) | AGENT (access/boundaries) — ko gộp.
 - **[2026-07-03] Divorce case closed:** QĐ 575/2026/QĐST-HNGĐ. Cấp dưỡng GG 11M/tháng ngày 10 DL. Calendar recurring. QĐ lưu vault/legal/.
-- **[2026-07-26] GSheet sync bị bypass khi ghi vault thủ công:** `sync_to_gsheet` chỉ chạy trong `sync_and_commit()` (SAU khi Bố "ok"). Ghi vault bằng `append_to_sleep_log` thủ công → data KHÔNG lên GSheet. Muốn lên sheet → qua pipeline chuẩn hoặc gọi `sync_to_gsheet(send_notify=False)` riêng.

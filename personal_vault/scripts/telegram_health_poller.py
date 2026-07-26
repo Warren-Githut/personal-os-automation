@@ -186,9 +186,16 @@ def process_new_message(msg: dict) -> None:
             reply_to=msg["message_id"],
         )
         return
+    # --- ACKNOWLEDGE: luôn báo nhận ngay khi parse được (TRƯỚC dup-check) ---
+    ack = send_msg(
+        f"✅ Đã nhận [capture-sleep] {data['date']} — đang xử lý...",
+        reply_to=msg["message_id"],
+    )
+    if not ack:
+        print(f"⚠️ ACK send failed for {data['date']} (token/env issue?)")
     if ps.is_duplicate(SLEEP_LOG.read_text(encoding="utf-8"), data)[0]:
         send_msg(
-            f"⚠️ Ngày {data['date']} đã có trong vault, bỏ qua.",
+            f"⚠️ Ngày {data['date']} đã có trong vault, bỏ qua (không tạo draft).",
             reply_to=msg["message_id"],
         )
         return

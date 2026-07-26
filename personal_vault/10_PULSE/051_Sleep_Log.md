@@ -25,20 +25,6 @@ Insight:
 Sleep 7h40 đạt baseline. Quality 90 vẫn ổn. BP 98/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
-
-### 2026-07-26
-**Source:** telegram:@LUsinePersonalBot
-**Type:** text
-
-Sleep: 7h40 | Quality: 90/100 | Fasting: 18h | Weight: 62kg | Blood pressure: 98/71
-
-Insight:
-Sleep 7h40 đạt baseline. Quality 90 vẫn ổn. BP 98/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
-
----
-
-
 ### 2026-07-24
 **Source:** direct_paste
 **Type:** text
