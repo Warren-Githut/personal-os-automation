@@ -1,17 +1,2 @@
----
-name: "_personal_memory_raw"
-type: "memory_raw"
-status: "active"
-domain: "personal"
-created: "2026-07-01"
-last_updated: "2026-07-26"
-description: "Append-only raw lessons log cho personal_profile. Distill qua /compress-personal-memory → PERSONAL_MEMORY.md"
----
-
-# Raw Memory Log — Personal Profile
-
-> **Append-only.** Entry mới nhất ở trên.
-> Chỉ ghi khi Warren nói "ghi".
-> `/compress-personal-memory` sẽ distill file này → `00_CORE_LOGIC/PERSONAL_MEMORY.md`.
-
-## 2026
+## 2026-07-28
+- [Preferences] Bố duyệt Hermes tự ghi skill + built-in memory (config write_approval=false). HARD RULE: trước git commit/push skill/memory phải liệt kê TOÀN BỘ → Bố approve. Gate không tắt.

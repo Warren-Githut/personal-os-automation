@@ -104,6 +104,7 @@ Chỉ WRITE khi:
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
 - **[2026-07-26] Cron telegram-capture-sleep schedule:** `*/15 7-10 * * *` (mỗi 15 phút, CHỈ 7:00–10:00 sáng). Không chạy cả ngày. Script: `scripts/telegram_health_poller.py`.
+- **[2026-07-28] Skill auto-write UNLOCKED:** Bố duyệt con tự ghi skill + built-in memory (config `skills.write_approval`/`memory.write_approval` → false). HARD RULE giữ: trước `git commit`/`git push` bất kỳ skill/memory, Hermes PHẢI liệt kê toàn bộ changes → Bố approve. Gate không tắt.
 
 ---
 
