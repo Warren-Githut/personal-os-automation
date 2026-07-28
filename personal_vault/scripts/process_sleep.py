@@ -346,7 +346,7 @@ def _ask_sync_gsheet() -> bool:
     return False
 
 
-def process_paste(text: str, send_notify: bool = True) -> int:
+def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False) -> int:
     """Process direct paste input. Returns number of entries added.
     After writing to vault, prompts for GSheet sync confirmation."""
     print("📋 Processing paste input...")
@@ -384,12 +384,17 @@ def process_paste(text: str, send_notify: bool = True) -> int:
     count = append_to_sleep_log(new_entries)
     print(f"✅ Vault updated: +{count} entry(ies)")
 
-    if _ask_sync_gsheet():
+    if sync_gsheet:
         synced = sync_to_gsheet(send_notify)
-        if synced:
-            print(f"   GSheet: +{synced} row(s)")
+        print(f"   GSheet: +{synced} row(s)" if synced else "   GSheet: already up-to-date")
+    elif sys.stdin.isatty() and not os.environ.get('HERMES_AGENT'):
+        # Real interactive terminal (not Hermes): ask the user.
+        if _ask_sync_gsheet():
+            synced = sync_to_gsheet(send_notify)
+            if synced:
+                print(f"   GSheet: +{synced} row(s)")
     else:
-        print("   GSheet: skipped (no sync)")
+        print("   GSheet: not requested (Hermes non-interactive run — pass --sync-gsheet to sync)")
 
     if send_notify and count > 0:
         send_telegram(f"✅ Added {count} sleep log(s) from paste")
@@ -425,7 +430,7 @@ def process_file(f: Path, log_content: str) -> list[str]:
     return new_entries
 
 
-def process_inbox() -> int:
+def process_inbox(send_notify: bool = True, sync_gsheet: bool = False) -> int:
     """Process all health files in inbox.
     After writing to vault, prompts for GSheet sync confirmation."""
     INBOX_PROCESSED.mkdir(parents=True, exist_ok=True)
@@ -451,12 +456,16 @@ def process_inbox() -> int:
     count = append_to_sleep_log(all_new_entries)
     print(f"✅ Vault updated: +{count} entry(ies)")
 
-    if _ask_sync_gsheet():
-        synced = sync_to_gsheet(send_notify=True)
-        if synced:
-            print(f"   GSheet: +{synced} row(s)")
+    if sync_gsheet:
+        synced = sync_to_gsheet(send_notify)
+        print(f"   GSheet: +{synced} row(s)" if synced else "   GSheet: already up-to-date")
+    elif sys.stdin.isatty() and not os.environ.get('HERMES_AGENT'):
+        if _ask_sync_gsheet():
+            synced = sync_to_gsheet(send_notify=True)
+            if synced:
+                print(f"   GSheet: +{synced} row(s)")
     else:
-        print("   GSheet: skipped (no sync)")
+        print("   GSheet: not requested (Hermes non-interactive run — pass --sync-gsheet to sync)")
 
     return count
 
@@ -530,6 +539,11 @@ def main():
     parser = argparse.ArgumentParser(description="Process sleep logs -> 051_Sleep_Log.md")
     parser.add_argument("--paste", type=str, help="Direct paste input (Slack format)")
     parser.add_argument("--watch", action="store_true", help="Watch sleep log for manual edits")
+    parser.add_argument("--sync-gsheet", action="store_true",
+                        help="Sync new entries to GSheet tab 'W-capture-sleep' (idempotent, opt-in). "
+                             "Under Hermes (non-interactive) this is the ONLY way to trigger sync; the "
+                             "interactive prompt is disabled. Hermes must ask the user for approval "
+                             "before passing this flag.")
     parser.add_argument("--no-notify", action="store_true", help="Disable Telegram notifications")
     args = parser.parse_args()
 
@@ -538,9 +552,13 @@ def main():
     if args.watch:
         watch_sleep_log(send_notify)
     elif args.paste:
-        process_paste(args.paste, send_notify)
+        process_paste(args.paste, send_notify, args.sync_gsheet)
+    elif args.sync_gsheet:
+        # Standalone idempotent sync (no local write). Used by Hermes after user approves.
+        synced = sync_to_gsheet(send_notify)
+        print(f"✅ Standalone GSheet sync: +{synced} row(s)")
     else:
-        process_inbox()
+        process_inbox(send_notify, args.sync_gsheet)
 
 
 if __name__ == "__main__":
