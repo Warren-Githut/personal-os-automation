@@ -1,11 +1,11 @@
 # Hermes Cron Job Spec — telegram-capture-sleep
-# Máy mới: hermes cron create --schedule "*/30 7-10 * * *" --name "telegram-capture-sleep" \
+# Máy mới: hermes cron create --schedule "*/15 6-11 * * *" --name "telegram-capture-sleep" \
 #   --script telegram_capture_sleep_runner.py --no-agent --deliver local \
 #   --enabled-toolsets terminal
 # (wrapper telegram_capture_sleep_runner.py phải nằm trong ~/.hermes/scripts/)
 job_id: "200706218440"
 name: telegram-capture-sleep
-schedule: "*/30 7-10 * * *"
+schedule: "*/2 6-13 * * *"
 repeat: forever
 deliver: local
 no_agent: true

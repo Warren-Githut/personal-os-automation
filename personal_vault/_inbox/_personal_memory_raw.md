@@ -1,2 +1,2 @@
-## 2026-07-28
-- [Preferences] Bố duyệt Hermes tự ghi skill + built-in memory (config write_approval=false). HARD RULE: trước git commit/push skill/memory phải liệt kê TOÀN BỘ → Bố approve. Gate không tắt.
+## 2026-07-29
+- [Compressed] Đã distill vào PERSONAL_MEMORY.md 2026-07-29. Archive tại _archives/memory/PERSONAL_MEMORY_2026-07-29.md.

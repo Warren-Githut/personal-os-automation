@@ -2,7 +2,7 @@
 domain: health
 type: pulse
 status: active
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 ---
 
 # 051 — Sleep Log
@@ -12,6 +12,29 @@ last_updated: 2026-07-28
 > **Rule:** Newest on top -- newest entry first.
 > **Quy tắc:** Newest on top -- mục mới nhất luôn đặt trên cùng, không append ở cuối. Khi thêm log/list/entry mới, chèn ngay sau block hướng dẫn này.
 > Khi thêm entry mới: copy template ở cuối file, điền thông tin, rồi prepend ngay sau block rule này.
+
+---
+
+### 2026-07-29
+**Source:** telegram:@LUsinePersonalBot
+**Type:** text
+
+Sleep: 7h20 | Quality: 90/100 | Fasting: 18h | Weight: 62kg | Blood pressure: 97/72
+
+Insight:
+Sleep 7h20 đạt baseline. Quality 90 vẫn ổn. BP 97/72 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
+### 2026-07-28
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 7h50 | Quality: 89/100 | Fasting: 18h | Weight: 62kg | Blood pressure: 97/72
+
+Insight:
+Sleep 7h50 đạt baseline. Quality 89 cần cải thiện. BP 97/72 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
 
@@ -26,7 +49,6 @@ Sleep 7h00 đạt baseline. Quality 85 cần cải thiện. BP 97/72 bình thư�
 
 ---
 
-
 ### 2026-07-26
 **Source:** direct_paste
 **Type:** text
@@ -37,7 +59,6 @@ Insight:
 Sleep 7h30 đạt baseline. Quality 90 vẫn ổn. BP 97/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-25
 **Source:** telegram:@LUsinePersonalBot
@@ -60,7 +81,6 @@ Sleep 8h00 đạt baseline. Quality 92 vẫn ổn. BP 98/72 bình thường. Fas
 
 ---
 
-
 ### 2026-07-23
 **Source:** direct_paste
 **Type:** text
@@ -71,7 +91,6 @@ Insight:
 Sleep 7h50 đạt baseline. Quality 89 cần cải thiện. BP 98/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-22
 **Source:** direct_paste
@@ -84,7 +103,6 @@ Sleep 5h50 thấp hơn baseline 7h. Quality 60 cần cải thiện. BP 97/71 bì
 
 ---
 
-
 ### 2026-07-21
 **Source:** direct_paste
 **Type:** text
@@ -95,7 +113,6 @@ Insight:
 Sleep 7h40 đạt baseline. Quality 89 cần cải thiện. BP 98/72 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-20
 **Source:** direct_paste
@@ -108,7 +125,6 @@ Sleep 7h00 đạt baseline. Quality 85 cần cải thiện. BP 97/71 bình thư�
 
 ---
 
-
 ### 2026-07-19
 **Source:** direct_paste
 **Type:** text
@@ -119,7 +135,6 @@ Insight:
 Sleep 7h30 đạt baseline. Quality 88 cần cải thiện. BP 99/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-18
 **Source:** direct_paste
@@ -132,7 +147,6 @@ Sleep 8h00 đạt baseline. Quality 88 cần cải thiện. BP 98/72 bình thư�
 
 ---
 
-
 ### 2026-07-17
 **Source:** direct_paste
 **Type:** text
@@ -143,7 +157,6 @@ Insight:
 Sleep 7h30 đạt baseline. Quality 92 vẫn ổn. BP 98/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-16
 **Source:** direct_paste
@@ -156,8 +169,6 @@ Sleep 7h05 đạt baseline. Quality 80 cần cải thiện. BP 98/72 bình thư�
 
 ---
 
-
-
 ### 2026-07-15
 **Source:** direct_paste
 **Type:** text
@@ -168,7 +179,6 @@ Insight:
 Sleep 7h00 đạt baseline. Quality 89 cần cải thiện. BP 96/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-14
 **Source:** direct_paste
@@ -181,7 +191,6 @@ Sleep 9h10 đạt baseline. Quality 91 vẫn ổn. BP 97/72 bình thường. Fas
 
 ---
 
-
 ### 2026-07-13
 **Source:** direct_paste
 **Type:** text
@@ -192,7 +201,6 @@ Insight:
 Sleep 7h30 đạt baseline. Quality 90 vẫn ổn. BP 99/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-12
 **Source:** direct_paste
@@ -205,7 +213,6 @@ Sleep 7h00 đạt baseline. Quality 90 vẫn ổn. BP 98/73 bình thường. Fas
 
 ---
 
-
 ### 2026-07-11
 **Source:** direct_paste
 **Type:** text
@@ -216,7 +223,6 @@ Insight:
 Sleep 8h00 đạt baseline. Quality 90 vẫn ổn. BP 97/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-10
 **Source:** direct_paste
@@ -229,8 +235,6 @@ Sleep 7h00 đạt baseline. Quality 86 cần cải thiện. BP 98/71 bình thư�
 
 ---
 
-
-
 ### 2026-07-09
 **Source:** direct_paste
 **Type:** text
@@ -241,7 +245,6 @@ Insight:
 Sleep 7h05 đạt baseline. Quality 90 vẫn ổn. BP 98/71 bình thường. Fasting 18h consistent. Weight 62kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-08
 **Source:** direct_paste
@@ -254,7 +257,6 @@ Sleep 7h00 đạt baseline. Quality 90 vẫn ổn. BP 97/71 bình thường. Fas
 
 ---
 
-
 ### 2026-07-07
 **Source:** direct_paste
 **Type:** text
@@ -265,7 +267,6 @@ Insight:
 Sleep 7h20 đạt baseline. Quality 84 cần cải thiện. BP 98/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-06
 **Source:** direct_paste
@@ -278,7 +279,6 @@ Sleep 7h30 đạt baseline. Quality 93 vẫn ổn. BP 96/71 bình thường. Fas
 
 ---
 
-
 ### 2026-07-05
 **Source:** direct_paste
 **Type:** text
@@ -289,7 +289,6 @@ Insight:
 Sleep 7h20 đạt baseline. Quality 89 cần cải thiện. BP 98/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-04
 **Source:** direct_paste
@@ -302,7 +301,6 @@ Sleep 7h50 đạt baseline. Quality 90 vẫn ổn. BP 96/71 bình thường. Fas
 
 ---
 
-
 ### 2026-07-03
 **Source:** direct_paste
 **Type:** text
@@ -313,7 +311,6 @@ Insight:
 Sleep 7h40 đạt baseline. Quality 89 cần cải thiện. BP 97/71 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-07-02
 **Source:** direct_paste
@@ -326,7 +323,6 @@ Sleep 7h10 đạt baseline. Quality 91 vẫn ổn. BP 98/70 bình thường. Fas
 
 ---
 
-
 ### 2026-07-01
 **Source:** direct_paste
 **Type:** text
@@ -337,7 +333,6 @@ Insight:
 Sleep 8h20 đạt baseline. Quality 90 vẫn ổn. BP 96/70 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-30
 **Source:** direct_paste
@@ -350,7 +345,6 @@ Sleep 7h40 đạt baseline. Quality 89 cần cải thiện. BP 99/71 bình thư�
 
 ---
 
-
 ### 2026-06-29
 **Source:** direct_paste
 **Type:** text
@@ -361,7 +355,6 @@ Insight:
 Sleep 5h40 thấp hơn baseline 7h. Quality 54 cần cải thiện. BP 97/70 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-28
 **Source:** direct_paste
@@ -374,7 +367,6 @@ Sleep 7h40 đạt baseline. Quality 93 vẫn ổn. BP 107/66 bình thường. Fa
 
 ---
 
-
 ### 2026-06-27
 **Source:** direct_paste
 **Type:** text
@@ -385,7 +377,6 @@ Insight:
 Sleep 7h00 đạt baseline. Quality 83 cần cải thiện. BP 97/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-26
 **Source:** direct_paste
@@ -398,7 +389,6 @@ Sleep 7h40 đạt baseline. Quality 90 vẫn ổn. BP 96/71 bình thường. Fas
 
 ---
 
-
 ### 2026-06-25
 **Source:** direct_paste
 **Type:** text
@@ -409,7 +399,6 @@ Insight:
 Sleep 8h20 đạt baseline. Quality 91 vẫn ổn. BP 95/72 bình thường. Fasting 18h consistent. Weight 61kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-24
 **Source:** direct_paste
@@ -422,7 +411,6 @@ Sleep 8h00 đạt baseline. Quality 85 thấp nhất 2 tuần (86-92 trước đ
 
 ---
 
-
 ### 2026-06-23
 **Source:** direct_paste
 **Type:** text
@@ -433,7 +421,6 @@ Insight:
 Sleep 7h00 đạt baseline. Quality 90 vẫn ổn. BP 95/60 bình thường. Fasting 18h consistent. Weight 63kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-22
 **Source:** direct_paste
@@ -446,7 +433,6 @@ Sleep 7h20 đạt baseline. Quality 88 cần cải thiện. BP 96/70 bình thư�
 
 ---
 
-
 ### 2026-06-21
 **Source:** direct_paste
 **Type:** text
@@ -457,7 +443,6 @@ Insight:
 Sleep 8h đạt baseline. Quality 91 vẫn ổn. BP 98/71 bình thường. Fasting 17h consistent. Weight 63kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-20
 **Source:** direct_paste
@@ -470,7 +455,6 @@ Sleep 6h55 thấp hơn baseline 7h. Quality 90 vẫn ổn. BP 97/72 bình thư�
 
 ---
 
-
 ### 2026-06-19
 **Source:** direct_paste
 **Type:** text
@@ -481,7 +465,6 @@ Insight:
 Sleep 8h20 đạt baseline. Quality 86 cần cải thiện. BP 98/71 bình thường. Fasting 17h consistent. Weight 63kg ổn định. [MOD]
 
 ---
-
 
 ### 2026-06-18
 **Source:** direct_paste

@@ -2,9 +2,9 @@
 name: "PERSONAL_MEMORY"
 type: "memory_reference"
 status: "active"
-version: "2026-07-29"
+version: "2026-07-09"
 created: "2026-07-01"
-last_updated: "2026-07-29"
+last_updated: "2026-07-09"
 tags: [preferences, corrections, patterns, lessons-learned]
 domain: "personal"
 ---
@@ -103,9 +103,8 @@ Chỉ WRITE khi:
 - **[2026-07-09] Vault-only memory model:** SSOT = `_personal_memory_raw.md` → distill → `PERSONAL_MEMORY.md`. mem0 FAISS đã bỏ. Built-in `memory` tool = cache tạm (2200 cap), Hermes tự prune, không phải SSOT. KHÔNG dùng mem0.
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
+- **[2026-07-26] Cron telegram-capture-sleep schedule:** `*/15 7-10 * * *` (mỗi 15 phút, CHỈ 7:00–10:00 sáng). Không chạy cả ngày. Script: `scripts/telegram_health_poller.py`.
 - **[2026-07-28] Skill auto-write UNLOCKED:** Bố duyệt con tự ghi skill + built-in memory (config `skills.write_approval`/`memory.write_approval` → false). HARD RULE giữ: trước `git commit`/`git push` bất kỳ skill/memory, Hermes PHẢI liệt kê toàn bộ changes → Bố approve. Gate không tắt.
-- **[2026-07-29] Cron telegram-capture-sleep:** `*/2 6-13 * * *` (mỗi 2 phút, 6am-1pm). no_agent, script `telegram_capture_sleep_runner.py`. Backup: watchdog `telegram_capture_sleep_watchdog.py` (long-poll 60s, real-time khi Hermes mở).
-- **[2026-07-29] Capture-sleep zones:** Telegram path 🟢 (watchdog/cron tự bắt, tạo draft, Bố reply "ok" → tự ghi vault + sync GSheet, không cần hỏi). Hermes chat path 🟡 (Hermes phải hỏi Bố trước khi `--sync-gsheet`).
 
 ---
 
@@ -117,8 +116,6 @@ Chỉ WRITE khi:
 - **[Setup] Personal domain ban:** Lần đầu setup personal_profile thiếu HARD RULE "personal domain cấm stock" ở SOUL.md → bổ sung sau lint. Luôn lint SOUL sau edit.
 - **[2026-07-26] Cron telegram-capture-sleep:** Phải gọi `scripts/telegram_health_poller.py` (script thật). Tên cũ `telegram_capture_sleep_runner.py` KHÔNG tồn tại → cron báo error. Luôn verify script path tồn tại trước định nghĩa cron.
 - **[2026-07-26] Ack trước dup-check:** Acknowledgement (✅ Đã nhận) PHẢI đặt TRƯỚC `is_duplicate`. Nếu để sau → Bố gửi ngày trùng → không thấy "báo nhận". Format: `✅ Đã nhận [capture-sleep] {date} — đang xử lý...` (tick xanh lá).
-- **[2026-07-29] GSheet gate sai chỗ:** Gate sync GSheet nằm trong `input()` của script → chết dưới non-interactive (stdin = `/dev/null`). Fix: thêm `--sync-gsheet` flag thật + `isatty()` check. Lesson: Hermes own gate ở chat, không ủy thác cho stdin script.
-- **[2026-07-29] Bare "ok"/"skip" không được xử lý:** User gõ "ok" như tin nhắn riêng (không reply vào draft) → pipeline tắc. Fix: thêm fallback mode 2 (check text + pending state, không check reply_to_message_id).
 
 ---
 
@@ -128,7 +125,6 @@ Chỉ WRITE khi:
 
 - **[2026-07-26] Telegram getUpdates chỉ trả incoming TỪ USER:** Bot tự gửi (outgoing) KHÔNG nằm trong poll queue → không thể self-test bằng cách bot tự send. Muốn test e2e phải Bố gửi từ app Telegram.
 - **[2026-07-26] Telegram offset consume-once:** Nếu script crash giữa lúc xử lý, offset đã nhảy qua → tin nhắn mất vĩnh viễn. Fragile "consume rồi mới draft". Cần ack/draft gửi THÀNH CÔNG trước khi save_offset.
-- **[2026-07-29] 409 Conflict pattern:** Telegram Bot API chỉ cho phép 1 getUpdates instance tại 1 thời điểm. Nếu watchdog (long-poll 60s) + cron chạy đồng thời → 409 Conflict. Watchdog phải retry với exponential backoff. Cron timeout ngắn (5s) thường thua → cron fail nhẹ, không sao. Không debug getUpdates bằng tay khi pipeline đang chạy (consume mất update).
 
 ---
 
@@ -140,4 +136,3 @@ Chỉ WRITE khi:
 - **[2026-07-03] Memory architecture:** PERSONAL_MEMORY.md = SSOT vault file; built-in memory = cache tạm (mất không sao). Hermes đọc SSOT đầu session. 4 file riêng biệt: SOUL (identity/rules) | USER (đối tượng) | MEMORY (bộ nhớ) | AGENT (access/boundaries) — ko gộp.
 - **[2026-07-03] Divorce case closed:** QĐ 575/2026/QĐST-HNGĐ. Cấp dưỡng GG 11M/tháng ngày 10 DL. Calendar recurring. QĐ lưu vault/legal/.
 - **[2026-07-26] GSheet sync bị bypass khi ghi vault thủ công:** `sync_to_gsheet` chỉ chạy trong `sync_and_commit()` (SAU khi Bố "ok"). Ghi vault bằng `append_to_sleep_log` thủ công → data KHÔNG lên GSheet. Muốn lên sheet → qua pipeline chuẩn hoặc gọi `sync_to_gsheet(send_notify=False)` riêng.
-- **[2026-07-29] Hermes own confirmation gate:** Không ủy thác gate cho `input()` trong script — dưới non-interactive stdin chết, gate biến mất. Mọi confirmation gate phải ở tầng chat (Hermes hỏi Bố), script chỉ nhận flag.
