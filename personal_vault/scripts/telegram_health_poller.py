@@ -174,39 +174,39 @@ def sync_and_commit(date: str) -> None:
 # --------------------------------------------------------------------------- #
 # Handlers
 # --------------------------------------------------------------------------- #
-def process_new_message(msg: dict) -> None:
-    text = msg.get("text", "")
+def process_new_message(update: dict) -> None:
+    text = (update.get("message") or {}).get("text", "")
     if TAG not in text:
-        return  # ignore non-tagged messages
+        return
     data = extract_sleep(text)
     if not data:
         send_msg(
             "⚠️ Không parse được sleep data. Format chuẩn:\n"
-            "[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 | 62kg | 18h | Huyết áp: 99/71",
-            reply_to=msg["message_id"],
+            "[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 | "
+            "62kg | 18h | Huyết áp: 99/71",
+            reply_to=(update.get("message") or {}).get("message_id"),
         )
         return
-    # --- ACKNOWLEDGE: luôn báo nhận ngay khi parse được (TRƯỚC dup-check) ---
     ack = send_msg(
         f"✅ Đã nhận [capture-sleep] {data['date']} — đang xử lý...",
-        reply_to=msg["message_id"],
+        reply_to=(update.get("message") or {}).get("message_id"),
     )
     if not ack:
         print(f"⚠️ ACK send failed for {data['date']} (token/env issue?)")
     if ps.is_duplicate(SLEEP_LOG.read_text(encoding="utf-8"), data)[0]:
         send_msg(
             f"⚠️ Ngày {data['date']} đã có trong vault, bỏ qua (không tạo draft).",
-            reply_to=msg["message_id"],
+            reply_to=(update.get("message") or {}).get("message_id"),
         )
         return
     draft = build_draft(data)
-    mid = send_msg(draft, reply_to=msg["message_id"])
+    mid = send_msg(draft, reply_to=(update.get("message") or {}).get("message_id"))
     if mid:
         save_pending(
             {
                 "status": "awaiting_approval",
                 "proposal_msg_id": mid,
-                "source_msg_id": msg["message_id"],
+                "source_msg_id": (update.get("message") or {}).get("message_id"),
                 "data": data,
                 "ts": datetime.now().isoformat(),
             }
@@ -271,9 +271,7 @@ def poll_once() -> None:
         return
     process_reply(updates)
     for u in updates:
-        m = u.get("message", {})
-        if "text" in m:
-            process_new_message(m)
+        process_new_message(u)
     new_offset = max(u["update_id"] for u in updates) + 1
     save_offset(new_offset)
 
