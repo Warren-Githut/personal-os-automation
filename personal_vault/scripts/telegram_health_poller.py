@@ -174,39 +174,41 @@ def sync_and_commit(date: str) -> None:
 # --------------------------------------------------------------------------- #
 # Handlers
 # --------------------------------------------------------------------------- #
-def process_new_message(msg: dict) -> None:
-    text = msg.get("text", "")
+def process_new_message(update: dict) -> None:
+    message = update.get("message") or {}
+    text = message.get("text", "")
     if TAG not in text:
         return  # ignore non-tagged messages
     data = extract_sleep(text)
     if not data:
         send_msg(
             "⚠️ Không parse được sleep data. Format chuẩn:\n"
-            "[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 | 62kg | 18h | Huyết áp: 99/71",
-            reply_to=msg["message_id"],
+            "[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 | "
+            "62kg | 18h | Huyết áp: 99/71",
+            reply_to=message.get("message_id"),
         )
         return
     # --- ACKNOWLEDGE: luôn báo nhận ngay khi parse được (TRƯỚC dup-check) ---
     ack = send_msg(
         f"✅ Đã nhận [capture-sleep] {data['date']} — đang xử lý...",
-        reply_to=msg["message_id"],
+        reply_to=message.get("message_id"),
     )
     if not ack:
         print(f"⚠️ ACK send failed for {data['date']} (token/env issue?)")
     if ps.is_duplicate(SLEEP_LOG.read_text(encoding="utf-8"), data)[0]:
         send_msg(
             f"⚠️ Ngày {data['date']} đã có trong vault, bỏ qua (không tạo draft).",
-            reply_to=msg["message_id"],
+            reply_to=message.get("message_id"),
         )
         return
     draft = build_draft(data)
-    mid = send_msg(draft, reply_to=msg["message_id"])
+    mid = send_msg(draft, reply_to=message.get("message_id"))
     if mid:
         save_pending(
             {
                 "status": "awaiting_approval",
                 "proposal_msg_id": mid,
-                "source_msg_id": msg["message_id"],
+                "source_msg_id": message.get("message_id"),
                 "data": data,
                 "ts": datetime.now().isoformat(),
             }
@@ -239,41 +241,15 @@ def process_reply(updates: list) -> None:
             # any other text -> ignore, keep waiting
 
 
-PENDING_TIMEOUT_MIN = 30
-
-
-def _check_pending_timeout() -> None:
-    """Auto-clear stale pending (>30 min) so a stuck draft never blocks future runs."""
-    pending = load_pending()
-    if not pending or pending.get("status") != "awaiting_approval":
-        return
-    try:
-        ts = datetime.fromisoformat(pending.get("ts", ""))
-    except Exception:
-        return
-    age_min = (datetime.now() - ts).total_seconds() / 60
-    if age_min > PENDING_TIMEOUT_MIN:
-        send_msg(
-            f"⏰ Draft {pending['data']['date']} chờ quá {PENDING_TIMEOUT_MIN}p, "
-            f"tự động bỏ qua. Gửi lại nếu cần.",
-            reply_to=pending.get("proposal_msg_id"),
-        )
-        save_pending(None)
-        print(f"⏰ Pending {pending['data']['date']} timed out, cleared")
-
-
 def poll_once() -> None:
     offset = load_offset()
     updates = get_updates(offset)
-    # Timeout guard: auto-clear stale pending before processing new cycle
-    _check_pending_timeout()
+    # allow manual recoverability for stuck pending without deleting state
     if not updates:
         return
     process_reply(updates)
     for u in updates:
-        m = u.get("message", {})
-        if "text" in m:
-            process_new_message(m)
+        process_new_message(u)
     new_offset = max(u["update_id"] for u in updates) + 1
     save_offset(new_offset)
 
