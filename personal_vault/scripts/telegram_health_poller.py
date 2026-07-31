@@ -24,7 +24,7 @@ from pathlib import Path
 # Reuse existing parse / write / sync logic from process_sleep.py
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import process_sleep as ps  # noqa: E402
-from telegram_notify import get_telegram_token, send_telegram  # noqa: E402
+from telegram_notify import get_telegram_token, send_telegram, tg_api  # noqa: E402
 
 VAULT_ROOT = Path("C:/Users/khoans/Documents/Personal_OS")
 SLEEP_LOG = VAULT_ROOT / "personal_vault" / "10_PULSE" / "051_Sleep_Log.md"
@@ -37,25 +37,8 @@ TAG = "[capture-sleep]"
 
 # --------------------------------------------------------------------------- #
 # Telegram API helpers (stdlib urllib only)
+# tg_api / get_telegram_token imported from telegram_notify (single source)
 # --------------------------------------------------------------------------- #
-def tg_api(method: str, payload: dict):
-    token = get_telegram_token()
-    if not token:
-        print("⚠️  TELEGRAM_BOT_TOKEN not set, skipping Telegram")
-        return None
-    url = f"https://api.telegram.org/bot{token}/{method}"
-    data = json.dumps(payload).encode()
-    req = urllib.request.Request(
-        url, data=data, headers={"Content-Type": "application/json"}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as r:
-            return json.loads(r.read().decode())
-    except Exception as e:  # noqa: BLE001
-        print(f"⚠️  tg_api {method} failed: {e}")
-        return None
-
-
 def get_updates(offset: int) -> list:
     resp = tg_api(
         "getUpdates",
@@ -209,6 +192,7 @@ def process_new_message(update: dict) -> None:
                 "status": "awaiting_approval",
                 "proposal_msg_id": mid,
                 "source_msg_id": message.get("message_id"),
+                "chat_id": message.get("chat", {}).get("id"),
                 "data": data,
                 "ts": datetime.now().isoformat(),
             }
@@ -216,29 +200,71 @@ def process_new_message(update: dict) -> None:
         print(f"✅ Proposed draft for {data['date']}, awaiting approval")
 
 
+def normalize_reply(text: str) -> str:
+    """Lowercase, strip whitespace, drop emoji/symbols → bare word.
+
+    'ok 👍' -> 'ok', '  Skip ✅ ' -> 'skip', 'YES' -> 'yes'
+    """
+    if not text:
+        return ""
+    # keep only letters/digits, lowercase
+    cleaned = "".join(ch for ch in text.lower() if ch.isalnum())
+    return cleaned
+
+
 def process_reply(updates: list) -> None:
     pending = load_pending()
     if not pending or pending.get("status") != "awaiting_approval":
         return
     prop_id = pending["proposal_msg_id"]
+    src_id = pending.get("source_msg_id")
     for u in updates:
         m = u.get("message", {})
-        if m.get("reply_to_message_id") == prop_id:
-            txt = (m.get("text", "") or "").strip().lower()
-            if txt == "ok":
-                write_vault(pending["data"])
-                send_msg(
-                    f"✅ Đã ghi vault {pending['data']['date']} + sync GSheet + git push.",
-                    reply_to=prop_id,
-                )
-                sync_and_commit(pending["data"]["date"])
-                save_pending(None)
-                return
-            elif txt == "skip":
-                send_msg("⏭️ Đã bỏ qua.", reply_to=prop_id)
-                save_pending(None)
-                return
-            # any other text -> ignore, keep waiting
+        rid = m.get("reply_to_message_id")
+        # match reply to EITHER the proposal OR the original source message
+        if rid not in (prop_id, src_id):
+            continue
+        txt = normalize_reply(m.get("text", "") or "")
+        if txt in ("ok", "yes", "okay", "y"):
+            write_vault(pending["data"])
+            send_msg(
+                f"✅ Đã ghi vault {pending['data']['date']} + sync GSheet + git push.",
+                reply_to=prop_id,
+            )
+            sync_and_commit(pending["data"]["date"])
+            save_pending(None)
+            return
+        elif txt in ("skip", "no", "n"):
+            send_msg("⏭️ Đã bỏ qua.", reply_to=prop_id)
+            save_pending(None)
+            return
+        # any other text -> ignore, keep waiting
+
+
+def pending_timed_out(pending: dict, timeout_min: int = 30) -> bool:
+    """True if pending has waited longer than timeout_min."""
+    try:
+        ts = datetime.fromisoformat(pending["ts"])
+    except (KeyError, ValueError):
+        return False
+    elapsed = (datetime.now() - ts).total_seconds()
+    return elapsed > timeout_min * 60
+
+
+def auto_approve_if_new_message(pending: dict, updates: list) -> bool:
+    """Fallback: if pending timed out AND a new message arrived from same
+    chat with the same date, approve it (Bố likely replied elsewhere/however)."""
+    if not pending_timed_out(pending):
+        return False
+    chat_id = pending.get("chat_id")
+    date = pending.get("data", {}).get("date")
+    for u in updates:
+        m = u.get("message", {})
+        if chat_id and m.get("chat", {}).get("id") != chat_id:
+            continue
+        if date and date in (m.get("text", "") or ""):
+            return True
+    return False
 
 
 def poll_once() -> None:
@@ -246,10 +272,32 @@ def poll_once() -> None:
     updates = get_updates(offset)
     # allow manual recoverability for stuck pending without deleting state
     if not updates:
+        # still check timeout fallback even with no new updates
+        pending = load_pending()
+        if pending and pending.get("status") == "awaiting_approval" \
+                and pending_timed_out(pending):
+            write_vault(pending["data"])
+            send_msg(
+                f"⏰ Pending {pending['data']['date']} quá 30p, auto-approve + sync.",
+                reply_to=pending["proposal_msg_id"],
+            )
+            sync_and_commit(pending["data"]["date"])
+            save_pending(None)
         return
     process_reply(updates)
     for u in updates:
         process_new_message(u)
+    # fallback: timed-out pending + new msg from same chat/date -> approve
+    pending = load_pending()
+    if pending and pending.get("status") == "awaiting_approval" \
+            and auto_approve_if_new_message(pending, updates):
+        write_vault(pending["data"])
+        send_msg(
+            f"⏰ Pending {pending['data']['date']} quá 30p + tin mới, auto-approve + sync.",
+            reply_to=pending["proposal_msg_id"],
+        )
+        sync_and_commit(pending["data"]["date"])
+        save_pending(None)
     new_offset = max(u["update_id"] for u in updates) + 1
     save_offset(new_offset)
 
