@@ -218,11 +218,20 @@ def process_reply(updates: list) -> None:
         return
     prop_id = pending["proposal_msg_id"]
     src_id = pending.get("source_msg_id")
+    chat_id = pending.get("chat_id")
     for u in updates:
         m = u.get("message", {})
         rid = m.get("reply_to_message_id")
         # match reply to EITHER the proposal OR the original source message
-        if rid not in (prop_id, src_id):
+        is_reply_match = rid in (prop_id, src_id)
+        # OR standalone confirm from Bố in the same 1-1 chat (root-cause fix)
+        is_standalone = (
+            rid is None
+            and chat_id is not None
+            and m.get("chat", {}).get("id") == chat_id
+            and not m.get("from", {}).get("is_bot")
+        )
+        if not (is_reply_match or is_standalone):
             continue
         txt = normalize_reply(m.get("text", "") or "")
         if txt in ("ok", "yes", "okay", "y"):

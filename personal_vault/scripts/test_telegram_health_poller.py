@@ -174,6 +174,76 @@ def test_scan_chat_history_for_ok():
     assert found is True, "scan_chat_history_for_ok must detect standalone 'ok'"
 
 
+def test_standalone_ok_approves():
+    """RED: Bố gõ 'ok' STANDALONE (không reply thread) phải approve.
+    Đây là root cause thực tế — Bố gõ 'ok' không reply vào draft."""
+    _seed_pending()
+    pend = p.load_pending()
+    pend["chat_id"] = 2117653672
+    p.save_pending(pend)
+    updates = [
+        {
+            "update_id": 9200,
+            "message": {
+                "message_id": 800,
+                "reply_to_message_id": None,  # standalone, không reply
+                "chat": {"id": 2117653672},
+                "from": {"id": 2117653672, "is_bot": False},
+                "text": "ok",
+            },
+        }
+    ]
+    p.process_reply(updates)
+    assert CALLS["write"], "standalone 'ok' must approve (root cause fix)"
+    assert p.load_pending() is None
+
+
+def test_standalone_skip_discards():
+    """RED: Bố gõ 'skip' STANDALONE phải bỏ qua."""
+    _seed_pending()
+    pend = p.load_pending()
+    pend["chat_id"] = 2117653672
+    p.save_pending(pend)
+    updates = [
+        {
+            "update_id": 9201,
+            "message": {
+                "message_id": 801,
+                "reply_to_message_id": None,
+                "chat": {"id": 2117653672},
+                "from": {"id": 2117653672, "is_bot": False},
+                "text": "skip",
+            },
+        }
+    ]
+    p.process_reply(updates)
+    assert not CALLS["write"], "standalone 'skip' must NOT write"
+    assert p.load_pending() is None
+
+
+def test_standalone_other_text_ignored():
+    """GREEN: standalone text không phải ok/skip → giữ pending."""
+    _seed_pending()
+    pend = p.load_pending()
+    pend["chat_id"] = 2117653672
+    p.save_pending(pend)
+    updates = [
+        {
+            "update_id": 9202,
+            "message": {
+                "message_id": 802,
+                "reply_to_message_id": None,
+                "chat": {"id": 2117653672},
+                "from": {"id": 2117653672, "is_bot": False},
+                "text": "cái gì thế",
+            },
+        }
+    ]
+    p.process_reply(updates)
+    assert not CALLS["write"], "non-ok/skip standalone ignored"
+    assert p.load_pending() is not None
+
+
 if __name__ == "__main__":
     # minimal runner without pytest
     tests = [
@@ -183,6 +253,9 @@ if __name__ == "__main__":
         test_timeout_fallback_no_updates,
         test_timeout_fallback_new_message_same_chat,
         test_scan_chat_history_for_ok,
+        test_standalone_ok_approves,
+        test_standalone_skip_discards,
+        test_standalone_other_text_ignored,
     ]
     failed = 0
     for t in tests:
