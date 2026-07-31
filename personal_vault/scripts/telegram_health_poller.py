@@ -267,6 +267,45 @@ def auto_approve_if_new_message(pending: dict, updates: list) -> bool:
     return False
 
 
+def scan_chat_history_for_ok(pending: dict, history: list | None = None) -> bool:
+    """Fallback: scan recent chat history for Bố's 'ok'/'skip' when the
+    getUpdates queue was already consumed by another process.
+
+    Uses Telegram getChatHistory (method 'getChatHistory') to pull recent
+    messages from the pending chat_id, then checks for a confirmation.
+
+    Returns True if a confirming message (ok/skip) is found.
+    """
+    chat_id = pending.get("chat_id")
+    if not chat_id:
+        return False
+    if history is None:
+        resp = tg_api(
+            "getChatHistory",
+            {
+                "chat_id": chat_id,
+                "limit": 20,
+                "offset": 0,
+                "offset_id": 0,
+            },
+        )
+        if not resp or not resp.get("ok"):
+            return False
+        history = resp.get("result", {}).get("messages", [])
+    # Bố is the human (not bot). Accept ok/yes/skip/no variants.
+    for m in history:
+        from_user = m.get("from", {})
+        if from_user.get("is_bot"):
+            continue
+        if from_user.get("id") != chat_id:
+            # in 1-1 chat, from.id == chat.id for the human
+            continue
+        txt = normalize_reply(m.get("text", "") or "")
+        if txt in ("ok", "yes", "okay", "y", "skip", "no", "n"):
+            return True
+    return False
+
+
 def poll_once() -> None:
     offset = load_offset()
     updates = get_updates(offset)
@@ -274,15 +313,24 @@ def poll_once() -> None:
     if not updates:
         # still check timeout fallback even with no new updates
         pending = load_pending()
-        if pending and pending.get("status") == "awaiting_approval" \
-                and pending_timed_out(pending):
-            write_vault(pending["data"])
-            send_msg(
-                f"⏰ Pending {pending['data']['date']} quá 30p, auto-approve + sync.",
-                reply_to=pending["proposal_msg_id"],
-            )
-            sync_and_commit(pending["data"]["date"])
-            save_pending(None)
+        if pending and pending.get("status") == "awaiting_approval":
+            if pending_timed_out(pending):
+                write_vault(pending["data"])
+                send_msg(
+                    f"⏰ Pending {pending['data']['date']} quá 30p, auto-approve + sync.",
+                    reply_to=pending["proposal_msg_id"],
+                )
+                sync_and_commit(pending["data"]["date"])
+                save_pending(None)
+            elif scan_chat_history_for_ok(pending):
+                # queue was consumed by another process; Bố's 'ok' is in history
+                write_vault(pending["data"])
+                send_msg(
+                    f"✅ Đã ghi vault {pending['data']['date']} + sync GSheet + git push (từ lịch sử chat).",
+                    reply_to=pending["proposal_msg_id"],
+                )
+                sync_and_commit(pending["data"]["date"])
+                save_pending(None)
         return
     process_reply(updates)
     for u in updates:

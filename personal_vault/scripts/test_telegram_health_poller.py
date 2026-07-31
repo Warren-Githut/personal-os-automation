@@ -151,6 +151,29 @@ def test_timeout_fallback_new_message_same_chat():
     assert p.load_pending() is None
 
 
+def test_scan_chat_history_for_ok():
+    """RED: scan_chat_history_for_ok finds 'ok' from Bố in chat history
+    even when getUpdates queue was consumed by another process."""
+    _seed_pending()
+    pend = p.load_pending()
+    pend["chat_id"] = 2117653672
+    pend["source_msg_id"] = 180
+    pend["proposal_msg_id"] = 182
+    p.save_pending(pend)
+    # simulate getChatHistory returning Bố's 'ok' as a standalone msg (not reply)
+    fake_history = [
+        {
+            "message_id": 700,
+            "from": {"id": 2117653672, "is_bot": False},
+            "chat": {"id": 2117653672},
+            "date": 1700000000,
+            "text": "ok",
+        }
+    ]
+    found = p.scan_chat_history_for_ok(pend, history=fake_history)
+    assert found is True, "scan_chat_history_for_ok must detect standalone 'ok'"
+
+
 if __name__ == "__main__":
     # minimal runner without pytest
     tests = [
@@ -159,6 +182,7 @@ if __name__ == "__main__":
         test_reply_skip_variant,
         test_timeout_fallback_no_updates,
         test_timeout_fallback_new_message_same_chat,
+        test_scan_chat_history_for_ok,
     ]
     failed = 0
     for t in tests:
