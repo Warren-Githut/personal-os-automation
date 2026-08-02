@@ -116,11 +116,15 @@ def write_vault(data: dict) -> None:
 
 
 def sync_and_commit(date: str) -> None:
+    # GSheet sync — FAIL LOUD, do not swallow (Bố must know if GSheet missed)
     try:
         n = ps.sync_to_gsheet(send_notify=False)
-        print(f"✅ GSheet sync: {n} row(s)")
+        if n is None or n == 0:
+            print(f"⚠️  GSheet sync returned 0 rows (check token/API/share) — NOT synced")
+        else:
+            print(f"✅ GSheet sync: {n} row(s)")
     except Exception as e:  # noqa: BLE001
-        print(f"⚠️  GSheet sync failed: {e}")
+        print(f"⚠️  GSheet sync FAILED: {e} — vault entry kept, GSheet NOT updated")
 
     try:
         subprocess.run(
