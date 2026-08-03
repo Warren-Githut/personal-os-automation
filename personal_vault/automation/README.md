@@ -12,8 +12,7 @@ Warren post: `[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 
 
 | Lớp | Tần suất | Durable? | Mô tả |
 |-----|----------|----------|-------|
-| **Cron** `telegram-capture-sleep` | `*/2 6-13 * * *` | ✅ Có (cron độc lập) | Poll mỗi 2 phút trong khung 6-13. Script: `telegram_capture_sleep_runner.py` |
-| **Watchdog** (Hermes session) | Long-poll 60s | ❌ Chỉ khi Hermes mở | Real-time, phản hồi trong vài giây. Script: `telegram_capture_sleep_watchdog.py` |
+| **Cron** `telegram-capture-sleep` | `*/2 6-13 * * *` | ✅ Có (cron độc lập) | Poll mỗi 2 phút trong khung 6-13. Script: `telegram_capture_sleep_runner.py` → `telegram_health_poller.py --once` |
 
 ## Delegation Zones
 - **Telegram path** 🟢: poller tự chạy, tự sync GSheet khi Bố reply ok
@@ -25,7 +24,6 @@ Warren post: `[capture-sleep] Health log jul 25: 🏥 Health: 7h30 | quality 88 
 | `scripts/process_sleep.py` | Parse + write vault + GSheet sync (core) |
 | `scripts/telegram_notify.py` | Gửi Telegram (token từ ngoài repo) |
 | `scripts/telegram_health_poller.py` | Core poller logic (draft + state machine) |
-| `scripts/telegram_capture_sleep_watchdog.py` | Long-poll watchdog (real-time, Hermes session) |
 | `automation/telegram_capture_sleep_runner.py` | Wrapper cho cron |
 | `automation/cron-telegram-capture-sleep.yaml` | Cron spec |
 

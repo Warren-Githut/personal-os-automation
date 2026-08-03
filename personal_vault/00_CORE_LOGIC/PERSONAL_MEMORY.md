@@ -104,7 +104,7 @@ Chỉ WRITE khi:
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
 - **[2026-07-28] Skill auto-write UNLOCKED:** Bố duyệt con tự ghi skill + built-in memory (config `skills.write_approval`/`memory.write_approval` → false). HARD RULE giữ: trước `git commit`/`git push` bất kỳ skill/memory, Hermes PHẢI liệt kê toàn bộ changes → Bố approve. Gate không tắt.
-- **[2026-07-29] Cron telegram-capture-sleep:** `*/2 6-13 * * *` (mỗi 2 phút, 6am-1pm). no_agent, script `telegram_capture_sleep_runner.py`. Backup: watchdog `telegram_capture_sleep_watchdog.py` (long-poll 60s, real-time khi Hermes mở).
+- **[2026-07-29] Cron telegram-capture-sleep:** `*/2 6-13 * * *` (mỗi 2 phút, 6am-1pm). no_agent, script `telegram_capture_sleep_runner.py` → `telegram_health_poller.py --once`. (Watchdog cũ đã xóa 2026-08-03 — redundant + gây 409.)
 - **[2026-07-29] Capture-sleep zones:** Telegram path 🟢 (watchdog/cron tự bắt, tạo draft, Bố reply "ok" → tự ghi vault + sync GSheet, không cần hỏi). Hermes chat path 🟡 (Hermes phải hỏi Bố trước khi `--sync-gsheet`).
 
 ---
