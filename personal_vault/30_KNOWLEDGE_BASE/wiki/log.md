@@ -2,12 +2,22 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-07-20
+last_updated: 2026-08-04
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-04
+- **PROCESSED: `/process-notes` cron (08/04 09:42).** Inbox trống (0 items). Thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive.
+- **⚠️ FLAGGED: Cron `/process-notes` gián đoạn 15 ngày** — `.last_process_notes` = 2026-07-20, hôm nay 2026-08-04. Chu kỳ 07/21–08/03 không chạy lần nào. Cần kiểm tra scheduler.
+- **FLAGGED: Daily_Pulse.md gap 46 ngày** — entry cuối 2026-06-19. Regression tiếp diễn: W30 31d → W32 46d.
+- **FLAGGED: Health log gap trong Daily_Pulse 46 ngày** — Health cuối 2026-06-19. Tuy nhiên `10_PULSE/051_Sleep_Log.md` vẫn cập nhật đều (entry cuối 2026-08-03, hôm qua: sleep 7h30 | quality 90 | 62kg | fasting 20h | BP 97/71) → health data thực tế vẫn log đủ, chỉ chưa phản ánh lên Daily_Pulse. **Recommend:** chốt Sleep_Log làm primary cho health, ngừng kỳ vọng backfill Daily_Pulse.
+- **⚠️ FLAGGED: Sleep_Log entry 2026-08-03 CHƯA COMMIT** — `10_PULSE/051_Sleep_Log.md` đang ở trạng thái modified (13 dòng thêm, chưa vào git). Không stage trong cycle này vì thuộc process `capture-sleep` khác — Warren cần commit thủ công hoặc kiểm tra vì sao sync không tự commit.
+- **🔴 ESCALATION: Active case STALE 23 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. Toàn bộ **8/8 mục Action Checklist vẫn `[ ]`** (0 tiến độ sau hơn 3 tuần). Escalate: 8d (W30) → 23d (W32). File không có field `follow_up` → không auto-reset được. **Ưu tiên ngay:** B2 (lưu biên lai 11M + 6.2M) và B6 (screenshot exhibit A, KHÔNG xóa hội thoại) — cả hai deadline "Ngay"; kế đó B1 (soạn văn bản yêu cầu thăm nom, deadline "Tuần này").
+- **⏰ REMINDER: Cấp dưỡng 11M đến hạn 2026-08-10** (còn 6 ngày) — checklist B8. Giữ đúng 11M, TUYỆT ĐỐI KHÔNG đóng 20M.
+- **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
 
 ## 2026-07-20
 - **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ Visitation-enforcement case OPEN nhưng STALE (tồn tại tại `_cases/active/legal_quyen_tham_nom_GG.md` — scan trước ghi "mất tích" là SAI, file thực tế CÓ); (2) 🏥 LDL/ApoB gap 49d, weight 62kg (+1kg), Daily_Pulse gap 29d; (3) 🏦 Stock domain purged to Stock_OS 07/13, trading ra khỏi personal scope.
