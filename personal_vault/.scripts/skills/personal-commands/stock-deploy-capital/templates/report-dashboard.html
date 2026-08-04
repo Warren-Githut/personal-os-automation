@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Deploy Capital — [YYYY-MM-DD]</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: #e2e8f0;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.025em; color: #f1f5f9; }
+    .subtitle { color: #64748b; font-size: 0.8rem; margin-bottom: 1.5rem; margin-left: 1.75rem; }
+    .preflight {
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem;
+      padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+    }
+    .preflight h2 { font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem; }
+    .preflight-grid { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .pf-item {
+      display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem;
+      padding: 0.35rem 0.75rem; border-radius: 0.5rem;
+      background: rgba(30,41,59,0.5); border: 1px solid #1e293b;
+    }
+    .pf-item .label { color: #94a3b8; }
+    .pf-item .value.conviction { color: #34d399; }
+    .pf-item .value.yes { color: #34d399; }
+    .pf-item .value.cash { color: #fbbf24; }
+    .verdict-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .verdict-card {
+      border-radius: 0.75rem; padding: 1rem 1.25rem;
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b;
+    }
+    .verdict-card.buy { border-color: #059669; background: rgba(5,150,105,0.08); }
+    .verdict-card.wait { border-color: #d97706; background: rgba(217,119,6,0.08); }
+    .verdict-card.avoid { border-color: #dc2626; background: rgba(220,38,38,0.08); }
+    .verdict-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      padding: 0.2rem 0.5rem; border-radius: 0.25rem; margin-bottom: 0.4rem;
+    }
+    .verdict-card.buy .verdict-badge { background: #059669; color: #fff; }
+    .verdict-card.wait .verdict-badge { background: #d97706; color: #fff; }
+    .verdict-card.avoid .verdict-badge { background: #dc2626; color: #fff; }
+    .verdict-ticker { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; }
+    .verdict-score { font-size: 0.75rem; color: #94a3b8; margin-top: 0.15rem; }
+    .verdict-mos { font-size: 0.7rem; color: #34d399; }
+    .matrix-section {
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem;
+      padding: 1.25rem; margin-bottom: 1.5rem;
+    }
+    .matrix-section h2 { font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.75rem; }
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+    .matrix-table th, .matrix-table td { padding: 0.5rem 0.75rem; border: 1px solid #1e293b; text-align: left; }
+    .matrix-table th { color: #64748b; font-weight: 600; font-size: 0.7rem; background: rgba(30,41,59,0.4); }
+    .matrix-table td.label-cell { color: #94a3b8; font-weight: 500; }
+    .matrix-buy { color: #34d399; font-weight: 600; }
+    .matrix-wait { color: #fbbf24; font-weight: 600; }
+    .matrix-gamble { color: #a78bfa; font-weight: 600; }
+    .matrix-avoid { color: #fb7185; font-weight: 600; }
+    .action-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0.75rem; margin-bottom: 1.5rem;
+    }
+    .action-card {
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem 1.25rem;
+    }
+    .action-card.buy { border-color: #059669; }
+    .action-card.wait { border-color: #d97706; }
+    .action-card.avoid { border-color: #dc2626; }
+    .action-card .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .action-card .card-header .ticker { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; }
+    .action-card .card-header .score { font-size: 0.8rem; color: #64748b; }
+    .action-card ul { list-style: none; font-size: 0.7rem; }
+    .action-card ul li { padding: 0.25rem 0; color: #94a3b8; }
+    .action-card ul li strong { color: #e2e8f0; }
+    .action-card ul li .num { color: #fbbf24; font-weight: 600; }
+    .action-card ul li .green { color: #34d399; }
+    .portfolio-section {
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem;
+      padding: 1.25rem; margin-bottom: 1.5rem;
+    }
+    .portfolio-section h2 { font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.75rem; }
+    .portfolio-grid { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .pf-stat { font-size: 0.75rem; padding: 0.5rem 1rem; border-radius: 0.5rem; background: rgba(30,41,59,0.4); border: 1px solid #1e293b; }
+    .pf-stat .num { color: #fbbf24; font-weight: 600; }
+    .pf-stat .warning { color: #fb7185; font-weight: 600; }
+    .detail-section {
+      background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem;
+      padding: 1.25rem; margin-bottom: 1.5rem;
+    }
+    .detail-section h2 { font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.75rem; }
+    .detail-toggle { font-size: 0.7rem; color: #22d3ee; cursor: pointer; margin-bottom: 0.75rem; display: inline-block; }
+    .detail-toggle:hover { color: #67e8f9; }
+    .score-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; }
+    .score-table th, .score-table td { padding: 0.4rem 0.6rem; border: 1px solid #1e293b; }
+    .score-table th { color: #64748b; font-weight: 600; background: rgba(30,41,59,0.4); }
+    .score-table td { color: #94a3b8; }
+    .score-pass { color: #34d399; font-weight: 600; }
+    .score-fail { color: #fb7185; font-weight: 600; }
+    .score-part { color: #fbbf24; font-weight: 600; }
+    .valuation-section { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #1e293b; font-size: 0.7rem; }
+    .valuation-section .v-pass { color: #34d399; font-weight: 600; }
+    .valuation-section .v-fail { color: #fb7185; font-weight: 600; }
+    .detail-content { display: none; }
+    .detail-content.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header"><div class="pulse-dot"></div><h1>📊 DEPLOY CAPITAL — [YYYY-MM-DD]</h1></div>
+    <p class="subtitle">Toàn cảnh trước khi xuống tiền · Chất lượng nội tại /100 + Valuation trigger</p>
+    <div class="preflight">
+      <h2>▶ PRE-FLIGHT</h2>
+      <div class="preflight-grid">
+        <div class="pf-item"><span class="label">FOMO?</span><span class="value [PF_CONVICTION_CLASS]">[PF_CONVICTION]</span></div>
+        <div class="pf-item"><span class="label">VN-Index &gt; 200 DMA?</span><span class="value [PF_DMA_CLASS]">[PF_DMA]</span></div>
+        <div class="pf-item"><span class="label">Đủ tiền mặt?</span><span class="value [PF_CASH_CLASS]">[PF_CASH]</span></div>
+      </div>
+    </div>
+    <h2 style="font-size:0.8rem;font-weight:600;color:#64748b;margin-bottom:0.5rem;">▶ VERDICT</h2>
+    <div class="verdict-strip">
+      <div class="verdict-card buy"><span class="verdict-badge">🔫 BẮN</span><div class="verdict-ticker">[BUY_TICKER]</div><div class="verdict-score">[BUY_SCORE]/100</div><div class="verdict-mos">MOS [BUY_MOS]% · P/E [BUY_PE] vs 5Y [BUY_PE_5Y]</div></div>
+      <div class="verdict-card wait"><span class="verdict-badge">⏳ CHỜ</span><div class="verdict-ticker">[WAIT_TICKER]</div><div class="verdict-score">[WAIT_SCORE]/100</div><div class="verdict-mos" style="color:#fbbf24;">MOS [WAIT_MOS]% — cần giảm [WAIT_DIP]%</div></div>
+      <div class="verdict-card avoid"><span class="verdict-badge">🛑 TRÁNH</span><div class="verdict-ticker">[AVOID_TICKER]</div><div class="verdict-score">[AVOID_SCORE]/100</div><div class="verdict-mos" style="color:#fb7185;">[AVOID_REASON]</div></div>
+    </div>
+    <div class="matrix-section">
+      <h2>▶ MA TRẬN 2×2</h2>
+      <table class="matrix-table">
+        <thead><tr><th></th><th>RẺ (MOS &gt;10%)</th><th>ĐẮT</th></tr></thead>
+        <tbody>
+          <tr><td class="label-cell">CHẤT LƯỢNG CAO<br><span style="color:#64748b;">≥70/100</span></td><td class="matrix-buy">🔫 [M1_TICKER]</td><td class="matrix-wait">⏳ [M2_TICKER]</td></tr>
+          <tr><td class="label-cell">CHẤT LƯỢNG THẤP<br><span style="color:#64748b;">&lt;70/100</span></td><td class="matrix-gamble">🎲 [M3_TICKER]</td><td class="matrix-avoid">🛑 [M4_TICKER]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 style="font-size:0.8rem;font-weight:600;color:#64748b;margin-bottom:0.5rem;">▶ ACTION CARDS</h2>
+    <div class="action-cards">[ACTION_CARDS]</div>
+    <div class="portfolio-section">
+      <h2>▶ PORTFOLIO SNAPSHOT</h2>
+      <div class="portfolio-grid">
+        <div class="pf-stat">Tổng equity: <span class="num">[PORTFOLIO_EQUITY]</span></div>
+        <div class="pf-stat">Top position: <span class="num">[PORTFOLIO_TOP]</span></div>
+        <div class="pf-stat">Top 3 concentration: <span class="[PORTFOLIO_CONC_CLASS]">[PORTFOLIO_CONC]%</span></div>
+        <div class="pf-stat">Tiền mặt: <span class="num">[PORTFOLIO_CASH]</span></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <h2>▶ CHI TIẾT BẢNG ĐIỂM</h2>
+      <span class="detail-toggle" onclick="toggleDetail()">▸ Click để xem chi tiết từng ticker</span>
+      <div id="detail-content" class="detail-content">[DETAIL_TABLES]</div>
+    </div>
+    <p class="subtitle" style="margin-bottom:0;">Đường dẫn: <span style="color:#22d3ee;">wiki/03_Investing/VN_Equities/040_Deploy_Capital_Report.html</span></p>
+  </div>
+  <script>
+    function toggleDetail(){
+      const el=document.getElementById('detail-content');
+      const t=document.querySelector('.detail-toggle');
+      if(el.classList.contains('show')){el.classList.remove('show');t.textContent='▸ Click để xem chi tiết từng ticker';}
+      else{el.classList.add('show');t.textContent='▾ Thu gọn';}
+    }
+  </script>
+</body>
+</html>
