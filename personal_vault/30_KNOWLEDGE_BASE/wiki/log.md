@@ -2,12 +2,22 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-05
+- **PROCESSED: `/process-notes` cron (05/08 08:55).** Inbox trống (0 items). Thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive. Git tree sạch đầu cycle.
+- **✅ CRON CADENCE PHỤC HỒI** — `.last_process_notes` = 2026-08-04T09:42:47, cycle này 2026-08-05T08:55 (~23h13m). Đợt gián đoạn 15 ngày (07/21–08/03) đã chấm dứt, chạy đều 2 ngày liên tiếp.
+- **🔴 MỚI — Sleep_Log có 3 entry TRÙNG LẶP ngày 2026-07-30** (dòng 18, 78, 90 trong `10_PULSE/051_Sleep_Log.md`), nội dung giống hệt từng ký tự: `Sleep: 7h30 | Quality: 90/100 | Fasting: 18h | Weight: 62kg | BP: 97/71`. Bản thứ 3 do commit `651a8c9` (`capture-sleep` telegram + GSheet sync auto) chèn vào **đầu file** → đồng thời phá vỡ thứ tự newest-on-top (07-30 đang nằm trên 08-03). Đây là lỗi **dedup của `capture-sleep`**, không phải của `/process-notes`. Theo hard rule "chỉ đọc, không ghi Sleep_Log", cycle này **KHÔNG tự sửa** — flag để Warren/`capture-sleep` xử lý. **Cần kiểm tra thêm:** GSheet tab `W-capture-sleep` có bị sync trùng 3 dòng 07-30 không. [HIGH]
+- **FLAGGED: Daily_Pulse.md gap 47 ngày** — entry cuối 2026-06-19. Regression tiếp diễn: W30 31d → 08/04 46d → hôm nay 47d.
+- **Health data vẫn đủ (KHÔNG flag gap)** — Sleep_Log entry cuối 2026-08-03, cách hôm nay 2 ngày (ngưỡng flag >3 ngày). Lưu ý chưa có entry 08-04 và 08-05. Số liệu 08-03 canonical: sleep 7h40 | quality 90 | fasting 20h | 62kg | BP 97/71 — đạt baseline. [MOD]
+- **🔴 ESCALATION: Active case STALE 24 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. **8/8 mục Action Checklist vẫn `[ ]`** — 0 tiến độ sau 24 ngày. Escalate: 8d (W30) → 23d (08/04) → 24d (hôm nay). File không có field `follow_up` → không auto-reset được. **Ưu tiên ngay:** B2 (lưu biên lai 11M + 6.2M) và B6 (screenshot exhibit A, KHÔNG xóa hội thoại) — cả hai deadline "Ngay"; kế đó B1 (soạn văn bản yêu cầu thăm nom, deadline "Tuần này").
+- **⏰ REMINDER: Cấp dưỡng 11M đến hạn 2026-08-10** (còn 5 ngày) — checklist B8. Giữ đúng 11M, TUYỆT ĐỐI KHÔNG đóng 20M.
+- **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
 
 ## 2026-08-04
 - **PROCESSED: `/process-notes` cron (08/04 09:42).** Inbox trống (0 items). Thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive.
