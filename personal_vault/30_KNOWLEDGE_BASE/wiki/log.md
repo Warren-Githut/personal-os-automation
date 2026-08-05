@@ -18,6 +18,8 @@ tags:
 - **🔴 ESCALATION: Active case STALE 24 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. **8/8 mục Action Checklist vẫn `[ ]`** — 0 tiến độ sau 24 ngày. Escalate: 8d (W30) → 23d (08/04) → 24d (hôm nay). File không có field `follow_up` → không auto-reset được. **Ưu tiên ngay:** B2 (lưu biên lai 11M + 6.2M) và B6 (screenshot exhibit A, KHÔNG xóa hội thoại) — cả hai deadline "Ngay"; kế đó B1 (soạn văn bản yêu cầu thăm nom, deadline "Tuần này").
 - **⏰ REMINDER: Cấp dưỡng 11M đến hạn 2026-08-10** (còn 5 ngày) — checklist B8. Giữ đúng 11M, TUYỆT ĐỐI KHÔNG đóng 20M.
 - **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
+- **📌 ADDENDUM (09:01, sau commit `7e74725`):** `capture-sleep` commit `afeee47` đã bổ sung entry **2026-08-04** vào Sleep_Log. Ghi chú "chưa có entry 08-04" ở trên đúng tại thời điểm quét (08:55) nhưng lạc hậu 6 phút sau — giữ nguyên để minh bạch dòng thời gian. Số liệu 08-04: **sleep 6h30 | quality 80 | fasting 20h | 62kg | BP 97/71** → **DƯỚI baseline** (7h40 / q90): thiếu ~1h10 ngủ, quality giảm 10 điểm. Fasting/cân nặng/huyết áp vẫn ổn định. Cần theo dõi entry 08-05 xem đây là dip 1 ngày hay khởi đầu xu hướng. [MOD]
+- **⚠️ Triplicate 07-30 CHƯA được sửa** sau commit `afeee47` — vẫn 3 entry (nay ở dòng 30, 90, 102). Thứ tự newest-on-top vẫn lệch: 07-30 nằm ngay dưới 08-04 và **trên** 08-03. Cần Warren xoá tay 2 bản thừa hoặc sửa dedup logic của `capture-sleep`.
 
 ## 2026-08-04
 - **PROCESSED: `/process-notes` cron (08/04 09:42).** Inbox trống (0 items). Thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive.
