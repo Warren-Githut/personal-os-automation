@@ -2,12 +2,22 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-06
+- **PROCESSED: `/process-notes` cron (06/08 09:37).** Inbox trống (0 items), thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive. Git tree sạch đầu cycle. Cadence đều: cách cycle trước ~24h41m (05/08 08:55 → 06/08 09:37), 3 ngày liên tiếp.
+- **✅ HEALTH: dip 08-04 chỉ là dip 1 ngày, đã phục hồi.** Chuỗi 3 ngày: 08-03 `7h40 | q90` → 08-04 `6h30 | q80` (dưới baseline) → 08-05 `7h30 | q90` (đạt baseline). Câu hỏi mở từ addendum 08-05 ("dip 1 ngày hay khởi đầu xu hướng?") → **trả lời: dip 1 ngày, không thành xu hướng**. Fasting 20h ổn định cả 3 ngày, cân nặng 62kg không đổi, BP 97/71 → 97/71 → 97/73 (trong dải bình thường của Warren 95-107/66-72). Không flag gap: entry cuối 08-05, cách hôm nay 1 ngày (ngưỡng >3 ngày). [MOD]
+- **🔴 Triplicate 07-30 SANG NGÀY THỨ 3 chưa sửa** — vẫn 3 entry giống hệt trong `10_PULSE/051_Sleep_Log.md`, nay ở dòng **42, 102, 114** (dịch xuống 12 dòng do entry 08-05 chèn đầu file). Nội dung trùng từng ký tự: `Sleep: 7h30 | Quality: 90/100 | Fasting: 18h | Weight: 62kg | BP: 97/71`. Thứ tự newest-on-top vẫn lệch: 07-30 nằm giữa 08-04 và 08-03. Đây là lỗi **dedup của `capture-sleep`**, không phải `/process-notes`; theo hard rule "chỉ đọc, không ghi Sleep_Log" cycle này **KHÔNG tự sửa**. **Cần Warren:** xoá tay 2 bản thừa (giữ bản ở dòng 114 — đúng thứ tự thời gian) HOẶC sửa dedup logic. Vẫn treo từ 08-05: kiểm tra GSheet tab `W-capture-sleep` có bị sync trùng 3 dòng 07-30 không. [HIGH]
+- **FLAGGED: Daily_Pulse.md gap 48 ngày** — entry cuối 2026-06-19. Regression liên tục: W30 31d → 08/04 46d → 08/05 47d → hôm nay 48d. Health data vẫn vào đều qua Sleep_Log nhưng KHÔNG được phản ánh sang Daily_Pulse.
+- **🔴 ESCALATION: Active case STALE 25 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. **8/8 mục Action Checklist vẫn `[ ]`** — 0 tiến độ sau 25 ngày. Escalate: 8d (W30) → 23d (08/04) → 24d (08/05) → 25d (hôm nay). File không có field `follow_up` → không auto-reset được. **Ưu tiên ngay:** B2 (lưu biên lai 11M + 6.2M) và B6 (screenshot exhibit A, KHÔNG xoá hội thoại) — cả hai deadline "Ngay"; kế đó B1 (soạn văn bản yêu cầu thăm nom, deadline "Tuần này").
+- **⏰ REMINDER: Cấp dưỡng 11M đến hạn 2026-08-10 — còn 4 ngày** (checklist B8). Giữ đúng **11M**, TUYỆT ĐỐI KHÔNG đóng 20M. Đây cũng là cơ hội đóng luôn B2: lưu biên lai ngay khi chuyển tiền.
+- **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
+- **🛠 SKILL BUG phát hiện cycle này:** `personal-process-notes` khẳng định có sẵn `scripts/verify_cycle.sh` implement checks 1-6. **File chưa từng tồn tại** — không có trên đĩa, không có vết trong `git log --all`. Cycle này đã tạo thật + chạy negative control để đóng khoảng cách giữa tài liệu và thực tế.
 
 ## 2026-08-05
 - **PROCESSED: `/process-notes` cron (05/08 08:55).** Inbox trống (0 items). Thư mục `_inbox/01_unprocessed/stock_pending/` không tồn tại (0 JSONs) → không có gì để route/archive. Git tree sạch đầu cycle.
