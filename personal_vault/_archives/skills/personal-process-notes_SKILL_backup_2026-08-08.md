@@ -246,41 +246,8 @@ Hand-writing a throwaway script each cycle cost two authoring bugs on 2026-08-05
 
 **Triage every FAIL before "fixing" the artifact:** ask *is the assertion wrong, or is the thing wrong?* Verify the artifact by hand first. Editing a correct file to satisfy a broken check is a corruption you introduced yourself, and in the transcript it looks like diligence.
 
-**🚨 git pathspecs resolve against cwd — repo-root-relative paths silently match NOTHING.** (Learned 2026-08-08, third assertion-authoring bug in this family.) An ad-hoc script did `cd personal_vault` then passed `personal_vault/_inbox/.last_process_notes` to `git ls-files` / `git status --porcelain --`. Git resolved that against cwd → `personal_vault/personal_vault/_inbox/`, which does not exist. Two different symptoms from one bug:
-- `git ls-files --error-unmatch <bad pathspec>` → **loud FAIL** ("untracked") on a file that is definitely tracked.
-- `git status --porcelain -- <bad pathspec>` → **silent vacuous PASS**: matches nothing, returns 0 lines, so "no uncommitted diff" passes even when the file is filthy. The only tell was a stderr `warning: could not open directory 'personal_vault/personal_vault/_inbox/'` buried above the PASS line — **read the warnings, not just the PASS/FAIL column.**
-
-Keep two variables and never mix them:
-```
-RELP=personal_vault/_inbox/.last_process_notes   # repo-root-relative: matching `git show --name-only` OUTPUT TEXT, and blob refs (`git show SHA~1:$RELP`)
-PSPEC=_inbox/.last_process_notes                 # cwd-relative: every git PATHSPEC arg (ls-files, status --, diff --, log --)
-```
-Note `git show SHA:path` blob refs are **always** repo-root-relative (use `RELP`) while `--` pathspecs are cwd-relative (use `PSPEC`) — in the same command they differ. Grepping `git show --name-only` output is plain text matching, so it wants `RELP` too and looks deceptively like it "works with the full path", which is what made the mixed usage feel consistent.
-
-Prove such a check is non-vacuous in a **throwaway repo under `%TEMP%`**, never by dirtying the vault (DEBUG RULE: never dirty vault/GSheet/Telegram while debugging):
-```
-R=$(mktemp -d /c/Users/khoans/AppData/Local/Temp/hermes-verify-repo-XXXXXX); cd "$R"
-git init -q .; git config user.email t@t; git config user.name t
-mkdir -p sub/_inbox; printf 'x\n' > sub/_inbox/.stamp; git add -A; git commit -qm seed; cd sub
-git status --porcelain -- _inbox/.stamp | wc -l      # 0 clean
-printf 'y\n' > _inbox/.stamp
-git status --porcelain -- _inbox/.stamp | wc -l      # 1  <- correct pathspec CAN fail
-git status --porcelain -- sub/_inbox/.stamp | wc -l  # 0  <- the vacuous bug, reproduced
-cd /c/Users/khoans && rm -rf "$R"
-```
-A `--selftest` that flips the *expected date* would NOT have caught this: date-based bogosity fails checks 2/6/7/8/9 loudly and leaves the pathspec checks reading the same clean tree. Negative controls only exercise the axis you vary — vary the **path** axis too, or verify each pathspec binds to a real file at least once.
-
 ### 📦 After patching this skill, sync the vault SSOT copy
 
 `skill_manage` writes **only** to the AppData copy. This skill also has a git-tracked SSOT at `personal_vault/.scripts/skills/productivity/personal-process-notes/`, and nothing warns you it is behind. On 2026-08-05 it was **4.6KB stale** and still asserted the *"`personal_vault/` is a SEPARATE nested git repo"* claim that had been disproven the day before — a future session reading it would have followed refuted guidance.
 
-After any patch here: `diff -rq <appdata_dir> <vault_ssot_dir>` → sync one-way AppData → SSOT (per the `skill-sync` skill) → archive to `_archives/skills/` → commit and push → confirm `diff -rq` is IDENTICAL. Before syncing, check `diff <appdata> <vault> | grep '^>'` so a one-way copy doesn't destroy a real edit that exists only in the vault copy. Archive naming follows the flat convention already in that folder — `personal-process-notes_SKILL_backup_YYYY-MM-DD.md`, **not** a dated subdirectory.
-
-⚠️ **Do NOT verify this sync with string *counts*.** (Corrected 2026-08-08, twice in one cycle.) An earlier revision demanded the refuted nested-repo claim grep to `0`; but the section above *quotes* that claim to narrate the 2026-08-05 incident, so a correct file greps to 1 — chasing 0 means deleting accurate history. Re-pinning it to "want exactly 1" then broke too, because the fix itself quoted the string again (count → 3). **Any count you write into the doc changes the count.** Use `diff -rq` for sync integrity plus a presence check that is stable under self-reference:
-
-```
-diff -rq <appdata_dir> <ssot_dir>                                  # silent = synced; this is the real gate
-grep -q 'Git root — VERIFY, do not assume' <ssot>/SKILL.md         # corrected guidance survived the copy
-```
-
-General rule this is an instance of: **never verify a doc by asserting an exact occurrence count of text the doc itself discusses, and never prove a string absent when the doc has legitimate reason to quote it.** Assert presence of the corrected claim; let `diff -rq` prove the copy.
+After any patch here: `diff -rq <appdata_dir> <vault_ssot_dir>` → sync one-way AppData → SSOT (per the `skill-sync` skill) → archive to `_archives/skills/` → commit and push → confirm `diff -rq` is IDENTICAL and the refuted string greps to `0`. Before syncing, check `diff <appdata> <vault> | grep '^>'` so a one-way copy doesn't destroy a real edit that exists only in the vault copy.
