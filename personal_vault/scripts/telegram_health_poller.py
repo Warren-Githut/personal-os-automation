@@ -189,7 +189,7 @@ def process_new_message(update: dict) -> None:
         )
         return
     draft = build_draft(data)
-    mid = send_msg(draft, reply_to=message.get("message_id"))
+    mid = send_msg(draft)  # gửi tin mới đứng独立思考 (không reply) để Bố thấy rõ trên Telegram
     if mid:
         save_pending(
             {
