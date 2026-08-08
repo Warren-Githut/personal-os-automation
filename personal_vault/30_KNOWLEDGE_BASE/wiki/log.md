@@ -2,12 +2,22 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-08
+- **PROCESSED: `/process-notes` cron (08/08 10:20).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Git tree sạch đầu cycle, branch `master` sync với `origin/master` (0 commit chờ push). Cadence 1526 phút (25h26m) kể từ cycle trước (07/08 08:53) → **5 ngày liên tiếp** chạy đều.
+- **✅ HEALTH: gap 08-06 đã được lấp — cảnh báo cycle trước GIẢI TỎA.** Cycle 07/08 flag "thiếu entry 08-06, gap 2 ngày, nếu mai vẫn trống sẽ flag đỏ". Nay `10_PULSE/051_Sleep_Log.md` có **cả 08-06 lẫn 08-07**: 08-06 `7h00 | q90 | fasting 20h | 62kg | BP 97/72`, 08-07 `7h30 | q90 | fasting 20h | 62kg | BP 97/71`. Bot `@LUsinePersonalBot` hoạt động bình thường, không cần Bố kiểm tra nữa. Entry cuối 08-07, cách hôm nay 1 ngày → **không flag** (ngưỡng >3 ngày). [MOD]
+- **📈 Chuỗi 4 ngày 08-04 → 08-07 phục hồi ổn định.** 08-04 `6h30 | q80` (dip) → 08-05 `7h30 | q90` → 08-06 `7h00 | q90` → 08-07 `7h30 | q90`. Trung bình 3 ngày sau dip = (7.5 + 7.0 + 7.5) / 3 = 22.0 / 3 = **7h20**, trên baseline 7h. Fasting 20h đều cả 4 ngày, cân 62kg không đổi, BP 97/71 → 97/73 → 97/72 → 97/71 (dải bình thường của Bố 95-107/66-72; riêng 08-05 tâm trương 73 nhỉnh hơn trần 72 đúng 1 đơn vị, không đáng ngại). [MOD]
+- **🔴 Triplicate 07-30 SANG NGÀY THỨ 5 chưa sửa** — vẫn đúng 3 bản giống hệt từng ký tự trong `051_Sleep_Log.md`, nay ở dòng **66, 126, 138** (dịch xuống 24 dòng so với cycle trước 42/102/114, do 2 entry mới 08-06 + 08-07 chèn đầu file, mỗi entry 12 dòng). Nội dung trùng: `Sleep: 7h30 | Quality: 90/100 | Fasting: 18h | Weight: 62kg | BP: 97/71`. Thứ tự newest-on-top vẫn lệch: bản dòng **66 nằm sai chỗ** giữa 08-04 (dòng 54) và 08-03 (dòng 78). Hai bản còn lại (126, 138) nằm đúng khe thời gian giữa 07-31 (dòng 114) và 07-29 (dòng 150). Lỗi thuộc dedup của `capture-sleep`, không phải `/process-notes`; theo hard rule "chỉ đọc, không ghi Sleep_Log" cycle này **KHÔNG tự sửa**. **Cần Bố:** xoá 2 bản ở dòng **66 và 126**, giữ bản dòng **138** (đúng thứ tự thời gian); và đối chiếu GSheet tab `W-capture-sleep` xem có 3 dòng 07-30 trùng không. [HIGH]
+- **FLAGGED: Daily_Pulse.md gap 50 ngày** — entry cuối vẫn 2026-06-19. Regression đều đặn không dừng: 46d (04/08) → 47d → 48d → 49d → **50d hôm nay**, chạm mốc tròn 50. Health data vào Sleep_Log đều đặn nhưng không phản ánh sang Daily_Pulse; 4 domain còn lại (GG, Money, Mind, People) không có capture nào suốt hơn 7 tuần.
+- **🔴 ESCALATION: Active case STALE 27 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. Kiểm tra lại dòng 183-190: **8/8 mục Action Checklist vẫn `[ ]`**, 0 tiến độ sau 27 ngày. Escalate: 23d → 24d → 25d → 26d → **27d**. File không có field `follow_up` nên không auto-reset được. **Ưu tiên ngay:** B2 (lưu biên lai 11M + 6.2M) và B6 (screenshot exhibit A, KHÔNG xoá hội thoại), cả hai deadline "Ngay"; kế đó B1 (soạn văn bản yêu cầu thăm nom, deadline "Tuần này").
+- **⏰ REMINDER: Cấp dưỡng 11M đến hạn 2026-08-10 — còn 2 ngày** (checklist B8). Giữ đúng **11M**, TUYỆT ĐỐI KHÔNG đóng 20M. Chuyển tiền xong chốt luôn B2: lưu biên lai ngay lúc đó. Đây là cửa sổ cuối trước hạn — cycle sau (09/08) chỉ còn 1 ngày.
+- **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
 
 ## 2026-08-07
 - **PROCESSED: `/process-notes` cron (07/08 08:53).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Git tree sạch đầu cycle, branch `master` đã sync với `origin/master` (0 commit chờ push). Cadence 1397 phút (23h17m) kể từ cycle trước (06/08 09:37) → 4 ngày liên tiếp chạy đều.
