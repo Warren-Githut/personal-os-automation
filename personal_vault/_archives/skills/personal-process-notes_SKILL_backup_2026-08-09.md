@@ -162,15 +162,6 @@ Two approaches (run from inside `personal_vault/`):
 ## Pitfalls
 
 - **🚨 NEVER "rescue" a file owned by a concurrent process.** (Learned 2026-08-04.) `capture-sleep` writes `10_PULSE/051_Sleep_Log.md` using a **revert-then-rewrite** pattern: it may leave the entry uncommitted, then `git restore` the file back to HEAD mid-cycle, then write the corrected value and commit minutes later. A `/process-notes` cycle that samples the file during that window sees the entry "disappear" and looks like data loss — **it is not**. If you restore it you create a duplicate entry AND commit a stale value (the process's rewrite often corrects the numbers, e.g. 7h30 → 7h40). **Rule: read Sleep_Log, never write or `git add` it.** If you see an uncommitted or vanished entry, just note it in the report and move on; re-check on the next cycle before flagging anything as lost.
-- **🚨 A Sleep_Log entry dated today is NOT proof today's data arrived — check the commit date against the D-1 convention.** (Learned 2026-08-09.) `capture-sleep` normally commits on day D an entry labelled **D-1** (the night slept); this held for all 10 preceding commits. On 2026-08-08 it ran twice: `59acd4f` at 10:14 wrote `### 2026-08-07` (correct), then `e4784ed` at 10:47 wrote `### 2026-08-09` — **a label one day in the future relative to its own commit date**, with a payload byte-identical to the 08-07 entry, insight text included. Effects that make this dangerous:
-  - The naive health-gap check ("newest entry ≤3 days old") **passes**, because the newest label is today's date. Real freshest data was 08-07, two days stale.
-  - The genuine 08-08 miss is **masked** — there is no `### 2026-08-08` anywhere, so nothing looks lost.
-  - The commit message says "GSheet sync (auto)", so the bogus row likely propagated to the `W-capture-sleep` tab too.
-  Detect it cheaply every cycle — compare label to commit date, and confirm the newest entry is not a byte-copy of its predecessor:
-  ```
-  git log --format="%ad | %s" --date=format:'%Y-%m-%d %H:%M' -12 --grep="telegram \[capture-sleep\]"
-  ```
-  Any row where the label is **≥ the commit date** is bogus (label must be strictly earlier). Cross-check the frontmatter: `last_updated` lagging the newest entry date is a second tell. Same root cause family as the 07-30 triplicate — **flag it, never edit Sleep_Log.**
 - **Do NOT re-process orphaned JSONs.** Always verify target file content exists before routing. Orphaned JSON + existing data = archive only.
 - **Gap detection is NOT optional in cron mode.** Run ALL 4 checks every cycle even if nothing else changed. A stale court follow_up is actionable even with zero inbox items.
 - **Court follow_up: reset to TOMORROW** (not next week, not indefinite). This forces daily re-check until Warren updates.
