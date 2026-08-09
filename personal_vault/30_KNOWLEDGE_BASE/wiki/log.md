@@ -2,12 +2,25 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-08
+last_updated: 2026-08-09
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-09
+- **PROCESSED: `/process-notes` cron (09/08 10:57).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Git tree sạch đầu cycle, branch `master` sync với `origin/master`. Cadence 1477 phút (24h37m) kể từ cycle trước (08/08 10:20) → **6 ngày liên tiếp** chạy đều.
+- **🔴 PHÁT HIỆN MỚI — entry `### 2026-08-09` trong `051_Sleep_Log.md` là BẢN SAO SAI NGÀY, KHÔNG phải data thật của hôm nay.** Bằng chứng cứng từ git: commit `59acd4f` lúc **08/08 10:14** thêm entry `2026-08-07`; commit `e4784ed` lúc **08/08 10:47** (33 phút sau, **cùng ngày 08/08**) thêm entry gắn nhãn `2026-08-09` — **một ngày trong TƯƠNG LAI so với thời điểm commit**. Payload hai entry **giống hệt từng ký tự**: `Sleep: 7h30 | Quality: 90/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 97/71`, kể cả câu Insight. Quy ước bình thường của `capture-sleep` là commit ngày D ghi entry D-1 (kiểm 10 commit gần nhất đều đúng quy ước); riêng `e4784ed` lệch **+2 ngày**. Bằng chứng nội tại thêm: frontmatter `last_updated: 2026-08-08` nhưng file lại chứa entry `2026-08-09` — tự mâu thuẫn. [HIGH]
+- **🔴 Hệ quả: 08-08 KHÔNG có data, và hôm nay 09/08 (10:57) chưa có lần chạy `capture-sleep` nào.** Không tồn tại `### 2026-08-08` trong file; git log không có commit capture-sleep nào ngày 09/08. Data thật gần nhất = **08-07**, cách hôm nay **2 ngày** — dưới ngưỡng 3 ngày nên chưa flag đỏ, nhưng mai vẫn trống là thành gap 3 ngày. **Cần Bố:** kiểm bot `@LUsinePersonalBot` sáng nay, và đối chiếu GSheet tab `W-capture-sleep` xem dòng giả `2026-08-09` có bị đẩy lên chưa (commit ghi "GSheet sync (auto)" nên nhiều khả năng GSheet cũng dính). Theo hard rule "chỉ đọc, không ghi Sleep_Log", cycle này **KHÔNG tự sửa**.
+- **🔴 Triplicate 07-30 SANG NGÀY THỨ 6 chưa sửa** — vẫn đúng 3 bản giống hệt từng ký tự, nay ở dòng **78, 138, 150** (dịch +12 so với cycle trước 66/126/138, do entry giả 08-09 chèn đầu file). `grep -c "^### 2026-07-30"` = **3**; quét trùng toàn file bằng `sort | uniq -d` chỉ ra **duy nhất** 07-30 bị lặp. Bản dòng **78 nằm sai chỗ** (kẹt giữa 08-04 ở dòng 66 và 08-03 ở dòng 90); hai bản 138 + 150 nằm đúng khe giữa 07-31 (126) và 07-29 (162). **Cần Bố:** xoá dòng **78 và 138**, giữ bản dòng **150**. Cùng gốc lỗi dedup/ngày với entry giả 08-09 ở trên. [HIGH]
+- **📊 Trung bình giấc ngủ tháng 8 (7 ngày data THẬT, đã loại entry giả 08-09 và 2 bản 07-30 trùng):** 08-01 `7.000` + 08-02 `8.500` = 15.500; + 08-03 `7.667` = 23.167; + 08-04 `6.500` = 29.667; + 08-05 `7.500` = 37.167; + 08-06 `7.000` = 44.167; + 08-07 `7.500` = **51.667 giờ**. 51.667 / 7 = **7.381 h ≈ 7h23**, trên baseline 7h. Quality: 85 + 93 = 178; + 90 = 268; + 80 = 348; + 90 = 438; + 90 = 528; + 90 = **618**; 618 / 7 = **88.3**. Cân 62kg đứng yên cả 7 ngày, fasting 20h đều (trừ 08-01 = 18h), BP dải 97/71-73 — bình thường theo dải của Bố 95-107/66-72 (riêng 08-05 tâm trương 73, nhỉnh trần đúng 1 đơn vị). [MOD]
+- **FLAGGED: Daily_Pulse.md gap 51 ngày** — entry cuối vẫn `2026-06-19`. Regression không dừng: 46d (04/08) → 47d → 48d → 49d → 50d → **51d hôm nay**. Health data chảy vào Sleep_Log nhưng không phản ánh sang Daily_Pulse; 4 domain còn lại (GG, Money, Mind, People) không có capture nào suốt hơn 7 tuần.
+- **🔴 ESCALATION: Active case STALE 28 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 2026-07-12, `last_updated: 2026-07-12`. Action Checklist (dạng bảng, dòng 183-190): **8/8 mục vẫn `[ ]`**, 0 tiến độ sau 28 ngày. Escalate: 23d → 24d → 25d → 26d → 27d → **28d**. File không có field `follow_up` nên không auto-reset được.
+- **⏰ REMINDER TỐI HẬU: Cấp dưỡng 11M đến hạn NGÀY MAI 2026-08-10 — còn 1 ngày** (checklist B8). Giữ đúng **11M**, TUYỆT ĐỐI KHÔNG đóng 20M. Chuyển xong chốt luôn B2 (lưu biên lai ngay lúc đó) và B6 (screenshot exhibit A, KHÔNG xoá hội thoại) — cả hai deadline "Ngay". Đây là cycle cuối trước hạn.
+- **📌 LOW: `051_Sleep_Log.csv` mồ côi 31 ngày** — CSV dừng ở dòng data cuối `2026-07-09` (30 dòng) trong khi bản `.md` đã có **61 entry** tới 08-09. Commit cuối chạm CSV là `9a8dd8a` (merge vault), không phải `capture-sleep` → pipeline chỉ ghi `.md` + GSheet, bỏ rơi CSV. **Cần Bố quyết:** hoặc khai tử CSV, hoặc nối lại vào `capture-sleep`.
+- **📌 LOW: `PERSONAL_CONTEXT.md` stale 20 ngày** (`last_updated: 2026-07-20`) — số liệu health trong đó (61kg, Daily_Pulse gap 29d) đã lệch thực tế hiện tại (62kg, gap 51d).
+- **STATUS: Court case ly hôn vẫn CLOSED** — `_cases/closed/legal_divorce_court_GG_access.md` (QĐ 575/2026, resolution 2026-07-03). Không có `follow_up` → skip check, không reset.
 
 ## 2026-08-08
 - **PROCESSED: `/process-notes` cron (08/08 10:20).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Git tree sạch đầu cycle, branch `master` sync với `origin/master` (0 commit chờ push). Cadence 1526 phút (25h26m) kể từ cycle trước (07/08 08:53) → **5 ngày liên tiếp** chạy đều.
