@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-07-20
+last_updated: 2026-08-10
 domain: meta
 type: pulse
 status: active
@@ -14,6 +14,38 @@ related:
 ---
 
 # Weekly Connections Log
+
+## 2026-W32 (03/08–09/08)
+
+| # | Connection | Domains | Evidence | Signal |
+|---|---|---|---|---|
+| 1 | **Chính cỗ máy synthesis này chết 15 ngày — W30 và W31 KHÔNG BAO GIỜ được viết, log nhảy thẳng W29 → W32** — File này `last_updated: 2026-07-20`, section cuối cùng là W29 (13/07–19/07). Hai tuần W30 (20/07–26/07) và W31 (27/07–02/08) trống hoàn toàn. Nguyên nhân chung: cron `/process-notes` cũng gián đoạn đúng 15 ngày (21/07–03/08), xác nhận trong log.md ngày 04/08 — cả cụm cron Personal_OS cùng chết, không phải lỗi riêng skill này. Hệ quả: mọi so sánh tuần-qua-tuần trong entry W32 phải nhảy cóc qua W29, mất 2 điểm dữ liệu trung gian; các cảnh báo escalation (case stale, Daily_Pulse gap) mất 15 ngày không được leo thang. Thêm metadata drift: frontmatter ghi `entries: 8` trong khi file chỉ có 7 section (W29/W28/W26/W25/W24/W23/W22) — đếm sai từ trước. | meta ↔ legal ↔ health ↔ finance | [`weekly_connections_log.md`](../10_PULSE/weekly_connections_log.md) (7 section, thiếu W30+W31, last_updated 07/20); [log.md 04/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("Cron `/process-notes` gián đoạn 15 ngày — `.last_process_notes` = 2026-07-20"); [log.md 05/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("CRON CADENCE PHỤC HỒI") | 🔴 Critical gap — W29→W32: **PIPELINE OUTAGE 15D, đã phục hồi 04/08** |
+| 2 | **Cấp dưỡng 11M đến hạn HÔM NAY 10/08 — đây là cửa sổ duy nhất trong tháng để đóng 2 mục checklist "Ngay" đang treo 29 ngày, nhưng case vẫn 8/8 ô `[ ]`** — Case `legal_quyen_tham_nom_GG.md` OPEN 12/07, `last_updated: 2026-07-12`, **stale 29 ngày**, toàn bộ 8 mục Action Checklist chưa tick. Escalation chạy đều mỗi ngày trong log.md (23d → 24d → 25d → 26d → 27d → 28d → **29d hôm nay**) mà không sinh ra hành động nào. Nghịch lý cốt lõi: mặt trận TÀI CHÍNH Warren thi hành hoàn hảo (đã trả 17.2M tháng 7 = 11M cấp dưỡng + 6.2M học phí, vượt nghĩa vụ), mặt trận PHÁP LÝ đứng yên tuyệt đối. Hành động chuyển 11M hôm nay chính là thời điểm rẻ nhất để đóng B2 (lưu biên lai — deadline "Ngay") và B6 (screenshot exhibit A tin nhắn Khanh, KHÔNG xoá hội thoại — deadline "Ngay"): chi phí gần bằng 0, nhưng bỏ lỡ thì phải đợi 30 ngày tới lần chuyển sau. Cảnh báo cứng: giữ đúng **11M**, TUYỆT ĐỐI KHÔNG đóng 20M theo yêu sách của Khanh. | legal ↔ family_gg ↔ finance | [`legal_quyen_tham_nom_GG.md`](../_cases/active/legal_quyen_tham_nom_GG.md) (status OPEN, last_updated 12/07, checklist B1-B8 toàn `[ ]`); [log.md 04/08→09/08](../30_KNOWLEDGE_BASE/wiki/log.md) (escalate 23d→29d, "REMINDER TỐI HẬU: đến hạn NGÀY MAI"); [PERSONAL_CONTEXT §2](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (QĐ 575, cấp dưỡng 11M ngày 10 DL) | 🔴 Critical gap — W29→W32: **STALE 7d → 29d, HẠN HÔM NAY** |
+| 3 | **Số liệu sức khoẻ tuần này đẹp, nhưng đến từ một pipeline đã đẻ ra dữ liệu GIẢ hai lần trong 7 ngày — và cả hai lần đều đã sync lên GSheet** — W32 có đủ 7/7 ngày data, trung bình ngủ **7h27** (52.1667h / 7), quality **88.6**, cân 62kg đứng yên, fasting 20h, BP 97/71-73. Nhưng độ tin cậy của chính con số đó bị bào mòn bởi 3 sự cố liên tiếp: (a) **triplicate 07-30 sang ngày thứ 7** chưa sửa — 3 bản giống hệt từng ký tự ở dòng 90/150/162, `sort | uniq -d` xác nhận đây là ngày DUY NHẤT bị lặp; (b) **entry giả 08-09** do commit `e4784ed` tạo lúc 08/08 10:47 gắn nhãn ngày tương lai, nội dung sao chép nguyên văn 08-07, che mất sự thật là 08-08 không có data — chỉ được sửa thành data thật (8h00) sáng nay 10/08 07:43 bởi commit `f807505`; (c) **race condition 04/08** giữa `capture-sleep` và `/process-notes` sinh 2 entry trùng ngày 08-03, phải fix tay 3 commit liên tiếp. Cả 3 đều thuộc logic dedup của `capture-sleep`. Vì mỗi commit đều ghi "GSheet sync (auto)", tab `W-capture-sleep` nhiều khả năng đang mang cả 3 dòng 07-30 lẫn dòng giả 08-09 cũ. | health ↔ meta | [`051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) (62 block, 07-30 lặp 3 lần dòng 90/150/162); [git log](../.git) (`e4784ed` 08/08 10:47 entry tương lai; `f807505` 10/08 07:43 sửa 08-09; `bd5f10c`/`48d3c53`/`7ae6450` 04/08 dedup race); [log.md 09/08](../30_KNOWLEDGE_BASE/wiki/log.md) (phân tích entry giả, "triplicate day 6") | 🟡 Correlation — W29→W32: **DATA ĐỦ NHƯNG PIPELINE 3 LỖI** |
+| 4 | **Nhịn ăn leo thang 18h → 20h nhưng cân nặng đóng băng 62kg và giấc ngủ đi lùi nhẹ — can thiệp mỡ máu thì tròn 70 ngày chưa đụng tới** — W31 có 6/7 ngày fasting 18h (chỉ 02/08 lên 20h); W32 **7/7 ngày đều 20h** — một bước nâng cường độ rõ ràng, duy trì trọn tuần. Kết quả đo được: cân 62kg **không đổi một gram** suốt cả W31 lẫn W32; ngủ trung bình 7h36 → **7h27** (−0.14h); quality 88.86 → **88.57** (−0.29). Tức là +2h nhịn mỗi ngày đổi lấy con số 0 về cân nặng và một chút đi lùi về ngủ. Trong khi đó `050_Health_Log.md` vẫn `last_updated: 2026-06-01` — **70 ngày** không chạm, nghĩa là LDL 4.50 / ApoB 120 từ panel 06/11 vẫn chưa có bất kỳ can thiệp dinh dưỡng nào được ghi nhận. Nhịn ăn đang được dùng như đòn bẩy duy nhất, mà nó lại là đòn bẩy không nhắm vào ApoB. | health ↔ meta | [`051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) (W31 fasting {18,20}, W32 fasting {20}; cân 62kg cả 14 ngày; avg 7.5952h → 7.4524h); [`050_Health_Log.md`](../10_PULSE/050_Health_Log.md) (last_updated 2026-06-01, LDL/ApoB chưa xử lý) | 🟡 Contradiction — W29→W32: **FASTING +2h, KẾT QUẢ 0; LDL gap 49d → 70d** |
+| 5 | **File "ảnh chụp hiện trạng" của vault giờ đang nói sai sự thật — PERSONAL_CONTEXT stale 21 ngày, vẫn ghi 61kg và Daily_Pulse gap 29d trong khi thực tế là 62kg và gap 52d** — `PERSONAL_CONTEXT.md` `last_updated: 2026-07-20`, tức đóng băng đúng lúc cron chết (connection #1). Nó được auto-read ở MỌI session start của personal_profile, nên mỗi phiên làm việc đều khởi động bằng dữ liệu sai lệch. Bức tranh capture toàn cảnh giờ phân hoá tuyệt đối: Sleep_Log **7/7 ngày** (kỷ luật hoàn hảo), còn Daily_Pulse chết cứng ở 19/06 — gap **52 ngày**, đã vượt mốc tròn 50 hôm 08/08, và 4 domain GG / Money / Mind / People không có một dòng capture nào suốt hơn 7 tuần. Cộng thêm `051_Sleep_Log.csv` mồ côi 31 ngày (dừng ở 09/07, 30 dòng, trong khi bản .md đã 62 block). Kết luận: vault đang khoẻ ở đúng một mạch dữ liệu tự động hoá qua Telegram, và teo tóp ở mọi mạch cần Warren gõ tay. | meta ↔ health ↔ family_gg ↔ finance | [`PERSONAL_CONTEXT.md`](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (last_updated 2026-07-20, stale 21d); [`Daily_Pulse.md`](../10_PULSE/Daily_Pulse.md) (entry cuối 2026-06-19, gap 52d); [log.md 08/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("gap 50 ngày... chạm mốc tròn 50"); [log.md 09/08](../30_KNOWLEDGE_BASE/wiki/log.md) (CSV mồ côi 31 ngày) | 🟡 Correlation — W29→W32: **GAP 29d → 52d, CONTEXT STALE 21d** |
+
+**📊 Stats:** 5 connections | 5 domains involved (meta, legal, family_gg, finance, health)
+
+**🔗 Most connected domain:** meta (appears in 4 of 5 connections: #1, #3, #4, #5)
+
+**🔄 Previous week comparison:** *(so với W29 — W30 và W31 không tồn tại, xem connection #1)*
+| Connection | W29 status | W32 change |
+|---|---|---|
+| #1 (synthesis pipeline) | — (chưa từng flag) | **NEW** — cron chết 15 ngày, W30+W31 mất trắng, đã phục hồi 04/08 |
+| #2 (case thăm nom stale) | 🔴 Critical gap — STALE 7d | **XẤU ĐI 4×** — 7d → 29d, 8/8 `[ ]`, hạn cấp dưỡng rơi đúng hôm nay |
+| #3 (data integrity) | — (chưa từng flag) | **NEW** — 3 sự cố dedup trong 7 ngày, GSheet nghi nhiễm |
+| #4 (weight/LDL) | 🟡 Correlation — 62kg, LDL gap 49d | **CÂN ĐÓNG BĂNG** — 62kg giữ nguyên, fasting 18h→20h vô hiệu, LDL gap 70d |
+| #5 (capture discipline) | 🟡 Correlation — Daily_Pulse gap 29d | **XẤU ĐI** — gap 52d, thêm PERSONAL_CONTEXT stale 21d + CSV mồ côi 31d |
+
+**💡 Feed into /personal-context-update (Monday):**
+1. **[HIGH] HÔM NAY 10/08 — chuyển đúng 11M, và chốt luôn B2 + B6 ngay lúc chuyển.** Lưu biên lai + screenshot exhibit A. Đây là cửa sổ chi-phí-bằng-0 duy nhất trong 30 ngày để phá thế bế tắc 29 ngày của case. KHÔNG đóng 20M.
+2. **[HIGH] Sửa dedup `capture-sleep` + dọn 3 sự cố dữ liệu.** Xoá 2 bản 07-30 thừa (giữ dòng 162), đối chiếu GSheet tab `W-capture-sleep` xem có 3 dòng 07-30 và dòng giả 08-09 cũ không. Pipeline đã đẻ fake 2 lần trong 1 tuần.
+3. **[MOD] Cập nhật `PERSONAL_CONTEXT.md` — nó đang nói sai (61kg, gap 29d) và được đọc ở mọi session start.** Số đúng: 62kg, Daily_Pulse gap 52d, fasting 20h, case stale 29d.
+4. **[MOD] Nhịn ăn 20h đủ 7/7 ngày mà cân không nhúc nhích và ngủ đi lùi nhẹ — đòn bẩy này đã hết tác dụng.** Việc cần làm là LDL/ApoB: `050_Health_Log` chưa chạm 70 ngày, đặt lịch lipid panel lại.
+5. **[LOW] Quyết dứt điểm số phận `051_Sleep_Log.csv` (mồ côi 31 ngày) và Daily_Pulse (gap 52 ngày).** Hoặc khai tử, hoặc nối lại pipeline — treo lửng đang tạo nhiễu cho mọi lần scan.
+
+---
 
 ## 2026-W29 (13/07–19/07)
 
