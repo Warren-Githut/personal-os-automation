@@ -2,12 +2,18 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-10
+|| Time | Action | File | Summary |
+||------|--------|------|---------|
+|| 01:00 | update | [`10_PULSE/weekly_connections_log.md`](../10_PULSE/weekly_connections_log.md) | /personal-weekly-connections cron: added W32 (03/08–09/08) — 5 connections, 5 domains (meta, legal, family_gg, finance, health). Key: (1) 🔴 chính cron synthesis chết 15 ngày, W30+W31 mất trắng, log nhảy W29→W32; (2) 🔴 case thăm nom stale 29d, 8/8 checklist `[ ]`, cấp dưỡng 11M đến hạn ĐÚNG HÔM NAY 10/08 — cửa sổ chi-phí-0 để đóng B2+B6; (3) 🟡 số liệu sức khoẻ đủ 7/7 ngày (7h27, q88.6) nhưng pipeline đẻ data giả 2 lần trong tuần (triplicate 07-30 day 7 + entry tương lai 08-09), GSheet nghi nhiễm; (4) 🟡 fasting leo 18h→20h đủ 7/7 ngày mà cân đóng băng 62kg + ngủ lùi 0.14h, LDL/ApoB gap 70d; (5) 🟡 PERSONAL_CONTEXT stale 21d đang nói sai (61kg vs thực 62kg, gap 29d vs thực 52d) mà vẫn auto-read mỗi session start. |
+|| 01:00 | verify | [`10_PULSE/051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) | VERIFY GATE PASS — independent recompute (regex parser riêng, khác awk): 62 block, 61 parse, 1 false-drop do format `8h` không phút (06-21, ngoài cửa sổ tính). W32 7/7 ngày: tổng 52.1667h / 7 = 7.4524h = 7h27; quality 620/7 = 88.571. W31 7/7: 53.1667h / 7 = 7.5952h = 7h36; quality 622/7 = 88.857. Delta −0.1429h / −0.286đ. Cân 62kg cả 14 ngày, W32 fasting {20} vs W31 {18,20}, BP 97/71-73. Duplicate scan: chỉ 07-30 (×3). |
 
 ## 2026-08-09
 - **PROCESSED: `/process-notes` cron (09/08 10:57).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Git tree sạch đầu cycle, branch `master` sync với `origin/master`. Cadence 1477 phút (24h37m) kể từ cycle trước (08/08 10:20) → **6 ngày liên tiếp** chạy đều.
