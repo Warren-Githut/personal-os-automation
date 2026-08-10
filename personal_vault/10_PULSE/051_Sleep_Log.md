@@ -31,10 +31,10 @@ Sleep 8h00 đạt baseline. Quality 90 vẫn ổn. BP 97/72 bình thường. Fas
 **Source:** telegram:@LUsinePersonalBot
 **Type:** text
 
-Sleep: 7h30 | Quality: 90/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 97/71
+Sleep: 8h00 | Quality: 90/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 97/71
 
 Insight:
-Sleep 7h30 đạt baseline. Quality 90 vẫn ổn. BP 97/71 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+Sleep 8h00 đạt baseline. Quality 90 vẫn ổn. BP 97/71 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
 
 ---
 
