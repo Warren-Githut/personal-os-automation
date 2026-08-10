@@ -282,6 +282,25 @@ Assertions worth having that `verify_cycle.sh` does not yet cover are listed in 
 
 **Triage every FAIL before "fixing" the artifact:** ask *is the assertion wrong, or is the thing wrong?* Verify the artifact by hand first. Editing a correct file to satisfy a broken check is a corruption you introduced yourself, and in the transcript it looks like diligence.
 
+**🚨 Two more assertion bugs, both fixed 2026-08-10 — and BOTH were checks that had "passed" for days only because the vault happened to be shaped conveniently.** The cycle ran 12 PASS / 2 FAIL and *neither FAIL was the vault's fault*:
+
+1. **`3e` false-positives when the day's section opens with a TABLE.** `/personal-weekly-connections` runs at 01:00 and writes its entry as `|| Time | Action | File | Summary |` rows. When `/process-notes` later appends bullets into that same `## DATE` section, markdown **requires** a blank line between the table and the list — so the first bullet is legally blank-preceded and the old awk counted it. The `NR>1` guard from 2026-08-06 does not help; that fixed a *different* cause (uninitialized `p` on record 1). Fix is a `seen` flag so only blanks *after* a bullet has opened the list count:
+   ```
+   awk 'NR>1 && seen && p ~ /^[[:space:]]*$/ && /^- / {c++} /^- /{seen=1} {p=$0} END{print c+0}'
+   ```
+   Verified in both directions on synthetic input — `table,blank,'- one','- two'` → 0, and a genuinely orphaned `'- one',blank,'- two'` → still 1, so the guard did not make the check vacuous. **Always re-verify the true-positive case after loosening a check**, or you have deleted the check rather than fixed it.
+
+2. **`6a "working tree clean"` contradicted this skill's own rule.** It asserted `git status --porcelain | wc -l == 0` — a *globally* clean tree — while the skill simultaneously mandates "leave unrelated noise unstaged". Concurrent crons (`capture-sleep`, `weekly-connections`) routinely leave files modified mid-cycle, so **a correctly-executed cycle always failed this check**, and the only way to make it green would have been to wrongly `git add` another process's work. Rewritten to scope the assertion to files *this cycle committed*, with foreign dirt reported as `INFO`:
+   ```
+   MYFILES=$(git show --name-only --format='' $MYCOMMITS | sed 's#^personal_vault/##' | grep -v '^$' | sort -u | tr '\n' ' ')
+   git status --porcelain -- $MYFILES | wc -l     # want 0
+   ```
+   Note the `sed` — this is the **2026-08-08 pathspec trap** again: `git show --name-only` emits repo-root-relative paths but `git status --` pathspecs are cwd-relative, and getting it wrong passes *vacuously*. `MYCOMMITS` had to move up above the git-hygiene section to be available here.
+
+   Non-vacuity was proven in a throwaway `%TEMP%` repo (never dirty the vault): own-file dirty → 1 (**can fail**), foreign-file-only dirty → 0 (no false FAIL), wrong repo-root pathspec → 0 (the vacuous bug, reproduced deliberately).
+
+   General lesson: **when a check and the prose rule disagree, one of them is a bug — do not satisfy the check by violating the rule.** A check that can only go green by breaking the skill's own invariant is worse than no check.
+
 **🚨 git pathspecs resolve against cwd — repo-root-relative paths silently match NOTHING.** (Learned 2026-08-08, third assertion-authoring bug in this family.) An ad-hoc script did `cd personal_vault` then passed `personal_vault/_inbox/.last_process_notes` to `git ls-files` / `git status --porcelain --`. Git resolved that against cwd → `personal_vault/personal_vault/_inbox/`, which does not exist. Two different symptoms from one bug:
 - `git ls-files --error-unmatch <bad pathspec>` → **loud FAIL** ("untracked") on a file that is definitely tracked.
 - `git status --porcelain -- <bad pathspec>` → **silent vacuous PASS**: matches nothing, returns 0 lines, so "no uncommitted diff" passes even when the file is filthy. The only tell was a stderr `warning: could not open directory 'personal_vault/personal_vault/_inbox/'` buried above the PASS line — **read the warnings, not just the PASS/FAIL column.**
