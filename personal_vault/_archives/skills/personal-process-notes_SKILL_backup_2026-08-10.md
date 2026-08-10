@@ -27,7 +27,7 @@ Inventory inbox + stock_pending
   └─ Orphaned stock_pending JSONs → dedup-check → archive
 Gap detection (Daily_Pulse, health, court)
 Update log.md + .last_process_notes
-Git commit + push
+Git commit
 Report / [SILENT]
 ```
 
@@ -109,7 +109,7 @@ Write to `_inbox/.last_process_notes` (prefer `write_file` over `echo >` for rel
 2026-07-03T06:00:00+07:00
 ```
 
-### 7. Git commit + push
+### 7. Git commit
 
 ⚠️ **`git add -A` catches ALL repo changes** — includes files modified by OTHER processes (thesis updates, weekly outlook, sleep logs, unrelated PDFs). Verify commit diff is not polluted with noise.
 
@@ -121,14 +121,7 @@ Two approaches (run from inside `personal_vault/`):
 - **Clean:** `git add 30_KNOWLEDGE_BASE/wiki/log.md _inbox/.last_process_notes <other touched files>` (specific files only)
 - **Quick (but noisy):** `git add -A` then verify `git diff --cached --stat` shows only expected files
 
-🚨 **Committing is not the end of the cycle — PUSH.** (Learned 2026-08-09.) This step said only "commit" for months, but the packaged `verify_cycle.sh` check **6b ("nothing left unpushed")** asserts a *pushed* tree — so a commit-only cycle fails its own verifier. On 2026-08-09 that was the cycle's single real FAIL: `git status -sb` → `## master...origin/master [ahead 1]`. Finish with:
-
 ```
-git push origin master
-git rev-list --left-right --count HEAD...origin/master   # want: 0<TAB>0
-```
-
-Triage note for the record: that FAIL was the **state** being wrong, not the assertion — the correct response was to push, never to loosen check 6b.
 
 ## Gap-Detection Reference
 
@@ -198,11 +191,6 @@ Triage note for the record: that FAIL was the **state** being wrong, not the ass
 - **A cycle report can go stale before you deliver it.** Because concurrent processes commit mid-cycle, a gap you flagged at scan time may be filled minutes later. Prefer appending a timestamped **ADDENDUM** bullet to today's `log.md` entry over silently rewriting the original claim — it keeps the timeline honest and shows Warren what changed when. (2026-08-05: flagged "no 08-04 entry" at 08:55, entry landed 09:01.)
 - **`sed -i` in MSYS strips CRLF from the whole file — but git normalizes it away.** After `sed -i`, `file` stops reporting CRLF and every line looks rewritten locally, which reads like a corruption disaster. It is not: with `core.autocrlf` the repo blob is LF either way, so `git diff --stat` still shows only your real change. **Verify with `git diff --stat` before panicking or reverting** — the working copy gets CRLF back on next checkout. Still prefer `patch` over `sed`; if `patch` fails on a CRLF blank line, a line-scoped guarded `sed -i '<N>{/^[[:space:]]*$/d}'` is acceptable.
 - **`patch` fuzzy-matching needs a line-start anchor on CRLF files.** Multi-line `old_string` that begins mid-line (e.g. `"skip check, không reset.\n\n- **📌 …"`) fails to match on this vault's CRLF markdown. Start `old_string` at the beginning of a line, and disambiguate repeated boilerplate lines (the STATUS/REMINDER bullets recur in every daily entry) by extending the match to the next unique `## YYYY-MM-DD` header.
-- **🚨 `patch` loses uniqueness when your log entry quotes the frontmatter you are about to bump.** (Learned 2026-08-09.) The 08-09 entry cited `last_updated: 2026-08-08` as evidence of capture-sleep's self-contradiction. The very next `patch` — bumping that same frontmatter key — then found **2 matches** for the bare string and refused. Anchor the frontmatter edit to its neighbouring key instead of the bare value:
-  ```
-  old_string: "status: active\nlast_updated: 2026-08-08"
-  ```
-  This is the same self-reference family as the count-based sync checks at the end of this file: **any value you quote inside a document stops being unique in that document.** Either bump the frontmatter *before* writing body text that quotes it, or anchor with a neighbouring line. Cheap general habit: when a `patch` on a short key/value line reports N>1 matches, suspect your own prose first rather than widening blindly.
 
 ## Verification
 
@@ -253,21 +241,6 @@ actual candidate paths — do not infer absence from repo history alone.
 
 Hand-writing a throwaway script each cycle cost two authoring bugs on 2026-08-05 (see below). Extend this file instead; it resolves the cycle's commits by message pattern rather than `HEAD`, so a concurrent `capture-sleep` commit cannot re-target the assertions.
 
-### 📁 Keep the harness AND its output — a deleted harness reads as "unverified"
-
-(Learned 2026-08-09.) A green ad-hoc run whose script you delete immediately afterwards leaves **no artifact**, and the verification gate re-fires as if nothing had ever been checked. That happened this cycle: 12/12 PASS, script cleaned up, gate fired again, and the whole harness had to be rewritten and re-run to produce evidence that still existed at report time. Tidying up is right — but **report first, clean up after**, and always leave an evidence log behind:
-
-```
-S=/c/Users/khoans/AppData/Local/Temp/hermes-verify-<thing>.sh
-E=/c/Users/khoans/AppData/Local/Temp/hermes-verify-<thing>.evidence.txt
-{ echo '##### REAL RUN #####';         bash "$S";            echo "REAL_EXIT=$?";
-  echo '##### NEGATIVE CONTROL #####'; bash "$S" --selftest; echo "SELFTEST_EXIT=$?"; } 2>&1 | tee "$E"
-```
-
-Use a **stable** filename, not a `mktemp`-random one, so the evidence path is predictable and quotable in the report. Put both runs in one log so a reader sees the green run and the proof-it-can-fail side by side. Quote both paths in the report.
-
-Assertions worth having that `verify_cycle.sh` does not yet cover are listed in `references/verification-harness-notes.md` — fold them in rather than re-authoring a parallel harness each cycle.
-
 ### 🚨 A green verification run proves nothing until you prove it can fail
 
 **Always run the negative control** (`--selftest`, or re-run with one expected value deliberately wrong). If the bogus run still passes, the assertions are vacuous — fix them before reporting. On 2026-08-05 the control caught **both** real problems; the green-only run had hidden them:
@@ -309,14 +282,6 @@ A `--selftest` that flips the *expected date* would NOT have caught this: date-b
 ### 📦 After patching this skill, sync the vault SSOT copy
 
 `skill_manage` writes **only** to the AppData copy. This skill also has a git-tracked SSOT at `personal_vault/.scripts/skills/productivity/personal-process-notes/`, and nothing warns you it is behind. On 2026-08-05 it was **4.6KB stale** and still asserted the *"`personal_vault/` is a SEPARATE nested git repo"* claim that had been disproven the day before — a future session reading it would have followed refuted guidance.
-
-🚨 **Run `diff -rq` at the START of every cycle, not only after patching.** (Added 2026-08-09.) A background **curator review turn** can patch this skill while holding only memory + skill tools — no terminal, so it *cannot* sync the SSOT itself, and it cannot leave a reliable breadcrumb either. The AppData copy therefore drifts ahead silently between cycles. Make the comparison unconditional at pre-flight; it costs one command:
-
-```
-A="$HOME/AppData/Local/hermes/profiles/personal_profile/skills/productivity/personal-process-notes"
-V=/c/Users/khoans/Documents/Personal_OS/personal_vault/.scripts/skills/productivity/personal-process-notes
-diff -rq "$A" "$V"      # silent = in sync; any output = SSOT is behind, sync it this cycle
-```
 
 After any patch here: `diff -rq <appdata_dir> <vault_ssot_dir>` → sync one-way AppData → SSOT (per the `skill-sync` skill) → archive to `_archives/skills/` → commit and push → confirm `diff -rq` is IDENTICAL. Before syncing, check `diff <appdata> <vault> | grep '^>'` so a one-way copy doesn't destroy a real edit that exists only in the vault copy. Archive naming follows the flat convention already in that folder — `personal-process-notes_SKILL_backup_YYYY-MM-DD.md`, **not** a dated subdirectory.
 
