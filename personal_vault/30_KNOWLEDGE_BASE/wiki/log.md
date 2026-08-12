@@ -2,12 +2,21 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-12
+- **PROCESSED: `/process-notes` cron (12/08 08:02).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`). Cadence ~21h (1261 phút) kể từ cycle trước (11/08 11:01) → **9 ngày liên tiếp** chạy đều. [INFO]
+- **🔴 Daily_Pulse gap 54 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 52d (10/08) → 53d (11/08) → **54d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy đều qua `051_Sleep_Log.md` (mới nhất 08-11) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log OK:** entry cuối `051_Sleep_Log.md` = `### 2026-08-11` (1 ngày trước, < ngưỡng 3 ngày) → KHÔNG flag gap sức khoẻ. Verify quy ước D-1: commit 12/08 06:16 gắn nhãn 08-11 < ngày commit ✓. Coverage 08-08→08-11 đủ (08-08, 08-09, 08-10, 08-11 đều có). [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 13 ngày kể từ ngày nhân bản (30/07).** Dup scan: chỉ 07-30 lặp (3 lần), mọi ngày khác unique. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, không ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng (giữ 1). [HIGH]
+- **🔴 ESCALATION: Active case STALE 31 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 07-12, `last_updated: 2026-07-12`, **8/8 checklist vẫn `[ ]`**. Không có field `follow_up` → không auto-reset. Action #8 "đóng 11M ngày 10 tới" — **hạn 10/08 đã qua 2 ngày**, checklist #8 vẫn `[ ]` trong vault, không có commit xác nhận đóng → **chưa self-report đã chuyển tiền**. Cần Bố: (1) xác nhận đã chuyển 11M (TUYỆT ĐỐI KHÔNG 20M); (2) chốt B2 (lưu biên lai ngay lúc chuyển) + B6 (screenshot exhibit A, KHÔNG xoá hội thoại) — cả hai hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/` (đóng 03/07) → skip follow_up, không reset, không CRITICAL GAP.** [INFO]
+- **⏸ Cố ý KHÔNG stage:** `00_CORE_LOGIC/PERSONAL_CONTEXT.md` + `10_PULSE/weekly_connections_log.md` modified bởi process khác (`/personal-weekly-connections` 01:00) → để nguyên unstaged theo rule "leave unrelated noise unstaged". [INFO]
 
 ## 2026-08-11
 - **PROCESSED: `/process-notes` cron (11/08 11:01).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`). Cadence ~26h23m (1583 phút) kể từ cycle trước (10/08 08:38) → **8 ngày liên tiếp** chạy đều. [INFO]
