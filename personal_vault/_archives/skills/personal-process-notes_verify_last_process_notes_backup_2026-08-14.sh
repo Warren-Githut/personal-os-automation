@@ -13,7 +13,9 @@
 # Self-resolving: the cycle commit is found via `git log -1 -- <pathspec>` (the commit that
 # last touched THIS file), never HEAD — so a concurrent capture-sleep commit cannot
 # re-target the assertions (2026-08-05 lesson).
-VAULT=/c/Users/khoans/Documents/Personal_OS/personal_vault
+# VAULT is injectable ONLY so the harness itself can be meta-verified against throwaway
+# repos under %TEMP% (never dirty the real vault to test a checker). Default = real vault.
+VAULT=${HERMES_PPN_VAULT:-/c/Users/khoans/Documents/Personal_OS/personal_vault}
 RELP=personal_vault/_inbox/.last_process_notes   # repo-root-relative: blob refs, --name-only TEXT
 PSPEC=_inbox/.last_process_notes                 # cwd-relative: every git PATHSPEC arg
 

@@ -99,6 +99,38 @@ file, `7` timestamp **strictly advanced** (catches a no-op rewrite reported as s
 
 Result 2026-08-14: real run **11/11 PASS**; `--selftest` 1 FAIL (check 2) → live.
 
+### Meta-verified 2026-08-14 — every assertion proven able to FAIL (9/9)
+
+A date-flip `--selftest` leaves **10 of 11 checks PASS "by design"**, which is a lot of
+unexercised logic to call verified. Each assertion was therefore driven red in a throwaway
+repo under `%TEMP%` mirroring the vault layout (`<root>/wc/personal_vault/_inbox/…`, so the
+`RELP`/`PSPEC` pair behaves exactly as it does for real). The real vault was never touched.
+This is why the script reads `VAULT=${HERMES_PPN_VAULT:-…}` — injectable purely so the
+checker can be checked; the default is still the real vault.
+
+| Scenario | Check driven red |
+|---|---|
+| baseline correct cycle | none — 11/11 PASS (else every FAIL below is meaningless) |
+| file modified after commit | `4` uncommitted remainder, `5` disk == blob |
+| timestamp written backwards | `7` strictly advanced |
+| second line appended | `3b` exactly one line |
+| `14/08/2026 09:21` instead of ISO | `3a` ISO8601 +07:00 |
+| commit not pushed | `8` ancestor of origin/master |
+| decoy `personal_vault/personal_vault/_inbox/` created | `1c` path-axis control |
+| stamp never committed (`MINE` empty) | `6` commit touches file |
+
+**Check `6` is genuinely narrow — know what it does and does not buy.** Because `MINE` is
+resolved *by* `$PSPEC` (`git log -1 --format=%H -- "$PSPEC"`), a commit that does not touch
+the file can never be selected, so `6` cannot fail the way it appears to promise. Note
+`git rm --cached` does **not** expose this: history still holds a commit touching the path,
+`MINE` resolves to it, and `6` passes. Its one real failure mode is `MINE` never resolving at
+all (file never committed → empty). Keep it as a resolution guard, not as evidence the right
+commit was chosen.
+
+Reusable recipe if you extend the harness: mirror the vault's directory shape inside the
+throwaway repo rather than parameterising `RELP`/`PSPEC` — it keeps the code under test
+byte-identical to production, so the meta-test cannot pass for the wrong reason.
+
 ### Why `1c` is not optional — the vacuous pass, caught live
 Running the harness with the wrong repo-root pathspec on 2026-08-14 produced this:
 
