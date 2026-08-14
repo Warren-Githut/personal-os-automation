@@ -178,12 +178,6 @@ Triage note for the record: that FAIL was the **state** being wrong, not the ass
   git log --format="%ad | %s" --date=format:'%Y-%m-%d %H:%M' -12 --grep="telegram \[capture-sleep\]"
   ```
   Any row where the label is **≥ the commit date** is bogus (label must be strictly earlier). Cross-check the frontmatter: `last_updated` lagging the newest entry date is a second tell. Same root cause family as the 07-30 triplicate — **flag it, never edit Sleep_Log.**
-- **🚨 The active case's checklist is a TABLE, not bullets — `grep '^- \[ \]'` returns 0 and reads as "no checklist".** (Learned 2026-08-14.) `_cases/active/legal_quyen_tham_nom_GG.md` stores its 8 actions as markdown table rows ending in a status cell: `| 8 | Tiếp tục đóng 11M ngày 10 tới | 10 hàng tháng | CAO | [ ] |`. A bullet-shaped grep (`^- \[ \]` / `^- \[x\]`) matches **neither**, returning `0` and `0`. That silently contradicts the "8/8 checklist `[ ]`" finding every prior cycle reported, and the tempting conclusion — "previous cycles were wrong / the checklist was removed" — is backwards: **the grep was wrong, the file was fine.** Count the cells, not the bullets:
-  ```
-  grep -c '\[ \]' _cases/active/legal_quyen_tham_nom_GG.md   # unchecked  -> 8
-  grep -c '\[x\]' _cases/active/legal_quyen_tham_nom_GG.md   # checked    -> 0
-  ```
-  Same triage rule as the assertion-bug family above: when a check disagrees with an artifact you can eyeball, **reproduce the check against the artifact's real format before believing it.** Print the matching lines (`grep -n '\[ \]\|\[x\]'`) once so the format is visible rather than assumed.
 - **Do NOT re-process orphaned JSONs.** Always verify target file content exists before routing. Orphaned JSON + existing data = archive only.
 - **Gap detection is NOT optional in cron mode.** Run ALL 4 checks every cycle even if nothing else changed. A stale court follow_up is actionable even with zero inbox items.
 - **Court follow_up: reset to TOMORROW** (not next week, not indefinite). This forces daily re-check until Warren updates.
