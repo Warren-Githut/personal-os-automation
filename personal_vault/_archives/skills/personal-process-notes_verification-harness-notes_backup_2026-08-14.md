@@ -62,46 +62,7 @@ E=/c/Users/khoans/AppData/Local/Temp/hermes-verify-<thing>.evidence.txt
 Call the result **ad-hoc verification**, never "suite green" — there is no canonical test
 suite in `Personal_OS` for a data-only cycle.
 
-## 🚨 PROMOTED OUT OF %TEMP% — use `scripts/verify_last_process_notes.sh` (2026-08-14)
-
-The section below described this harness as living at
-`/c/Users/khoans/AppData/Local/Temp/hermes-verify-last-process-notes.sh`. **Do not put it
-there.** `%TEMP%` is scratch: on 2026-08-14 a `write_file` to that exact name silently
-clobbered the 10-check 08-11 version, which then had to be rebuilt from this document.
-A harness meant for reuse *every* cycle must be version-controlled next to `verify_cycle.sh`:
-
-```
-bash "$HOME/AppData/Local/hermes/profiles/personal_profile/skills/productivity/personal-process-notes/scripts/verify_last_process_notes.sh"
-bash "…/scripts/verify_last_process_notes.sh" --selftest    # date-axis control
-```
-
-11 checks, **no per-cycle hand-editing** — the old `MINE` + `WANT_DATE` chore is gone.
-`WANT_DATE` defaults to `date +%Y-%m-%d`, and the cycle commit self-resolves via
-`git log -1 --format=%H -- "$PSPEC"` (the commit that last touched *this* file). That is
-immune to the 2026-08-05 concurrent-writer problem by construction: `capture-sleep` never
-touches `.last_process_notes`, so it cannot re-target the assertions the way `HEAD` did.
-
-Adds over the 08-11 version: `3b` exactly-one-line, `6` the commit genuinely touches the
-file, `7` timestamp **strictly advanced** (catches a no-op rewrite reported as success), and
-`1c` as an **always-on** path-axis control rather than an opt-in mode.
-
-Result 2026-08-14: real run **11/11 PASS**; `--selftest` 1 FAIL (check 2) → live.
-
-### Why `1c` is not optional — the vacuous pass, caught live
-Running the harness with the wrong repo-root pathspec on 2026-08-14 produced this:
-
-```
-FAIL | 1a. file exists on disk            got=[missing]
-FAIL | 1b. pathspec binds to tracked file got=[unmatched]
-PASS | 4. no uncommitted remainder        <-- WRONG, and silent
-```
-
-Check `4` **passed on a pathspec matching nothing** — `git status --porcelain -- <bad>`
-returns zero lines, which is indistinguishable from "clean". A dirty-check is therefore only
-sound when paired with a *binding* assertion. Never ship a `git status --porcelain --` or
-`git diff --` check without a `ls-files --error-unmatch` beside it.
-
-## Ready-made harness for the `.last_process_notes` write (2026-08-11, superseded — see above)
+## Ready-made harness for the `.last_process_notes` write (2026-08-11)
 
 The post-turn coding gate fires on `_inbox/.last_process_notes` as a "changed path" even
 when `verify_cycle.sh` already ran green — the cycle harness verifies the *cycle*, the gate
