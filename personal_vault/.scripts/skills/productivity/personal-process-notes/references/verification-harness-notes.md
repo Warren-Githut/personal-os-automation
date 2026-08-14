@@ -68,7 +68,19 @@ The section below described this harness as living at
 `/c/Users/khoans/AppData/Local/Temp/hermes-verify-last-process-notes.sh`. **Do not put it
 there.** `%TEMP%` is scratch: on 2026-08-14 a `write_file` to that exact name silently
 clobbered the 10-check 08-11 version, which then had to be rebuilt from this document.
-A harness meant for reuse *every* cycle must be version-controlled next to `verify_cycle.sh`:
+A harness meant for reuse *every* cycle belongs in the skill dir next to `verify_cycle.sh`:
+
+⚠️ **"In the skill dir" does NOT mean git-tracked — verified 2026-08-14.** `personal_vault/.gitignore:63`
+ignores **`scripts/`** (any depth), so the live SSOT mirror
+`.scripts/skills/productivity/personal-process-notes/scripts/*.sh` **cannot be committed**;
+`git add` refuses it and `git add -f` would fight the rule. `verify_cycle.sh` is in exactly the
+same position — `git ls-files | grep verify_cycle` returns only **`_archives/skills/…`** copies,
+never the live one. So:
+- **Canonical live copy:** the AppData skill dir (persistent — this is the real fix over `%TEMP%`).
+- **Versioned copy:** an archive under `_archives/skills/` (that path is not under a `scripts/`
+  dir, so it is trackable). Flat naming: `personal-process-notes_verify_last_process_notes_backup_YYYY-MM-DD.sh`.
+
+Re-archive after any edit to the script, or the only durable copy is an untracked file in AppData.
 
 ```
 bash "$HOME/AppData/Local/hermes/profiles/personal_profile/skills/productivity/personal-process-notes/scripts/verify_last_process_notes.sh"
