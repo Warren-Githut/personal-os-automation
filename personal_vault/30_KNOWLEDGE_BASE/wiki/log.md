@@ -2,12 +2,21 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-14
+last_updated: 2026-08-15
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-15
+- **PROCESSED: `/process-notes` cron (15/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 57 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 56d (14/08) → **57d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy đều qua `051_Sleep_Log.md` (mới nhất 08-14) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log OK:** entry cuối `051_Sleep_Log.md` = `### 2026-08-14` (Sleep_Log `last_updated: 2026-08-15`), **1 ngày trước < ngưỡng 3 ngày** → KHÔNG flag gap. Verify quy ước D-1 toàn bộ 12 commit gần nhất: commit 15/08 07:08→nhãn 08-14 ✓, 14/08 09:53→08-13 ✓, 13/08→08-12 ✓, … mọi nhãn **strictly earlier** ngày commit. Ngoại lệ duy nhất là historical `e4784ed` (08/08 commit, nhãn 08-09 — đã ghi nhận 09/08, thuộc quá khứ, không mới). Không có entry nhãn-tương-lai mới. [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 16 ngày kể từ ngày nhân bản (30/07).** Dup scan: chỉ 07-30 lặp (3 lần), mọi ngày khác unique. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, không ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng (giữ 1). [HIGH]
+- **🔴 ESCALATION: Active case STALE 34 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`** OPEN từ 07-12, frontmatter `last_updated: 2026-07-12` (chưa cập nhật 34 ngày), **8/8 checklist vẫn `[ ]`** (grep đúng format bảng `| N | … | [ ] |` = 8, `[x]` = 0). Không có field `follow_up` → không auto-reset. Action #8 "đóng 11M ngày 10 hàng tháng" — **hạn 10/08 đã qua 5 ngày**, checklist #8 vẫn `[ ]`, không commit xác nhận → **chưa self-report đã chuyển tiền**. Cần Bố: (1) xác nhận đã chuyển 11M (TUYỆT ĐỐI KHÔNG 20M); (2) chốt B2 (lưu biên lai) + B6 (screenshot exhibit A, KHÔNG xoá hội thoại) — cả hai hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/` (đóng 03/07, QĐ 575/2026, resolution_date 07-03) → skip follow_up, không reset, không CRITICAL GAP. Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận.** [INFO]
+- **⏸ Cố ý KHÔNG stage:** `00_CORE_LOGIC/PERSONAL_CONTEXT.md` + `10_PULSE/weekly_connections_log.md` modified bởi process khác (weekly_connections / context-update) → để nguyên unstaged theo rule "leave unrelated noise unstaged". [INFO]
 
 ## 2026-08-14
 - **PROCESSED: `/process-notes` cron (14/08 09:21).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
