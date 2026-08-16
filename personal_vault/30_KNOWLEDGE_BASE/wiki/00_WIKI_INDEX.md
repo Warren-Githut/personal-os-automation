@@ -3,8 +3,8 @@ name: 00_WIKI_INDEX
 type: index
 status: active
 domain: personal
-last_updated: 2026-07-19
-total_files: 22
+last_updated: 2026-08-16
+total_files: 23
 scope: personal_vault/30_KNOWLEDGE_BASE/wiki
 index_first_rule: Always read this file before citing personal wiki pages; if a referenced page is missing, update here instead of searching blindly
 auto_update: Hermes must update this table whenever wiki files are added/removed/renamed
@@ -68,6 +68,14 @@ related_paths:
 
 
 
+## _growth/ (Knowledge Capture)
+
+| file | type | status | key_insights | last_updated |
+|------|------|--------|---------------|--------------|
+| `_growth/COMMUNICATION_SKILL_WITH_GG.md` | reference | active | Thay "How was school?" bằng 4 câu hỏi mở (laughter / social / empathy / hardest part) để kết nối với con | 2026-08-16 |
+
+---
+
 ## 🧭 Where To Go
 
 | Nếu cần… | Thì mở… |
@@ -76,6 +84,7 @@ related_paths:
 | Health baseline, doctor reports, genetics | `02_Health/` |
 | VN equities thesis, BCTC, watchlist | `Stock_OS/stock_vault/30_KNOWLEDGE_BASE/wiki/03_Investing/` (đã tách) |
 | Reading log, development | `04_Growth/` |
+| Kỹ năng giao tiếp / parenting / growth capture | `_growth/` |
 | Tất cả decisions | `DECISION_LOG.md` |
 | Wiki change log | `log.md` |
 

@@ -3,7 +3,7 @@ domain: meta
 type: index
 status: active
 created: 2026-05-29
-last_updated: 2026-05-29
+last_updated: 2026-08-16
 tags: ["meta", "knowledge-index"]
 ---
 
@@ -54,11 +54,11 @@ status: active           # active / reviewed / superseded
 
 | # | File | Domain | Tags | Nguồn | 1 dòng mô tả | Ngày tạo |
 |---|------|--------|------|-------|-------------|----------|
-| *(chưa có file nào)* | | | | | | |
+| 1 | COMMUNICATION_SKILL_WITH_GG.md | parenting | communication, parenting, gg, family | social (parenting sketch series) | Thay câu "How was school?" bằng 4 câu hỏi mở kết nối với con | 2026-08-16 |
 
 ---
 
 ## Stats
 
-- **Tổng files:** 0
-- **Lần cuối cập nhật:** 2026-05-29
+- **Tổng files:** 1
+- **Lần cuối cập nhật:** 2026-08-16
