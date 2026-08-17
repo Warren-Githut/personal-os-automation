@@ -9,6 +9,9 @@ tags:
 
 # Log
 
+## 2026-08-17
+- **🔄 `/personal-weekly-connections` (catch-up 08:56 — cron Chủ Nhật 16/08 KHÔNG viết W33).** Added W33 (10/08–16/08): 5 connections, 5 domains (legal, family_gg, finance, health, meta). Key: (1) Aug 11M chưa xác nhận + case STALE 36d/8/8 `[ ]`; (2) Daily_Pulse gap 59d + PERSONAL_CONTEXT §9 ghi SAI ("case mất tích"); (3) fasting 20h khóa/weight 62kg đóng băng/LDL gap 67d; (4) weekly cron skip W33 + triplicate 07-30 ×3 chưa fix 17d; (5) health capture sạch 6/6 ngày (incidents 3→1 legacy). [INFO]
+
 ## 2026-08-16
 - **PROCESSED: `/process-notes` cron (16/08 08:08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` rỗng (0 JSONs) -> không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
 - **🔴 Daily_Pulse gap 58 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 57d (15/08) -> **58d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy đều qua `051_Sleep_Log.md` (mới nhất 08-14) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
