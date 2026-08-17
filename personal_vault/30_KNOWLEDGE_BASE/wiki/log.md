@@ -2,7 +2,7 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-16
+last_updated: 2026-08-17
 tags:
   - meta
 ---
@@ -10,6 +10,8 @@ tags:
 # Log
 
 ## 2026-08-17
+- **UPDATE: `PERSONAL_CONTEXT.md` §9 (THIS WEEK) via `/personal-context-update` cron (09:10).** Snapshot §9 đóng băng từ 2026-07-20 (W30) — nay ghi lại thành **W34 (17/08–23/08)**, cửa sổ scan 10/08–16/08. 3 themes: (1) 🏛️ cấp dưỡng 11M T8 quá hạn 7 ngày không bằng chứng trong vault + case thăm nom STALE 36d, 8/8 `[ ]`; (2) 🏥 nhịn 20h khoá 6/6 ngày, 62kg đóng băng 33 entry liên tiếp, LDL/ApoB gap 67d, `050_Health_Log` chưa chạm 77d; (3) 🧹 chỉ còn 1 mạch dữ liệu chạy đúng — Daily_Pulse gap 59d, triplicate 07-30 treo 18d, cron weekly CN skip, 0 EF + 11M drain khoá vốn. **Đã SỬA 2 claim SAI trong file:** §9 cũ khẳng định case `legal_quyen_tham_nom_GG.md` "ĐÃ BIẾN MẤT khỏi vault" (file thực tế vẫn ở `_cases/active/`, 17KB) và §4 ghi streak 62kg bắt đầu 27/07 (thực tế **14/07**, 33 entry). File này auto-read mọi session start → 2 claim sai đã mislead 4 tuần. Cũng commit kèm phần §4 do lần chạy 10/08 sửa mà chưa commit. [HIGH]
+- **VERIFY GATE PASS — `/personal-context-update` W34.** Recompute độc lập (`hermes-verify-ctxupdate.py`, regex block parser + datetime, khác pass awk/grep): 68 block Sleep_Log, cửa sổ 10–16/08 có **6 dòng, 0 drop**; tổng 45.6667h ÷ 6 = 7.6111h = **7h37**; quality 516 ÷ 6 = **86.0**; weight set {62.0}, fasting set {20}, BP {97}/{71,72}; thiếu duy nhất 08-16. W32 đối chiếu: 52.1667h ÷ 7 = 7.4524h (7h27), q 88.5714 → delta **+0.1587h / −2.5714đ**. Ngày tháng: case stale 36d (12/07), Daily_Pulse 59d (19/06), Health_Log 77d (01/06), LDL panel 67d (11/06), cấp dưỡng quá hạn 7d (10/08), hạn kế 10/09 còn 24d, triplicate 18d (30/07), CSV mồ côi 39d (09/07), FTSE 21/09 còn 35d. Git: 18 commit, 15 file trong cửa sổ; inbox 0 item; dup scan chỉ `2026-07-30` (×3). Script tạm đã xoá. **VERIFY_RESULT: PASS, dropped=0.** [HIGH]
 - **🔄 `/personal-weekly-connections` (catch-up 08:56 — cron Chủ Nhật 16/08 KHÔNG viết W33).** Added W33 (10/08–16/08): 5 connections, 5 domains (legal, family_gg, finance, health, meta). Key: (1) Aug 11M chưa xác nhận + case STALE 36d/8/8 `[ ]`; (2) Daily_Pulse gap 59d + PERSONAL_CONTEXT §9 ghi SAI ("case mất tích"); (3) fasting 20h khóa/weight 62kg đóng băng/LDL gap 67d; (4) weekly cron skip W33 + triplicate 07-30 ×3 chưa fix 17d; (5) health capture sạch 6/6 ngày (incidents 3→1 legacy). [INFO]
 
 ## 2026-08-16
