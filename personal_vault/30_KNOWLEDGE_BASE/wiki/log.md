@@ -2,12 +2,21 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-17
+last_updated: 2026-08-18
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-18
+- **PROCESSED: `/process-notes` cron (18/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` không tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 60 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 59d (17/08) → **60d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy đều qua `051_Sleep_Log.md` (mới nhất 08-15) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟡 Health log SÁT NGƯỠNG:** entry cuối `051_Sleep_Log.md` = `### 2026-08-15` (Sleep 8h30 | Quality 91 | Fasting 20h | Weight 62kg | BP 97/71), **3 ngày trước = đúng ngưỡng 3 ngày, CHƯA vượt** → chưa flag cứng nhưng sát. Verify quy ước D-1: commit 16/08 08:14 nhãn 08-15 ✓ (strictly earlier). Thiếu 08-16 + 08-17 (chưa có commit capture-sleep 17/08, 18/08) → bot bỏ lỡ 2 ngày liên tiếp, cần check. Nếu 19/08 vẫn không có entry mới → flag cứng. [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX (19 ngày kể từ ngày nhân bản 30/07).** Dup scan: chỉ 07-30 lặp (3 lần), mọi ngày khác unique. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, không ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng (giữ 1). [HIGH]
+- **🔴 ESCALATION: Active case STALE 37 ngày (file `_cases/active/legal_quyen_tham_nom_GG.md`).** OPEN từ 07-12, `last_updated: 2026-07-12` (chưa cập nhật 37 ngày), **8/8 checklist vẫn `[ ]`** (grep đúng format bảng = 8 `[ ]`, 0 `[x]`). Không có field `follow_up` → không auto-reset (giống 5 chu kỳ trước). Action #8 "đóng 11M ngày 10 hàng tháng": hạn 10/08 đã qua 8 ngày, checklist #8 vẫn `[ ]`, không xác nhận → **chưa self-report đã chuyển tiền tháng 8**. Cần Bố: (1) xác nhận đã chuyển 11M T8 (TUYỆT ĐỐI KHÔNG 20M); (2) chốt B2 (lưu biên lai) + B6 (screenshot exhibit A, KHÔNG xoá hội thoại), cả hai hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/` (đóng 03/07, QĐ 575/2026) → skip follow_up, không reset, không CRITICAL GAP. Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận.** [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 40 ngày** (dừng 09/07, file còn tồn tại `10_PULSE/051_Sleep_Log.csv` nhưng không cập nhật). Cùng họ hàng triplicate 07-30, thuộc quyền capture-sleep, cần quyết dọn (mở lại hay khai tử). [INFO]
 
 ## 2026-08-17
 - **UPDATE: `PERSONAL_CONTEXT.md` §9 (THIS WEEK) via `/personal-context-update` cron (09:10).** Snapshot §9 đóng băng từ 2026-07-20 (W30) — nay ghi lại thành **W34 (17/08–23/08)**, cửa sổ scan 10/08–16/08. 3 themes: (1) 🏛️ cấp dưỡng 11M T8 quá hạn 7 ngày không bằng chứng trong vault + case thăm nom STALE 36d, 8/8 `[ ]`; (2) 🏥 nhịn 20h khoá 6/6 ngày, 62kg đóng băng 33 entry liên tiếp, LDL/ApoB gap 67d, `050_Health_Log` chưa chạm 77d; (3) 🧹 chỉ còn 1 mạch dữ liệu chạy đúng — Daily_Pulse gap 59d, triplicate 07-30 treo 18d, cron weekly CN skip, 0 EF + 11M drain khoá vốn. **Đã SỬA 2 claim SAI trong file:** §9 cũ khẳng định case `legal_quyen_tham_nom_GG.md` "ĐÃ BIẾN MẤT khỏi vault" (file thực tế vẫn ở `_cases/active/`, 17KB) và §4 ghi streak 62kg bắt đầu 27/07 (thực tế **14/07**, 33 entry). File này auto-read mọi session start → 2 claim sai đã mislead 4 tuần. Cũng commit kèm phần §4 do lần chạy 10/08 sửa mà chưa commit. [HIGH]
