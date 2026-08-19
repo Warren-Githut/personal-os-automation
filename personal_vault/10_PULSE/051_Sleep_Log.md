@@ -15,6 +15,18 @@ last_updated: 2026-08-19
 
 ---
 
+### 2026-08-17
+**Source:** telegram:@LUsinePersonalBot
+**Type:** text
+
+Sleep: 8h00 | Quality: 93/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 97/71
+
+Insight:
+Sleep 8h00 đạt baseline. Quality 93 vẫn ổn. BP 97/71 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
 ### 2026-08-18
 **Source:** telegram:@LUsinePersonalBot
 **Type:** text
