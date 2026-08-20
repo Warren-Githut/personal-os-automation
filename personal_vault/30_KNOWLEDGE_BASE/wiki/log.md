@@ -2,12 +2,21 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-19
+last_updated: 2026-08-20
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-20
+- **PROCESSED: `/process-notes` cron (20/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` rỗng (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 62 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 61d (19/08) → **62d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-18, 08-17 đã được replay 08-19 08:20 điền bù) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log OK:** entry cuối `051_Sleep_Log.md` = `### 2026-08-18` (Sleep 7h50 | Quality 90 | BP 98/72). Gap **2 ngày < ngưỡng 3 ngày** → KHÔNG flag. Verify D-1: commit `8dfc2d6` 2026-08-19 07:08 → nhãn 08-18 ✓ (strictly earlier, LEGIT); `### 2026-08-17` (8h00 | 93 | 97/71) ở line 18, điền bởi replay 08-19 08:20, distinct với 08-18 (7h50 | 90 | 98/72) → không byte-copy. Không có entry nhãn-tương-lai. [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX (21 ngày từ 30/07).** Dup scan: `grep -c '^### 2026-07-30' = 3` (chỉ 07-30 lặp, ngày khác unique). Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, không ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng (giữ 1). [HIGH]
+- **🔴 ESCALATION: Active case STALE 39 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** OPEN từ 07-12, `last_updated: 2026-07-12` (39 ngày chưa cập nhật), **8/8 checklist vẫn `[ ]`** (grep format bảng = 8 `[ ]`, 0 `[x]` — đúng format, không dùng bullet). Không có field `follow_up` → không auto-reset. Action #8 "đóng 11M ngày 10 hàng tháng": hạn 10/08 qua 10 ngày, #8 vẫn `[ ]`, không commit xác nhận → **chưa self-report chuyển 11M T8**. Cần Bố: (1) xác nhận đã chuyển 11M (TUYỆT ĐỐI KHÔNG 20M); (2) chốt B2 (lưu biên lai) + B6 (screenshot exhibit A, KHÔNG xoá hội thoại) — hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/` (đóng 03/07, QĐ 575/2026) → skip follow_up, không reset, không CRITICAL GAP. Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận.** [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 42 ngày** (dừng 09/07, file còn tồn tại `10_PULSE/051_Sleep_Log.csv` nhưng không cập nhật). Thuộc quyền capture-sleep, cần quyết dọn (mở lại hay khai tử). [INFO]
 
 ## 2026-08-19
 - **PROCESSED: `/process-notes` cron (19/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` rỗng (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
