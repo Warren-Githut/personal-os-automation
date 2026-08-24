@@ -2,7 +2,7 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-23
+last_updated: 2026-08-24
 tags:
   - meta
 ---
@@ -14,6 +14,14 @@ tags:
 || Time | Action | File | Summary |
 ||------|--------|------|---------|
 || 01:00 | update | [`10_PULSE/weekly_connections_log.md`](../10_PULSE/weekly_connections_log.md) | /personal-weekly-connections (catch-up, Sunday 23/08 skip): added W34 (17/08–23/08) — 5 connections, 5 domains. Key: (1) case STALE 42d + Aug 11M unconfirmed 13d overdue, 8/8 [ ]; (2) 0 EF + 11M lock, Aug evidence gap = legal vulnerability; (3) sleep quality 86.0→88.8 but duration 7h37→7h28, LDL gap 73d, Health_Log 83d; (4) Daily_Pulse gap 65d, triplicate 24d, CSV orphaned 45d, weekly cron 2nd Sunday miss; (5) sleep capture only reliable channel (6/7 days, clean). |
+
+- **PROCESSED: `/process-notes` cron (24/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` KHÔNG tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/skills/productivity/personal-process-notes`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 66 ngày:** entry cuối `## 2026-06-19`. Tính từng dòng: 11 (19/06→30/06) + 31 (tháng 7) + 24 (01/08→24/08) = 66 ngày. Regression tiếp diễn: 64d (22/08) → 65d (23/08) → **66d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-22) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log OK, nhưng WATCH 08-23:** entry cuối `051_Sleep_Log.md` = `### 2026-08-22` (Sleep 7h30 | Quality 90 | Fasting 20h | 62kg | BP 97/71). Gap = 24 − 22 = **2 ngày < ngưỡng 3** → KHÔNG flag. Verify D-1: commit `cc271db 2026-08-23 06:41` ghi nhãn 08-22 ✓ (nhãn strictly earlier than commit date, LEGIT, không nhãn tương lai); không byte-copy (08-22 = 7h30|90|97/71 khác 08-21 = 8h00|90|97/72); frontmatter `last_updated` file = 08-23 không lag. Window 08-17→08-22 đủ 6 ngày liên tiếp. ⚠️ Nhưng `grep -c '^### 2026-08-23'` = **0** lúc 10:56 hôm nay: capture-sleep thường commit D-1 buổi sáng (06:16–10:47 trong 12 commit trước) mà hôm nay chưa có → nếu cả 08-23 và 08-24 miss thì mai gap = 3 ngày, chạm ngưỡng flag. [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 25 ngày (30/07 → 24/08).** Dup scan: `grep -c '^### 2026-07-30'` = 3 (dòng 246 / 306 / 318); mọi ngày khác unique (08-22, 08-21, 08-20, 08-19, 08-18, 08-17, 08-16 đều ×1). Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, không ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng, giữ 1. [HIGH]
+- **🔴 ESCALATION: Active case STALE 43 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** `status: OPEN`, mở 07-12, `last_updated: 2026-07-12` → 19 (12/07→31/07) + 24 = 43 ngày chưa cập nhật (42d hôm qua). Checklist dạng BẢNG: `grep -c '\[ \]'` = **8**, `grep -c '\[x\]'` = **0** → 8/8 action chưa làm. KHÔNG có field `follow_up` trong frontmatter (`grep 'follow_up'` exit 1) → không auto-reset, không CRITICAL GAP theo protocol. Action #8 (dòng 190) "Tiếp tục đóng 11M ngày 10 tới (TUYỆT ĐỐI KHÔNG đóng 20M)": hạn 10/08 đã qua **14 ngày**, ô vẫn `[ ]`, không commit nào xác nhận → chưa self-report chuyển 11M tháng 8. Cần Bố: (1) xác nhận đã chuyển 11M tháng 8 (KHÔNG 20M); (2) chốt B2 lưu biên lai + B6 screenshot exhibit A (KHÔNG xoá hội thoại), hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` nằm ở `_cases/closed/`** (đóng 03/07, QĐ 575/2026) → skip follow_up check, không reset, không CRITICAL GAP. Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận. [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 46 ngày:** dòng cuối `2026-07-09,7h05,7.08,90,18,62.0,98,71` → 22 (09/07→31/07) + 24 = 46 ngày không cập nhật, trong khi `.md` vẫn chạy tới 08-22. Thuộc quyền capture-sleep, cần Bố quyết: mở lại sync CSV hay khai tử file. [INFO]
 
 ## 2026-08-23
 - **PROCESSED: `/process-notes` cron (23/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` rỗng (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
