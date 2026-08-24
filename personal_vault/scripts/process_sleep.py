@@ -205,24 +205,42 @@ def append_to_sleep_log(entries: list[str]) -> int:
     log_content = SLEEP_LOG.read_text(encoding="utf-8")
     lines = log_content.split("\n")
 
-    # Find insertion point: after first --- that follows "Rule:" / "Quy tắc:"
-    insert_idx = 0
+    # Find insertion point. Priority chain (NEVER bottom-append: newest-on-top
+    # is the file's core invariant):
+    #   1. after the --- that follows a "Rule:"/"Quy tắc:" line
+    #   2. after the LAST standalone --- in the HEADER REGION only (before the
+    #      first "### " entry heading) = right after the frontmatter when the
+    #      rule block lost its closing dash. Scope-limited on purpose: a global
+    #      first-dash scan used to land INSIDE the entry list (mid-file split).
+    #   3. after the "# " title line, else the very top of the file.
+    # Both scans stay INSIDE the header region (lines before the first
+    # "### " heading): an unbounded dash-scan used to hit the --- SEPARATORS
+    # BETWEEN entries and splice the new entry into the middle of the list.
+    first_entry = len(lines)
     for i, line in enumerate(lines):
+        if line.startswith("### "):
+            first_entry = i
+            break
+
+    insert_idx = 0
+    for i, line in enumerate(lines[:first_entry]):
         if ("Rule:" in line or "Quy tắc:" in line) and i > 0:
-            for j in range(i + 1, len(lines)):
+            for j in range(i + 1, first_entry):
                 if lines[j].strip() == "---":
                     insert_idx = j + 1
                     break
             break
 
     if insert_idx == 0:
-        for i, line in enumerate(lines):
-            if line.strip() == "---" and i > 0:
-                insert_idx = i + 1
-                break
+        header_dashes = [
+            i for i in range(1, first_entry) if lines[i].strip() == "---"
+        ]
+        if header_dashes:
+            insert_idx = header_dashes[-1] + 1
 
     if insert_idx == 0:
-        insert_idx = len(lines)
+        h1 = next((i for i, line in enumerate(lines) if line.startswith("# ")), None)
+        insert_idx = (h1 + 1) if h1 is not None else 0
 
     # Prepend new entries (newest on top)
     new_block = "\n\n".join(entries)

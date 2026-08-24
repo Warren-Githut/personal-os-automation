@@ -463,6 +463,70 @@ def test_git_push_has_timeout_guard():
 
 
 
+# ---- N2 regression: process_sleep.append_to_sleep_log newest-on-top --------
+# (2026-08-24, Bố-approved finding: missing rule-dash used to bottom-append;
+# first fallback draft also spliced mid-file on entry --- separators.)
+
+def _append_case(header_body):
+    """Run REAL append_to_sleep_log against a TEMP copy of the log."""
+    import tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="poller_n2_"))
+    f = tmp / "log.md"
+    f.write_text(header_body, encoding="utf-8")
+    real_log = p.ps.SLEEP_LOG
+    p.ps.SLEEP_LOG = f
+    try:
+        p.ps.append_to_sleep_log(["### 2099-01-01\n**Source:** test"])
+    finally:
+        p.ps.SLEEP_LOG = real_log
+    return f.read_text(encoding="utf-8")
+
+
+def _line_of(out, needle):
+    return next((i for i, ln in enumerate(out.splitlines()) if needle in ln), -1)
+
+
+def test_append_rule_no_dash_still_top():
+    out = _append_case(
+        "---\ndomain: health\nlast_updated: 2026-08-01\n---\n\n"
+        "# 051 Sleep Log\n\n> **Quy tắc:** newest on top\n\n"
+        "### 2026-08-23\nold A\n")
+    assert 0 < _line_of(out, "### 2099-01-01") < _line_of(out, "### 2026-08-23"), \
+        "missing rule-dash must NOT bottom-append"
+
+
+def test_append_no_rule_never_bottom():
+    out = _append_case(
+        "---\ndomain: health\nlast_updated: 2026-08-01\n---\n\n"
+        "# 051 Sleep Log\n\n### 2026-08-23\nold A\n")
+    assert 0 < _line_of(out, "### 2099-01-01") < _line_of(out, "2026-08-23"), \
+        "no-rule header must insert top region, never at EOF"
+
+
+def test_append_entry_separators_not_spliced():
+    out = _append_case(
+        "---\ndomain: health\nlast_updated: 2026-08-01\n---\n\n"
+        "# 051 Sleep Log\n\n> **Quy tắc:** newest on top\n\n"
+        "### 2026-08-23\nold A\n\n---\n\n### 2026-08-22\nold B\n")
+    new_i = _line_of(out, "### 2099-01-01")
+    oldA = _line_of(out, "old A")
+    oldB = _line_of(out, "old B")
+    assert 0 < new_i < oldA < oldB, \
+        f"must land above ALL entries without splitting them: {new_i},{oldA},{oldB}"
+
+
+def test_append_classic_path_unchanged():
+    out = _append_case(
+        "---\ndomain: health\nlast_updated: 2026-08-01\n---\n\n"
+        "# 051 Sleep Log\n\n> **Quy tắc:** newest on top\n\n---\n\n"
+        "### 2026-08-23\nold A\n")
+    dash_i = max(i for i, ln in enumerate(out.splitlines())
+                 if i > 0 and ln.strip() == "---" and i < _line_of(out, "### 2026-08-23"))
+    assert _line_of(out, "### 2099-01-01") in (dash_i + 1, dash_i + 2), \
+        "classic rule+dash path must keep inserting right after the block"
+
+
+
 if __name__ == "__main__":
     # minimal runner without pytest
     tests = [
@@ -485,6 +549,10 @@ if __name__ == "__main__":
         test_comment_font_fixed,
         test_release_lock_spares_thiefs_fresh_lock,
         test_git_push_has_timeout_guard,
+        test_append_rule_no_dash_still_top,
+        test_append_no_rule_never_bottom,
+        test_append_entry_separators_not_spliced,
+        test_append_classic_path_unchanged,
     ]
     failed = 0
     for t in tests:
