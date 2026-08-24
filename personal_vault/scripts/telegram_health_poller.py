@@ -18,8 +18,10 @@ Usage:
 
 import argparse
 import json
+import os
 import subprocess
 import sys
+import time
 import urllib.request
 from datetime import datetime
 from pathlib import Path
@@ -35,6 +37,8 @@ CHAT_ID = "2117653672"
 SCRIPTS_DIR = Path(__file__).resolve().parent
 OFFSET_FILE = SCRIPTS_DIR / ".telegram_offset.json"
 PENDING_FILE = SCRIPTS_DIR / ".telegram_pending.json"
+LOCK_FILE = SCRIPTS_DIR / ".telegram_poller.lock"
+LOCK_STALE_SEC = 300   # lock older than 5 min = crashed cycle, safe to steal
 TAG = "[capture-sleep]"
 MAX_REMINDERS = 3        # re-ask an expired draft this many times, then cancel
 REMINDER_INTERVAL_MIN = 10  # minimum minutes between two reminders
@@ -101,6 +105,69 @@ def save_pending(p: dict | None) -> None:
         PENDING_FILE.write_text(
             json.dumps(p, ensure_ascii=False, indent=2), encoding="utf-8"
         )
+
+
+# --------------------------------------------------------------------------- #
+# Cross-cycle lock (Windows-safe, timestamp-only)
+# --------------------------------------------------------------------------- #
+_lock_token: str | None = None  # exact lockfile content written by THIS cycle
+
+
+def acquire_lock() -> bool:
+    """Take the poll-cycle lock atomically; False when another holds it.
+
+    Timestamp-staleness only (pure stdlib): on Windows os.kill(pid, 0) is
+    NOT a safe liveness probe, so the recorded pid is informational. A lock
+    older than LOCK_STALE_SEC belongs to a crashed (or stuck) cycle and is
+    stolen: unlinked, then re-created EXCLUSIVELY (O_CREAT|O_EXCL) so two
+    simultaneous starters cannot both win. Fail-open: if the state dir
+    refuses all lock ops we continue unlocked - a broken state dir must
+    never permanently silence the poller.
+    """
+    global _lock_token
+    try:
+        if LOCK_FILE.exists():
+            try:
+                age = time.time() - LOCK_FILE.stat().st_mtime
+            except FileNotFoundError:
+                age = None  # vanished between exists() and stat(): benign race
+            if age is not None and age < LOCK_STALE_SEC:
+                return False  # another cycle is (probably) still running
+            try:
+                LOCK_FILE.unlink()  # steal the stale lock
+            except FileNotFoundError:
+                pass  # another thief got there first; exclusive create decides
+        _lock_token = json.dumps(
+            {"pid": os.getpid(), "ts": datetime.now().isoformat()}
+        )
+        fd = os.open(str(LOCK_FILE), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(_lock_token)
+        return True
+    except FileExistsError:
+        _lock_token = None  # lost the create race: the winner owns the lock
+        return False
+    except OSError:
+        print("⚠️ Lockfile unusable - continuing WITHOUT lock (fail-open)")
+        return True
+
+
+def release_lock() -> None:
+    """Release ONLY if this cycle still owns the lock (exact content match).
+
+    Never deletes a fresher lock: if our cycle overran LOCK_STALE_SEC and
+    another cycle stole the lock, deleting on exit would strip the thief's
+    protection and admit a third concurrent cycle (theft-cascade bug).
+    Best-effort: never raises into the caller.
+    """
+    global _lock_token
+    try:
+        if _lock_token is not None and LOCK_FILE.exists() \
+                and LOCK_FILE.read_text(encoding="utf-8") == _lock_token:
+            LOCK_FILE.unlink()
+        _lock_token = None
+    except OSError as e:
+        print(f"⚠️ Could not remove lockfile: {e}")
 
 
 # --------------------------------------------------------------------------- #
@@ -173,12 +240,15 @@ def sync_and_commit(date: str) -> dict:
         )
         if r.returncode == 0:
             result["committed"] = True
+            # Hard timeout: a hung push (slow VPN / credential prompt) must
+            # not pin the cycle open past the poller's stale-lock window.
             pr = subprocess.run(
                 ["git", "push"],
                 cwd=str(VAULT_ROOT),
                 capture_output=True,
                 text=True,
                 check=False,
+                timeout=60,
             )
             result["pushed"] = pr.returncode == 0
             if pr.returncode != 0:
@@ -221,7 +291,7 @@ def process_new_message(update: dict) -> None:
         )
         return
     draft = build_draft(data)
-    mid = send_msg(draft)  # gửi tin mới đứng独立思考 (không reply) để Bố thấy rõ trên Telegram
+    mid = send_msg(draft)  # gửi tin mới đứng riêng (không reply) để Bố thấy rõ trên Telegram
     if mid:
         save_pending(
             {
@@ -360,6 +430,26 @@ def handle_expired_pending(pending: dict) -> None:
 
 
 def poll_once() -> None:
+    """Single cron cycle under an overlap guard.
+
+    A FRESH lock (< LOCK_STALE_SEC) means another cycle is mid-flight:
+    exit silently (cron just retries next tick). Stale locks are stolen;
+    the lock is released in finally - crash or not - but only if this
+    cycle still owns it.
+    """
+    if not acquire_lock():
+        # Overlap guard: a cycle CAN exceed the 120s tick - the worst
+        # offender is the untimed `git push` in sync_and_commit; tg calls
+        # (socket cap 15s) and GSheet subprocesses (60s x2) are bounded.
+        print("⏭️ Another poll cycle holds the lock - exiting quietly")
+        return
+    try:
+        _poll_once_locked()
+    finally:
+        release_lock()
+
+
+def _poll_once_locked() -> None:
     offset = load_offset()
     updates = get_updates(offset)
     if not updates:

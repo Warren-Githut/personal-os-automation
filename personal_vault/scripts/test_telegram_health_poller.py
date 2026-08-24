@@ -19,6 +19,7 @@ import telegram_health_poller as p
 _TMP = Path(tempfile.mkdtemp(prefix="poller_test_"))
 p.OFFSET_FILE = _TMP / "offset.json"
 p.PENDING_FILE = _TMP / "pending.json"
+p.LOCK_FILE = _TMP / "poller.lock"
 
 # ---- recorders (avoid real Telegram / vault writes) ----
 CALLS = {"send": [], "write": [], "sync": []}
@@ -43,6 +44,7 @@ def fake_sync(date):
             "committed": True, "pushed": True, "git_error": None}
 
 
+_REAL_sync_and_commit = p.sync_and_commit  # pristine ref (fakes below shadow it)
 p.send_msg = fake_send
 p.write_vault = fake_write
 p.sync_and_commit = fake_sync
@@ -338,6 +340,129 @@ def test_nfd_input_still_parses_bp():
         "NFC normalization must rescue BP from NFD input"
 
 
+def test_poll_once_skips_when_fresh_lock_held():
+    """GREEN (2026-08-24 step 3): a FRESH lock (< 5 min) must make poll_once
+    exit SILENTLY - no Telegram read, no send, lock left untouched."""
+    for k in CALLS:
+        CALLS[k] = []  # reset shared recorder (stale entries from earlier tests)
+    p.LOCK_FILE.write_text('{"pid": 1, "ts": "2026-08-24T00:00:00"}', encoding="utf-8")
+    orig = p.get_updates
+    p.get_updates = lambda off: (_ for _ in ()).throw(
+        AssertionError("get_updates must NOT run while a fresh lock is held"))
+    try:
+        p.poll_once()  # must return quietly
+    finally:
+        p.get_updates = orig
+    assert p.LOCK_FILE.exists(), "fresh foreign lock must be left alone"
+    assert not CALLS["send"] and not CALLS["write"], "no side effects under foreign lock"
+    # cleanup so later tests start unlocked
+    p.release_lock()
+
+
+def test_poll_once_steals_stale_lock():
+    """GREEN (step 3): a STALE lock (> 5 min old) is stolen and the cycle runs."""
+    import os as _os
+    import time as _t
+    _seed_pending()
+    pend = p.load_pending()
+    pend["ts"] = "2020-01-01T00:00:00"  # expired -> reminder expected
+    p.save_pending(pend)
+    p.LOCK_FILE.write_text('{"pid": 999999, "ts": "old"}', encoding="utf-8")
+    past = _t.time() - (p.LOCK_STALE_SEC + 60)
+    _os.utime(p.LOCK_FILE, (past, past))  # make it older than LOCK_STALE_SEC
+    orig = p.get_updates
+    p.get_updates = lambda off: []
+    try:
+        p.poll_once()
+    finally:
+        p.get_updates = orig
+    assert CALLS["send"], "stale lock must be stolen -> reminder cycle runs"
+    assert not p.LOCK_FILE.exists(), "lock must be released at end of cycle"
+
+
+def test_poll_once_releases_lock_even_on_crash():
+    """GREEN (step 3): an exception mid-cycle must still release the lock
+    (finally), so the next cron tick can proceed."""
+    orig = p.get_updates
+    def boom(off):
+        raise RuntimeError("simulated mid-cycle crash")
+    p.get_updates = boom
+    try:
+        try:
+            p.poll_once()
+        except RuntimeError:
+            pass  # crash propagates, that is fine
+        else:
+            raise AssertionError("crash should propagate to caller")
+    finally:
+        p.get_updates = orig
+    assert not p.LOCK_FILE.exists(), "lock must NOT outlive a crashed cycle"
+
+
+def test_comment_font_fixed():
+    """GREEN (step 3 + review MOD-2): no CJK ideograph anywhere in the poller
+    source (DIRECT codepoint scan - falsifiable, unlike unicode_escape), and
+    the intended Vietnamese wording is present."""
+    src = open(p.__file__, encoding="utf-8").read()
+    cjk = [ch for ch in src if 0x4E00 <= ord(ch) <= 0x9FFF]
+    assert not cjk, f"CJK ideographs found in poller source: {cjk!r}"
+    assert "gửi tin mới đứng riêng (không reply)" in src, "intended wording present"
+
+
+
+def test_release_lock_spares_thiefs_fresh_lock():
+    """GREEN (review HIGH-1 fix): a cycle that overran LOCK_STALE_SEC and had
+    its lock stolen must NOT delete the thief's fresh lock on exit."""
+    import os as _os
+    import time as _t
+    for k in CALLS:
+        CALLS[k] = []
+    assert p.acquire_lock(), "acquire wins on clean state"
+    past = _t.time() - (p.LOCK_STALE_SEC + 10)
+    _os.utime(p.LOCK_FILE, (past, past))  # simulate our cycle overrunning 300s
+    # thief (another cycle/process) replaces lock content with its own token:
+    p.LOCK_FILE.write_text('{"pid": 777, "ts": "thief"}', encoding="utf-8")
+    p.release_lock()  # our late exit
+    assert p.LOCK_FILE.exists(), "thief's fresh lock must survive our release"
+    # positive path: token still ours -> deleted
+    p.LOCK_FILE.unlink()  # clear thief lock for a clean re-acquire
+    assert p.acquire_lock(), "re-acquire on clean state"
+    p.release_lock()
+    assert not p.LOCK_FILE.exists(), "own matching lock must be removed"
+
+
+
+def test_git_push_has_timeout_guard():
+    """GREEN (review follow-up, Bố approved): git push runs with timeout=60
+    so a hung network cannot keep the cycle open past LOCK_STALE_SEC."""
+    calls = []
+
+    class FakeCompleted:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    real_run = p.subprocess.run
+    real_gsheet = p.ps.sync_to_gsheet
+
+    def fake_run(cmd, **kwargs):
+        calls.append((list(cmd)[:2], kwargs.get("timeout")))
+        return FakeCompleted()
+
+    p.subprocess.run = fake_run
+    p.ps.sync_to_gsheet = lambda send_notify=False: 1
+    try:
+        res = _REAL_sync_and_commit("2026-07-30")
+    finally:
+        p.subprocess.run = real_run
+        p.ps.sync_to_gsheet = real_gsheet
+    push_calls = [c for c in calls if c[0][-1] == "push"]
+    assert push_calls, "push must be attempted after successful commit"
+    assert push_calls[0][1] == 60, f"push must carry timeout=60, got {push_calls[0][1]}"
+    assert res["committed"] and res["pushed"], "happy path still reports truth"
+
+
+
 if __name__ == "__main__":
     # minimal runner without pytest
     tests = [
@@ -354,6 +479,12 @@ if __name__ == "__main__":
         test_ok_reports_after_sync_with_truthful_result,
         test_dup_guard_on_write_vault,
         test_nfd_input_still_parses_bp,
+        test_poll_once_skips_when_fresh_lock_held,
+        test_poll_once_steals_stale_lock,
+        test_poll_once_releases_lock_even_on_crash,
+        test_comment_font_fixed,
+        test_release_lock_spares_thiefs_fresh_lock,
+        test_git_push_has_timeout_guard,
     ]
     failed = 0
     for t in tests:
