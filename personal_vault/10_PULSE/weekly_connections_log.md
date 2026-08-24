@@ -1,12 +1,12 @@
 ---
-last_updated: 2026-08-17
+last_updated: 2026-08-24
 domain: meta
 type: pulse
 status: active
 tags:
   - weekly-connections
   - cross-domain
-entries: 9
+entries: 10
 related:
   - ../00_CORE_LOGIC/STOCK_CONTEXT.md
   - ../00_CORE_LOGIC/PERSONAL_CONTEXT.md
@@ -14,6 +14,38 @@ related:
 ---
 
 # Weekly Connections Log
+
+## 2026-W34 (17/08–23/08)
+
+| # | Connection | Domains | Evidence | Signal |
+|---|---|---|---|---|
+| 1 | **Case thăm nom STALE 42 ngày + đóng 11M T8 CHƯA CÓ BẰNG CHỨNG 13 ngày qua hạn — 6 tuần liền 0 hành động, nút thắt pháp lý mục rữa trước Tòa** — Case `legal_quyen_tham_nom_GG.md` OPEN từ 07-12, `last_updated: 2026-07-12` (stale 42 ngày), **8/8 Action Checklist vẫn `[ ]`** (grep xác nhận 8 `[ ]`, 0 `[x]`), không có field `follow_up` nên không auto-reset. Action #8 "đóng 11M ngày 10 hàng tháng" — hạn 10/08 đã qua 13 ngày, vault KHÔNG có commit/biên lai nào xác nhận Warren chuyển 11M tháng 8. Hai khả năng: (a) đã chuyển nhưng QUÊN log → lỗ hổng vault hygiene; (b) chưa chuyển → vi phạm QĐ 575 (phạt lãi Điều 468 BLDS). Dù trường hợp nào, vault không chứng minh được nghĩa vụ tài chính đã thực hiện → mất tấm khiên "người luôn tuân thủ" trước Tòa. Lặp y hệt W26→W33. | legal ↔ family_gg ↔ finance | [`legal_quyen_tham_nom_GG.md`](../_cases/active/legal_quyen_tham_nom_GG.md) (OPEN, last_updated 07-12, 8/8 `[ ]`, #8 hạn 10/08); [log.md 23/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("ESCALATION: Active case STALE 42 ngày... Aug overdue 13 ngày, #8 vẫn [ ]"); [PERSONAL_CONTEXT §2](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (QĐ 575, 11M ngày 10 DL); [PERSONAL_CONTEXT §9](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (feed [HIGH]: thanh toán T8 chưa xác nhận) | 🔴 Critical gap — W33→W34: **STALE 36d→42d, AUG QUÁ HẠN 7d→13d, 0/[x] NGUYÊN TRẠNG** |
+| 2 | **0 EF + 11M/tháng vẫn khoá vốn, và nếu 11M T8 đã chuyển thì ZERO bằng chứng vault = mắt xích giấy tờ yếu nhất của toàn bộ chiến lược thăm nom** — Ràng buộc cấu trúc từ W28 (13/07): emergency fund 0 tháng + 11M/tháng cấp dưỡng → vốn vẫn 100% sideline, không có entry point khả thi (trading purge sang Stock_OS 13/07). Điểm mới W34: khoảng trống chứng cứ tháng 8 (connection #1) không chỉ là lỗi vault hygiene mà là **lỗ hổng pháp lý trực tiếp** — chiến lược case dựa vào Warren "luôn đóng đúng hạn tạo bằng chứng" (§LƯU Ý BẮT BUỘC trong case file), nhưng nếu không log được tháng 8, vị thế "compliant payer" sụp đổ đúng lúc Khanh có thể ra THADS. Finance và legal cùng hội tụ ở một điểm: kỷ luật ghi chép. | finance ↔ legal ↔ meta | [PERSONAL_CONTEXT §11E](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (0 EF, no equity); [PERSONAL_CONTEXT §2](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) (11M/tháng drain); [`legal_quyen_tham_nom_GG.md` §LƯU Ý BẮT BUỘC](../_cases/active/legal_quyen_tham_nom_GG.md) ("PHẢI tiếp tục đóng đúng hạn... tạo bằng chứng"); [log.md 23/08](../30_KNOWLEDGE_BASE/wiki/log.md) (Aug overdue 13d, không commit xác nhận) | 🟡 Correlation — W33→W34: **0 EF NGUYÊN TRẠNG, AUG EVIDENCE GAP 7d→13d** |
+| 3 | **W34 ngủ CHẤT LƯỢNG hơn (86→88.8) nhưng NGẮN hơn (7h37→7h28), cân 62kg + nhịn 20h vẫn khoá, trong khi LDL/ApoB gap leo lên 73 ngày và 050_Health_Log 83 ngày chưa chạm** — W34 (17–22/08, 6 ngày capture): avg ngủ **7h28** (44.83h÷6), quality **88.8** (533÷6), weight **62kg ×6**, fasting **20h ×6**, BP 97-98/71-73 ổn định. So W33 (7h37, 86.0): quality +2.8 nhưng duration −9 phút. Nghịch lý cốt lõi tiếp diễn: nhịn ăn 20h leo từ 18h (W31) nay khoá 34+ ngày liên tục mà cân không nhúc nhích (62kg từ 14/07), ngủ chất lượng khá nhưng thời lượng đi lùi nhẹ. `050_Health_Log.md` `last_updated: 2026-06-01` → **83 ngày** không chạm; panel LDL 4.50/ApoB 120 từ 11/06 nay **73 ngày** chưa có intervention logged (mục tiêu lặp 09/2026). Đòn bẩy sức khoẻ duy nhất vẫn không nhắm vào ApoB. | health ↔ meta | [`051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) (W34 17-22/08: 7h28, q88.8, 62kg×6, 20h×6); [050_Health_Log](../10_PULSE/050_Health_Log.md) (last_updated 06-01, LDL/ApoB chưa xử lý); [log.md 23/08](../30_KNOWLEDGE_BASE/wiki/log.md) (verify: 08-22 entry, gap 1d) | 🟡 Contradiction — W33→W34: **QUALITY 86.0→88.8 (+2.8), DURATION 7h37→7h28 (−9m), LDL gap 67d→73d, HEALTH_LOG 77d→83d** |
+| 4 | **Kỷ luật capture tiếp tục teo rút — Daily_Pulse gap 59→65 ngày, triplicate 07-30 treo 24 ngày, CSV mồ côi 45 ngày, và cron weekly Chủ Nhật miss 2/2 tuần** — Daily_Pulse last entry 06/19, gap nay **65 ngày** (W33 ghi 59). 4 domain GG/Money/Mind/People tịt ngóm từ cuối tháng 6. `### 2026-07-30` vẫn nhân bản **×3** (grep xác nhận 3, chỉ ngày này lặp) — **24 ngày** chưa dọn, capture-sleep read-only không tự sửa. `051_Sleep_Log.csv` mồ côi **45 ngày** (dừng 09/07). Nặng nhất: cron `/personal-weekly-connections` Chủ Nhật 16/08 SKIP (phải viết bù 08/17) VÀ Chủ Nhật 23/08 cũng không tự chạy (entry W34 này đang viết 08/24 = catch-up) → **2/2 Sunday miss liên tiếp**. Pipeline tin cậy của chính báo cáo này đang rớt. | meta | [Daily_Pulse](../10_PULSE/Daily_Pulse.md) (last 06-19, gap 65d); [`051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) (triplicate 07-30 ×3, lines 246/306/318); [log.md 23/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("Daily_Pulse gap 65 ngày", "Triplicate... 24 ngày", "weekly cron" absent); [weekly_connections_log.md](../10_PULSE/weekly_connections_log.md) (top=W33, W34 viết 08/24) | 🔴 Critical gap — W33→W34: **GAP 59→65d, TRIPLICATE 18→24d, CRON 2nd MISS** |
+| 5 | **Kênh capture sức khoẻ Telegram vẫn là MẠCH DUY NHẤT chạy đúng — W34 sạch 6/7 ngày, KHÔNG entry nhãn-tương-lai mới, BP 97-98/71-73 đứng yên** — Trái ngược connection #4, kênh `051_Sleep_Log` là điểm sáng: W34 có 6/7 ngày (17–22/08), thiếu 08-23 (gap 1 ngày < ngưỡng 3 → chưa đỏ), mọi entry legit (commit strictly earlier, không byte-copy, không nhãn tương lai mới kể từ fix `f807505` 10/08). BP cực kỳ ổn định suốt 40+ ngày. Tức là trong toàn bộ vault, health sleep pulse là MẠCH DUY NHẤT đáng tin — mọi mạch khác (Daily_Pulse, case legal, weekly cron) đều stale/miss/sai. | health | [`051_Sleep_Log.md`](../10_PULSE/051_Sleep_Log.md) (W34 6/7 ngày, BP 97-98/71-73); [log.md 23/08](../30_KNOWLEDGE_BASE/wiki/log.md) ("Health log OK... 08-22, gap 1 ngày < 3, không nhãn-tương-lai") | 🟢 Amplification — W33→W34: **CAPTURE 6/6→6/7, INCIDENTS LEGACY-ONLY** |
+
+**📊 Stats:** 5 connections | 5 domains involved (legal, family_gg, finance, health, meta)
+
+**🔗 Most connected domain:** meta ↔ legal ↔ health (each appears in 2 of 5 connections: meta=#3,#4; legal=#1,#2; health=#3,#5)
+
+**🔄 Previous week comparison:**
+| Connection | W33 status | W34 change |
+|---|---|---|
+| #1 (case thăm nom + hạn 10/08) | 🔴 Critical gap — STALE 29d→36d, "HÔM NAY 10/08" | **XẤU ĐI** — 36d→42d, Aug quá hạn 13d, 0/[x] nguyên trạng |
+| #2 (0 EF + evidence gap) | 🟡 Correlation — (gộp trong #1 W33) | **TÁCH RÕ** — 0 EF nguyên trạng, Aug evidence gap 7d→13d thành lỗ hổng pháp lý |
+| #3 (fasting/weight/LDL) | 🟡 Contradiction — fasting 20h khóa, 62kg, LDL gap 67d | **QUALITY +2.8, DURATION −9m, LDL 67→73d, Health_Log 77→83d** |
+| #4 (pipeline/cron) | 🔴 Critical gap — weekly cron skip W33 + triplicate 17d | **WORSE** — gap 59→65d, triplicate 18→24d, cron 2nd Sunday miss |
+| #5 (health capture) | 🟢 Amplification — incidents 3→1 legacy | **HOLDS** — 6/7 ngày, integrity sạch |
+
+**💡 Feed into /personal-context-update (Monday):**
+1. **[HIGH] XÁC NHẬN đã chuyển 11M T8 (hạn 10/08, quá 13 ngày) và CHỐT B2 (biên lai) + B6 (screenshot exhibit A, KHÔNG xoá hội thoại).** Vault 8/8 `[ ]`, 0 chứng cứ. TUYỆT ĐỐI KHÔNG đóng 20M. Hạn kế 10/09 còn 18 ngày — đặt nhắc.
+2. **[HIGH] Chốt B1 (văn bản thiện chí trích QĐ 575, đề xuất lịch 1-2 lần/tuần) + B6.** Case STALE 42d, 8/8 `[ ]` — 6 tuần không sinh hành động. Đóng đúng hạn = tấm khiên trước Tòa; thiếu chứng cứ = mất leverage.
+3. **[MOD] LDL/ApoB gap 73 ngày, 050_Health_Log 83 ngày chưa chạm — đặt lịch lipid panel trong tháng 8** (mục tiêu 09/2026: LDL<3.35, ApoB<100). W34 quality +2.8 nhưng duration −9m; 20h fasting ×34+ ngày vô hiệu với cân. Cắt béo bão hoà (gen APOA5/PPARG) thay nhịn thêm.
+4. **[MOD] Dọn 2 bản triplicate 07-30 (giữ 1) + 051_Sleep_Log.csv mồ côi 45 ngày + quyết số phận Daily_Pulse (gap 65 ngày).** Cron weekly miss 2/2 Chủ Nhật (W33 skip 16/08 + W34 skip 23/08) → check scheduler máy Chủ Nhật.
+5. **[LOW] Giữ nguyên kênh capture sleep Telegram — điểm sáng duy nhất (6/7 ngày W34, integrity sạch).** Đừng động vào pipeline này khi đang dọn các mạch khác.
+
+---
 
 ## 2026-W33 (10/08–16/08)
 

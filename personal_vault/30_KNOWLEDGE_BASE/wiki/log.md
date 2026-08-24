@@ -9,6 +9,12 @@ tags:
 
 # Log
 
+## 2026-08-24
+
+|| Time | Action | File | Summary |
+||------|--------|------|---------|
+|| 01:00 | update | [`10_PULSE/weekly_connections_log.md`](../10_PULSE/weekly_connections_log.md) | /personal-weekly-connections (catch-up, Sunday 23/08 skip): added W34 (17/08–23/08) — 5 connections, 5 domains. Key: (1) case STALE 42d + Aug 11M unconfirmed 13d overdue, 8/8 [ ]; (2) 0 EF + 11M lock, Aug evidence gap = legal vulnerability; (3) sleep quality 86.0→88.8 but duration 7h37→7h28, LDL gap 73d, Health_Log 83d; (4) Daily_Pulse gap 65d, triplicate 24d, CSV orphaned 45d, weekly cron 2nd Sunday miss; (5) sleep capture only reliable channel (6/7 days, clean). |
+
 ## 2026-08-23
 - **PROCESSED: `/process-notes` cron (23/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), `stock_pending/` rỗng (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/...`), không cần sync. [INFO]
 - **🔴 Daily_Pulse gap 65 ngày:** entry cuối `## 2026-06-19`. Regression tiếp diễn: 64d (22/08) → **65d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-22) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
