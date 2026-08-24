@@ -17,6 +17,7 @@ import shutil
 import signal
 import sys
 import time
+import unicodedata
 import urllib.request
 import json
 import subprocess
@@ -81,7 +82,13 @@ except ImportError:
 # ============================================================================
 
 def parse_all_sleep_logs(content: str) -> list[dict]:
-    """Parse ALL sleep metrics from health log content."""
+    """Parse ALL sleep metrics from health log content.
+
+    Input is NFC-normalized first, so Vietnamese 'Huyết áp' matches even
+    when the source app emits decomposed (NFD) Unicode - BP never gets
+    silently dropped.
+    """
+    content = unicodedata.normalize("NFC", content)
     matches = SLEEP_PATTERN.findall(content)
     results = []
 

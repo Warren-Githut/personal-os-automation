@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
-"""TDD tests for telegram_health_poller.process_reply() flexible matching.
+"""TDD tests for telegram_health_poller confirmation gate (STRICT mode).
+
+Gate contract (2026-08-24 fix): vault is written ONLY on an explicit
+'ok'/'yes'. Expiry -> remind up to MAX_REMINDERS then cancel - never write.
 
 Run: pytest test_telegram_health_poller.py -v
 Or:  python3 test_telegram_health_poller.py
 """
+import tempfile
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import telegram_health_poller as p
+
+# ---- isolate state files into TEMP (never touch real cron state) ----
+_TMP = Path(tempfile.mkdtemp(prefix="poller_test_"))
+p.OFFSET_FILE = _TMP / "offset.json"
+p.PENDING_FILE = _TMP / "pending.json"
 
 # ---- recorders (avoid real Telegram / vault writes) ----
 CALLS = {"send": [], "write": [], "sync": []}
@@ -20,12 +29,18 @@ def fake_send(text, reply_to=None):
     return 99999
 
 
+WRITE_RESULT = {"ok": True}  # flip to False to simulate dup-guard hit
+
+
 def fake_write(data):
     CALLS["write"].append(data)
+    return WRITE_RESULT["ok"]
 
 
 def fake_sync(date):
     CALLS["sync"].append(date)
+    return {"gsheet_synced": 1, "gsheet_error": None,
+            "committed": True, "pushed": True, "git_error": None}
 
 
 p.send_msg = fake_send
@@ -108,20 +123,44 @@ def test_reply_skip_variant():
     assert p.load_pending() is None, "pending cleared on skip"
 
 
-def test_timeout_fallback_no_updates():
-    """GREEN: pending >30min with no new updates -> auto-approve."""
+def test_expired_pending_reminds_never_writes():
+    """GREEN: expired draft -> reminder sent, vault NEVER written."""
     _seed_pending()
-    # backdate ts >30 min
     pend = p.load_pending()
     pend["ts"] = "2020-01-01T00:00:00"
     p.save_pending(pend)
-    p.poll_once()
-    assert CALLS["write"], "timeout fallback must write_vault"
-    assert p.load_pending() is None
+    orig = p.get_updates
+    p.get_updates = lambda off: []  # no new updates branch
+    try:
+        p.poll_once()
+    finally:
+        p.get_updates = orig
+    assert not CALLS["write"], "expired draft must NEVER write_vault"
+    assert CALLS["send"], "expired draft must send a reminder"
+    assert p.load_pending() is not None, "draft stays pending after reminder"
 
 
-def test_timeout_fallback_new_message_same_chat():
-    """GREEN: pending >30min + new msg same chat/date -> auto-approve."""
+def test_expired_after_max_reminders_cancels():
+    """GREEN: draft past MAX_REMINDERS -> cancelled, still never written."""
+    _seed_pending()
+    pend = p.load_pending()
+    pend["ts"] = "2020-01-01T00:00:00"
+    pend["reminders"] = p.MAX_REMINDERS
+    p.save_pending(pend)
+    orig = p.get_updates
+    p.get_updates = lambda off: []
+    try:
+        p.poll_once()
+    finally:
+        p.get_updates = orig
+    assert not CALLS["write"], "cancel path must NEVER write_vault"
+    assert p.load_pending() is None, "cancelled draft must be deleted"
+
+
+def test_new_message_with_date_no_longer_autoapproves():
+    """RED-turned-GREEN (2026-08-24): a plain message containing the ISO date
+    used to auto-approve an expired pending. Now it must NOT write; the
+    expired-draft tending sends at most a reminder/cancel."""
     _seed_pending()
     pend = p.load_pending()
     pend["ts"] = "2020-01-01T00:00:00"
@@ -137,41 +176,13 @@ def test_timeout_fallback_new_message_same_chat():
             },
         }
     ]
-    p.process_reply(updates)
-    # not matched by reply logic, but poll_once fallback should catch
-    p.poll_once.__wrapped__ if hasattr(p.poll_once, "__wrapped__") else None
-    # emulate get_updates returning our fake by monkeypatching
     orig = p.get_updates
     p.get_updates = lambda off: updates
     try:
         p.poll_once()
     finally:
         p.get_updates = orig
-    assert CALLS["write"], "timeout+new-msg fallback must write_vault"
-    assert p.load_pending() is None
-
-
-def test_scan_chat_history_for_ok():
-    """RED: scan_chat_history_for_ok finds 'ok' from Bố in chat history
-    even when getUpdates queue was consumed by another process."""
-    _seed_pending()
-    pend = p.load_pending()
-    pend["chat_id"] = 2117653672
-    pend["source_msg_id"] = 180
-    pend["proposal_msg_id"] = 182
-    p.save_pending(pend)
-    # simulate getChatHistory returning Bố's 'ok' as a standalone msg (not reply)
-    fake_history = [
-        {
-            "message_id": 700,
-            "from": {"id": 2117653672, "is_bot": False},
-            "chat": {"id": 2117653672},
-            "date": 1700000000,
-            "text": "ok",
-        }
-    ]
-    found = p.scan_chat_history_for_ok(pend, history=fake_history)
-    assert found is True, "scan_chat_history_for_ok must detect standalone 'ok'"
+    assert not CALLS["write"], "date-in-text must NOT auto-approve any more"
 
 
 def test_standalone_ok_approves():
@@ -244,18 +255,105 @@ def test_standalone_other_text_ignored():
     assert p.load_pending() is not None
 
 
+def test_vietnamese_rejection_skips_immediately():
+    """GREEN (2026-08-24): 'không'/'chưa'/'hủy' must cancel the draft
+    immediately - previously they fell through and the draft auto-approved
+    after 30 minutes."""
+    for word in ("không", "chưa", "hủy", "ko"):
+        _seed_pending()
+        updates = [
+            {
+                "update_id": 9203,
+                "message": {
+                    "message_id": 803,
+                    "reply_to_message_id": 177,
+                    "chat": {"id": 2117653672},
+                    "text": word,
+                },
+            }
+        ]
+        p.process_reply(updates)
+        assert not CALLS["write"], f"'{word}' must NEVER write_vault"
+        assert p.load_pending() is None, f"'{word}' must cancel draft now"
+
+
+def test_ok_reports_after_sync_with_truthful_result():
+    """GREEN (2026-08-24 step 2): on 'ok', sync runs BEFORE the Telegram
+    report, and the report reflects the real sync result."""
+    _seed_pending()
+    order = []
+    real_write, real_sync = p.write_vault, p.sync_and_commit
+
+    def w(data):
+        r = real_write(data)
+        order.append("write")
+        return r
+
+    def s(date):
+        r = real_sync(date)
+        order.append("sync")
+        return r
+
+    p.write_vault, p.sync_and_commit = w, s
+    updates = [{"update_id": 9300, "message": {
+        "message_id": 900, "reply_to_message_id": 177,
+        "chat": {"id": 2117653672}, "text": "ok"}}]
+    try:
+        p.process_reply(updates)
+    finally:
+        p.write_vault, p.sync_and_commit = real_write, real_sync
+    assert order == ["write", "sync"], "sync must run before reporting path"
+    assert len(CALLS["send"]) == 1, "exactly one report message"
+    txt = CALLS["send"][0][0]
+    assert "GSheet +1 row" in txt, "report must contain truthful GSheet count"
+    assert "Git pushed" in txt, "report must reflect git result"
+    assert "+ sync GSheet + git push." not in txt, "no canned success claim"
+
+
+def test_dup_guard_on_write_vault():
+    """GREEN (2026-08-24 step 2): write into a log that already has the date
+    must write NOTHING and report 'already in vault' instead of duplicating."""
+    _seed_pending()
+    WRITE_RESULT["ok"] = False  # simulate dup-guard hit inside real write_vault
+    updates = [{"update_id": 9400, "message": {
+        "message_id": 910, "reply_to_message_id": 177,
+        "chat": {"id": 2117653672}, "text": "ok"}}]
+    try:
+        p.process_reply(updates)
+    finally:
+        WRITE_RESULT["ok"] = True
+    assert not CALLS["sync"], "dup-guard hit -> no GSheet sync attempted"
+    assert any("đã có trong vault" in t for t, _ in CALLS["send"]), \
+        "caller must be told the date already exists"
+
+
+def test_nfd_input_still_parses_bp():
+    """GREEN (2026-08-24 step 2): NFD Vietnamese input must still capture BP."""
+    import unicodedata
+    nfc = ("[capture-sleep] Health log jul 25: Health: 7h30 | quality 88 | "
+           "62kg | 18h | Huyết áp: 99/71")
+    nfd = unicodedata.normalize("NFD", nfc)
+    d = p.extract_sleep(nfd)
+    assert d is not None and d["bp"] == "99/71", \
+        "NFC normalization must rescue BP from NFD input"
+
+
 if __name__ == "__main__":
     # minimal runner without pytest
     tests = [
         test_reply_match_source_msgid_with_emoji,
         test_reply_whitespace_only_ok,
         test_reply_skip_variant,
-        test_timeout_fallback_no_updates,
-        test_timeout_fallback_new_message_same_chat,
-        test_scan_chat_history_for_ok,
+        test_expired_pending_reminds_never_writes,
+        test_expired_after_max_reminders_cancels,
+        test_new_message_with_date_no_longer_autoapproves,
         test_standalone_ok_approves,
         test_standalone_skip_discards,
         test_standalone_other_text_ignored,
+        test_vietnamese_rejection_skips_immediately,
+        test_ok_reports_after_sync_with_truthful_result,
+        test_dup_guard_on_write_vault,
+        test_nfd_input_still_parses_bp,
     ]
     failed = 0
     for t in tests:

@@ -7,6 +7,9 @@ writes to 051_Sleep_Log.md -> syncs GSheet -> git commit+push (scoped).
 
 Designed for non-interactive cron (no_agent=True). Each poll is a single
 cycle: process pending reply (if any), then process new tagged messages.
+Confirmation gate is STRICT: the vault is written ONLY on an explicit
+'ok'/'yes' from Warren. An expired draft is re-asked a few times, then
+cancelled - never auto-approved, never inferred from chat history.
 
 Usage:
   python3 telegram_health_poller.py --once      # single poll cycle
@@ -33,6 +36,17 @@ SCRIPTS_DIR = Path(__file__).resolve().parent
 OFFSET_FILE = SCRIPTS_DIR / ".telegram_offset.json"
 PENDING_FILE = SCRIPTS_DIR / ".telegram_pending.json"
 TAG = "[capture-sleep]"
+MAX_REMINDERS = 3        # re-ask an expired draft this many times, then cancel
+REMINDER_INTERVAL_MIN = 10  # minimum minutes between two reminders
+OK_WORDS = ("ok", "yes", "okay", "y")
+# Vietnamese + English rejections. normalize_reply lowercases and KEEPS
+# Vietnamese diacritics, so both bare and marked forms are listed.
+SKIP_WORDS = (
+    "skip", "no", "n", "cancel",
+    "ko", "khong", "không",          # không / ko
+    "chua", "chưa",                  # chưa
+    "huy", "huỷ", "hủy",             # huỷ / hủy
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -110,21 +124,35 @@ def build_draft(data: dict) -> str:
     )
 
 
-def write_vault(data: dict) -> None:
+def write_vault(data: dict) -> bool:
+    """Write the entry to 051_Sleep_Log.md, guarded against duplicates.
+
+    Completion criterion: returns True when the log gains exactly one new
+    dated entry; returns False and writes NOTHING when that date already
+    exists (idempotent). Messaging stays with the caller.
+    """
+    if ps.is_duplicate(SLEEP_LOG.read_text(encoding="utf-8"), data)[0]:
+        print(f"⚠️ Dup-guard: {data['date']} already in vault, write skipped")
+        return False
     entry = ps.build_entry(data, "telegram:@LUsinePersonalBot")
     ps.append_to_sleep_log([entry])
+    return True
 
 
-def sync_and_commit(date: str) -> None:
+def sync_and_commit(date: str) -> dict:
+    """Run GSheet sync + scoped git commit. Returns a TRUTHFUL result dict;
+    messaging decisions belong to the caller (never claim before knowing).
+    """
+    result = {"gsheet_synced": None, "gsheet_error": None,
+              "committed": False, "pushed": False, "git_error": None}
     # GSheet sync — FAIL LOUD, do not swallow (Bố must know if GSheet missed)
     try:
         n = ps.sync_to_gsheet(send_notify=False)
-        if n is None or n == 0:
-            print(f"⚠️  GSheet sync returned 0 rows (check token/API/share) — NOT synced")
-        else:
-            print(f"✅ GSheet sync: {n} row(s)")
+        result["gsheet_synced"] = n
+        if not n:
+            result["gsheet_error"] = "sync trả 0 row (check token/API/share)"
     except Exception as e:  # noqa: BLE001
-        print(f"⚠️  GSheet sync FAILED: {e} — vault entry kept, GSheet NOT updated")
+        result["gsheet_error"] = str(e)
 
     try:
         subprocess.run(
@@ -134,7 +162,8 @@ def sync_and_commit(date: str) -> None:
             text=True,
             check=False,
         )
-        msg = f"feat(health): telegram [capture-sleep] {date} + GSheet sync (auto)"
+        # Commit message states only what git does - never promises GSheet.
+        msg = f"feat(health): telegram [capture-sleep] {date} (auto)"
         r = subprocess.run(
             ["git", "commit", "-m", msg],
             cwd=str(VAULT_ROOT),
@@ -143,19 +172,22 @@ def sync_and_commit(date: str) -> None:
             check=False,
         )
         if r.returncode == 0:
-            subprocess.run(
+            result["committed"] = True
+            pr = subprocess.run(
                 ["git", "push"],
                 cwd=str(VAULT_ROOT),
                 capture_output=True,
                 text=True,
                 check=False,
             )
-            print(f"✅ Git committed+pushed {date}")
+            result["pushed"] = pr.returncode == 0
+            if pr.returncode != 0:
+                result["git_error"] = ((pr.stderr or pr.stdout).strip() or "push failed")[:200]
         else:
-            out = (r.stdout or r.stderr).strip()
-            print(f"⚠️  Git commit skipped: {out}")
+            result["git_error"] = ((r.stdout or r.stderr).strip() or "commit failed")[:200]
     except Exception as e:  # noqa: BLE001
-        print(f"⚠️  Git failed: {e}")
+        result["git_error"] = str(e)
+    return result
 
 
 # --------------------------------------------------------------------------- #
@@ -207,6 +239,8 @@ def process_new_message(update: dict) -> None:
 def normalize_reply(text: str) -> str:
     """Lowercase, strip whitespace, drop emoji/symbols → bare word.
 
+    Vietnamese diacritics are PRESERVED ('không' stays 'không'), so
+    SKIP_WORDS lists both bare ASCII and diacritic forms.
     'ok 👍' -> 'ok', '  Skip ✅ ' -> 'skip', 'YES' -> 'yes'
     """
     if not text:
@@ -238,16 +272,33 @@ def process_reply(updates: list) -> None:
         if not (is_reply_match or is_standalone):
             continue
         txt = normalize_reply(m.get("text", "") or "")
-        if txt in ("ok", "yes", "okay", "y"):
-            write_vault(pending["data"])
-            send_msg(
-                f"✅ Đã ghi vault {pending['data']['date']} + sync GSheet + git push.",
-                reply_to=prop_id,
-            )
-            sync_and_commit(pending["data"]["date"])
+        if txt in OK_WORDS:
+            if write_vault(pending["data"]):
+                res = sync_and_commit(pending["data"]["date"])
+                parts = [f"✅ Đã ghi vault {pending['data']['date']}."]
+                if res["gsheet_synced"]:
+                    parts.append(f"GSheet +{res['gsheet_synced']} row.")
+                elif res["gsheet_error"]:
+                    parts.append(f"⚠️ GSheet chưa sync: {res['gsheet_error']}")
+                else:
+                    parts.append("GSheet đã cập nhật sẵn.")
+                if res["committed"] and res["pushed"]:
+                    parts.append("Git pushed ✓")
+                else:
+                    parts.append(f"⚠️ Git: {res['git_error'] or 'không commit'}")
+                send_msg(" ".join(parts), reply_to=prop_id)
+            else:
+                # Dup-guard hit: entry already exists, nothing written.
+                send_msg(
+                    f"⚠️ Ngày {pending['data']['date']} đã có trong vault, "
+                    f"bỏ qua (không ghi lần 2).",
+                    reply_to=prop_id,
+                )
+                save_pending(None)
+                return
             save_pending(None)
             return
-        elif txt in ("skip", "no", "n"):
+        elif txt in SKIP_WORDS:
             send_msg("⏭️ Đã bỏ qua.", reply_to=prop_id)
             save_pending(None)
             return
@@ -264,101 +315,69 @@ def pending_timed_out(pending: dict, timeout_min: int = 30) -> bool:
     return elapsed > timeout_min * 60
 
 
-def auto_approve_if_new_message(pending: dict, updates: list) -> bool:
-    """Fallback: if pending timed out AND a new message arrived from same
-    chat with the same date, approve it (Bố likely replied elsewhere/however)."""
-    if not pending_timed_out(pending):
-        return False
-    chat_id = pending.get("chat_id")
-    date = pending.get("data", {}).get("date")
-    for u in updates:
-        m = u.get("message", {})
-        if chat_id and m.get("chat", {}).get("id") != chat_id:
-            continue
-        if date and date in (m.get("text", "") or ""):
-            return True
-    return False
+def _minutes_since(ts_str: str | None) -> float | None:
+    """Minutes since an ISO timestamp, or None if unparseable."""
+    try:
+        return (datetime.now() - datetime.fromisoformat(ts_str or "")).total_seconds() / 60
+    except (TypeError, ValueError):
+        return None
 
 
-def scan_chat_history_for_ok(pending: dict, history: list | None = None) -> bool:
-    """Fallback: scan recent chat history for Bố's 'ok'/'skip' when the
-    getUpdates queue was already consumed by another process.
+def handle_expired_pending(pending: dict) -> None:
+    """Tend an expired draft WITHOUT ever writing the vault.
 
-    Uses Telegram getChatHistory (method 'getChatHistory') to pull recent
-    messages from the pending chat_id, then checks for a confirmation.
-
-    Returns True if a confirming message (ok/skip) is found.
+    Re-ask Warren up to MAX_REMINDERS times (at least REMINDER_INTERVAL_MIN
+    apart), then cancel the draft. Completion criterion: pending file ends up
+    either refreshed with reminder counters, or deleted - data untouched.
     """
-    chat_id = pending.get("chat_id")
-    if not chat_id:
-        return False
-    if history is None:
-        resp = tg_api(
-            "getChatHistory",
-            {
-                "chat_id": chat_id,
-                "limit": 20,
-                "offset": 0,
-                "offset_id": 0,
-            },
+    reminders = int(pending.get("reminders", 0))
+    since_last_ask = _minutes_since(pending.get("last_reminder_ts"))
+    if since_last_ask is not None and since_last_ask < REMINDER_INTERVAL_MIN:
+        return  # asked recently, stay quiet
+    age_min = _minutes_since(pending.get("ts")) or 0.0
+    prop_id = pending["proposal_msg_id"]
+    date = pending["data"]["date"]
+    if reminders >= MAX_REMINDERS:
+        send_msg(
+            f"🗑 Draft {date} đã huỷ sau {MAX_REMINDERS} lần nhắc không thấy 'ok'.\n"
+            f"Gửi lại tin [capture-sleep] để tạo draft mới.",
+            reply_to=prop_id,
         )
-        if not resp or not resp.get("ok"):
-            return False
-        history = resp.get("result", {}).get("messages", [])
-    # Bố is the human (not bot). Accept ok/yes/skip/no variants.
-    for m in history:
-        from_user = m.get("from", {})
-        if from_user.get("is_bot"):
-            continue
-        if from_user.get("id") != chat_id:
-            # in 1-1 chat, from.id == chat.id for the human
-            continue
-        txt = normalize_reply(m.get("text", "") or "")
-        if txt in ("ok", "yes", "okay", "y", "skip", "no", "n"):
-            return True
-    return False
+        save_pending(None)
+        print(f"🗑 Cancelled expired draft for {date} after {MAX_REMINDERS} reminders")
+        return
+    send_msg(
+        f"⏰ Đã {age_min:.0f} phút, chưa thấy 'ok' cho ngày {date}.\n"
+        f"👉 Reply 'ok' để ghi vault, 'skip' để bỏ.",
+        reply_to=prop_id,
+    )
+    save_pending({
+        **pending,
+        "reminders": reminders + 1,
+        "last_reminder_ts": datetime.now().isoformat(),
+    })
+    print(f"⏰ Reminder #{reminders + 1} sent for {date}")
 
 
 def poll_once() -> None:
     offset = load_offset()
     updates = get_updates(offset)
-    # allow manual recoverability for stuck pending without deleting state
     if not updates:
-        # still check timeout fallback even with no new updates
+        # No new updates: still tend an expired draft (remind / cancel only).
         pending = load_pending()
-        if pending and pending.get("status") == "awaiting_approval":
-            if pending_timed_out(pending):
-                write_vault(pending["data"])
-                send_msg(
-                    f"⏰ Pending {pending['data']['date']} quá 30p, auto-approve + sync.",
-                    reply_to=pending["proposal_msg_id"],
-                )
-                sync_and_commit(pending["data"]["date"])
-                save_pending(None)
-            elif scan_chat_history_for_ok(pending):
-                # queue was consumed by another process; Bố's 'ok' is in history
-                write_vault(pending["data"])
-                send_msg(
-                    f"✅ Đã ghi vault {pending['data']['date']} + sync GSheet + git push (từ lịch sử chat).",
-                    reply_to=pending["proposal_msg_id"],
-                )
-                sync_and_commit(pending["data"]["date"])
-                save_pending(None)
+        if pending and pending.get("status") == "awaiting_approval" \
+                and pending_timed_out(pending):
+            handle_expired_pending(pending)
         return
     process_reply(updates)
     for u in updates:
         process_new_message(u)
-    # fallback: timed-out pending + new msg from same chat/date -> approve
+    # Expired draft without an 'ok' in this batch -> remind / cancel.
+    # NEVER writes the vault here - only an explicit 'ok' via process_reply does.
     pending = load_pending()
     if pending and pending.get("status") == "awaiting_approval" \
-            and auto_approve_if_new_message(pending, updates):
-        write_vault(pending["data"])
-        send_msg(
-            f"⏰ Pending {pending['data']['date']} quá 30p + tin mới, auto-approve + sync.",
-            reply_to=pending["proposal_msg_id"],
-        )
-        sync_and_commit(pending["data"]["date"])
-        save_pending(None)
+            and pending_timed_out(pending):
+        handle_expired_pending(pending)
     new_offset = max(u["update_id"] for u in updates) + 1
     save_offset(new_offset)
 
