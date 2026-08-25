@@ -353,29 +353,3 @@ grep -q 'Git root — VERIFY, do not assume' <ssot>/SKILL.md         # corrected
 ```
 
 General rule this is an instance of: **never verify a doc by asserting an exact occurrence count of text the doc itself discusses, and never prove a string absent when the doc has legitimate reason to quote it.** Assert presence of the corrected claim; let `diff -rq` prove the copy.
-
-🚨 **The SSOT `scripts/` subdir is GITIGNORED — the sync ritual's "commit and push" step can NEVER include it.** (Root-caused 2026-08-25, after drift survived 11 days.) `personal_vault/.gitignore` line 63 holds a bare `scripts/` pattern, and gitignore matches a bare directory name at **any depth**, so it silently catches `.scripts/skills/productivity/personal-process-notes/scripts/` too:
-
-```
-git check-ignore -v .scripts/skills/productivity/personal-process-notes/scripts/verify_last_process_notes.sh
-# personal_vault/.gitignore:63:scripts/   .scripts/.../personal-process-notes/scripts/verify_last_process_notes.sh
-git ls-files .scripts/skills/productivity/personal-process-notes/
-# SKILL.md + references/*.md ONLY — nothing under scripts/
-```
-
-Consequences to internalise:
-- `SKILL.md` and `references/` **are** tracked; everything under `scripts/` is **not**. `git add` of a synced script prints "The following paths are ignored" and stages nothing. Do **not** reach for `git add -f` to "fix" it — that fights a deliberate vault-wide rule.
-- **The on-disk copy is the only record of a script sync.** `diff -rq` is therefore the *sole* gate for script parity; there is no commit to point at afterwards, so the git-hygiene half of the ritual applies to `SKILL.md`/`references/` only.
-- This is precisely **why script drift survives across cycles**: a curator turn patches AppData, no commit can ever carry the change down to the SSOT, and git history shows nothing stale. That is what let the `wc -l` vs `awk 'END{print NR}'` assertion sit broken from 08-14 to 08-25. It is the strongest argument for the unconditional pre-flight `diff -rq` above — for `scripts/`, that command is not a convenience, it is the *only* detector.
-- For a durable git record of a script change, the tracked `_archives/skills/` copy is the right home, as the ritual already instructs.
-
-⚠️ **Decide the sync DIRECTION from evidence, never from mtime alone.** (Learned 2026-08-25.) The drifting line asserted the shape of `_inbox/.last_process_notes`: AppData had `cmp_ "3b. exactly one line" "$(awk 'END{print NR}' "$PSPEC")" "1"`, the vault SSOT had `"$(wc -l < "$PSPEC")" "0"`. mtime said AppData was newer — confirm against the artifact anyway before overwriting either side:
-
-```
-od -c _inbox/.last_process_notes | tail -3     # final byte IS \n
-wc -l < _inbox/.last_process_notes             # 1
-awk 'END{print NR}' _inbox/.last_process_notes # 1
-```
-
-`write_file` emits a trailing newline, so `wc -l` is 1 and the vault's `== 0` would FAIL on a perfectly correct file → vault copy broken, AppData correct, sync AppData → SSOT. The two forms diverge only when a final line **lacks** its newline (`wc -l` counts terminators, `awk` counts records), so `awk 'END{print NR}'` is the right primitive for "how many lines does this file have". Cheapest confirmation is free and comes after the sync: the real run's **`3b` PASS is itself the proof** the surviving assertion matches reality — quote that line rather than claiming the direction was right.
-
