@@ -2,12 +2,26 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-24
+last_updated: 2026-08-25
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-25
+
+- **PROCESSED: `/process-notes` cron (25/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` KHÔNG tồn tại (0 JSONs) → không route/archive gì. [INFO]
+- **🔧 SSOT DRIFT phát hiện + ĐÃ SYNC (pre-flight `diff -rq` KHÔNG silent):** `scripts/verify_last_process_notes.sh` lệch đúng 1 dòng (line 60). AppData (mtime 24/08 11:03, mới hơn) dùng `awk 'END{print NR}'` expect `1`; vault `.scripts/` (mtime 14/08 09:41) dùng `wc -l` expect `0`. Kiểm chứng trên file thật: `od -c _inbox/.last_process_notes` cho byte cuối = `\n` → `wc -l` = 1, `awk END{print NR}` = 1. Vậy assertion vault (`== 0`) SAI và sẽ FAIL trên file đúng format; AppData là bản đã fix (cycle 24/08 patch AppData nhưng chưa sync xuống vault). → Archive bản vault cũ (`_archives/skills/personal-process-notes_verify_last_process_notes_backup_2026-08-25.sh`), sync một chiều AppData → vault, `diff -rq` IDENTICAL (exit 0), presence check `'Git root — VERIFY, do not assume'` còn nguyên sau copy ✓. [HIGH]
+- **🔴 Daily_Pulse gap 67 ngày:** entry cuối `## 2026-06-19`. Tính từng dòng: 30 − 19 = 11 ngày (19/06→30/06); + 31 ngày (tháng 7); + 25 ngày (01/08→25/08); tổng = 11 + 31 + 25 = **67 ngày**. Regression tiếp diễn: 65d (23/08) → 66d (24/08) → **67d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-24) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log GREEN — WATCH 08-23 hôm qua ĐÃ TỰ GIẢI:** entry cuối `051_Sleep_Log.md` = `### 2026-08-24` (Sleep 7h45 | Quality 90 | Fasting 20h | 62kg | BP 97/72). Gap = 25 − 24 = **1 ngày < ngưỡng 3** → KHÔNG flag. Verify D-1: commit `849c849` lúc `2026-08-25 08:10` ghi nhãn `2026-08-24` → nhãn strictly earlier than commit date ✓ LEGIT, không nhãn-tương-lai. Không byte-copy: 08-24 = 7h45|90|97/72 khác 08-23 = 6h30|80|97/71 ✓. Frontmatter `last_updated` = 2026-08-25 không lag nhãn mới nhất ✓. WATCH hôm qua ("`grep -c '^### 2026-08-23'` = 0 lúc 10:56") đã tự giải: commit `66a1b41` lúc `2026-08-24 11:00` ghi nhãn 08-23 — tức chỉ **4 phút SAU** khi report 24/08 chốt (đúng pitfall "report có thể stale trước khi giao"). Chuỗi 08-19→08-24 đủ 6 ngày liên tiếp, không miss ngày nào. [HIGH]
+- **🟡 Sleep 08-23 = 6h30 dưới baseline:** 6h30 vs baseline 7h → thiếu 30 phút; Quality 80 là mức thấp nhất trong window 08-19→08-24. Đã hồi phục ở 08-24 (7h45 | 90). Weight 62kg + Fasting 20h + BP 97/7x ổn định toàn window → không phải red flag hệ thống, chỉ 1 đêm lệch. [MOD]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 26 ngày.** Dup scan `grep '^### ' | sort | uniq -c`: chỉ `2026-07-30` = 3, mọi ngày khác unique (08-24, 08-23, 08-22, 08-21 đều ×1). Tính ngày tồn: 31 − 30 = 1 (30/07→31/07) + 25 (01/08→25/08) = **26 ngày**. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, KHÔNG ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng, giữ 1. [HIGH]
+- **🔴 ESCALATION: Active case STALE 44 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** `status: OPEN`, mở 07-12, `last_updated: 2026-07-12`. Tính từng dòng: 31 − 12 = 19 ngày (12/07→31/07) + 25 ngày (01/08→25/08) = **44 ngày** chưa cập nhật (43d hôm qua). Checklist dạng BẢNG, đếm theo cell: `grep -c '\[ \]'` = **8**, `grep -c '\[x\]'` = **0** → 8/8 action chưa làm sau 44 ngày. KHÔNG có field `follow_up` trong frontmatter → không auto-reset, không CRITICAL GAP theo protocol. [HIGH]
+- **🔴 Cấp dưỡng 11M tháng 8 QUÁ HẠN 15 ngày, chưa có bằng chứng trong vault.** Due day 10 hàng tháng (QĐ 575). Tính: 25 − 10 = **15 ngày** quá hạn. Vault chỉ ghi nhận lần chuyển 10/7 (11M cấp dưỡng + 6.2M học phí = 17.2M); không có entry/commit nào cho tháng 8. Action #8 (dòng 190) "Tiếp tục đóng 11M ngày 10 tới (TUYỆT ĐỐI KHÔNG đóng 20M)" vẫn `[ ]`; Action #2 (dòng 184) "Lưu bằng chứng: screenshot + biên lai 11M + 6.2M" cũng vẫn `[ ]`. Rủi ro: nếu ĐÃ chuyển mà chưa lưu biên lai → mất bằng chứng thực hiện nghĩa vụ trong tranh chấp thăm nom, đúng lúc Khanh đòi 20M/tháng (vượt QĐ 575, dòng 146). Cần Bố: (1) xác nhận đã chuyển 11M T8 (TUYỆT ĐỐI KHÔNG 20M); (2) chốt #2 lưu biên lai + screenshot exhibit A (KHÔNG xoá hội thoại) — hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/`** (đóng 03/07, QĐ 575/2026) → không còn field `follow_up`, skip follow_up check, KHÔNG reset, KHÔNG gắn CRITICAL GAP (đúng pitfall "case archived/closed"). Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận. [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 47 ngày:** dòng cuối `2026-07-09,7h05,7.08,90,18,62.0,98,71`. Tính: 31 − 9 = 22 ngày (09/07→31/07) + 25 ngày (01/08→25/08) = **47 ngày** không cập nhật, trong khi `.md` vẫn chạy tới 08-24. Thuộc quyền capture-sleep, cần Bố quyết: mở lại sync CSV hay khai tử file. [INFO]
+- **FLAGGED:** Daily_Pulse gap 67d · case STALE 44d + 8/8 `[ ]` · 11M T8 quá hạn 15d chưa có biên lai · triplicate 07-30 ×3 (26d) · CSV mồ côi 47d · SSOT drift (đã sửa cycle này).
 
 ## 2026-08-24
 
