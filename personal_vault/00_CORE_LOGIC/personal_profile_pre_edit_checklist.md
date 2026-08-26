@@ -130,3 +130,16 @@ Hermes: 🛑 PRE-FLIGHT CHECK
 > **Warren: OK** → Hermes ghi.
 > **Warren: sửa số liệu** → Hermes sửa → show lại point 3 + 5.
 > **Warren: ko** → Hermes dừng.
+
+---
+
+## CODE ARTIFACTS — ENGLISH ONLY 🚨 (HARD RULE — ANCHORS A53, 2026-08-26)
+
+> Áp dụng MỌI profile. Trước khi ghi / commit bất kỳ code artifact nào, check từng dòng:
+
+- [ ] Script / parser / cron script (`.py` `.js` `.sh` `.ps1`): code, tên hàm / biến / class, comment, log + alert string = **100% English**
+- [ ] Skill (`SKILL.md` + references / templates / scripts): nội dung = **100% English**
+- [ ] Prompt template (cron LLM prompt, system prompt, agent brief) = **100% English**
+- [ ] Commit message = **100% English**
+- [ ] KHÔNG dấu tiếng Việt trong identifier / comment / prompt — scan diacritics trước commit; diacritics CHỈ trong display string gửi người dùng
+- [ ] Ngoại lệ: human-facing content — báo cáo .md vault, chat trả lời Warren, tin nhắn Telegram gửi Warren, tên riêng
