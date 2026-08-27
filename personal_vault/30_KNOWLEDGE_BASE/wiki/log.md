@@ -2,12 +2,25 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-26
+last_updated: 2026-08-27
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-27
+
+- **PROCESSED: `/process-notes` cron (27/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` KHÔNG tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/skills/productivity/personal-process-notes`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 69 ngày:** entry cuối `## 2026-06-19`. Tính từng dòng: 30 − 19 = 11 ngày (19/06→30/06); + 31 ngày (tháng 7); + 27 ngày (01/08→27/08); tổng = 11 + 31 + 27 = **69 ngày**. Regression tiếp diễn: 68d (26/08) → **69d hôm nay**. Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-26) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log GREEN:** entry cuối `051_Sleep_Log.md` = `### 2026-08-26` (Sleep 7h55 | Quality 90 | Fasting 20h | 62kg | BP 97/72). Gap = 27 − 26 = **1 ngày < ngưỡng 3** → KHÔNG flag. Verify D-1: commit `16bcf2c` lúc `2026-08-27 07:22` ghi nhãn `2026-08-26` → nhãn strictly earlier than commit date ✓ LEGIT, không nhãn-tương-lai. Không byte-copy: 08-26 = 7h55|90|97/72 khác 08-25 = 7h55|90|97/71 ✓. Frontmatter `last_updated` = 2026-08-27 không lag nhãn mới nhất ✓. [HIGH]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 28 ngày.** Dup scan `grep '^### ' | sort | uniq -c`: chỉ `2026-07-30` = 3, mọi ngày khác unique (08-26…08-19 đều ×1). Tính ngày tồn: 31 − 30 = 1 (30/07→31/07) + 27 (01/08→27/08) = **28 ngày**. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, KHÔNG ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng, giữ 1. [HIGH]
+- **🔴 ESCALATION: Active case STALE 46 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** `status: OPEN`, mở 07-12, `last_updated: 2026-07-12`. Tính từng dòng: 31 − 12 = 19 ngày (12/07→31/07) + 27 ngày (01/08→27/08) = **46 ngày** chưa cập nhật (45d hôm qua). Checklist dạng BẢNG, đếm theo cell: `grep -c '\[ \]'` = **8**, `grep -c '\[x\]'` = **0** → 8/8 action chưa làm sau 46 ngày. KHÔNG có field `follow_up` trong frontmatter → không auto-reset, không CRITICAL GAP theo protocol. [HIGH]
+- **🔴 Cấp dưỡng 11M tháng 8 QUÁ HẠN 17 ngày, chưa có bằng chứng trong vault.** Due day 10 hàng tháng (QĐ 575). Tính: 27 − 10 = **17 ngày** quá hạn. Vault chỉ ghi nhận lần chuyển 10/7 (11M cấp dưỡng + 6.2M học phí = 17.2M); không có entry/commit nào cho tháng 8. Action #8 "Tiếp tục đóng 11M ngày 10 tới (TUYỆT ĐỐI KHÔNG đóng 20M)" vẫn `[ ]`; Action #2 "Lưu bằng chứng: screenshot + biên lai 11M + 6.2M" cũng vẫn `[ ]`. Rủi ro: nếu ĐÃ chuyển mà chưa lưu biên lai → mất bằng chứng thực hiện nghĩa vụ trong tranh chấp thăm nom, đúng lúc Khanh đòi 20M/tháng (vượt QĐ 575). Cần Bố: (1) xác nhận đã chuyển 11M T8 (TUYỆT ĐỐI KHÔNG 20M); (2) chốt #2 lưu biên lai + screenshot exhibit A (KHÔNG xoá hội thoại) — hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/`** (đóng 03/07, QĐ 575/2026) → không còn field `follow_up`, skip follow_up check, KHÔNG reset, KHÔNG gắn CRITICAL GAP (đúng pitfall "case archived/closed"). Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận. [INFO]
+- **🟡 `050_Health_Log.md` mồ côi 87 ngày:** `last_updated: 2026-06-01` → 29 (01/06→30/06) + 31 (tháng 7) + 27 (01/08→27/08) = **87 ngày** không chạm; panel 11/06 chưa có can thiệp dinh dưỡng nào logged; workout logged = 0. Health baseline mù ngoài mảng ngủ. [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 49 ngày:** dòng cuối `2026-07-09,7h05,7.08,90,18,62.0,98,71`. Tính: 31 − 9 = 22 ngày (09/07→31/07) + 27 (01/08→27/08) = **49 ngày** không cập nhật, trong khi `.md` vẫn chạy tới 08-26. Thuộc quyền capture-sleep, cần Bố quyết: mở lại sync CSV hay khai tử file. [INFO]
+- **FLAGGED:** Daily_Pulse gap 69d · case STALE 46d + 8/8 `[ ]` · 11M T8 quá hạn 17d chưa có biên lai · triplicate 07-30 ×3 (28d) · CSV mồ côi 49d · Health_Log mồ côi 87d.
 
 ## 2026-08-26
 
