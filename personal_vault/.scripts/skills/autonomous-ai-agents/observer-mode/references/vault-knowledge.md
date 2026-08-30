@@ -13,10 +13,7 @@ vault/
 │   └── raw/                READ-ONLY: raw dumps, CSVs, PDFs, recipes/
 ├── _cases/active/          20 case files
 ├── _cases/closed/          Archive
-├── _inbox/                 tasks.md, CSVs, xlsx, ICS, photos
-├── _journal/               2026-05.md, 2026-06.md
 ├── _growth/                Knowledge capture: atomic files + _INDEX.md
-├── _ideas/                 Idea staging
 ├── _kilo/                  Kilo Code worktree config
 └── _private/               Private notes
 ```

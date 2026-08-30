@@ -23,7 +23,7 @@ Paths from SOUL.md §Quick Reference. Replace placeholders below:
 | Key | Path (from §Quick Reference) | Role | Write policy |
 |-----|-----|------|--------------|
 | `MEMORY_PATH` | See SOUL.md | **Reference** — read each session | ONLY written after `/compress-memory` + approve |
-| `RAW_MEMORY_PATH` | `{VAULT_ROOT}/_inbox/{profile}_memory_raw.md` | **Raw log** — append-only entries | Append when approved |
+| `RAW_MEMORY_PATH` | (removed — raw log abolished 2026-08-30) | **Raw log** — N/A | N/A |
 | `USER_PATH` | See SOUL.md `memories/USER.md` | **Profile** | Propose → approve → write |
 | `ARCHIVE_DIR` | `{VAULT_ROOT}/_archives/memory/` | **Backup** — old MEMORY before compress | Auto during step 1 |
 
@@ -42,7 +42,7 @@ Hermes does **NOT** auto-write MEMORY.md or USER.md. Every proposed write passes
 
 WRITE only when:
 1. **Direct command** — "lưu", "nhớ giùm", "ghi vào memory" → execute immediately.
-2. **Proposal on Git Commit** — propose lessons → approve → append to `{VAULT_ROOT}/_inbox/{profile}_memory_raw.md`.
+2. (removed — raw log abolished)
 3. **USER.md update** — new preference detected → propose → approve → write.
 4. **`/compress-memory`** — distills raw → proposes MEMORY.md edits → approve → WRITE.
 

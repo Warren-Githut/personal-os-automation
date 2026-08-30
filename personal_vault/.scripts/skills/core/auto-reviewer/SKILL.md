@@ -17,7 +17,7 @@ Call auto-reviewer IMMEDIATELY when ALL hold:
 - **(A)** Hermes just produced a deliverable artifact for Warren or the vault:
   - Report (health summary / finance review / legal timeline / weekly personal digest)
   - Dashboard / parser output
-  - New or edited `.md` in `personal_vault/` `_cases/` `_inbox/` `wiki/`
+  - New or edited `.md` in `personal_vault/` `_cases/` `wiki/`
 - **(B)** Artifact contains ≥1 of: a number (sleep hours / weight / money / %), OR a strategic conclusion / action recommendation (health plan, finance decision)
 - **(C)** The task used ≥3 tool calls
 

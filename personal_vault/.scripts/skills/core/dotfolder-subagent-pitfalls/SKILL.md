@@ -27,7 +27,7 @@ related_skills: ['reviewer-node', 'code-review-and-quality', 'test-driven-develo
 3. Nếu subagent VẪN claim file missing → orchestrator TỰ verify on disk (read_file / chạy script) và OWN findings. Subagent output là *suggestion*, không phải truth (theo `code-review-and-quality` Pitfall 2026-07-13).
 4. Khi file đổi nằm trong dotfolder → **ưu tiên orchestrator tự chạy 5-trục review trực tiếp** thay dispatch subagent blind.
 
-**Trigger mở rộng:** mọi file trong `vault/.*` (`.scripts/`, `.archives/`, `.accumulation/`, `.private/`, `._inbox/`, `._verify_tmp/`) đều blind với subagent. Luôn dẫn absolute path + verify trước.
+**Trigger mở rộng:** mọi file trong `vault/.*` (`.scripts/`, `.archives/`, `.accumulation/`, `.private/`, `._verify_tmp/`) đều blind với subagent. Luôn dẫn absolute path + verify trước.
 
 ### 1B. 🔴 MSYS PATH TRAP (cả main agent cũng dính)
 

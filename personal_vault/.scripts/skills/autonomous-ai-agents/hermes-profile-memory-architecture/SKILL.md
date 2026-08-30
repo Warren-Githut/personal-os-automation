@@ -200,7 +200,7 @@ For profiles connected to a vault, a pre_edit_checklist.md companion file enforc
 | **Profile-local** | `profiles/<name>/memories/MEMORY.md` | 2,200 chars (Hermes built-in limit) | Simple, single-profile, no vault |
 | **Vault-SSOT** | `vault/00_CORE_LOGIC/MEMORY.md` | **No limit** (markdown file) | Multi-profile, vault-centric, write governance |
 
-**In vault-SSOT mode:** MEMORY.md is a **reference** (read at session start), NOT a daily log. Raw lessons go to `_inbox/warren_memory_raw.md` and are distilled via `/compress-memory` (see § The Self-Evolving Memory Loop below). The profile copy (at `~/.hermes/profiles/<name>/MEMORY.md`) is auto-synced after each compress.
+**In vault-SSOT mode:** MEMORY.md is a **reference** (read at session start), NOT a daily log. (raw log abolished 2026-08-30) (see § The Self-Evolving Memory Loop below). The profile copy (at `~/.hermes/profiles/<name>/MEMORY.md`) is auto-synced after each compress.
 
 **🛑 Warren's hard requirement (2026-07-15): KEEP BOTH layers.** When asked to "optimize" or "dedupe" memory, do NOT recommend collapsing the built-in `MEMORY.md` + vault `WARREN_MEMORY.md` into a single SSOT. Warren explicitly *rejected* the "use built-in MEMORY.md as sole SSOT, retire WARREN_MEMORY.md" proposal — he wants the dual layer retained. The drift risk between them is accepted; the override rule (vault WARREN_MEMORY.md wins on conflict — see SOUL §2) handles disagreements. Encode "dual layer is intentional" as a non-negotiable in any memory-architecture proposal for this profile. Do not re-propose consolidation.
 
@@ -298,7 +298,7 @@ Ensure project context files reference correct vault paths, allowed folders, pro
 ## Boundaries: what I DON'T touch
 | Stay out of | Reason |
 |-------------|--------|
-| `_ideas/`, `_cases/`, `_tasks/`, `TODO_Kanban.md` | Personal domain |
+| `_cases/`, `_tasks/`, `TODO_Kanban.md` | Personal domain |
 | `10_PULSE/Daily_Pulse.md` | Personal journal |
 | `CONTEXT.md` | Ask before edit |
 | `30_KNOWLEDGE_BASE/raw/` | NEVER write (vault rule) |
@@ -347,7 +347,7 @@ Silent tracking during session (3 questions: worked? failed? rule?)
          └─ Has lessons → propose → Warren approves
                               │
                               ▼ append
-                         _inbox/warren_memory_raw.md  ◄── raw lessons
+                         (raw log abolished 2026-08-30)
                               │
                               ▼ /compress-memory (manual)
                          [consolidate + dedup + sharpen]
@@ -375,7 +375,7 @@ Then only WRITE when:
 | Path | Authority | Trigger | Action |
 |------|-----------|---------|--------|
 | **Direct command** | **Override** — highest priority | Warren says "lưu", "nhớ giùm", "ghi vào memory", "ghi thẳng vào MEMORY.md" | Execute immediately — do NOT propose first, do NOT route through end-of-session check |
-| **Git commit trigger** | Standard — **deterministic** | Warren runs `git commit`. Agent checks: any lessons tracked during session? | Proposes → Warren approves → append to `_inbox/warren_memory_raw.md`. No lessons → silent. **This replaces the vague 'end-of-session' trigger — 100% consistent per session.** |
+| **Git commit trigger** | Standard — **deterministic** | Warren runs `git commit`. Agent checks: any lessons tracked during session? | Proposes → Warren approves → append to `WARREN_MEMORY.md`. No lessons → silent. **This replaces the vague 'end-of-session' trigger — 100% consistent per session.** |
 | **USER.md update** | Standard | Agent detects new preference → proposes → approved | Writes to `vault/00_CORE_LOGIC/USER.md` |
 | **`/compress-memory`** | Batch | Manual command → distill → propose → approved | Overwrites `vault/00_CORE_LOGIC/MEMORY.md` after archive |
 
@@ -388,15 +388,15 @@ Then only WRITE when:
 
 | Situation | Action |
 |-----------|--------|
-| Agent just learned something useful | Silent track → propose at next git commit → `_inbox/warren_memory_raw.md` |
+| Agent just learned something useful | Silent track → propose at next git commit → `WARREN_MEMORY.md` |
 | Agent noticed a user preference | Propose USER.md update |
 | MEMORY.md getting stale or verbose | Run `/compress-memory` |
 | User corrects agent's behavior | Silent track → propose at next git commit → raw log |
-| User says "nhớ cái này" | Write directly to `_inbox/warren_memory_raw.md` |
+| User says "nhớ cái này" | Write directly to `WARREN_MEMORY.md` |
 
 ### Anti-Patterns
 
-- 🚫 MEMORY.md as daily log → it's a reference; raw lessons go to `_inbox/warren_memory_raw.md`
+- 🚫 MEMORY.md as daily log → it's a reference
 - 🚫 Skipping the 2-gate → bloat defeats learning
 - 🚫 Auto-writing without approval → undermines layer trust
 
@@ -597,7 +597,7 @@ For multi-profile setups with Mem0, a weekly cron is the most reliable approach.
 | Save pending list to vault file | Cron can't wait indefinitely; agent reads file on user reply |
 
 **Cron `attach_to_session` limitation:** The cron agent runs, produces output, and the session ends. Even with `attach_to_session=true`, the cron session cannot wait indefinitely for a user reply. The workaround:
-1. Cron scans + saves pending cleanup list to `vault/_inbox/mem0_pending_<profile>.json`
+1. (removed — inbox abolished)
 2. When the user replies "ok", the main agent (or a separate execute cron) reads the file and calls `mem0_delete`
 
 **PITFALL — Token syntax in cron prompts:** Hermes cron `terminal` runs bash (MSYS on Windows), NOT cmd.exe. Use `$TELEGRAM_BOT_TOKEN` (bash syntax), never `%TELEGRAM_BOT_TOKEN%` (Windows cmd syntax). The env var is available in cron context from `.env`. Do NOT hardcode the token path — use the env var directly.
@@ -669,7 +669,7 @@ When investigating whether 3 profiles share one Mem0 instance: check each profil
 5. TODAY.md (or equivalent) — daily snapshot
 6. pre_edit_checklist.md — read before any vault write this session
 7. git log --oneline -5 — recent commits
-8. Review queues — check _inbox/ for pending items
+8. Review queues — (none)
 9. MEMORY.md highlight — show top 3-5 relevant items → ask "cần gì?"
 ```
 

@@ -12,7 +12,7 @@ domain: "ops|trading|finance|..."
 # MEMORY — Hermes Reference Knowledge
 
 > **File này là REFERENCE — Hermes đọc đầu mỗi session để apply rules.**
-> Không ghi trực tiếp. Raw lessons log ở `_inbox/warren_memory_raw.md`.
+> (raw log abolished 2026-08-30)
 > Chỉ update sau `/compress-memory` + Warren approve.
 >
 > **Language:** Tiếng Việt (có dấu)
@@ -28,18 +28,18 @@ domain: "ops|trading|finance|..."
    - Điều gì worked? → ghi chú để propose
    - Điều gì failed? → ghi chú để propose
    - Rule nào rút ra? → ghi chú để propose
-3. **Cuối session / khi có lesson:** Hermes propose → Warren approve → **append vào `_inbox/warren_memory_raw.md`**
+3. **Cuối session / khi có lesson:** Hermes propose → Warren approve → **append vào `MEMORY.md`**
 
 ---
 
 ## Weekly Cycle (`/compress-memory`)
 
 1. **Archive** — copy MEMORY.md cũ → `vault/_archives/memory/MEMORY_YYYY-MM-DD.md`
-2. **Read** — đọc toàn bộ `_inbox/warren_memory_raw.md` + `MEMORY.md` hiện tại
+2. **Read** — đọc `MEMORY.md` hiện tại
 3. **Distill** — "Identify patterns across all logged lessons. Distill into sharper, more general rules. Delete anything superseded. Goal: fewer, better rules."
 4. **Propose** — show Warren bản draft MEMORY.md mới
 5. **Apply** — Warren OK → ghi đè `vault/00_CORE_LOGIC/MEMORY.md`
-6. **Clean raw** — clear `_inbox/warren_memory_raw.md` (hoặc archive)
+6. **Clean raw** — (skip — raw log abolished)
 7. **Push mem0** — hỏi Warren "có muốn push durable facts lên mem0 không?"
 8. **Sync** — copy MEMORY.md sang profile
 9. **Report** — "Đã distill X raw entries → Y rules. File cũ archived."

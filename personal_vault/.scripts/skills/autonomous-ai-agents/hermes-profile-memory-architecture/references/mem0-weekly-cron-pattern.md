@@ -35,7 +35,7 @@ Key sections every prompt needs:
 
 1. **Scan:** `mem0_list(page_size=100)`, apply MEM0 GATE criteria
 2. **Report format:** Per-profile header, numbered list, artifact/duplicate/stale tags
-3. **Reply handling:** Save pending list to `vault/_inbox/mem0_pending_cleanup.json`; process "ok"/"keep N" on next agent turn
+3. **Reply handling:** (removed — inbox abolished)
 4. **Silent when clean:** If 0 noise → "✅ [PROFILE] Mem0 sạch — N memories" (delete pending file if exists)
 5. **Reminder:** If no reply after 24h → 1 reminder only, no spam
 

@@ -15,7 +15,7 @@ Silent tracking during session (3 questions: worked? failed? rule?)
          └─ Has lessons → propose → Warren approves
                               │
                               ▼ append
-    _inbox/warren_memory_raw.md  ◄── raw lessons (append-only, newest on top)
+    (raw log abolished 2026-08-30)
          │
          ▼  /compress-memory
     [consolidate + dedup + sharpen]
@@ -35,12 +35,12 @@ Silent tracking during session (3 questions: worked? failed? rule?)
 
 | File | Role | Write frequency | Who triggers |
 |------|------|-----------------|--------------|
-| `_inbox/warren_memory_raw.md` | Raw lessons log | Per-session (append) | Git commit proposal → Warren OK |
+| (abolished 2026-08-30) | Raw lessons log | N/A | N/A |
 | `vault/00_CORE_LOGIC/<SSOT>.md` | Distilled reference | Per `/compress-memory` | Compress → Warren OK |
 | `vault/00_CORE_LOGIC/USER.md` | User profile | Per preference discovery | Agent detects → proposes → Warren OK |
 | `mem0` (Qdrant) | Durable vector facts | Per compress cycle | Compress → Warren OK → push selected entries |
 
-## Raw Log Format (`_inbox/warren_memory_raw.md`)
+## Raw Log Format (abolished 2026-08-30)
 
 Single file, append-only, newest on top:
 
@@ -78,13 +78,13 @@ Proposal format:
 → [Preferences] Warren muốn binary option trước multi-step workflow
 → [USER.md] Warren thích Hermes tự động check queue mà không hỏi
 
-Nếu OK: anh nói "ghi" — tôi append vào _inbox/warren_memory_raw.md hoặc update USER.md
+Nếu OK: anh nói "ghi" — tôi append vào MEMORY.md hoặc update USER.md
 ```
 
 ## `/compress-memory` Protocol
 
 1. **Archive** → copy SSOT file → `vault/_archives/memory/<SSOT>_YYYY-MM-DD.md`
-2. **Read** → đọc `_inbox/warren_memory_raw.md` + SSOT hiện tại
+2. **Read** → đọc SSOT hiện tại
 3. **Consolidate** → merge raw lessons, dedup, sharpen rules. Goal: fewer, better rules.
 4. **Propose** → show Warren draft SSOT
 5. **Apply** → Warren OK → ghi đè `vault/00_CORE_LOGIC/<SSOT>.md`
@@ -107,7 +107,7 @@ Nếu OK: anh nói "ghi" — tôi append vào _inbox/warren_memory_raw.md hoặc
 Warren runs manually any day:
 
 1. **Archive** — copy SSOT → `vault/_archives/memory/<SSOT>_YYYY-MM-DD.md` (archive BEFORE every rewrite)
-2. **Read** — đọc `_inbox/warren_memory_raw.md` + SSOT hiện tại
+2. **Read** — đọc SSOT hiện tại
 3. **Distill** — "Identify patterns across all logged lessons. Distill into sharper, more general rules. Delete anything superseded. Goal: fewer, better rules."
 4. **Propose** — show Warren draft SSOT mới
 5. **Apply** — Warren OK → ghi đè `vault/00_CORE_LOGIC/<SSOT>.md`
@@ -138,9 +138,9 @@ This pattern complements `mem0-cleanup-workflow.md` — mem0 is a downstream con
 
 ## Anti-Patterns
 
-- 🚫 Using SSOT as daily log — it's a reference; raw lessons go to `_inbox/warren_memory_raw.md`
+- 🚫 Using SSOT as daily log — it's a reference
 - 🚫 Skipping the 2-gate filter — bloat defeats the purpose of learning
 - 🚫 Syncing raw logs to profile — only the distilled SSOT travels
 - 🚫 Auto-writing without Warren approval — undermines trust in the memory layer
-- 🚫 Writing to SSOT directly via end-of-session — SSOT is for compress output only; raw goes to `_inbox/warren_memory_raw.md` (exception: Warren direct command explicitly says "ghi thẳng vào MEMORY.md")
+- 🚫 Writing to SSOT directly via end-of-session — SSOT is for compress output only (exception: Warren direct command explicitly says "ghi thẳng vào MEMORY.md")
 - 🚫 **Syncing markdown to `memories/MEMORY.md`** — the Hermes `memory` tool's backing file uses **§-delimited format**, not markdown. SSOT file has been renamed from `MEMORY.md` to `<NAME>_MEMORY.md` (e.g., `WARREN_MEMORY.md`) to prevent accidental collision. Sync step goes to `memories/<SSOT>_SYNC.md` — different path, same content, no drift.

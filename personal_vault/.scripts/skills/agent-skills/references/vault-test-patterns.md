@@ -56,7 +56,7 @@ def make_verdict(findings, metrics, test_case):
 SCHEMA_MAP = [
     ("node_modules", set(), "INFO"),                    # skip
     ("10_OPERATION_DATA", SOP_FIELDS, "MAJOR"),         # strict
-    ("_inbox", set(), "INFO"),                          # scratch
+    # ("_inbox", set(), "INFO"),                        # removed 2026-08-30
     ("00_CORE_LOGIC", {"name", "created"}, "MINOR"),
     ("", {"created"}, "MINOR"),                         # catch-all
 ]

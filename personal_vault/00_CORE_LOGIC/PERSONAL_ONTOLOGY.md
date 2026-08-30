@@ -45,15 +45,15 @@ domain: "personal"
 |---------|-------|--------|-------|
 | `pulse` | 12 | `10_PULSE/` | Daily/weekly pulse log (health/sleep/market) |
 | `tracking` | 9 | `10_PULSE/`, `_cases/` | Bảng theo dõi |
-| `log` | 4 | `10_PULSE/`, `_journal/` | Log ghi chép |
+| `log` | 4 | `10_PULSE/` | Log ghi chép |
 | `context` | 2 | `00_CORE_LOGIC/` | Context file (PERSONAL_CONTEXT) |
-| `journal` | 2 | `_journal/` | Nhật ký |
+| `journal` | 0 | (abolished 2026-08-30) | Nhật ký |
 | `insurance_summary` | 1 | `legal/` hoặc `docs/` | Tóm tắt bảo hiểm |
-| `guide` | 1 | `_inbox/` hoặc `docs/` | Hướng dẫn |
+| `guide` | 1 | `docs/` | Hướng dẫn |
 | `template` | 2 | `00_CORE_LOGIC/` | Template |
 | `user_profile` | 1 | `00_CORE_LOGIC/PERSONAL_USER.md` | Đối tượng (Warren profile) |
 | `ontology` | 1 | `00_CORE_LOGIC/PERSONAL_ONTOLOGY.md` | Schema guardrail (file này) |
-| `memory_raw` | 1 | `_inbox/_personal_memory_raw.md` | Append-only raw lessons log |
+| `memory_raw` | 0 | (abolished 2026-08-30) | Append-only raw lessons log |
 | `frozen_rules` | 1 | `00_CORE_LOGIC/ANCHORS.md` | Frozen rules SSOT (reviewer node load) |
 | `index` *(shared)* | 10 | `00_*_INDEX.md` | Registry / hub |
 | `reference` *(shared)* | 11 | `30_KNOWLEDGE_BASE/wiki/` | Tài liệu tham chiếu |
@@ -104,4 +104,4 @@ domain: "personal"
 | Date | Change | By |
 |------|--------|-----|
 | 2026-07-11 | Tạo PERSONAL_ONTOLOGY.md — personal-domain vocabulary (pulse/tracking/log/context/journal/insurance_summary/guide/template + shared index/reference/analysis/dashboard). Borrow ý ontology-constrained memory. Pair với STOCK_ONTOLOGY.md. | Hermes |
-| 2026-07-26 | Reconcile sau compress: thêm 4 type thực tế vào §2B — `user_profile` (PERSONAL_USER.md), `ontology` (file này), `memory_raw` (_personal_memory_raw.md), `frozen_rules` (ANCHORS.md). Drift đã bắt kịp. | Hermes |
+| 2026-07-26 | Reconcile sau compress: thêm 4 type thực tế vào §2B — `user_profile` (PERSONAL_USER.md), `ontology` (file này), `memory_raw` (abolished 2026-08-30), `frozen_rules` (ANCHORS.md). Drift đã bắt kịp. | Hermes |

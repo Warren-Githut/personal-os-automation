@@ -300,14 +300,14 @@ Hermes memory has two tiers serving different purposes:
 - `STOCK_USER.md` (not USER_STOCK.md), `PERSONAL_USER.md`
 - `STOCK_CONTEXT.md`, `PERSONAL_CONTEXT.md`
 - `STOCK_MEMORY.md` (kept as-is), `PERSONAL_MEMORY.md`
-- Same pattern for raw logs: `_inbox/_stock_profile_memory_raw.md`, `_inbox/_personal_memory_raw.md`
+- (raw logs abolished 2026-08-30)
 - Profile-prefixed pre_edit_checklist files: `stock-profile_pre_edit_checklist.md`, `personal_profile_pre_edit_checklist.md`
 
 **Prefix over subfolder** — files sit flat in `00_CORE_LOGIC/` with prefix, not in subfolders (`stock/USER.md`). Keeps paths shorter, search faster, avoids nesting complexity when only 2-4 files per profile.
 
 **Full paths required** — when referencing these files in SOUL.md, AGENTS.md, or plans, always use full path from vault root: `stock_vault/00_CORE_LOGIC/STOCK_USER.md` not `00_CORE_LOGIC/STOCK_USER.md`. Abbreviated paths cause confusion across profiles when both profiles reference the same folder.
 
-**⚠️ Enforcement pitfall:** Every SOUL.md, AGENTS.md, and MEMORY.md must use `stock_vault/00_CORE_LOGIC/...` consistently. A single abbreviated path (`00_CORE_LOGIC/` or `_inbox/` without `stock_vault/`) is enough to cause confusion. After any profile file restructure, grep for bare `00_CORE_LOGIC/` and `_inbox/` in all profile files to catch stragglers. In the 2026-07-01 restructure, 12+ abbreviated paths had to be fixed across 6 files.
+**⚠️ Enforcement pitfall:** Every SOUL.md, AGENTS.md, and MEMORY.md must use `stock_vault/00_CORE_LOGIC/...` consistently. A single abbreviated path (`00_CORE_LOGIC/` without `stock_vault/`) is enough to cause confusion. After any profile file restructure, grep for bare `00_CORE_LOGIC/` in all profile files to catch stragglers. In the 2026-07-01 restructure, 12+ abbreviated paths had to be fixed across 6 files.
 
 Interview to decide: does user need to see raw memory in Obsidian? If yes → vault-SSOT with distinct naming. If no → profile-only SSOT.
 
@@ -318,7 +318,7 @@ Interview to decide: does user need to see raw memory in Obsidian? If yes → va
 | Profile has dedicated vault | Vault SSOT + profile sync | Git versioning, clear SSOT, consistent with warren-profile |
 | Profile shares vault with another domain | **Two sub-options:** (interview to decide) | |
 | ¦-- Light: Profile-only SSOT | MEMORY.md stays in `profiles/<name>/memories/`; raw log + archives also profile-local | Avoid vault file scatter. No Obsidian visibility. |
-| ¦-- Heavy: Vault-SSOT w/ distinct naming | `vault/00_CORE_LOGIC/<PROFILE>_MEMORY.md` + `vault/_inbox/_<profile>_memory_raw.md` | Obsidian-visible, git-tracked. Requires distinct filenames (`STOCK_MEMORY.md`, `_stock_profile_memory_raw.md`). User must accept vault file scatter. |
+| ¦-- Heavy: Vault-SSOT w/ distinct naming | `vault/00_CORE_LOGIC/<PROFILE>_MEMORY.md` | Obsidian-visible, git-tracked. Requires distinct filenames (`STOCK_MEMORY.md`). User must accept vault file scatter. |
 | Profile has no vault access at all | Profile-only SSOT | No vault to write to; keep everything in profile |
 | Single profile, single vault | Vault SSOT + profile sync | All-in-one, cleanest |
 
@@ -466,7 +466,7 @@ Use `interview-me` to extract project context:
 
 # Phase 3 — BOUNDARIES (CRITICAL)
 ├── Which folders/files is this profile explicitly NOT allowed to write to?
-├── Common: _ideas/, _cases/, _tasks/, Daily_Pulse.md (personal journal), CONTEXT.md
+├── Common: _cases/, _tasks/, Daily_Pulse.md (personal journal), CONTEXT.md
 ├── GUESS: Preventing cross-domain write pollution is the #1 reason for profile isolation.
 └── Decision: Explicit DO NOT list. Include a catch-all: "All unlisted folders are read-only unless explicitly asked."
 

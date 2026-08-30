@@ -12,7 +12,7 @@ domain: "personal"
 # MEMORY — Personal Profile Reference Knowledge
 
 > **SSOT — Single Source of Truth duy nhất cho personal_profile.** Mọi thứ đều đọc từ file này.
-> Raw lessons log ở `personal_vault/_inbox/_personal_memory_raw.md` (append-only, newest đầu).
+> Raw log (`_personal_memory_raw.md`) đã bỏ 2026-08-30. SSOT = PERSONAL_MEMORY.md.
 > Chỉ update sau `/compress-personal-memory` + Warren approve.
 >
 > **Auto-sync (read-only):** Hermes đọc file này đầu mỗi session → apply rules.
@@ -23,7 +23,7 @@ domain: "personal"
 >
 > ⚠️ **VAULT-ONLY MEMORY — NO MEM0 (2026-07-09, áp dụng toàn bộ personal_profile):**
 > mem0 FAISS đã bỏ hoàn toàn. Không còn vector DB, không `memory` tool writes vào mem0.
-> - **SSOT duy nhất** = `_personal_memory_raw.md` (append-only, unlimited) → distill qua `/compress-personal-memory` → `PERSONAL_MEMORY.md`.
+> - **SSOT duy nhất** = `PERSONAL_MEMORY.md`. Raw log đã bỏ 2026-08-30.
 > - Hermes KHÔNG dùng mem0. Script `mem0_push_*.py` đã obsolete — ignore.
 > - ANTI-LOOP: KHÔNG loop xóa built-in memory để nhét content khác — built-in tự prune.
 >
@@ -44,7 +44,7 @@ domain: "personal"
    > Không nói ra. Không propose giữa chừng.
 3. **Cuối session — trigger = `git commit`:** Khi Warren commit (bất kỳ repo nào), Hermes check:
    - Có lessons ghi nhớ từ bước 2? → nếu có → propose cho Warren
-   - Warren nói "ghi" → append vào `personal_vault/_inbox/_personal_memory_raw.md` ngay
+   - Warren nói "ghi" → append vào `PERSONAL_MEMORY.md` ngay
    - Không có lessons → im lặng, không spam
    > Git commit là deterministic trigger duy nhất. 100% session có check, không bỏ sót, không hên xui.
 
@@ -55,11 +55,11 @@ domain: "personal"
 Warren chạy `/compress-personal-memory` ~1 lần/tháng hoặc sau 3-4 sessions:
 
 1. **Archive** — copy PERSONAL_MEMORY.md → `_archives/memory/PERSONAL_MEMORY_YYYY-MM-DD.md`
-2. **Read** — đọc `personal_vault/_inbox/_personal_memory_raw.md` + PERSONAL_MEMORY.md hiện tại
+2. **Read** — đọc PERSONAL_MEMORY.md hiện tại
 3. **Distill** — gộp raw lessons vào PERSONAL_MEMORY.md, xóa trùng, sharpen rules
 4. **Propose** — show Warren draft PERSONAL_MEMORY.md mới
 5. **Apply** — Warren OK → ghi đè `00_CORE_LOGIC/PERSONAL_MEMORY.md`
-6. **Clean raw** — clear `personal_vault/_inbox/_personal_memory_raw.md`
+6. **Clean raw** — (skip — raw log abolished)
 7. **Ontology reconcile** — scan toàn vault `type:` values + cây folder vs `00_CORE_LOGIC/PERSONAL_ONTOLOGY.md` (personal-domain types) → diff → propose node type/edge mới hoặc drift → Warren OK → update PERSONAL_ONTOLOGY.md + ghi `## 🔄 Reconciliation Log`. (Borrow từ bài ontology-constrained memory: schema phải scan định kỳ để không lệch thực tế.)
 8. **Report** — "Đã distill X raw entries → Y rules. Ontology reconciled (N diff). Archive tại _archives/memory/."
 > (bỏ bước Push mem0 — vault-only, không dùng mem0.)
@@ -90,7 +90,7 @@ Mọi proposed write phải qua **2 gates**:
 
 Chỉ WRITE khi:
 1. **Direct command** — Warren nói "lưu", "nhớ giùm", "ghi vào memory" → execute ngay
-2. **End-of-session proposal** — Hermes proposes lessons → Warren approves → **append vào `personal_vault/_inbox/_personal_memory_raw.md`**
+2. **End-of-session proposal** — Hermes proposes lessons → Warren approves → **append vào `PERSONAL_MEMORY.md`**
 3. **PERSONAL_USER.md update** — Hermes phát hiện preference mới → propose → Warren approve → ghi
 4. **`/compress-personal-memory`** — distills raw → proposes PERSONAL_MEMORY.md edits → Warren approve → WRITE (vault-only, không mem0)
 
@@ -100,7 +100,7 @@ Chỉ WRITE khi:
 
 *Cách Warren muốn mọi thứ vận hành trong personal context. Hermes tuân thủ mặc định.*
 
-- **[2026-07-09] Vault-only memory model:** SSOT = `_personal_memory_raw.md` → distill → `PERSONAL_MEMORY.md`. mem0 FAISS đã bỏ. Built-in `memory` tool = cache tạm (2200 cap), Hermes tự prune, không phải SSOT. KHÔNG dùng mem0.
+- **[2026-07-09] Vault-only memory model:** SSOT = `PERSONAL_MEMORY.md`. mem0 FAISS đã bỏ. Raw log (`_personal_memory_raw.md`) đã bỏ 2026-08-30. Built-in `memory` tool = cache tạm (2200 cap), Hermes tự prune, không phải SSOT. KHÔNG dùng mem0.
 - **[2026-07-09] Agent surface = Hermes Desktop ONLY.** Kilo Code / Cursor retired triệt để (không git). Đã rửa: 3× auth.json.corrupt, 2× auth.json live (xóa block kilocode), Personal_OS/_kilo folder, 9 commands/skills reference, SOUL/WARREN_MEMORY/CONTEXT/weekly_briefs_log. Giữ nguyên: state-snapshots, cron/output, sessions (history/rollback).
 - **[2026-07-03] Divorce finalized** — QĐ 575/2026/QĐST-HNGĐ (25/6/2026). Cấp dưỡng GG 11M/tháng, ngày 10 DL. GG ở với Khanh. Warren có quyền thăm nom. Calendar recurring đã set.
 - **[2026-07-28] Skill auto-write UNLOCKED:** Bố duyệt con tự ghi skill + built-in memory (config `skills.write_approval`/`memory.write_approval` → false). HARD RULE giữ: trước `git commit`/`git push` bất kỳ skill/memory, Hermes PHẢI liệt kê toàn bộ changes → Bố approve. Gate không tắt.

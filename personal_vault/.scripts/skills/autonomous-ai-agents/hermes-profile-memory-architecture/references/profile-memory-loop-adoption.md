@@ -25,7 +25,7 @@ Every adoption requires these decisions, surfaced via `interview-me`:
 | **Components** | Full 4: daily cycle + compress + governance + 4 sections | Full 4, but **per-session** (not daily), **monthly** compress |
 | **Language** | Tiếng Việt có dấu | Override profile default — use Tiếng Việt for memory files |
 | **SSOT location** | `vault/00_CORE_LOGIC/MEMORY.md` | Same pattern: `vault/00_CORE_LOGIC/STOCK_MEMORY.md` |
-| **Raw log location** | `vault/_inbox/warren_memory_raw.md` | Same pattern but with **profile prefix** to avoid collision |
+| **Raw log location** | (abolished 2026-08-30) | Same pattern but with **profile prefix** to avoid collision |
 | **Profile cache** | `profile/MEMORY.md` (sync from vault) | Same: `profiles/stock-profile/memories/MEMORY.md` |
 | **Sync direction** | Vault → Profile | Same (SSOT is vault, cache is profile) |
 | **Observation** | Within vault (Obsidian visible) | YES — raw log in vault so user sees it |
@@ -34,7 +34,7 @@ Every adoption requires these decisions, surfaced via `interview-me`:
 
 When two profiles share a vault (e.g., stock-profile + personal-profile both use `personal_vault`):
 
-- **Raw logs must be prefixed**: `_stock_profile_memory_raw.md` vs `_personal_memory_raw.md`
+- (raw logs abolished 2026-08-30)
 - **MEMORY.md must be named distinctly**: `STOCK_MEMORY.md` vs `MEMORY.md`
 - **Archive**: `_archives/memory/` is shared — use distinct filenames (e.g., `STOCK_MEMORY_2026-06-28.md`)
 
