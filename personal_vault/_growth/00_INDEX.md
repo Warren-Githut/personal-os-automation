@@ -3,7 +3,7 @@ domain: meta
 type: index
 status: active
 created: 2026-05-29
-last_updated: 2026-08-16
+last_updated: 2026-08-30
 tags: ["meta", "knowledge-index"]
 ---
 
@@ -50,15 +50,14 @@ status: active           # active / reviewed / superseded
 
 ---
 
-## File Index
 
-| # | File | Domain | Tags | Nguồn | 1 dòng mô tả | Ngày tạo |
 |---|------|--------|------|-------|-------------|----------|
-| 1 | COMMUNICATION_SKILL_WITH_GG.md | parenting | communication, parenting, gg, family | social (parenting sketch series) | Thay câu "How was school?" bằng 4 câu hỏi mở kết nối với con | 2026-08-16 |
+| 1 | ARTICULATION_TIPS.md | personal | communication, articulation, speaking, public-speaking, clarity | youtube (Vinh Giang) | 5 speaking tricks to stop rambling — nói rõ ràng, không dài dòng | 2026-08-30 |
+| 2 | COMMUNICATION_SKILL_WITH_GG.md | parenting | communication, parenting, gg, family | social (parenting sketch series) | Thay câu "How was school?" bằng 4 câu hỏi mở kết nối với con | 2026-08-16 |
 
 ---
 
 ## Stats
 
-- **Tổng files:** 1
-- **Lần cuối cập nhật:** 2026-08-16
+- **Tổng files:** 2
+- **Lần cuối cập nhật:** 2026-08-30
