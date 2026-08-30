@@ -2,12 +2,25 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-08-27
+last_updated: 2026-08-30
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-08-30
+
+- **PROCESSED: `/process-notes` cron (30/08).** Inbox `_inbox/01_unprocessed/` trống (0 items), thư mục `stock_pending/` KHÔNG tồn tại (0 JSONs) → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL (AppData == vault `.scripts/skills/productivity/personal-process-notes`), không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 72 ngày:** entry cuối `## 2026-06-19`. Tính từng dòng: 30 − 19 = 11 ngày (19/06→30/06); + 31 ngày (tháng 7); + 30 ngày (01/08→30/08); tổng = 11 + 31 + 30 = **72 ngày**. Regression tiếp diễn: 69d (27/08) → **72d hôm nay** (tăng 3d do 3 ngày trôi qua từ cycle trước). Kênh Daily_Pulse đứt từ giữa tháng 6; data sức khoẻ vẫn chảy qua `051_Sleep_Log.md` (mới nhất 08-28) nên không mất data, chỉ mất capture 4 domain còn lại (GG, Money, Mind, People). [HIGH]
+- **🟢 Health log GREEN:** entry cuối `051_Sleep_Log.md` = `### 2026-08-28` (Sleep 7h55 | Quality 90 | Fasting 20h | 62kg | BP 97/72). Gap = 30 − 28 = **2 ngày < ngưỡng 3** → KHÔNG flag. Verify D-1: commit `d383de2` lúc `2026-08-29 07:14` ghi nhãn `2026-08-28` → nhãn strictly earlier than commit date ✓ LEGIT, không nhãn-tương-lai. Không byte-copy: 08-28 = 7h55|90|97/72 khác 08-27 (xác nhận từ commit trước). Frontmatter `last_updated` = 2026-08-29 không lag nhãn mới nhất ✓. [HIGH]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 31 ngày.** Dup scan `grep '^### ' | sort | uniq -c`: chỉ `2026-07-30` = 3, mọi ngày khác unique. Tính ngày tồn: 31 − 30 = 1 (30/07→31/07) + 30 (01/08→30/08) = **31 ngày**. Thuộc quyền `capture-sleep`; hard rule "chỉ đọc, KHÔNG ghi Sleep_Log" → KHÔNG tự sửa. Cần Bố xoá 2 bản trùng, giữ 1. [HIGH]
+- **🔴 ESCALATION: Active case STALE 49 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** `status: OPEN`, mở 07-12, `last_updated: 2026-07-12`. Tính từng dòng: 31 − 12 = 19 ngày (12/07→31/07) + 30 ngày (01/08→30/08) = **49 ngày** chưa cập nhật (46d cycle trước + 3d). Checklist dạng BẢNG, đếm theo cell: `grep -c '\[ \]'` = **8**, `grep -c '\[x\]'` = **0** → 8/8 action chưa làm sau 49 ngày. KHÔNG có field `follow_up` trong frontmatter → không auto-reset, không CRITICAL GAP theo protocol. [HIGH]
+- **🔴 Cấp dưỡng 11M tháng 8 QUÁ HẠN 20 ngày, chưa có bằng chứng trong vault.** Due day 10 hàng tháng (QĐ 575). Tính: 30 − 10 = **20 ngày** quá hạn. Vault chỉ ghi nhận lần chuyển 10/7 (11M cấp dưỡng + 6.2M học phí = 17.2M); không có entry/commit nào cho tháng 8. Action #8 "Tiếp tục đóng 11M ngày 10 tới (TUYỆT ĐỐI KHÔNG đóng 20M)" vẫn `[ ]`; Action #2 "Lưu bằng chứng: screenshot + biên lai 11M + 6.2M" cũng vẫn `[ ]`. Rủi ro: nếu ĐÃ chuyển mà chưa lưu biên lai → mất bằng chứng thực hiện nghĩa vụ trong tranh chấp thăm nom, đúng lúc Khanh đòi 20M/tháng (vượt QĐ 575). Cần Bố: (1) xác nhận đã chuyển 11M T8 (TUYỆT ĐỐI KHÔNG 20M); (2) chốt #2 lưu biên lai + screenshot exhibit A (KHÔNG xoá hội thoại) — hạn "Ngay". [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/`** (đóng 03/07, QĐ 575/2026) → không còn field `follow_up`, skip follow_up check, KHÔNG reset, KHÔNG gắn CRITICAL GAP (đúng pitfall "case archived/closed"). Resolution: thuận tình ly hôn, GG ở với mẹ, Warren cấp dưỡng 11M/tháng ngày 10, quyền thăm nom được công nhận. [INFO]
+- **🟡 `050_Health_Log.md` mồ côi 90 ngày:** `last_updated: 2026-06-01` → 29 (01/06→30/06) + 31 (tháng 7) + 30 (01/08→30/08) = **90 ngày** không chạm; panel 11/06 chưa có can thiệp dinh dưỡng nào logged; workout logged = 0. Health baseline mù ngoài mảng ngủ. [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 52 ngày:** dòng cuối `2026-07-09,7h05,7.08,90,18,62.0,98,71`. Tính: 31 − 9 = 22 ngày (09/07→31/07) + 30 (01/08→30/08) = **52 ngày** không cập nhật, trong khi `.md` vẫn chạy tới 08-28. Thuộc quyền capture-sleep, cần Bố quyết: mở lại sync CSV hay khai tử file. [INFO]
+- **FLAGGED:** Daily_Pulse gap 72d · case STALE 49d + 8/8 `[ ]` · 11M T8 quá hạn 20d chưa có biên lai · triplicate 07-30 ×3 (31d) · CSV mồ côi 52d · Health_Log mồ côi 90d.
 
 ## 2026-08-27
 
