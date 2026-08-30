@@ -37,23 +37,13 @@ SLEEP_LOG = VAULT_ROOT / "10_PULSE" / "051_Sleep_Log.md"
 GSHEET_ID = "1ZtIocc_Ic1z-tO1JGd4ZLnRB_7ZHHkvpJ5emaWJyeEE"
 GSHEET_TAB = "W-capture-sleep"
 
-def _find_google_api_script() -> Path | None:
-    candidates = [
-        os.environ.get("HERMES_HOME", ""),
-        os.path.expanduser("~/.hermes"),
-        "C:/Users/khoans/AppData/Local/hermes",
-    ]
-    for base in candidates:
-        if not base:
-            continue
-        p = Path(base) / "skills" / "productivity" / "google-workspace" / "scripts" / "google_api.py"
-        if p.exists():
-            return p
-    return None
+# Service Account key path (direct SA auth — no OAuth token refresh issues)
+GSHEET_SA_PATH = VAULT_ROOT / "scripts" / "config" / "gsheet_sa.json"
+
 
 # Regex: "Health log june 9: :hospital: Health: 7h15 | quality 93 | 63kg | 16h"
 SLEEP_PATTERN = re.compile(
-    r"Health log\s+(\w+\s+\d+).*?Health:\s*([\dh]+)\s*\|\s*quality\s*(\d+)\s*\|\s*([\d.]+kg)\s*\|\s*(\d+h)(?:\s*\|\s*Huyết áp:\s*([\d/]+))?",
+    r"Health log\s+(\w+\s+\d+).*?Health:\s*([\dh]+)\s*\|?\s*quality\s*(\d+)\s*\|\s*([\d.]+kg)\s*\|\s*(\d+h)(?:\s*\|\s*Huyết áp:\s*([\d/]+))?",
     re.IGNORECASE
 )
 
@@ -262,19 +252,16 @@ def append_to_sleep_log(entries: list[str]) -> int:
 def sync_to_gsheet(send_notify: bool = True) -> int:
     """Sync sleep log entries to Google Sheet tab 'W-capture-sleep' (idempotent).
 
-    Reads existing dates from the sheet, appends only rows whose date is missing.
-    Requires the --sync-gsheet flag at runtime (confirmation gate — Hermes only
-    invokes this when Warren explicitly approves a GSheet write).
+    Uses Service Account key directly — no OAuth token refresh issues.
 
     Returns number of rows appended.
     """
-    gapi = _find_google_api_script()
-    if not gapi:
-        print("⚠️  google_api.py not found, skipping GSheet sync")
+    if not GSHEET_SA_PATH.exists():
+        print("⚠️  SA key not found, skipping GSheet sync")
         return 0
 
     try:
-        existing = _gsheet_read_dates(gapi)
+        existing = _gsheet_read_dates_sa()
     except Exception as e:
         print(f"⚠️  GSheet read failed: {e}")
         return 0
@@ -288,7 +275,7 @@ def sync_to_gsheet(send_notify: bool = True) -> int:
 
     values = [_entry_to_row(e) for e in rows_to_add]
     try:
-        _gsheet_append(gapi, values)
+        _gsheet_append_sa(values)
     except Exception as e:
         print(f"⚠️  GSheet append failed: {e}")
         return 0
@@ -332,48 +319,57 @@ def _entry_to_row(e: dict) -> list:
             e["fasting_h"], e["weight_kg"], e["bp_systolic"], e["bp_diastolic"]]
 
 
-def _gsheet_read_dates(gapi: Path) -> set:
-    cmd = [sys.executable, str(gapi), "sheets", "get", GSHEET_ID, f"'{GSHEET_TAB}'!A:A"]
-    out = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-    if out.returncode != 0:
-        raise RuntimeError(out.stderr or out.stdout)
-    data = json.loads(out.stdout)
+def _gsheet_service():
+    """Build Sheets service using Service Account key."""
+    from google.oauth2.service_account import Credentials
+    from googleapiclient.discovery import build
+    creds = Credentials.from_service_account_file(
+        str(GSHEET_SA_PATH),
+        scopes=["https://www.googleapis.com/auth/spreadsheets"],
+    )
+    return build("sheets", "v4", credentials=creds)
+
+
+def _gsheet_read_dates_sa() -> set:
+    service = _gsheet_service()
+    result = (
+        service.spreadsheets()
+        .values()
+        .get(spreadsheetId=GSHEET_ID, range=f"'{GSHEET_TAB}'!A:A")
+        .execute()
+    )
+    values = result.get("values", [])
     dates = set()
-    for row in data:
+    for row in values:
         if row and row[0] and row[0] != "date":
             dates.add(str(row[0]))
     return dates
 
 
-def _gsheet_append(gapi: Path, values: list) -> None:
-    payload = json.dumps(values)
-    cmd = [sys.executable, str(gapi), "sheets", "append", GSHEET_ID,
-           f"'{GSHEET_TAB}'!A:H", "--values", payload]
-    out = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-    if out.returncode != 0:
-        raise RuntimeError(out.stderr or out.stdout)
+def _gsheet_append_sa(values: list) -> None:
+    service = _gsheet_service()
+    body = {"values": values}
+    (
+        service.spreadsheets()
+        .values()
+        .append(
+            spreadsheetId=GSHEET_ID,
+            range=f"'{GSHEET_TAB}'!A:H",
+            valueInputOption="USER_ENTERED",
+            body=body,
+        )
+        .execute()
+    )
 
 
 # ============================================================================
 # PASTE / INBOX PROCESSING
 # ============================================================================
 
-def _ask_sync_gsheet() -> bool:
-    """Prompt Warren for GSheet sync confirmation. Returns True if approved."""
-    try:
-        ans = input("\n🔄 Sync GSheet (W-capture-sleep)? Gõ 'ok' để đồng bộ, hoặc Enter để bỏ qua: ").strip().lower()
-    except EOFError:
-        # Non-interactive context (piped input) — default to NO sync, safe.
-        print("   (non-interactive: skip GSheet sync)")
-        return False
-    if ans in ("ok", "yes", "y", "đồng ý", "dong bo"):
-        return True
-    return False
-
-
 def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False) -> int:
     """Process direct paste input. Returns number of entries added.
-    After writing to vault, prompts for GSheet sync confirmation."""
+    After writing to vault, auto-syncs to GSheet if SA key is available.
+    """
     print("📋 Processing paste input...")
     parsed_logs = parse_all_sleep_logs(text)
 
@@ -409,17 +405,14 @@ def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False
     count = append_to_sleep_log(new_entries)
     print(f"✅ Vault updated: +{count} entry(ies)")
 
-    if sync_gsheet:
-        synced = sync_to_gsheet(send_notify)
-        print(f"   GSheet: +{synced} row(s)" if synced else "   GSheet: already up-to-date")
-    elif sys.stdin.isatty() and not os.environ.get('HERMES_AGENT'):
-        # Real interactive terminal (not Hermes): ask the user.
-        if _ask_sync_gsheet():
-            synced = sync_to_gsheet(send_notify)
-            if synced:
-                print(f"   GSheet: +{synced} row(s)")
+    # Auto-sync to GSheet (SA key required)
+    synced = sync_to_gsheet(send_notify)
+    if synced:
+        print(f"   GSheet: +{synced} row(s)")
+    elif GSHEET_SA_PATH.exists():
+        print("   GSheet: already up-to-date")
     else:
-        print("   GSheet: not requested (Hermes non-interactive run — pass --sync-gsheet to sync)")
+        print("   GSheet: SA key not found, skip sync")
 
     if send_notify and count > 0:
         send_telegram(f"✅ Added {count} sleep log(s) from paste")
@@ -457,7 +450,7 @@ def process_file(f: Path, log_content: str) -> list[str]:
 
 def process_inbox(send_notify: bool = True, sync_gsheet: bool = False) -> int:
     """Process all health files in inbox.
-    After writing to vault, prompts for GSheet sync confirmation."""
+    After writing to vault, auto-syncs to GSheet if SA key is available."""
     INBOX_PROCESSED.mkdir(parents=True, exist_ok=True)
 
     health_files = list(INBOX_UNPROCESSED.glob("*health*.md"))
@@ -481,16 +474,14 @@ def process_inbox(send_notify: bool = True, sync_gsheet: bool = False) -> int:
     count = append_to_sleep_log(all_new_entries)
     print(f"✅ Vault updated: +{count} entry(ies)")
 
-    if sync_gsheet:
-        synced = sync_to_gsheet(send_notify)
-        print(f"   GSheet: +{synced} row(s)" if synced else "   GSheet: already up-to-date")
-    elif sys.stdin.isatty() and not os.environ.get('HERMES_AGENT'):
-        if _ask_sync_gsheet():
-            synced = sync_to_gsheet(send_notify=True)
-            if synced:
-                print(f"   GSheet: +{synced} row(s)")
+    # Auto-sync to GSheet (SA key required)
+    synced = sync_to_gsheet(send_notify)
+    if synced:
+        print(f"   GSheet: +{synced} row(s)")
+    elif GSHEET_SA_PATH.exists():
+        print("   GSheet: already up-to-date")
     else:
-        print("   GSheet: not requested (Hermes non-interactive run — pass --sync-gsheet to sync)")
+        print("   GSheet: SA key not found, skip sync")
 
     return count
 
