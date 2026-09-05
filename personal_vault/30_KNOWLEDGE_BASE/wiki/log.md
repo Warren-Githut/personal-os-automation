@@ -2,12 +2,25 @@
 domain: meta
 type: log
 status: active
-last_updated: 2026-09-04
+last_updated: 2026-09-05
 tags:
   - meta
 ---
 
 # Log
+
+## 2026-09-05
+
+- **PROCESSED: `/process-notes` cron (05/09).** Inbox `_inbox/01_unprocessed/` KHÔNG tồn tại, `stock_pending/` KHÔNG tồn tại → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL, không cần sync. [INFO]
+- **🔴 Daily_Pulse gap 78 ngày:** entry cuối `## 2026-06-19`. Tính: 30 − 19 = 11 (19/06→30/06) + 31 (tháng 7) + 31 (01/08→31/08) + 5 (01/09→05/09) = **78 ngày**. Regression tiếp diễn: 77d (04/09) → **78d hôm nay**. [HIGH]
+- **🟢 Health log GREEN:** entry cuối `051_Sleep_Log.md` = `### 2026-09-03` (Sleep 7h00 | Quality 85 | Fasting 20h | 62kg | BP 97/72). Gap = 5 − 3 = **2 ngày < ngưỡng 3** → KHÔNG flag. Verify D-1: commit `61161c3` lúc `2026-09-04 09:12` ghi nhãn `2026-09-03` → nhãn strictly earlier than commit date ✓ LEGIT. [HIGH]
+- **🔴 Triplicate `### 2026-07-30` (×3) VẪN CHƯA FIX — 37 ngày.** Dup scan: chỉ `2026-07-30` = 3, mọi ngày khác unique. Tính: 31 − 30 = 1 (30/07→31/07) + 31 (01/08→31/08) + 5 (01/09→05/09) = **37 ngày**. Thuộc quyền `capture-sleep`, KHÔNG tự sửa. [HIGH]
+- **🔴 ESCALATION: Active case STALE 55 ngày — `_cases/active/legal_quyen_tham_nom_GG.md`.** `status: OPEN`, mở 07-12, `last_updated: 2026-07-12`. Tính: 31 − 12 = 19 (12/07→31/07) + 31 (01/08→31/08) + 5 (01/09→05/09) = **55 ngày** chưa cập nhật. Checklist dạng BẢNG: `grep -c '\\[ \\]'` = **8**, `grep -c '\\[x\\]'` = **0** → 8/8 action chưa làm sau 55 ngày. KHÔNG có field `follow_up` → không auto-reset. [HIGH]
+- **🔴 Cấp dưỡng 11M tháng 8 QUÁ HẠN 26 ngày, chưa có bằng chứng trong vault.** Due day 10 hàng tháng (QĐ 575). Tính: 31 − 10 = 21 (10/08→31/08) + 5 (01/09→05/09) = **26 ngày** quá hạn. Tháng 9 due Sep 10 → còn 5 ngày nữa mới đến hạn. Vault chỉ ghi nhận lần chuyển 10/7; không có entry/commit nào cho tháng 8. Action #8 vẫn `[ ]`, Action #2 vẫn `[ ]`. Cần Bố: (1) xác nhận đã chuyển 11M T8; (2) lưu biên lai + screenshot. [HIGH]
+- **📌 Case `legal_divorce_court_GG_access.md` ở `_cases/closed/`** → skip follow_up check, KHÔNG reset, KHÔNG CRITICAL GAP. [INFO]
+- **🟡 `050_Health_Log.md` mồ côi 96 ngày:** `last_updated: 2026-06-01` → 29 + 31 + 31 + 5 = **96 ngày** không chạm. [INFO]
+- **🟡 `051_Sleep_Log.csv` mồ côi 58 ngày:** dòng cuối `2026-07-09,7h05,7.08,90,18,62.0,98,71`. Tính: 31 − 9 = 22 (09/07→31/07) + 31 (01/08→31/08) + 5 (01/09→05/09) = **58 ngày**. [INFO]
+- **FLAGGED:** Daily_Pulse gap 78d · case STALE 55d + 8/8 `[ ]` · 11M T8 quá hạn 26d · triplicate 07-30 ×3 (37d) · CSV mồ côi 58d · Health_Log mồ côi 96d.
 
 ## 2026-09-04
 
