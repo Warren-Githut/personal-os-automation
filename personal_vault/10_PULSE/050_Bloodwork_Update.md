@@ -4,7 +4,7 @@ type: pulse
 status: active
 last_updated: 2026-08-05
 report_dates: [2026-08-05, 2026-06-11, 2026-03-18, 2026-01-13, 2025-08-25, 2025-07-29, 2025-05-25, 2025-04-19, 2025-04-13, 2025-03-06, 2025-02-07, 2024-01-22]
-dashboard: ../30_KNOWLEDGE_BASE/wiki/02_Health/aa_Bloodwork_Health_Baseline/001_Bloodwork_Dashboard.html
+dashboard: "file:///C:/Users/khoans/Documents/Personal_OS/personal_vault/30_KNOWLEDGE_BASE/wiki/02_Health/aa_Bloodwork_Health_Baseline/001_Bloodwork_Dashboard.html"
 ---
 
 # 050 — Bloodwork Update
