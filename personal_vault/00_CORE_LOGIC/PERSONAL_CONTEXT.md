@@ -42,7 +42,7 @@ last_updated: 2026-08-17
 - Height / Weight: 171cm / **62kg** | BMI ~21.2 (verified 17/08/2026 — 62kg khoá **33 entry liên tiếp, 14/07–15/08** trong `10_PULSE/051_Sleep_Log.md`; mốc "27/07" ghi ngày 10/08 là sai, streak bắt đầu từ 14/07)
 - Resting HR / BP: BP 97/71–72 (dải quan sát 6 ngày W33, bình thường) | Resting HR _(TODO)_
 - Conditions / allergies: None known
-- Last bloodwork date: 2026-06-11 — LDL 4.50 / ApoB 120 (⚠️ **67 ngày** chưa có can thiệp nào ghi nhận; `050_Health_Log.md` chưa chạm **77 ngày**, từ 01/06)
+- Last bloodwork date: 2026-08-05 — LDL 3.94 / ApoB 99 (✅ đã cập nhận từ PDF 26020536566; `050_Bloodwork_Update.md` đã log)
 - Workout cadence target: _(TODO — thực tế logged = 0)_
 - Daily habit: Intermittent fasting — **20h/ngày, 6/6 ngày capture tuần W33 (10–15/08)**, khoá liên tục từ W32 (leo thang từ 18h; eating window thu hẹp so với 16:8 gốc)
 

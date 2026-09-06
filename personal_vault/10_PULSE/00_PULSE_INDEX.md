@@ -29,7 +29,7 @@ refresh_cadence: session_start + on every pulse append
 | 022 | `022_VNStock_Daily_Outlook.md` | trading | Daily | Daily VN stock news headlines from VnExpress RSS | 2026-06-04 |
 | 023 | `023_VNStock_Sector.md` | trading | On-demand | Sector narratives tracking | 2026-06-24 |
 | 024 | `024_VNStock_Index_Events.md` | trading | On-demand | Index rebalancing & market structure events | 2026-07-02 |
-| 050 | `050_Health_Log.md` | health | On-demand | Health metrics, weekly check-in, body signals | 2026-06-01 |
+| 050 | `050_Bloodwork_Update.md` | health | On-demand | Bloodwork results from DIAG Lab (newest on top) | 2026-08-05 |
 | — | `Daily_Pulse.md` | journal | Daily | 5 bullets/day — all domains | 2026-06-06 |
 | — | `weekly_connections_log.md` | meta | Weekly | Cross-domain connections | 2026-05-29 |
 | — | `Weekly_Synthesis.md` | meta | Weekly | 7-day pulse → permanent knowledge extraction | 2026-06-06 |
@@ -53,7 +53,8 @@ refresh_cadence: session_start + on every pulse append
 | Nếu cần… | Thì mở… |
 |-----------|---------|
 | Daily reflection, 5 bullets | `Daily_Pulse.md` |
-| Health metrics, sleep log | `050_Health_Log.md`, `051_Sleep_Log.md` |
+| Health metrics, bloodwork | `050_Bloodwork_Update.md` |
+| Sleep log | `051_Sleep_Log.md` |
 | VN stock pulse | `020_VNStock_Weekly_Outlook.md` |
 | Cross-domain synthesis | `weekly_connections_log.md`, `Weekly_Synthesis.md` |
 | Weekly review | `Weekly_Synthesis.md` |

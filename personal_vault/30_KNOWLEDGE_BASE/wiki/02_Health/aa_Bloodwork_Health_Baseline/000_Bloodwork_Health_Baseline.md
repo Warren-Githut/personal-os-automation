@@ -24,40 +24,41 @@ last_updated: 2026-07-19
 - Workout cadence: _(TODO — điền khi có routine ổn định)_
 
 ## Trục đường huyết
-| Date | HbA1c | Glucose đói | HOMA-IR | Flag |
-|---|---|---|---|---|
-| 2025-04-13 | 5.6% | — | — | 🟡 cao nhất, sát ngưỡng |
-| 2025-08-25 | 5.4% | — | — | ✅ |
-| 2026-01-13 | 5.5% | 4.91 mmol/L | 1.03 | ✅ HOMA-IR xuất sắc |
+|| Date | HbA1c | Glucose đói | HOMA-IR | Flag |
+||---|---|---|---|---|
+|| 2026-08-05 | 5.5% | 5.43 mmol/L | — | ✅ bình thường |
+|| 2026-01-13 | 5.5% | 4.91 mmol/L | 1.03 | ✅ HOMA-IR xuất sắc |
+|| 2025-08-25 | 5.4% | — | — | ✅ |
+|| 2025-04-13 | 5.6% | — | — | 🟡 cao nhất, sát ngưỡng |
 
 ## Trục mỡ máu
-| Date | LDL | Chol TP | HDL | Trig | TG/HDL | ApoB | Flag |
-|---|---|---|---|---|---|---|
-| 2026-01-13 | 4.17 | 6.13 | 1.73 | 0.50 | 0.29 | — | 🔴 LDL cao |
-| 2026-03-18 | 3.49 | 5.41 | 1.74 | 0.40 | 0.23 | — | 🟡 cải thiện |
-| 2026-06-11 | 4.50 | 6.27 | 1.41 | 0.79 | 0.56 | 120.51 | 🔴 tăng lại, ApoB >100 |
+|| Date | LDL | Chol TP | HDL | Trig | TG/HDL | ApoB | Flag |
+||---|---|---|---|---|---|---|---|
+|| 2026-08-05 | 3.94* | 5.99 | 1.65 | 0.89 | 0.54 | 99.22 | 🟡 LDL ngưỡng cao |
+|| 2026-06-11 | 4.50 | 6.27 | 1.41 | 0.79 | 0.56 | 120.51 | 🔴 LDL cao, ApoB >100 |
+|| 2026-03-18 | 3.49 | 5.41 | 1.74 | 0.40 | 0.23 | 89.91 | ✅ cải thiện |
+|| 2026-01-13 | 4.17 | 6.13 | 1.73 | 0.50 | 0.29 | 108.00 | 🔴 LDL cao |
 
 ## Trục gan (baseline đầu tiên)
-| Date | ALT | AST | GGT | ALP | Albumin | PT/INR | Flag |
-|---|---|---|---|---|---|---|---|
-| 2026-06-11 | 14 | 25 | 20 | 52 | 48 | 13s/0.97 | ✅ sạch — ALDH2 an toàn |
+|| Date | ALT | AST | GGT | ALP | Albumin | PT/INR | Flag |
+||---|---|---|---|---|---|---|---|
+|| 2026-08-05 | 14 | 25 | 20 | — | — | — | ✅ sạch |
+|| 2026-06-11 | 14 | 25 | 20 | 52 | 48 | 13s/0.97 | ✅ sạch — ALDH2 an toàn |
 
 ## Trục thận
-| Date | Creatinine | eGFR | Microalbumin/Cr | Flag |
-|---|---|---|---|---|
-| 2025-02-07 | ~107 | — | — | ✅ |
-| 2025-03-06 | 107.80 | 76.33 | — | 🟡 eGFR thấp |
-| 2025-04-19 | 106.20 | 77.66 | — | 🟡 eGFR thấp |
-| 2025-05-25 | 105.30 | 78.40 | — | 🟡 eGFR thấp |
-| 2025-07-29 | 115.30 | 70.24 | — | 🟡 eGFR thấp nhất |
-| 2025-08-25 | 117.60 | 95.09 | 5.76 mg/g | ✅ phục hồi |
-| 2026-01-13 | — | 99.29 | — | ✅ |
+|| Date | Creatinine | eGFR | Cystatin C | Microalbumin/Cr | Flag |
+||---|---|---|---|---|---|
+|| 2026-08-05 | — | — | 0.78 mg/L | 2.20 mg/g | ✅ |
+|| 2026-01-13 | 105.80 | 99.29 | 0.77 mg/L | — | ✅ |
+|| 2025-08-25 | 117.60 | 95.09 | 0.74 mg/L | 5.76 mg/g | ✅ phục hồi |
+|| 2025-07-29 | 115.30 | 70.24 | 0.80 mg/L | — | 🟡 eGFR thấp nhất |
 
 ## Trục viêm & miễn dịch (baseline đầu tiên)
-| Date | hs-CRP | Vitamin D | Flag |
-|---|---|---|---|
-| 2024-xx-xx | — | 39.9 ng/mL | 🟡 đủ nhưng thấp |
-| 2026-06-11 | 0.51 mg/L | 46 ng/mL | ✅ không viêm, VitD tăng |
+|| Date | hs-CRP | Vitamin D | Flag |
+||---|---|---|---|
+|| 2026-08-05 | 0.51 mg/L | 46 ng/mL | ✅ không viêm, VitD đủ |
+|| 2026-06-11 | 0.51 mg/L | 46 ng/mL | ✅ không viêm, VitD tăng |
+|| 2024-xx-xx | — | 39.9 ng/mL | 🟡 đủ nhưng thấp |
 
 ## Genetic flags (G-Pro 2026)
 - **🔴 ALDH2 bất lợi** — rượu cực độc, ưu tiên zero alcohol
