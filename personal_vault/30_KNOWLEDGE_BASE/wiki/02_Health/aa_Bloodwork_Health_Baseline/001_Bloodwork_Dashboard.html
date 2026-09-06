@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloodwork Dashboard — Warren</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #222633;
+    --border: #2e3348;
+    --text: #e4e6f0;
+    --muted: #8b90a8;
+    --accent: #6c8cff;
+    --green: #4caf7d;
+    --yellow: #e8c84c;
+    --red: #e85d5d;
+    --orange: #e8955d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #2a2f44 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; color: #fff; }
+  .header .subtitle { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .header .last-updated { font-size: 12px; color: var(--accent); margin-top: 6px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+
+  /* Alert Banner */
+  .alert-banner {
+    background: linear-gradient(135deg, #2a1f1f 0%, #3a2525 100%);
+    border: 1px solid var(--red);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .alert-banner .icon { font-size: 20px; flex-shrink: 0; }
+  .alert-banner .content { flex: 1; }
+  .alert-banner .title { font-weight: 700; color: var(--red); font-size: 14px; margin-bottom: 4px; }
+  .alert-banner .desc { font-size: 13px; color: #f0c0c0; }
+
+  /* Summary Cards */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .summary-card.green::before { background: var(--green); }
+  .summary-card.yellow::before { background: var(--yellow); }
+  .summary-card.red::before { background: var(--red); }
+  .summary-card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .summary-card .value { font-size: 28px; font-weight: 700; margin: 4px 0; }
+  .summary-card .unit { font-size: 13px; color: var(--muted); }
+  .summary-card .trend { font-size: 11px; margin-top: 4px; }
+  .summary-card .trend.up { color: var(--red); }
+  .summary-card .trend.down { color: var(--green); }
+  .summary-card .trend.stable { color: var(--muted); }
+
+  /* Category Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tab:hover { color: var(--text); border-color: var(--accent); }
+  .tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* Chart Grid */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .chart-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+  .chart-card .chart-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .chart-container { position: relative; height: 260px; }
+  .chart-container canvas { width: 100% !important; height: 100% !important; }
+
+  /* Full width chart */
+  .chart-card.full-width { grid-column: 1 / -1; }
+
+  /* Data Table */
+  .data-table {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .data-table h3 { font-size: 14px; font-weight: 600; padding: 16px 20px; border-bottom: 1px solid var(--border); color: #fff; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 10px 16px; background: var(--card2); color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 16px; border-top: 1px solid var(--border); }
+  tr:hover td { background: rgba(108,140,255,0.05); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge.green { background: rgba(76,175,125,0.15); color: var(--green); }
+  .badge.yellow { background: rgba(232,200,76,0.15); color: var(--yellow); }
+  .badge.red { background: rgba(232,93,93,0.15); color: var(--red); }
+
+  /* Range Bar */
+  .range-bar {
+    position: relative;
+    height: 28px;
+    background: var(--card2);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 4px 0;
+  }
+  .range-zone {
+    position: absolute;
+    top: 0; bottom: 0;
+    opacity: 0.15;
+  }
+  .range-zone.green { background: var(--green); }
+  .range-zone.yellow { background: var(--yellow); }
+  .range-zone.red { background: var(--red); }
+  .range-marker {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    z-index: 2;
+  }
+  .range-label {
+    position: absolute;
+    bottom: -16px;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: #fff;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 16px; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🩸 Bloodwork Dashboard</h1>
+  <div class="subtitle">NGUYỄN SĨ KHOA — 42 tuổi, 171cm, 62kg</div>
+  <div class="last-updated">Cập nhật: 05/08/2026 | Source: DIAG Lab 26020536566</div>
+</div>
+
+<div class="container">
+
+<!-- ALERT BANNER -->
+<div class="alert-banner">
+  <div class="icon">⚠️</div>
+  <div class="content">
+    <div class="title">CẢNH BÁO: Thiếu dữ liệu bloodwork từ 06/2026 — 08/2026</div>
+    <div class="desc">PDF 26020536566 (05/08/2026) chưa được log vào Health_Log và Baseline. Dưới đây đã cập nhật số mới nhất từ PDF. LDL tính theo công thức Friedewald.</div>
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="summary-grid">
+  <div class="summary-card green">
+    <div class="label">HbA1c</div>
+    <div class="value">5.5<small style="font-size:14px">%</small></div>
+    <div class="unit">IFCC: 37 mmol/mol</div>
+    <div class="trend stable">→ Ổn định (5.6→5.4→5.5→5.5)</div>
+  </div>
+  <div class="summary-card yellow">
+    <div class="label">LDL</div>
+    <div class="value">3.94<small style="font-size:14px"> mmol/L</small></div>
+    <div class="unit">Mục tiêu: &lt;3.35</div>
+    <div class="trend down">↓ Giảm từ 4.50 (06/2026)</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">ApoB</div>
+    <div class="value">99<small style="font-size:14px"> mg/dL</small></div>
+    <div class="unit">Mục tiêu: &lt;100</div>
+    <div class="trend down">↓ Cải thiện (108→90→99)</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">HOMA-IR</div>
+    <div class="value">1.03</div>
+    <div class="unit">Mục tiêu: &lt;2.5</div>
+    <div class="trend stable">→ Xuất sắc</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">eGFR</div>
+    <div class="value">99<small style="font-size:14px"> mL/min</small></div>
+    <div class="unit">Mục tiêu: ≥90</div>
+    <div class="trend up">↑ Phục hồi (70→95→99)</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">hs-CRP</div>
+    <div class="value">0.51<small style="font-size:14px"> mg/L</small></div>
+    <div class="unit">Mục tiêu: &lt;1.0</div>
+    <div class="trend stable">→ Không viêm</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">Vitamin D</div>
+    <div class="value">46<small style="font-size:14px"> ng/mL</small></div>
+    <div class="unit">Mục tiêu: 30-100</div>
+    <div class="trend up">↑ Tăng (39.9→46)</div>
+  </div>
+  <div class="summary-card green">
+    <div class="label">Gan (ALT/AST/GGT)</div>
+    <div class="value" style="font-size:20px">14/25/20</div>
+    <div class="unit">Tất cả bình thường</div>
+    <div class="trend stable">→ ALDH2 an toàn</div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showCategory('all')">Tất cả</div>
+  <div class="tab" onclick="showCategory('glucose')">🩸 Đường huyết</div>
+  <div class="tab" onclick="showCategory('lipid')">🧈 Mỡ máu</div>
+  <div class="tab" onclick="showCategory('liver')">🫘 Gan</div>
+  <div class="tab" onclick="showCategory('kidney')">🫘 Thận</div>
+  <div class="tab" onclick="showCategory('inflame')">🔥 Viêm</div>
+  <div class="tab" onclick="showCategory('electrolyte')">⚡ Điện giải</div>
+  <div class="tab" onclick="showCategory('other')">🧪 Khác</div>
+</div>
+
+<!-- CHARTS -->
+<div class="chart-grid" id="charts-container">
+
+  <!-- GLUCOSE PANEL -->
+  <div class="chart-card" data-cat="glucose">
+    <h3>HbA1c — Đường huyết trung bình</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;5.7% | Tiền tiểu đường: 5.7-6.4%</div>
+    <div class="chart-container"><canvas id="chart_hba1c"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="glucose">
+    <h3>HOMA-IR — Kháng insulin</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;2.5 | Hiện tại: 1.03 (xuất sắc)</div>
+    <div class="chart-container"><canvas id="chart_homa"></canvas></div>
+  </div>
+
+  <!-- LIPID PANEL -->
+  <div class="chart-card" data-cat="lipid">
+    <h3>LDL Cholesterol — Mỡ máu xấu</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;3.35 | Tối ưu: &lt;2.59 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_ldl"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="lipid">
+    <h3>HDL Cholesterol — Mỡ máu tốt</h3>
+    <div class="chart-subtitle">Mục tiêu: ≥1.55 mmol/L (nam)</div>
+    <div class="chart-container"><canvas id="chart_hdl"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="lipid">
+    <h3>ApoB — Chỉ số nguy cơ tim mạch</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;100 mg/dL | Lab ref: 60-140</div>
+    <div class="chart-container"><canvas id="chart_apob"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="lipid">
+    <h3>Triglycerides — Chất béo trung tính</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;1.7 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_trig"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="lipid">
+    <h3>Tỷ lệ TG/HDL — Dấu hiệu kháng insulin</h3>
+    <div class="chart-subtitle">Tối ưu: &lt;2.0 | Cảnh báo: &gt;3.0</div>
+    <div class="chart-container"><canvas id="chart_tg_hdl"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="lipid">
+    <h3>Non-HDL Cholesterol</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;3.37 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_nonhdl"></canvas></div>
+  </div>
+
+  <!-- LIVER PANEL -->
+  <div class="chart-card" data-cat="liver">
+    <h3>ALT (GPT) — Men gan</h3>
+    <div class="chart-subtitle">Bình thường: &lt;45 U/L</div>
+    <div class="chart-container"><canvas id="chart_alt"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="liver">
+    <h3>AST (GOT) — Men gan</h3>
+    <div class="chart-subtitle">Bình thường: &lt;37 U/L</div>
+    <div class="chart-container"><canvas id="chart_ast"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="liver">
+    <h3>GGT — Men gan (đặc hiệu rượu)</h3>
+    <div class="chart-subtitle">Bình thường: &lt;55 U/L | ALDH2: càng thấp càng tốt</div>
+    <div class="chart-container"><canvas id="chart_ggt"></canvas></div>
+  </div>
+
+  <!-- KIDNEY PANEL -->
+  <div class="chart-card" data-cat="kidney">
+    <h3>Creatinine — Chức năng thận</h3>
+    <div class="chart-subtitle">Bình thường: 53-114.9 µmol/L</div>
+    <div class="chart-container"><canvas id="chart_crea"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="kidney">
+    <h3>eGFR — Độ lọc cầu thận</h3>
+    <div class="chart-subtitle">Mục tiêu: ≥90 mL/min/1.73m² (CKD-EPI 2021)</div>
+    <div class="chart-container"><canvas id="chart_egfr"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="kidney">
+    <h3>Cystatin C — Đánh giá thận chính xác</h3>
+    <div class="chart-subtitle">Bình thường: 0.31-0.79 mg/L</div>
+    <div class="chart-container"><canvas id="chart_cys"></canvas></div>
+  </div>
+
+  <!-- INFLAMMATION PANEL -->
+  <div class="chart-card" data-cat="inflame">
+    <h3>hs-CRP — Viêm nhẹ cơ thể</h3>
+    <div class="chart-subtitle">Mục tiêu: &lt;1.0 mg/L | Viêm cao: &gt;3.0</div>
+    <div class="chart-container"><canvas id="chart_crp"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="inflame">
+    <h3>Vitamin D (25-OH)</h3>
+    <div class="chart-subtitle">Mục tiêu: 30-100 ng/mL</div>
+    <div class="chart-container"><canvas id="chart_vitd"></canvas></div>
+  </div>
+
+  <!-- ELECTROLYTE PANEL -->
+  <div class="chart-card" data-cat="electrolyte">
+    <h3>Natri (Na+) — Điện giải</h3>
+    <div class="chart-subtitle">Bình thường: 136-145 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_na"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="electrolyte">
+    <h3>Kali (K+) — Điện giải</h3>
+    <div class="chart-subtitle">Bình thường: 3.5-5.1 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_k"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="electrolyte">
+    <h3>Canxi (Ca) — Khoáng chất</h3>
+    <div class="chart-subtitle">Bình thường: 2.1-2.55 mmol/L</div>
+    <div class="chart-container"><canvas id="chart_ca"></canvas></div>
+  </div>
+
+  <!-- OTHER PANEL -->
+  <div class="chart-card" data-cat="other">
+    <h3>iPTH — Hormone tuyến cận giáp</h3>
+    <div class="chart-subtitle">Bình thường: 15-68.3 pg/mL</div>
+    <div class="chart-container"><canvas id="chart_ipth"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="other">
+    <h3>Testosterone</h3>
+    <div class="chart-subtitle">Bình thường nam: 8.33-30.19 nmol/L (240-871 ng/dL)</div>
+    <div class="chart-container"><canvas id="chart_testo"></canvas></div>
+  </div>
+
+  <div class="chart-card" data-cat="other">
+    <h3>Sắt (Fe) — Dự liệu máu</h3>
+    <div class="chart-subtitle">Bình thường: 11.6-31.3 µmol/L</div>
+    <div class="chart-container"><canvas id="chart_fe"></canvas></div>
+  </div>
+
+</div>
+
+<!-- DATA TABLE -->
+<div class="data-table">
+  <h3>📊 Bảng tổng hợp tất cả chỉ số — Theo thời gian</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Ngày</th>
+        <th>HbA1c %</th>
+        <th>LDL</th>
+        <th>HDL</th>
+        <th>ApoB</th>
+        <th>Trig</th>
+        <th>eGFR</th>
+        <th>CRP</th>
+        <th>VitD</th>
+        <th>ALT/AST/GGT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>05/08/2026</strong></td>
+        <td><span class="badge green">5.5</span></td>
+        <td><span class="badge yellow">3.94*</span></td>
+        <td><span class="badge green">1.65</span></td>
+        <td><span class="badge green">99</span></td>
+        <td><span class="badge green">0.89</span></td>
+        <td><span class="badge green">99</span></td>
+        <td><span class="badge green">0.51</span></td>
+        <td><span class="badge green">46</span></td>
+        <td><span class="badge green">14/25/20</span></td>
+      </tr>
+      <tr>
+        <td>18/03/2026</td>
+        <td>—</td>
+        <td><span class="badge yellow">3.49</span></td>
+        <td><span class="badge green">1.74</span></td>
+        <td><span class="badge green">90</span></td>
+        <td><span class="badge green">0.40</span></td>
+        <td>—</td>
+        <td><span class="badge green">0.63</span></td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>13/01/2026</td>
+        <td><span class="badge green">5.5</span></td>
+        <td><span class="badge red">4.17</span></td>
+        <td><span class="badge green">1.73</span></td>
+        <td><span class="badge yellow">108</span></td>
+        <td><span class="badge green">0.50</span></td>
+        <td><span class="badge green">99</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>25/08/2025</td>
+        <td><span class="badge green">5.4</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge green">95</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>29/07/2025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">70</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>25/05/2025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">78</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>19/04/2025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">78</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>13/04/2025</td>
+        <td><span class="badge yellow">5.6</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">79</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>06/03/2025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">76</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>07/02/2025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge yellow">79</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>22/01/2024</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge green">39.9</span></td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding: 12px 20px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border);">
+    * LDL 05/08/2026 tính theo Friedewald: LDL = Chol_TP - HDL - (Trig/2.2) = 5.99 - 1.65 - (0.89/2.2) = 3.94 mmol/L. Lab không cấp số LDL trực tiếp.
+  </div>
+</div>
+
+<!-- GENETIC RISK CROSS-REFERENCE -->
+<div class="section-title">🧬 Genotype ↔ Phenotype Cross-Reference</div>
+<div class="data-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Gene</th>
+        <th>Genotype</th>
+        <th>Phenotype hiện tại</th>
+        <th>Đúng gen?</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ALDH2</strong></td>
+        <td>rs671 (Glu504Lys) — bất lợi</td>
+        <td>Gan sạch (GGT 20), không uống rượu</td>
+        <td><span class="badge green">✅ Đúng</span></td>
+        <td>Tiếp tục zero alcohol</td>
+      </tr>
+      <tr>
+        <td><strong>APOA5 / PPARG</strong></td>
+        <td>Chuyển hóa béo kém</td>
+        <td>LDL cao (3.94), ApoB gần upper limit</td>
+        <td><span class="badge yellow">⚠️ Đúng trend</span></td>
+        <td>Cắt béo bão hòa, tăng Omega-3</td>
+      </tr>
+      <tr>
+        <td><strong>IGF2BP2</strong></td>
+        <td>Tiểu đường top 25%</td>
+        <td>HbA1c 5.5%, HOMA-IR 1.03 — tốt</td>
+        <td><span class="badge green">✅ Bù đắp</span></td>
+        <td>Giữ IF 16:8, bắt đầu bữa ăn bằng protein</td>
+      </tr>
+      <tr>
+        <td><strong>CYP1A1/CYP3A</strong></td>
+        <td>Thải độc kém bottom 10%</td>
+        <td>Gan sạch, CRP thấp</td>
+        <td><span class="badge green">✅ Chưa quá tải</span></td>
+        <td>Tránh khói thuốc, rượu, ô nhiễm</td>
+      </tr>
+      <tr>
+        <td><strong>CYP1A2</strong></td>
+        <td>Caffeine nhanh</td>
+        <td>Chưa có triệu chứng</td>
+        <td><span class="badge green">✅ OK</span></td>
+        <td>Caffeine &lt;400mg/ngày</td>
+      </tr>
+      <tr>
+        <td><strong>MMP3</strong></td>
+        <td>Chấn thương top 8%</td>
+        <td>Chưa có chấn thương</td>
+        <td><span class="badge green">✅ Chưa xảy ra</span></td>
+        <td>Tránh thể thao mạnh, warm-up kỹ</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="section-title">💡 Khuyến nghị từ Personal Doctor</div>
+<div class="data-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Ưu tiên</th>
+        <th>Chỉ số</th>
+        <th>Tình trạng</th>
+        <th>Khuyến nghị</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge red">🔴 CAO</span></td>
+        <td>LDL (3.94)</td>
+        <td>Vượt mục tiêu 3.35</td>
+        <td>Cắt béo bão hòa (thịt đỏ, bơ, mỡ heo). Tăng Omega-3 (cá hồi 2-3 lần/tuần). Xem xét statin nếu sau 3 tháng vẫn &gt;3.5.</td>
+      </tr>
+      <tr>
+        <td><span class="badge red">🔴 CAO</span></td>
+        <td>Non-HDL (4.34)</td>
+        <td>Vượt mục tiêu 3.37</td>
+        <td>Liên quan đến LDL. Cùng giải pháp LDL.</td>
+      </tr>
+      <tr>
+        <td><span class="badge yellow">🟡 GẦN</span></td>
+        <td>ApoB (99)</td>
+        <td>Gần mục tiêu 100</td>
+        <td>Tiếp tục cắt béo bão hòa. Lặp lại sau 3 tháng.</td>
+      </tr>
+      <tr>
+        <td><span class="badge green">🟢 TỐT</span></td>
+        <td>HbA1c (5.5)</td>
+        <td>Bình thường</td>
+        <td>Giữ IF. Bắt đầu bữa ăn bằng protein/chất xơ. Đi bộ 10 phút sau bữa.</td>
+      </tr>
+      <tr>
+        <td><span class="badge green">🟢 TỐT</span></td>
+        <td>eGFR (99)</td>
+        <td>Phục hồi tốt</td>
+        <td>Uống đủ nước. Tránh NSAIDs. Lặp lại 6 tháng.</td>
+      </tr>
+      <tr>
+        <td><span class="badge green">🟢 TỐT</span></td>
+        <td>Gan (14/25/20)</td>
+        <td>Sạch hoàn toàn</td>
+        <td>Tiếp tục zero alcohol. ALDH2 đang được bảo vệ.</td>
+      </tr>
+      <tr>
+        <td><span class="badge green">🟢 TỐT</span></td>
+        <td>hs-CRP (0.51)</td>
+        <td>Không viêm</td>
+        <td>Duy trì. LDL cao nhưng không viêm = nguy cơ thấp hơn.</td>
+      </tr>
+      <tr>
+        <td><span class="badge green">🟢 TỐT</span></td>
+        <td>Vitamin D (46)</td>
+        <td>Đủ</td>
+        <td>Tiếp tục 600-1000 IU/ngày. Lặp lại 6-12 tháng.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script>
+// ========== DATA ==========
+const dates = ['22/01/2024','07/02/2025','06/03/2025','13/04/2025','19/04/2025','25/05/2025','29/07/2025','25/08/2025','13/01/2026','18/03/2026','05/08/2026'];
+
+const allData = {
+  hba1c:    [null, null, null, 5.6, null, null, null, 5.4, 5.5, null, 5.5],
+  homa:     [null, null, null, 0.55, null, null, null, null, 1.03, 1.01, null],
+  ldl:      [null, null, null, null, null, null, null, null, 4.17, 3.49, 3.94],
+  hdl:      [null, null, null, null, null, null, null, null, 1.73, 1.74, 1.65],
+  apob:     [null, null, null, null, null, null, null, null, 108, 90, 99],
+  trig:     [null, null, null, null, null, null, null, null, 0.50, 0.40, 0.89],
+  tg_hdl:   [null, null, null, null, null, null, null, null, 0.29, 0.23, 0.54],
+  nonhdl:   [null, null, null, null, null, null, null, null, 4.40, 3.67, 4.34],
+  alt:      [null, null, null, null, null, null, null, null, null, null, 14],
+  ast:      [null, null, null, null, null, null, null, null, null, null, 25],
+  ggt:      [null, null, null, null, null, null, null, null, null, null, 20],
+  crea:     [114.8, 104.9, 107.8, 104.6, 106.2, 105.3, 115.3, 117.6, 105.8, null, null],
+  egfr:     [null, 78.91, 76.33, 79.09, 77.66, 78.40, 70.24, 95.09, 99.29, null, 99.29],
+  cys:      [null, null, null, null, 0.83, 0.79, 0.80, 0.74, 0.77, null, 0.78],
+  crp:      [null, null, null, null, null, null, null, null, null, 0.63, 0.51],
+  vitd:     [39.9, null, null, null, null, null, null, null, null, null, 46],
+  na:       [null, 139, 137, 139, null, null, null, 140, null, null, null],
+  k:        [null, 3.88, 3.48, 4.23, null, null, null, 4.36, null, null, null],
+  ca:       [2.35, 2.37, 2.44, 2.36, null, null, null, null, null, null, null],
+  ipth:     [null, 60.6, 64.9, 66.5, null, null, null, null, null, null, null],
+  testo:    [null, null, null, null, null, 30.22, null, null, null, null, null],
+  fe:       [null, null, null, null, null, null, null, null, 22.30, null, null],
+};
+
+// ========== CHART CONFIG ==========
+const ctx_bg = '#1a1d27';
+const grid_color = 'rgba(255,255,255,0.06)';
+const text_color = '#8b90a8';
+
+function makeChart(canvasId, label, data, borderColor, bgColor, targetLow, targetHigh, unit, refLow, refHigh) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  const datasets = [{
+    label: label,
+    data: data,
+    borderColor: borderColor,
+    backgroundColor: bgColor,
+    borderWidth: 2.5,
+    pointRadius: 5,
+    pointHoverRadius: 7,
+    pointBackgroundColor: borderColor,
+    tension: 0.3,
+    fill: true,
+    spanGaps: true,
+  }];
+
+  // Add target line if specified
+  if (targetLow !== null) {
+    datasets.push({
+      label: 'Mục tiêu',
+      data: dates.map(() => targetLow),
+      borderColor: '#4caf7d',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+  if (targetHigh !== null) {
+    datasets.push({
+      label: 'Ngưỡng cảnh báo',
+      data: dates.map(() => targetHigh),
+      borderColor: '#e85d5d',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels: dates, datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: { color: text_color, usePointStyle: true, boxWidth: 8, font: { size: 11 } },
+        },
+        tooltip: {
+          backgroundColor: '#222633',
+          titleColor: '#fff',
+          bodyColor: '#e4e6f0',
+          borderColor: '#2e3348',
+          borderWidth: 1,
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.parsed.y === null) return null;
+              return ctx.dataset.label + ': ' + ctx.parsed.y + ' ' + unit;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: grid_color },
+          ticks: { color: text_color, font: { size: 10 }, maxRotation: 45 },
+        },
+        y: {
+          grid: { color: grid_color },
+          ticks: { color: text_color, font: { size: 11 } },
+          title: { display: true, text: unit, color: text_color, font: { size: 11 } },
+        }
+      }
+    }
+  });
+}
+
+// ========== CREATE ALL CHARTS ==========
+makeChart('chart_hba1c', 'HbA1c', allData.hba1c, '#6c8cff', 'rgba(108,140,255,0.1)', 5.7, 6.5, '%', 0, 7);
+makeChart('chart_homa', 'HOMA-IR', allData.homa, '#4caf7d', 'rgba(76,175,125,0.1)', 2.5, null, '', 0, 5);
+makeChart('chart_ldl', 'LDL', allData.ldl, '#e85d5d', 'rgba(232,93,93,0.1)', 3.35, 4.14, 'mmol/L', 0, 6);
+makeChart('chart_hdl', 'HDL', allData.hdl, '#4caf7d', 'rgba(76,175,125,0.1)', 1.55, null, 'mmol/L', 0.5, 2.5);
+makeChart('chart_apob', 'ApoB', allData.apob, '#e8c84c', 'rgba(232,200,76,0.1)', 100, 140, 'mg/dL', 40, 160);
+makeChart('chart_trig', 'Triglycerides', allData.trig, '#6c8cff', 'rgba(108,140,255,0.1)', 1.7, 2.25, 'mmol/L', 0, 4);
+makeChart('chart_tg_hdl', 'TG/HDL', allData.tg_hdl, '#e8955d', 'rgba(232,149,93,0.1)', 2.0, 3.0, 'ratio', 0, 5);
+makeChart('chart_nonhdl', 'Non-HDL', allData.nonhdl, '#e85d5d', 'rgba(232,93,93,0.1)', 3.37, null, 'mmol/L', 0, 6);
+
+makeChart('chart_alt', 'ALT', allData.alt, '#4caf7d', 'rgba(76,175,125,0.1)', 45, null, 'U/L', 0, 80);
+makeChart('chart_ast', 'AST', allData.ast, '#6c8cff', 'rgba(108,140,255,0.1)', 37, null, 'U/L', 0, 60);
+makeChart('chart_ggt', 'GGT', allData.ggt, '#e8c84c', 'rgba(232,200,76,0.1)', 55, null, 'U/L', 0, 100);
+
+makeChart('chart_crea', 'Creatinine', allData.crea, '#6c8cff', 'rgba(108,140,255,0.1)', 114.9, null, 'µmol/L', 40, 130);
+makeChart('chart_egfr', 'eGFR', allData.egfr, '#4caf7d', 'rgba(76,175,125,0.1)', 90, null, 'mL/min', 40, 120);
+makeChart('chart_cys', 'Cystatin C', allData.cys, '#e8955d', 'rgba(232,149,93,0.1)', 0.79, null, 'mg/L', 0.2, 1.2);
+
+makeChart('chart_crp', 'hs-CRP', allData.crp, '#4caf7d', 'rgba(76,175,125,0.1)', 1.0, 3.0, 'mg/L', 0, 5);
+makeChart('chart_vitd', 'Vitamin D', allData.vitd, '#e8c84c', 'rgba(232,200,76,0.1)', 30, 100, 'ng/mL', 10, 80);
+
+makeChart('chart_na', 'Natri', allData.na, '#6c8cff', 'rgba(108,140,255,0.1)', 136, 145, 'mmol/L', 125, 155);
+makeChart('chart_k', 'Kali', allData.k, '#4caf7d', 'rgba(76,175,125,0.1)', 3.5, 5.1, 'mmol/L', 2.5, 6);
+makeChart('chart_ca', 'Canxi', allData.ca, '#e8955d', 'rgba(232,149,93,0.1)', 2.1, 2.55, 'mmol/L', 1.8, 2.8);
+
+makeChart('chart_ipth', 'iPTH', allData.ipth, '#6c8cff', 'rgba(108,140,255,0.1)', 15, 68.3, 'pg/mL', 0, 80);
+makeChart('chart_testo', 'Testosterone', allData.testo, '#4caf7d', 'rgba(76,175,125,0.1)', 8.33, 30.19, 'nmol/L', 5, 35);
+makeChart('chart_fe', 'Sắt', allData.fe, '#e85d5d', 'rgba(232,93,93,0.1)', 11.6, 31.3, 'µmol/L', 5, 40);
+
+// ========== TAB FILTERING ==========
+function showCategory(cat) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  document.querySelectorAll('.chart-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
