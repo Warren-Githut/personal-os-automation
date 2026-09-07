@@ -26,6 +26,12 @@ tags:
 - **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ cấp dưỡng 11M T9 hạn 10/09 còn 3 ngày, T8 quá hạn 28 ngày không bằng chứng, case STALE 57d; (2) 🏥 LDL 3.94/ApoB 99.22 (08/05) cải thiện nhưng vượt mục tiêu, mục tiêu 09/2026 sắp tới; (3) 🧹 Daily_Pulse gap 80d, triplicate 07-30 treo 39d, chỉ 1 mạch hoạt động.
 || 07:00 | update | [`00_CORE_LOGIC/PERSONAL_CONTEXT.md`](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) | /personal-context-update cron: updated Section 9 W36 (09/07–09/13) — 3 themes: cấp dưỡng T9 hạn 10/09 còn 3 ngày + case STALE 57d, LDL 3.94/ApoB 99.22 cải thiện nhưng vượt mục tiêu, Daily_Pulse gap 80d + triplicate 39d. |
 
+## 2026-09-07
+
+|| Time | Action | File | Summary |
+||------|--------|------|---------|
+|| 01:00 | update | [`10_PULSE/weekly_connections_log.md`](../10_PULSE/weekly_connections_log.md) | /personal-weekly-connections cron: added W35 (24/08–30/08) + W36 (31/08–06/09) — 10 connections, 5 domains. Key: (1) case STALE 42d→49d→56d + T8 quá hạn 13d→20d→27d + T9 due 10/09; (2) ApoB 99.22 ĐẠT TARGET <100 lần đầu (120→99); (3) sleep 7h45→7h38 ổn định; (4) Daily_Pulse gap 65d→72d→79d; (5) triplicate 07-30 treo 24d→31d→38d. |
+
 ## 2026-09-06
 
 - **PROCESSED: `/process-notes` cron (06/09).** Inbox `_inbox/01_unprocessed/` KHÔNG tồn tại, `stock_pending/` KHÔNG tồn tại → không route/archive gì. Pre-flight `diff -rq` SSOT IDENTICAL, không cần sync. [INFO]
