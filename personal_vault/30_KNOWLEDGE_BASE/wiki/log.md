@@ -23,7 +23,8 @@ tags:
 - **FLAGGED:** Daily_Pulse gap 80d · case STALE 57d + 8/8 `[ ]` · 11M T8 quá hạn 28d · triplicate 07-30 ×3 (39d) · CSV mồ côi 60d · Health_Log không tồn tại.
 
 ## 2026-09-07
-- **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ cấp dưỡng 11M T9 hạn 10/09 còn 3 ngày, T8 quá hạn 28 ngày không bằng chứng, case STALE 56d; (2) 🏥 LDL 3.94/ApoB 99.22 (08/05) cải thiện nhưng vượt mục tiêu, mục tiêu 09/2026 sắp tới; (3) 🧹 Daily_Pulse gap 79d, triplicate 07-30 treo 38d, chỉ 1 mạch hoạt động.
+- **UPDATE: CONTEXT.md Section 9** via `/personal-context-update` cron. Synthesized 3 themes: (1) 🏛️ cấp dưỡng 11M T9 hạn 10/09 còn 3 ngày, T8 quá hạn 28 ngày không bằng chứng, case STALE 57d; (2) 🏥 LDL 3.94/ApoB 99.22 (08/05) cải thiện nhưng vượt mục tiêu, mục tiêu 09/2026 sắp tới; (3) 🧹 Daily_Pulse gap 80d, triplicate 07-30 treo 39d, chỉ 1 mạch hoạt động.
+|| 07:00 | update | [`00_CORE_LOGIC/PERSONAL_CONTEXT.md`](../00_CORE_LOGIC/PERSONAL_CONTEXT.md) | /personal-context-update cron: updated Section 9 W36 (09/07–09/13) — 3 themes: cấp dưỡng T9 hạn 10/09 còn 3 ngày + case STALE 57d, LDL 3.94/ApoB 99.22 cải thiện nhưng vượt mục tiêu, Daily_Pulse gap 80d + triplicate 39d. |
 
 ## 2026-09-06
 
