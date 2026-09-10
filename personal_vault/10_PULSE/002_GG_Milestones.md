@@ -3,8 +3,8 @@ domain: family_gg
 tags: ["family_gg", "GG"]
 type: pulse
 status: active
-last_updated: 2026-06-09
-related: [GG_Profile.md, ../../10_PULSE/Daily_Pulse.md]
+last_updated: 2026-09-10
+related: [GG_Profile.md]
 ---
 
 # GG Milestones — Nguyễn Phạm Gia Gia
@@ -30,6 +30,15 @@ related: [GG_Profile.md, ../../10_PULSE/Daily_Pulse.md]
 ## Backfill — những khoảnh khắc anh còn nhớ (thêm dần)
 
 > Gõ vào Slack brain-dump hoặc nhắc Claude trực tiếp để thêm vào đây.
+
+---
+
+## 2026-09-03 — Ngày đầu tiên đi học ở trường tiểu học Minh Đạo
+[date:: 2026-09-03] [age:: 6 tuổi 6 tháng] [type:: first-time]
+- Mô tả: GG bắt đầu ngày học đầu tiên tại trường tiểu học Minh Đạo — bước ngoặt lớn trong cuộc đời bé.
+- Context: Kết thúc thời gian mẫu giáo, GG chính thức bước vào lớp 1 tại trường Minh Đạo.
+- Warren cảm thấy: Tự hào và xúc động khi bé bước vào cánh cửa trường tiểu học.
+- Tags: [family_gg, GG, first_day_school, minh_dao_primary]
 
 ---
 
