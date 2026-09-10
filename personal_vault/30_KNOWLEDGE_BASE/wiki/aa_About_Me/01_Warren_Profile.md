@@ -16,7 +16,7 @@ related: [../02_Health/aa_Bloodwork_Health_Baseline/000_Bloodwork_Health_Baselin
 - **Location:** Saigon, Vietnam
 - **Languages:** Vietnamese (native), English (fluent)
 - **Occupation:** Head of Operations, L'Usine Saigon
-- **Marital:** Separated (as of 2026-05-17)
+- **Marital:** Divorced
 - **Child:** GG (son, born 2020-02-13)
 
 ## Communication & Values
