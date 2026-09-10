@@ -22,7 +22,7 @@ refresh_cadence: session_start + on every pulse append
 
 | # | file | domain | cadence | content | last_updated |
 |---|------|--------|---------|---------|--------------|
-| 001 | `001_GG_Communication_Guide.md` | family_gg | On-demand | Hướng dẫn trả lời GG về ly thân, câu hỏi nhạy cảm | 2026-06-02 |
+| 001 | `001_GG_Communication_Guide.md` | family_gg | On-demand | Hướng dẫn trả lời GG về li dị, câu hỏi nhạy cảm | 2026-06-02 |
 | 002 | `002_GG_Milestones.md` | family_gg | On-demand | Những khoảnh khắc đáng nhớ của GG | 2026-06-02 |
 | 020 | `020_VNStock_Weekly_Outlook.md` | trading | Weekly | VN stock weekly pulse — macro, sector flow, strategy | 2026-06-06 |
 | 021 | `021_VNStock_Macro.md` | trading | On-demand | Active macro narratives tracking | 2026-06-08 |
@@ -30,7 +30,7 @@ refresh_cadence: session_start + on every pulse append
 | 023 | `023_VNStock_Sector.md` | trading | On-demand | Sector narratives tracking | 2026-06-24 |
 | 024 | `024_VNStock_Index_Events.md` | trading | On-demand | Index rebalancing & market structure events | 2026-07-02 |
 | 050 | `050_Bloodwork_Update.md` | health | On-demand | Bloodwork results from DIAG Lab (newest on top) | 2026-08-05 |
-| — | `Daily_Pulse.md` | journal | Daily | 5 bullets/day — all domains | 2026-06-06 |
+
 | — | `weekly_connections_log.md` | meta | Weekly | Cross-domain connections | 2026-05-29 |
 | — | `Weekly_Synthesis.md` | meta | Weekly | 7-day pulse → permanent knowledge extraction | 2026-06-06 |
 
@@ -52,7 +52,7 @@ refresh_cadence: session_start + on every pulse append
 
 | Nếu cần… | Thì mở… |
 |-----------|---------|
-| Daily reflection, 5 bullets | `Daily_Pulse.md` |
+
 | Health metrics, bloodwork | `050_Bloodwork_Update.md` |
 | Sleep log | `051_Sleep_Log.md` |
 | VN stock pulse | `020_VNStock_Weekly_Outlook.md` |

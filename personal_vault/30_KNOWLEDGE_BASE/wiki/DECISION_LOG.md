@@ -17,6 +17,6 @@ name: DECISION_LOG
 - **Outcome:** rename folder, update toàn bộ hardcoded paths (auto_git_sync.ps1, run_auto_git_sync.cmd, settings.json, CLAUDE.md, README.md, DECISION_LOG). Git remote không đổi.
 
 ## 2026-05-17 — Vault structure: SEPARATE Personal_OS vault (not sub-folder of L'Usine)
-- **Why:** privacy by structure (data ly thân/health/trade không lẫn git history L'Usine); persona riêng; permission/backup độc lập.
+- **Why:** privacy by structure (data li dị/health/trade không lẫn git history L'Usine); persona riêng; permission/backup độc lập.
 - **Alternatives considered:** sub-vault in Warren_OS_Local, shared with persona switch.
 - **Outcome:** vault tại `C:/Users/khoans/Documents/Personal_OS/personal_vault/`, git + Drive sync như L'Usine.

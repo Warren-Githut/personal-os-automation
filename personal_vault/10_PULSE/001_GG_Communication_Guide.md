@@ -6,12 +6,12 @@ status: active
 last_updated: 2026-05-23
 related:
   - GG_Profile.md
-  - Daily_Pulse.md
+  - 051_Sleep_Log.md
 ---
 
 # GG Communication Guide — Hướng dẫn trả lời GG
 
-> Dùng khi GG hỏi về ly thân, về tại sao ba không về nhà, hoặc các câu hỏi nhạy cảm liên quan đến gia đình.
+> Dùng khi GG hỏi về li dị, về tại sao ba không về nhà, hoặc các câu hỏi nhạy cảm liên quan đến gia đình.
 
 ---
 
@@ -43,7 +43,7 @@ Không hứa những gì không chắc. GG cần câu trả lời rõ ràng, kh�
 
 ## Không nên nói
 
-- ❌ Giải thích lý do ly thân dù GG hỏi nhiều
+- ❌ Giải thích lý do li dị dù GG hỏi nhiều
 - ❌ Nói xấu hoặc đổ lỗi cho mẹ (dù gián tiếp)
 - ❌ Hứa "ba sẽ về sống chung lại" nếu không chắc
 - ❌ Tỏ ra buồn hoặc khóc trước mặt GG khi trả lời câu này
