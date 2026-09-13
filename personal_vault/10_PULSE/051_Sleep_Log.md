@@ -2,7 +2,7 @@
 domain: health
 type: pulse
 status: active
-last_updated: 2026-09-12
+last_updated: 2026-09-13
 ---
 
 # 051 — Sleep Log
@@ -14,6 +14,18 @@ last_updated: 2026-09-12
 > Khi thêm entry mới: copy template ở cuối file, điền thông tin, rồi prepend ngay sau block rule này.
 
 ---
+
+### 2026-09-12
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 8h30 | Quality: 95/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 99/62
+
+Insight:
+Sleep 8h30 đạt baseline. Quality 95 vẫn ổn. BP 99/62 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
 
 ### 2026-09-11
 **Source:** telegram:@LUsinePersonalBot
