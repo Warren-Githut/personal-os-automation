@@ -2,7 +2,7 @@
 domain: health
 type: pulse
 status: active
-last_updated: 2026-09-13
+last_updated: 2026-09-18
 ---
 
 # 051 — Sleep Log
@@ -14,6 +14,66 @@ last_updated: 2026-09-13
 > Khi thêm entry mới: copy template ở cuối file, điền thông tin, rồi prepend ngay sau block rule này.
 
 ---
+
+### 2026-09-17
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 8h20 | Quality: 95/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 100/65
+
+Insight:
+Sleep 8h20 đạt baseline. Quality 95 vẫn ổn. BP 100/65 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
+### 2026-09-16
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 7h30 | Quality: 90/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 105/65
+
+Insight:
+Sleep 7h30 đạt baseline. Quality 90 vẫn ổn. BP 105/65 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
+### 2026-09-15
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 7h30 | Quality: 95/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 99/62
+
+Insight:
+Sleep 7h30 đạt baseline. Quality 95 vẫn ổn. BP 99/62 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
+### 2026-09-14
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 6h30 | Quality: 80/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 99/62
+
+Insight:
+Sleep 6h30 thấp hơn baseline 7h. Quality 80 cần cải thiện. BP 99/62 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
+
+### 2026-09-13
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 8h30 | Quality: 95/100 | Fasting: 20h | Weight: 62kg | Blood pressure: 99/62
+
+Insight:
+Sleep 8h30 đạt baseline. Quality 95 vẫn ổn. BP 99/62 bình thường. Fasting 20h consistent. Weight 62kg ổn định. [MOD]
+
+---
+
 
 ### 2026-09-12
 **Source:** direct_paste
