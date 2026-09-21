@@ -3,15 +3,18 @@ domain: family_gg
 tags: ["family_gg", "GG"]
 type: pulse
 status: active
-last_updated: 2026-05-23
+last_updated: 2026-09-21
 related:
-  - GG_Profile.md
-  - 051_Sleep_Log.md
+  - 01_about_GG.md
+  - 02_GG_Genetic_Profile.md
+  - 003_GG_Visit_Playbook.md
+  - _growth/COMMUNICATION_SKILL_WITH_GG.md
 ---
 
 # GG Communication Guide — Hướng dẫn trả lời GG
 
 > Dùng khi GG hỏi về li dị, về tại sao ba không về nhà, hoặc các câu hỏi nhạy cảm liên quan đến gia đình.
+> Bổ sung 2026-09-21: giọng nói khớp hồ sơ gen (ngôn ngữ cần câu ngắn, nóng tính, hướng trung).
 
 ---
 
@@ -47,18 +50,34 @@ Không hứa những gì không chắc. GG cần câu trả lời rõ ràng, kh�
 - ❌ Nói xấu hoặc đổ lỗi cho mẹ (dù gián tiếp)
 - ❌ Hứa "ba sẽ về sống chung lại" nếu không chắc
 - ❌ Tỏ ra buồn hoặc khóc trước mặt GG khi trả lời câu này
+- ❌ Đọc điểm gen / "con thông minh sẵn" / "con dễ nóng vì gen"
+
+---
+
+## Giọng nói khớp GG lớp 1 (2026-09)
+
+Hồ sơ gen là **quan sát**, không phải kịch bản bắt buộc. Dùng khi thấy khớp thực tế.
+
+1. **Câu ngắn.** Điểm ngôn ngữ trên báo cáo thấp. Một ý một câu. Xong thì pause. Để GG kể lại bằng lời của bé.
+2. **Không thẩm tra.** Không hỏi "Hôm nay đi học thế nào?" — dùng 4 cửa trong `_growth/COMMUNICATION_SKILL_WITH_GG.md` (cười / ngồi với ai / bất ngờ / phần khó).
+3. **Khi bé nóng.** Hạ giọng trước. Gọi tên cảm xúc ("con đang tức"). Góc yên. Không giảng lúc đang lên. Sửa sau khi hạ.
+4. **Khi bé muốn một mình.** Cho góc yên. Không lấy làm bị bỏ. Khen khi bé tự dám vào nhóm nhỏ.
+5. **Không dùng đồ ăn làm thưởng/phạt.** Báo cáo gắn ăn cảm xúc + dopamine. Khen việc cụ thể, không khen bằng bánh.
+6. **An toàn.** Dạy No–Go–Yell–Tell khi có dịp tự nhiên, không biến thành bài học sợ người lạ.
+
+Chi tiết buổi thăm: [[003_GG_Visit_Playbook]].
 
 ---
 
 ## Tín hiệu cần chú ý
 
-Nếu GG hỏi **mỗi lần gặp** hoặc **đột nhiên ít nói, ít chơi hơn** → có thể bé đang stress. Cân nhắc trao đổi với cô giáo mẫu giáo hoặc chuyên gia tâm lý trẻ em.
+Nếu GG hỏi **mỗi lần gặp** hoặc **đột nhiên ít nói, ít chơi hơn** → có thể bé đang stress. Cân nhắc trao đổi với cô Minh Đạo hoặc chuyên gia tâm lý trẻ em.
 
 ---
 
 ## Nguyên tắc chung khi nói chuyện với GG về gia đình
 
-1. **Đơn giản** — dùng từ ngữ GG hiểu được (6 tuổi)
+1. **Đơn giản** — dùng từ ngữ GG hiểu được (6 tuổi, lớp 1)
 2. **Nhất quán** — cùng một câu trả lời mỗi lần, không thêm bớt
 3. **Không đổ lỗi** — không cho GG cảm giác đây là lỗi của ai
 4. **Hiện diện** — GG cần cảm nhận ba vẫn ở đây, không biến mất

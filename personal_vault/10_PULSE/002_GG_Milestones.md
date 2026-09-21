@@ -3,8 +3,12 @@ domain: family_gg
 tags: ["family_gg", "GG"]
 type: pulse
 status: active
-last_updated: 2026-09-10
-related: [GG_Profile.md]
+last_updated: 2026-09-21
+related:
+  - 01_about_GG.md
+  - 02_GG_Genetic_Profile.md
+  - 001_GG_Communication_Guide.md
+  - 003_GG_Visit_Playbook.md
 ---
 
 # GG Milestones — Nguyễn Phạm Gia Gia
@@ -57,4 +61,4 @@ related: [GG_Profile.md]
 - Context: Warren lên trường mẫu giáo đón/đưa GG, trao đổi với cô về việc GG chuyển trường vào lớp 1.
 - Source: Slack #brain-dump 2026-05-27 11:30
 
-*File tạo 2026-05-22 | GG sinh 2020-02-13*
+*File tạo 2026-05-22 | GG sinh 2020-02-13 | Gen re-ingest 2026-09-21 không phải milestone của bé — nằm ở 02_GG_Genetic_Profile.md*
