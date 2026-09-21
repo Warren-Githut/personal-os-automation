@@ -3,7 +3,7 @@ name: 00_WIKI_INDEX
 type: index
 status: active
 domain: personal
-last_updated: 2026-08-16
+last_updated: 2026-09-21
 total_files: 23
 scope: personal_vault/30_KNOWLEDGE_BASE/wiki
 index_first_rule: Always read this file before citing personal wiki pages; if a referenced page is missing, update here instead of searching blindly
@@ -24,9 +24,9 @@ related_paths:
 
 | file | period | type | key_insights | last_updated |
 |------|--------|------|---------------|--------------|
-| `01_GG/aa_About_GG/02_GG_Genetic_Profile.md` | 2024-03 | reference | IQ 9/10 (top 8%), toán 9/10 (top 9%), âm nhạc 7.5; ngôn ngữ yếu 4/10 (bottom 40%); nóng tính 7.5, kỷ luật thấp 4; béo phì risk 7.5 | 2026-06-06 |
-| `01_GG/aa_About_GG/03_Calendar_GG.md` | ongoing | tracking | Lịch sự kiện GG | — |
-| `01_GG/aa_About_GG/01_about_GG.md` | 2026-2027 | reference | TH Minh Đạo (Lớp 1, 2026-2027), hồ sơ nhập học, info cá nhân (định danh masked) | 2026-07-14 |
+| `01_GG/aa_About_GG/01_about_GG.md` | 2026-2027 | reference | TH Minh Đạo Lớp 1 từ 2026-09-03; phiếu 14/07; chân dung ngắn | 2026-09-21 |
+| `01_GG/aa_About_GG/02_GG_Genetic_Profile.md` | 2024-03 | reference | Re-ingest 2026-09-21. IQ/toán tham khảo; ngôn ngữ 4; nóng 7.5; A=9; Folate=3 (ửa); vị đắng=3; béo 7.5 nhưng bé đang gầy | 2026-09-21 |
+| `01_GG/aa_About_GG/03_Calendar_GG.md` | ongoing | tracking | Lịch sự kiện GG | 2026-05-17 |
 
 ---
 
@@ -66,13 +66,11 @@ related_paths:
 
 ---
 
-
-
 ## _growth/ (Knowledge Capture)
 
 | file | type | status | key_insights | last_updated |
 |------|------|--------|---------------|--------------|
-| `_growth/COMMUNICATION_SKILL_WITH_GG.md` | reference | active | Thay "How was school?" bằng 4 câu hỏi mở (laughter / social / empathy / hardest part) để kết nối với con | 2026-08-16 |
+| `_growth/COMMUNICATION_SKILL_WITH_GG.md` | reference | active | 4 câu hỏi mở + speaking tricks. Visit playbook ở `10_PULSE/003_GG_Visit_Playbook.md` | 2026-09-21 |
 
 ---
 
@@ -80,11 +78,12 @@ related_paths:
 
 | Nếu cần… | Thì mở… |
 |-----------|---------|
-| Hồ sơ GG, calendar, gift tracking | `01_GG/aa_About_GG/` |
-| Health baseline, doctor reports, genetics | `02_Health/` |
-| VN equities thesis, BCTC, watchlist | `Stock_OS/stock_vault/30_KNOWLEDGE_BASE/wiki/03_Investing/` (đã tách) |
+| Hồ sơ GG, calendar | `01_GG/aa_About_GG/` |
+| Gen + la bàn nuôi | `01_GG/aa_About_GG/02_GG_Genetic_Profile.md` |
+| Health baseline, doctor reports | `02_Health/` |
+| VN equities | `Stock_OS/stock_vault/30_KNOWLEDGE_BASE/wiki/03_Investing/` (đã tách) |
 | Reading log, development | `04_Growth/` |
-| Kỹ năng giao tiếp / parenting / growth capture | `_growth/` |
+| Kỹ năng giao tiếp / parenting | `_growth/` + `10_PULSE/001` + `10_PULSE/003` |
 | Tất cả decisions | `DECISION_LOG.md` |
 | Wiki change log | `log.md` |
 

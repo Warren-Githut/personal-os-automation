@@ -5,7 +5,7 @@ status: active
 owner: Hermes / Warren
 domain: personal
 scope: 10_PULSE/
-last_updated: 2026-07-02
+last_updated: 2026-09-21
 index_first_rule: Always read this file before running /daily, /weekly, or /personal-process-logs; do not hardcode pulse file lists
 auto_update: Hermes must update this index whenever a pulse file is added/removed/renamed
 refresh_cadence: session_start + on every pulse append
@@ -22,15 +22,15 @@ refresh_cadence: session_start + on every pulse append
 
 | # | file | domain | cadence | content | last_updated |
 |---|------|--------|---------|---------|--------------|
-| 001 | `001_GG_Communication_Guide.md` | family_gg | On-demand | Hướng dẫn trả lời GG về li dị, câu hỏi nhạy cảm | 2026-06-02 |
-| 002 | `002_GG_Milestones.md` | family_gg | On-demand | Những khoảnh khắc đáng nhớ của GG | 2026-06-02 |
+| 001 | `001_GG_Communication_Guide.md` | family_gg | On-demand | Câu li dị + giọng nói lớp 1 | 2026-09-21 |
+| 002 | `002_GG_Milestones.md` | family_gg | On-demand | Những khoảnh khắc đáng nhớ của GG | 2026-09-10 |
+| 003 | `003_GG_Visit_Playbook.md` | family_gg | On-demand | Kịch bản 45–120 phút thăm GG | 2026-09-21 |
 | 020 | `020_VNStock_Weekly_Outlook.md` | trading | Weekly | VN stock weekly pulse — macro, sector flow, strategy | 2026-06-06 |
 | 021 | `021_VNStock_Macro.md` | trading | On-demand | Active macro narratives tracking | 2026-06-08 |
 | 022 | `022_VNStock_Daily_Outlook.md` | trading | Daily | Daily VN stock news headlines from VnExpress RSS | 2026-06-04 |
 | 023 | `023_VNStock_Sector.md` | trading | On-demand | Sector narratives tracking | 2026-06-24 |
 | 024 | `024_VNStock_Index_Events.md` | trading | On-demand | Index rebalancing & market structure events | 2026-07-02 |
 | 050 | `050_Bloodwork_Update.md` | health | On-demand | Bloodwork results from DIAG Lab (newest on top) | 2026-08-05 |
-
 | — | `weekly_connections_log.md` | meta | Weekly | Cross-domain connections | 2026-05-29 |
 | — | `Weekly_Synthesis.md` | meta | Weekly | 7-day pulse → permanent knowledge extraction | 2026-06-06 |
 
@@ -46,13 +46,13 @@ refresh_cadence: session_start + on every pulse append
 
 ---
 
-
-
 ## 🧭 Where To Go
 
 | Nếu cần… | Thì mở… |
 |-----------|---------|
-
+| Câu trả lời li dị / giọng nói với GG | `001_GG_Communication_Guide.md` |
+| Milestone GG | `002_GG_Milestones.md` |
+| Kịch bản buổi thăm | `003_GG_Visit_Playbook.md` |
 | Health metrics, bloodwork | `050_Bloodwork_Update.md` |
 | Sleep log | `051_Sleep_Log.md` |
 | VN stock pulse | `020_VNStock_Weekly_Outlook.md` |
