@@ -51,6 +51,11 @@ WEIGHT_HISTORY_DAYS = 7
 WEIGHT_JUMP_ALERT_KG = 1.0
 # Fasting is only called "low" when clearly under baseline, not by 1h noise.
 FASTING_TOLERANCE_H = 2
+# A health log is filed same-day or the next day, so the log month being LATER
+# than the current month means a New Year wrap ("dec 28" typed on 5 January =
+# previous year). Anything within half a year ahead is a forward-dated log in
+# the CURRENT year and must not be rewritten to the previous one.
+FUTURE_DATE_TOLERANCE_DAYS = 180
 
 
 # Regex: "Health log june 9: :hospital: Health: 7h15 | quality 93 | 63kg | 16h"
@@ -106,11 +111,12 @@ def parse_all_sleep_logs(content: str) -> list[dict]:
             continue
         day = int(day_str)
 
-        year = CURRENT_YEAR
-        if month > CURRENT_MONTH:
-            year -= 1
-
-        date_obj = datetime(year, month, day)
+        date_obj = datetime(CURRENT_YEAR, month, day)
+        if (date_obj - NOW).days > FUTURE_DATE_TOLERANCE_DAYS:
+            # Only a year wrap can place the log this far ahead. The previous
+            # rule (`month > CURRENT_MONTH`) also rewrote ordinary forward-dated
+            # logs — "oct 1" typed on 26 September silently became the prior year.
+            date_obj = date_obj.replace(year=CURRENT_YEAR - 1)
         date_key = date_obj.strftime("%Y-%m-%d")
 
         results.append({
