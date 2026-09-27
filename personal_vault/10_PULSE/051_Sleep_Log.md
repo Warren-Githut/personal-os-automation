@@ -2,7 +2,7 @@
 domain: health
 type: pulse
 status: active
-last_updated: 2026-09-26
+last_updated: 2026-09-27
 ---
 
 # 051 — Sleep Log
@@ -14,6 +14,18 @@ last_updated: 2026-09-26
 > Khi thêm entry mới: copy template ở cuối file, điền thông tin, rồi prepend ngay sau block rule này.
 
 ---
+
+### 2026-09-26
+**Source:** direct_paste
+**Type:** text
+
+Sleep: 7h00 | Quality: 80/100 | Fasting: 14h | Weight: 60kg | Blood pressure: 99/65
+
+Insight:
+Sleep 7h00 đạt baseline. Quality 80 cần cải thiện. BP 99/65 bình thường. Fasting 14h thấp hơn baseline 18h. Weight giảm 2kg (62kg → 60kg) sau 7 ngày ổn định ở 62kg — cần verify lại cân. [HIGH]
+
+---
+
 
 ### 2026-09-25
 **Source:** direct_paste
