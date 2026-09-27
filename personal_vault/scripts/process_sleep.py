@@ -40,6 +40,18 @@ GSHEET_TAB = "W-capture-sleep"
 # Service Account key path (direct SA auth — no OAuth token refresh issues)
 GSHEET_SA_PATH = VAULT_ROOT / "scripts" / "config" / "gsheet_sa.json"
 
+# Insight thresholds — insight must be computed from history, never hardcoded.
+# A "stable"/"consistent" claim is only valid when compared against prior days.
+BASELINE_SLEEP_H = 7
+BASELINE_FASTING_H = 18
+QUALITY_WARN_BELOW = 90
+WEIGHT_HISTORY_DAYS = 7
+# Day-over-day weight jump above this is a measurement artifact risk, not real
+# mass change (2kg overnight is physiologically implausible) -> flag HIGH.
+WEIGHT_JUMP_ALERT_KG = 1.0
+# Fasting is only called "low" when clearly under baseline, not by 1h noise.
+FASTING_TOLERANCE_H = 2
+
 
 # Regex: "Health log june 9: :hospital: Health: 7h15 | quality 93 | 63kg | 16h"
 SLEEP_PATTERN = re.compile(
@@ -129,9 +141,9 @@ def is_duplicate(log_content: str, data: dict) -> tuple[bool, str]:
     return False, ""
 
 
-def build_entry(data: dict, source_file: str) -> str:
+def build_entry(data: dict, source_file: str, history: list[dict] | None = None) -> str:
     bp_line = f" | Blood pressure: {data['bp']}" if data['bp'] else ""
-    insight = generate_insight(data)
+    insight = generate_insight(data, history)
 
     return f"""### {data['date']}
 **Source:** {source_file}
@@ -145,17 +157,74 @@ Insight:
 ---"""
 
 
-def generate_insight(data: dict) -> str:
+def _history_before(history: list[dict], date: str) -> list[dict]:
+    """Entries strictly older than `date`, most recent last (ascending order)."""
+    rows = [r for r in (history or []) if r.get("date", "") < date]
+    rows.sort(key=lambda r: r["date"])
+    return rows
+
+
+def _weight_insight(current_kg: float, prior: list[dict]) -> tuple[str, bool]:
+    """Compare current weight against recent history.
+    Returns (sentence, needs_high_confidence). Never claims "stable" without data.
+    """
+    if not prior:
+        return f"Weight {current_kg:g}kg (chưa có dữ liệu so sánh).", True
+
+    recent = prior[-WEIGHT_HISTORY_DAYS:]
+    weights = [r["weight_kg"] for r in recent]
+    last = prior[-1]
+    delta = round(current_kg - last["weight_kg"], 1)
+    span = f"{min(weights):g}-{max(weights):g}kg"
+
+    if abs(delta) > WEIGHT_JUMP_ALERT_KG:
+        direction = "giảm" if delta < 0 else "tăng"
+        return (
+            f"Weight {current_kg:g}kg {direction} {abs(delta):g}kg so với {last['date']} "
+            f"({last['weight_kg']:g}kg, {len(recent)} ngày trước ở {span}) — cần verify lại cân.",
+            True,
+        )
+
+    if max(weights) - min(weights) <= 0.5:
+        return f"Weight {current_kg:g}kg ổn định {len(recent)} ngày ({span}).", False
+
+    if delta == 0:
+        move = "không đổi"
+    else:
+        move = f"{delta:+g}kg"
+    return f"Weight {current_kg:g}kg {move} so với {last['date']} (7 ngày: {span}).", False
+
+
+def _fasting_insight(fasting_h: int, prior: list[dict]) -> str:
+    """Fasting is only called consistent/low when compared against baseline."""
+    if fasting_h < BASELINE_FASTING_H - FASTING_TOLERANCE_H:
+        return f"Fasting {fasting_h}h thấp hơn baseline {BASELINE_FASTING_H}h."
+    if fasting_h > BASELINE_FASTING_H + FASTING_TOLERANCE_H:
+        return f"Fasting {fasting_h}h cao hơn baseline {BASELINE_FASTING_H}h."
+    if prior:
+        vals = [r["fasting_h"] for r in prior[-WEIGHT_HISTORY_DAYS:]]
+        if vals and max(vals) - min(vals) <= 1:
+            return f"Fasting {fasting_h}h khớp baseline {BASELINE_FASTING_H}h."
+    return f"Fasting {fasting_h}h khớp baseline {BASELINE_FASTING_H}h."
+
+
+def generate_insight(data: dict, history: list[dict] | None = None) -> str:
+    """Build the insight line from the entry plus prior-day history.
+    History is required for any stability claim; without it the insight is tagged
+    [UNKNOWN] rather than asserting a trend.
+    """
     insights = []
+    needs_high = False
+    prior = _history_before(history, data["date"])
 
     sleep_hours = parse_duration(data['sleep'])
-    if sleep_hours < 7:
-        insights.append(f"Sleep {data['sleep']} thấp hơn baseline 7h.")
+    if sleep_hours < BASELINE_SLEEP_H:
+        insights.append(f"Sleep {data['sleep']} thấp hơn baseline {BASELINE_SLEEP_H}h.")
     else:
         insights.append(f"Sleep {data['sleep']} đạt baseline.")
 
     q = int(data['quality'])
-    if q >= 90:
+    if q >= QUALITY_WARN_BELOW:
         insights.append(f"Quality {data['quality']} vẫn ổn.")
     else:
         insights.append(f"Quality {data['quality']} cần cải thiện.")
@@ -164,16 +233,25 @@ def generate_insight(data: dict) -> str:
         systolic, diastolic = map(int, data['bp'].split('/'))
         if systolic < 90 or diastolic < 60:
             bp_status = "thấp"
+            needs_high = True
         elif systolic > 140 or diastolic > 90:
             bp_status = "cao"
+            needs_high = True
         else:
             bp_status = "bình thường"
         insights.append(f"BP {data['bp']} {bp_status}.")
 
-    insights.append(f"Fasting {data['fasting']} consistent.")
-    insights.append(f"Weight {data['weight']} ổn định.")
+    insights.append(_fasting_insight(int(data['fasting'].rstrip('h')), prior))
 
-    return " ".join(insights) + " [MOD]"
+    current_kg = float(data['weight'].rstrip('kg'))
+    weight_sentence, weight_alert = _weight_insight(current_kg, prior)
+    insights.append(weight_sentence)
+    needs_high = needs_high or weight_alert
+
+    tag = "[HIGH]" if needs_high else "[MOD]"
+    if not prior:
+        return " ".join(insights) + " [UNKNOWN]"
+    return " ".join(insights) + f" {tag}"
 
 
 def parse_duration(s: str) -> float:
@@ -319,6 +397,33 @@ def _entry_to_row(e: dict) -> list:
             e["fasting_h"], e["weight_kg"], e["bp_systolic"], e["bp_diastolic"]]
 
 
+def _history_row(data: dict) -> dict:
+    """Build a history row (same shape as _all_entries_from_log) from a parsed entry.
+    Lets a batch of entries in ONE run compare against each other before the
+    file is written — refreshing from disk would miss uncommitted siblings.
+    """
+    bp = data.get("bp") or ""
+    systolic, _, diastolic = bp.partition("/")
+    return {
+        "date": data["date"],
+        "sleep_raw": data["sleep"],
+        "sleep_hours": parse_duration(data["sleep"]),
+        "quality": int(data["quality"]),
+        "fasting_h": int(data["fasting"].rstrip("h")),
+        "weight_kg": float(data["weight"].rstrip("kg")),
+        "bp_systolic": int(systolic) if systolic.isdigit() else 0,
+        "bp_diastolic": int(diastolic) if diastolic.isdigit() else 0,
+    }
+
+
+def _extend_history(history: list[dict], data: dict) -> list[dict]:
+    """Append a parsed entry to in-memory history, keeping date order."""
+    rows = [r for r in history if r.get("date") != data["date"]]
+    rows.append(_history_row(data))
+    rows.sort(key=lambda r: r["date"])
+    return rows
+
+
 def _gsheet_service():
     """Build Sheets service using Service Account key."""
     from google.oauth2.service_account import Credentials
@@ -378,6 +483,7 @@ def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False
         return 0
 
     log_content = SLEEP_LOG.read_text(encoding="utf-8")
+    history = _all_entries_from_log()
 
     new_entries = []
     skipped = 0
@@ -393,9 +499,10 @@ def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False
             continue
 
         source = "direct_paste"
-        entry = build_entry(data, source)
+        entry = build_entry(data, source, history)
         new_entries.append(entry)
         log_content += f"\n\n{entry}"
+        history = _extend_history(history, data)
         print(f"✅ Parsed: {data['date']} ({data['sleep']})")
 
     if not new_entries:
@@ -420,11 +527,16 @@ def process_paste(text: str, send_notify: bool = True, sync_gsheet: bool = False
     return count
 
 
-def process_file(f: Path, log_content: str) -> list[str]:
-    """Process a single health log file. Returns new entries."""
+def process_file(f: Path, log_content: str, history: list[dict] | None = None) -> tuple[list[str], list[dict]]:
+    """Process a single health log file.
+    Returns (new_entries, updated_history) so the caller can chain files in a
+    batch — each file must see the earlier files' entries, which are not on
+    disk yet, so history is threaded in memory.
+    """
     new_entries = []
     content = f.read_text(encoding="utf-8")
     parsed_logs = parse_all_sleep_logs(content)
+    history = list(history or [])
 
     for data in parsed_logs:
         is_dup, _ = is_duplicate(log_content, data)
@@ -435,9 +547,10 @@ def process_file(f: Path, log_content: str) -> list[str]:
             continue
 
         source = f"_inbox/01_unprocessed/{f.name}"
-        entry = build_entry(data, source)
+        entry = build_entry(data, source, history)
         new_entries.append(entry)
         log_content += f"\n\n{entry}"
+        history = _extend_history(history, data)
         print(f"✅ Parsed: {f.name} -> {data['date']} ({data['sleep']})")
 
     if parsed_logs:
@@ -445,7 +558,7 @@ def process_file(f: Path, log_content: str) -> list[str]:
         shutil.move(str(f), str(dest))
         print(f"   Moved to processed")
 
-    return new_entries
+    return new_entries, history
 
 
 def process_inbox(send_notify: bool = True, sync_gsheet: bool = False) -> int:
@@ -460,9 +573,10 @@ def process_inbox(send_notify: bool = True, sync_gsheet: bool = False) -> int:
 
     log_content = SLEEP_LOG.read_text(encoding="utf-8")
     all_new_entries = []
+    history = _all_entries_from_log()
 
     for f in sorted(health_files):
-        new_entries = process_file(f, log_content)
+        new_entries, history = process_file(f, log_content, history)
         all_new_entries.extend(new_entries)
         for entry in new_entries:
             log_content += f"\n\n{entry}"
