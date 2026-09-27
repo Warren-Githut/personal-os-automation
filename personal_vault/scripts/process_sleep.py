@@ -188,23 +188,16 @@ def _weight_insight(current_kg: float, prior: list[dict]) -> tuple[str, bool]:
     if max(weights) - min(weights) <= 0.5:
         return f"Weight {current_kg:g}kg ổn định {len(recent)} ngày ({span}).", False
 
-    if delta == 0:
-        move = "không đổi"
-    else:
-        move = f"{delta:+g}kg"
+    move = "không đổi" if delta == 0 else f"{delta:+g}kg"
     return f"Weight {current_kg:g}kg {move} so với {last['date']} (7 ngày: {span}).", False
 
 
-def _fasting_insight(fasting_h: int, prior: list[dict]) -> str:
+def _fasting_insight(fasting_h: int) -> str:
     """Fasting is only called consistent/low when compared against baseline."""
     if fasting_h < BASELINE_FASTING_H - FASTING_TOLERANCE_H:
         return f"Fasting {fasting_h}h thấp hơn baseline {BASELINE_FASTING_H}h."
     if fasting_h > BASELINE_FASTING_H + FASTING_TOLERANCE_H:
         return f"Fasting {fasting_h}h cao hơn baseline {BASELINE_FASTING_H}h."
-    if prior:
-        vals = [r["fasting_h"] for r in prior[-WEIGHT_HISTORY_DAYS:]]
-        if vals and max(vals) - min(vals) <= 1:
-            return f"Fasting {fasting_h}h khớp baseline {BASELINE_FASTING_H}h."
     return f"Fasting {fasting_h}h khớp baseline {BASELINE_FASTING_H}h."
 
 
@@ -217,14 +210,12 @@ def generate_insight(data: dict, history: list[dict] | None = None) -> str:
     needs_high = False
     prior = _history_before(history, data["date"])
 
-    sleep_hours = parse_duration(data['sleep'])
-    if sleep_hours < BASELINE_SLEEP_H:
+    if parse_duration(data['sleep']) < BASELINE_SLEEP_H:
         insights.append(f"Sleep {data['sleep']} thấp hơn baseline {BASELINE_SLEEP_H}h.")
     else:
         insights.append(f"Sleep {data['sleep']} đạt baseline.")
 
-    q = int(data['quality'])
-    if q >= QUALITY_WARN_BELOW:
+    if int(data['quality']) >= QUALITY_WARN_BELOW:
         insights.append(f"Quality {data['quality']} vẫn ổn.")
     else:
         insights.append(f"Quality {data['quality']} cần cải thiện.")
@@ -233,24 +224,24 @@ def generate_insight(data: dict, history: list[dict] | None = None) -> str:
         systolic, diastolic = map(int, data['bp'].split('/'))
         if systolic < 90 or diastolic < 60:
             bp_status = "thấp"
-            needs_high = True
         elif systolic > 140 or diastolic > 90:
             bp_status = "cao"
-            needs_high = True
         else:
             bp_status = "bình thường"
+        needs_high = needs_high or bp_status != "bình thường"
         insights.append(f"BP {data['bp']} {bp_status}.")
 
-    insights.append(_fasting_insight(int(data['fasting'].rstrip('h')), prior))
+    insights.append(_fasting_insight(int(data['fasting'].rstrip('h'))))
 
     current_kg = float(data['weight'].rstrip('kg'))
     weight_sentence, weight_alert = _weight_insight(current_kg, prior)
     insights.append(weight_sentence)
     needs_high = needs_high or weight_alert
 
-    tag = "[HIGH]" if needs_high else "[MOD]"
     if not prior:
-        return " ".join(insights) + " [UNKNOWN]"
+        tag = "[UNKNOWN]"
+    else:
+        tag = "[HIGH]" if needs_high else "[MOD]"
     return " ".join(insights) + f" {tag}"
 
 
