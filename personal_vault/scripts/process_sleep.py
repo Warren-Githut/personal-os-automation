@@ -189,7 +189,7 @@ def _weight_insight(current_kg: float, prior: list[dict]) -> tuple[str, bool]:
         return f"Weight {current_kg:g}kg ổn định {len(recent)} ngày ({span}).", False
 
     move = "không đổi" if delta == 0 else f"{delta:+g}kg"
-    return f"Weight {current_kg:g}kg {move} so với {last['date']} (7 ngày: {span}).", False
+    return f"Weight {current_kg:g}kg {move} so với {last['date']} ({len(recent)} ngày: {span}).", False
 
 
 def _fasting_insight(fasting_h: int) -> str:
