@@ -1,0 +1,29 @@
+{
+  "_comment": "Minimal manifest for scripts/build_explainer.py. Every field except scenes is optional; the defaults below are what the script uses.",
+
+  "title": "Example explainer",
+  "out": "C:/absolute/path/to/output.mp4",
+
+  "theme": "dark",
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+
+  "voice": "vi-VN-HoaiMyNeural",
+  "tail_seconds": 0.4,
+
+  "scenes": [
+    {
+      "narration": "Câu này là lời đọc. Dài bao nhiêu thì cảnh này hiện lâu bấy nhiêu.",
+      "html": "<h1>Tiêu đề lớn</h1><p class=\"muted\">Dòng phụ, chữ nhỏ hơn.</p>"
+    },
+    {
+      "narration": "Cảnh thứ hai dùng file HTML riêng.",
+      "html_file": "C:/absolute/path/to/scene2.html"
+    },
+    {
+      "narration": "Con số lớn, dùng class num.",
+      "html": "<div class=\"num\">128.4M</div><p class=\"muted\">Doanh thu net</p>"
+    }
+  ]
+}

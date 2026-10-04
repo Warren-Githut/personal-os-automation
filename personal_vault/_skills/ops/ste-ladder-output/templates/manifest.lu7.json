@@ -1,0 +1,41 @@
+{
+  "_comment": "Runnable end-to-end example. Vietnamese narration carries full diacritics on purpose - that is the case the earlier probe missed. Numbers follow A3 (M suffix, 1 decimal).",
+
+  "title": "LU7 doanh thu tuan 40",
+  "out": "C:/Users/khoans/AppData/Local/hermes/profiles/warren-profile/cache/scratch/vidprobe/ste_ladder_lu7_w40.mp4",
+
+  "theme": "dark",
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+
+  "voice": "vi-VN-HoaiMyNeural",
+  "tail_seconds": 0.4,
+
+  "scenes": [
+    {
+      "narration": "Báo cáo nhanh cửa hàng LU7, tuần bốn mươi.",
+      "html": "<h1>LU7 — Tuần 40</h1><p class=\"muted\">Báo cáo nhanh cho Ban Điều hành</p>"
+    },
+    {
+      "narration": "Doanh thu thuần đạt 128.4 triệu đồng.",
+      "html": "<div class=\"num\">128.4M</div><p class=\"muted\">Doanh thu thuần · Net revenue</p>"
+    },
+    {
+      "narration": "Lượng khách đạt 1.842 lượt khách.",
+      "html": "<div class=\"num\">1,842</div><p class=\"muted\">Lượng khách · Covers</p>"
+    },
+    {
+      "narration": "Bình quân mỗi khách là 69 nghìn đồng.",
+      "html": "<div class=\"num\">69k</div><p class=\"muted\">Bình quân mỗi khách · AC</p>"
+    },
+    {
+      "narration": "So với tuần trước, doanh thu tăng sáu phần trăm.",
+      "html": "<h2>So với tuần trước</h2><div class=\"card\"><p class=\"num\" style=\"font-size:76px\">+6%</p><p class=\"muted\">Doanh thu thuần · tuần 39 là 121.1M</p></div>"
+    },
+    {
+      "narration": "Kết luận: LU7 đã phục hồi. Tiếp tục theo dõi đơn giá mỗi khách.",
+      "html": "<div class=\"card\"><h2 style=\"color:#7ee787\">Kết luận</h2><ul><li>LU7 phục hồi so với tuần trước</li><li>Theo dõi đơn giá mỗi khách</li></ul></div>"
+    }
+  ]
+}

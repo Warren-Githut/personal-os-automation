@@ -1,0 +1,6 @@
+📊 A/B TEST RESULT — {type}
+Winner: {winner}
+Reason: {reason}
+A: {a_name} — {a_score}
+B: {b_name} — {b_score}
+Time: {time_ms}ms

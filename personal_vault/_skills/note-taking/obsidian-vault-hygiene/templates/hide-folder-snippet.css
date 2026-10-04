@@ -1,0 +1,13 @@
+/* Hide ONE folder from Obsidian File Explorer — NON-DESTRUCTIVE (no rename, no app.json edit).
+   Use when the target folder is referenced by hardcoded paths you must NOT break
+   (e.g. SSOT dashboard output with 50+ file:/// links).
+   Enable: Obsidian → Settings → Appearance → CSS snippets → toggle on.
+   Reverse: toggle off. Fully reversible, zone 🟡.
+*/
+/* SCOPE to the file-explorer pane only, then hide the specific folder by its data-path.
+   data-path = vault-relative path, FORWARD slashes, NO leading slash.
+   Edit the path below to match the folder you want hidden. */
+.workspace-leaf-content[data-type="file-explorer"]
+  .nav-folder-title[data-path="30_KNOWLEDGE_BASE/wiki/dashboards"] {
+  display: none;
+}
