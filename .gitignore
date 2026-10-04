@@ -26,3 +26,12 @@ personal_vault/update_env.py
 **/.mcp.json
 personal_vault/.mcp.json
 personal_vault/.mcp.json.*
+
+# Skills mirror (bulk copy from AppData) — cache/junk never tracked
+personal_vault/_skills/**/__pycache__/
+personal_vault/_skills/**/.pytest_cache/
+personal_vault/_skills/**/*.pyc
+personal_vault/_skills/**/*.pyo
+
+# Skills mirror log (written by skills_mirror_weekly.py)
+personal_vault/logs/sync_skills.log
