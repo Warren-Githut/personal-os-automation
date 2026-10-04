@@ -1,0 +1,12 @@
+{
+  "skill": "fx-ticket-bo",
+  "test_cases": [
+    {"input": "vào GBPUSD khung 15 phút", "should_trigger": true},
+    {"input": "ra lệnh giúp bố, đang lãi 1R", "should_trigger": true},
+    {"input": "kèo forex hôm nay biên phiên Á", "should_trigger": true},
+    {"input": "đóng lệnh trước 21:30", "should_trigger": true},
+    {"input": "phiếu swing PVD tuần này", "should_trigger": false},
+    {"input": "viết bài X luật sàn", "should_trigger": false},
+    {"input": "kiểm tra extra hours Lusine", "should_trigger": false}
+  ]
+}

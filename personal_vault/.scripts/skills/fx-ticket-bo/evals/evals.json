@@ -1,0 +1,25 @@
+{
+  "skill": "fx-ticket-bo",
+  "test_cases": [
+    {
+      "name": "entry_with_numbers",
+      "input": "Biên Á 1.0850-1.0830. Nến ngày đóng trên đỉnh 5 ngày. Nến 15 phút đóng 1.0854, đáy nến 1.0846. Acc 10000. Vào không?",
+      "assertions": ["Phiếu vào hoặc đứng ngoài có stop, target 1.5R, rủi ro 1%", "Có dòng 5 lệnh thua = 5% lỗ ngày", "Không bịa thêm kèo thứ hai"]
+    },
+    {
+      "name": "refuse_no_price",
+      "input": "Vào lệnh EURUSD giúp bố đi",
+      "assertions": ["Không bịa giá vào", "Hỏi đỉnh đáy phiên Á, đóng nến 15 phút, phía nến ngày"]
+    },
+    {
+      "name": "exit_revenge",
+      "input": "Đang lỗ, bố muốn gỡ, dời stop ra xa",
+      "assertions": ["Không dời stop ra xa", "Phiếu ra vì gỡ", "Ghi tắt nền tảng 48 giờ"]
+    },
+    {
+      "name": "flat_before_night",
+      "input": "21:40 rồi, lệnh chưa tới target, giữ qua đêm được không",
+      "assertions": ["Bắt đóng trước hoặc tại 21:30", "Không cho giữ qua đêm"]
+    }
+  ]
+}
