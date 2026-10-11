@@ -26,6 +26,44 @@ Warren's literal instruction: *"parser/command/script nào generate thì remove 
 2. Neutralize đoạn generate: xóa bước tạo file, hoặc đổi đích sang path hợp lệ (vd `_kilo/memory/project_*.md` → `_ideas/generated_plans/project_*.md`).
 3. Cả reference (đọc path đó) trong commands/skills → đổi sang source thay thế.
 🔴 PITFALL (session 2026-07-09): xóa folder `_kilo/` xong tưởng xong, nhưng `review-plan.md` vẫn có step "Create `_kilo/memory/project_*.md`" → generate lại vào lần sau. Phải patch cả generate logic.
+🔴 PITFALL (vault rename 2026-07-14): `patch` với `replace_all` trên substring nằm trong absolute path DÀI → match "ăn" mất prefix chung. Vd file có `30_KNOWLEDGE_BASE/wiki/health/Genetics/...`; old=`wiki/health/Genetics/` → new=`02_Health/ac_Warren_Genetics_Report/` sinh ra `30_KNOWLEDGE_BASE/02_Health/...` (MẤT `/wiki/`). Fix: new_string phải GIỮ lại mọi segment vẫn hợp lệ → `wiki/02_Health/ac_Warren_Genetics_Report/`. Quy tắc: replacement phải tái-bao-gồm mọi đoạn còn đúng trong path mới; đừng để match nuốt prefix anh em. (Áp dụng cho mọi rename folder có link absolute path.)
+
+## RESURRECTION DIAGNOSTIC — xóa rồi vẫn mọc lại (🔴 BẮT BUỘC trước khi báo "đã xóa vĩnh viễn")
+
+Khi Warren nói "tôi xóa nhiều lần rồi mà nó vẫn ở đó" → có 1 trong 3 generator chưa bị neutralize. Phải tìm ĐỦ 3 trước khi commit xóa.
+
+### Cause 1 — Git-tracked (phổ biến nhất)
+Folder/file vẫn nằm trong git index → mỗi `git checkout` / `git restore` / commit re-add lại.
+- Check: `git ls-files <path>` (non-empty = đang tracked). `git log --oneline -3 -- <path>` → nếu commit GẦN NHẤT re-add file (vd `b5faace` re-add `investing/`), đó là nguồn.
+- Permanent triple (cả 3 bước):
+  ```bash
+  git rm -r --cached <path>   # xóa khỏi git index
+  rm -rf <path>               # xóa disk
+  git commit -m "chore: xoa <path> (duplicate/retired)"
+  ```
+  ⚠️ `rm -rf` ONESELF → git index còn → resurrect trên checkout/restore. `git rm` không commit → staged-uncommitted, chưa triệt để.
+- Verify: `git ls-files <path> | wc -l` = 0; `find <path> -type f 2>/dev/null` = rỗng.
+
+### Cause 2 — Cron / skill regenerate (nguy hiểm nhất, dễ sót)
+Cron job active chạy skill có step HARDCODE tạo file vào path đó → mỗi kỳ chạy nó recreate + `git add` + commit.
+- Check: `cronjob list` → lọc job có `workdir` = vault. Đọc SKILL.md của skill đó tìn step "Create/Update/Append `<path>`".
+- 🔴 Cách bắt chắc nhất: `grep -rn "<path>" ~/.hermes/profiles/personal_profile/cron/output/*.md` → output log ghi rõ "3c. Update `_kilo/ACTIVITY_LOG.md`" + "created. Commit `5e33a98`". Đó là bằng chứng job nào regenerate.
+- Fix: PHẢI patch skill SKILL.md (bỏ step hoặc redirect đích sang path hợp lệ, vd `_kilo/ACTIVITY_LOG.md` → `30_KNOWLEDGE_BASE/wiki/log.md` đã là active log). Chỉ xóa folder không patch skill → tuần sau mọc lại.
+- Cron đã chạy xong (next_run tương lai) → sửa skill là đủ, không cần kill cron.
+
+### Cause 3 — Script hardcode path
+`.py` trong `scripts/` hardcode `VAULT_ROOT / "<path>"`.
+- Check: `grep -rn "<path>" scripts/` → tìm `GENETICS_WIKI = VAULT_ROOT / "02_Health" / "ac_Warren_Genetics_Report"` class.
+- Fix: sửa constant sang path mới. Verify: `python3 -m py_compile scripts/*.py` (exit 0 = OK).
+
+### Decision tree
+```
+Warren: "xóa vĩnh viễn, không bao giờ hồi phục"
+  → 1. git ls-files <path> ? tracked → git rm --cached + rm -rf + commit
+  → 2. cronjob list + grep cron/output/<path> ? regenerate → patch skill
+  → 3. grep scripts/<path> ? hardcode → sửa constant
+  → 4. re-scan (deletion-discipline 4-step) = 0 → báo sạch
+```
 
 ## Active auth.json provider-key removal (🔴 MỚI)
 Retired tool có thể nằm trong **active** `auth.json` (`credential_pool.<provider>` key), khÔNG chỉ `.corrupt`.
@@ -61,3 +99,5 @@ Sau khi xóa/sửa: chạy `git status --short` + `git diff --stat`, HIỂN TH�
 - **Generator kill**: `review-plan.md` có step tạo `_kilo/memory/project_*.md` → đổi sang `_ideas/generated_plans/`. 9 commands/skills reference `_kilo`/`.kilo` → sửa hết reference (personal-context-update, personal-weekly-connections, ops-weekly-connections, review-plan, review-audit ×4, generate-plan, explore, personal-vault-lint SKILL, vault-structure-audit SKILL cross-profile).
 - **auth.json**: 3× `.corrupt` → xóa. 2× active (`warren-profile`, `stock-profile`) → xóa block `"kilocode"` trong `credential_pool`, giữ provider khác. Verify bằng `python3 -c "import json; json.load(...)"` → cả 2 file valid, kilocode=False. `state-snapshots/*/auth.json` → để nguyên (backup).
 - **Activity log**: user bảo "xóa cả ACTIVITY LOG luôn" → weekly_briefs_log.md dòng nhắc Kilo sprint + CONTEXT.md lesson "Roo→Kilo" → sửa/xóa.
+- `investing/` (2026-07-14): duplicate của `03_Investing/` (48 files active). User "xóa vĩnh viễn không bao giờ hồi phục". Root = git-tracked: commit `b5faace` re-add 3 files (`Frameworks.md`, `Candidates_Watchlist.md`, `Holdings.md`) → disk delete một mình hồi sinh. Fix = permanent triple (`git rm -r --cached` + `rm -rf` + commit). Verify `git ls-files`=0, `find`=none. 1 ref còn sót ở `stock-profile_pre_edit_checklist.md` nhưng path sai (`personal_vault/investing/GAS_thesis.md`) → không gãy.
+- `_kilo/` (2026-07-14): legacy Kilo Code, retired 07-09. Root = 2 ACTIVE cron (`personal-weekly-connections`, `personal-context-update`) có Step 3c/Step 5 hardcode ghi `_kilo/ACTIVITY_LOG.md` + commit (commit `5e33a98` 07-13). Disk+git delete ONESELF → resurrect T2 tới. Fix = patch 2 skill redirect → `30_KNOWLEDGE_BASE/wiki/log.md` (đã là active log, cron 07-14 xác nhận OK). Bắt được qua `grep cron/output/*.md` thấy "created. Commit 5e33a98". Không cần kill cron (next_run 07-20, sửa skill đủ).

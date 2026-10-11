@@ -40,7 +40,7 @@ Report / [SILENT]
   - Stock profile: use `STOCK_CONTEXT.md`
 - Read `10_PULSE/Daily_Pulse.md` — last 3 entries
 - Read `.last_process_notes` — find last run time
-- Read `_cases/active/legal_divorce_court_GG_access.md` — check follow_up staleness
+- **Discover all active cases:** `find _cases/active -name '*.md'` (NOT a hardcoded filename — see Pitfalls). For each: read frontmatter `status`, `opened`, `last_updated`, and whether `follow_up` exists.
 - Check `git log --oneline -3` for last commits
 
 ### 1. Inventory
@@ -84,7 +84,7 @@ Run ALL of these checks every cycle:
 |---|---|---|
 | **Daily_Pulse gap** | Read last entry date in `Daily_Pulse.md`. If >7 days from today | Flag as capture-discipline gap in log |
 | **Health log gap** | Read last health entry date. If >3 days from today | Flag in log: "No health logs since {date}" |
-| **Court follow_up passed** | Read `follow_up` from `_cases/active/legal_divorce_court_GG_access.md` frontmatter. ⚠️ If file not found at active path, search `_cases/closed/` — if closed, log resolution and skip. If past today and no update since | Reset follow_up to tomorrow. Flag as CRITICAL GAP. Update status note. |
+| **Court — all active cases** | **Discover** every `*.md` in `_cases/active/` (glob, not hardcoded name). For EACH active case: (a) if `follow_up` field exists AND is past today → reset to tomorrow + CRITICAL GAP flag; (b) if `last_updated` is >7 days old AND Action Checklist still all `[ ]` → flag as STALE (no follow_up needed). If `_cases/active/` is empty → log "no active cases" and skip. ⚠️ If a SIBLING cron (e.g. personal-context-update) claims a case is "missing/deleted", DO NOT trust that claim — verify by listing `_cases/active/` yourself. The 2026-07-20 cycle found a case the context-update had falsely reported as purged. | Reset follow_up (if present) + flag STALE/CRITICAL per case |
 | **Stock pending stale** | Any JSON with `pending_since` >7 days old | Flag in log |
 
 ### 5. Update log.md
@@ -139,17 +139,22 @@ Triage note for the record: that FAIL was the **state** being wrong, not the ass
 
 ### Health log gap
 - **Last entry:** search `Daily_Pulse.md` for `## YYYY-MM-DD.*Health:` pattern, get most recent date
-- **Cross-reference:** also check `10_PULSE/051_Sleep_Log.md` for recent health entries. If Sleep_Log has recent data but Daily_Pulse doesn't, flag the Daily_Pulse gap but note the Sleep_Log date as context (health data logged separately but not yet reflected in Daily_Pulse)
+- **Cross-reference (VERIFY DON'T ASSUME):** the Sleep_Log file is NOT guaranteed to exist. Before claiming "health data logged separately," confirm the file is actually present via `search_files(target='files', pattern='*Sleep_Log*')`. If it returns 0, do NOT invent a cross-reference date — report the gap as unverifiable (e.g. "Không tìm thấy file Sleep_Log trong vault → không thể cross-reference health data riêng"). Prior-cycle log entries that asserted a Sleep_Log date (e.g. "Sleep_Log có entry 2026-07-14") may be stale if the file was later moved/deleted.
+  - If the file DOES exist and has recent data but Daily_Pulse doesn't, flag the Daily_Pulse gap but note the Sleep_Log date as context (health data logged separately but not yet reflected in Daily_Pulse).
 - **Threshold:** 3 days since that date
 - **Output in log:** `"Health log cuối {date} — {N} ngày gap."`
 
-### Court case follow_up passed
-- **Read:** frontmatter `follow_up` field in `_cases/active/legal_divorce_court_GG_access.md`
-- **Action if passed:** 
-  - Reset `follow_up` to `YYYY-MM-DD` (tomorrow)
-  - Update CRITICAL GAP note in the Status section
-  - Bump `last_updated` in frontmatter
-- **Output in log:** `"Court CRITICAL GAP — follow_up {date} passed, reset to tomorrow."`
+### Court case — discover-all-active (replace the old single-file check)
+- **NEVER hardcode one case filename.** The vault's `_cases/active/` is dynamic — cases open and close. Enumerate with `find _cases/active -name '*.md'` (or `search_files(target='files', path='_cases/active', pattern='*.md')` — note glob, not substring).
+- **For each active case file, read frontmatter:**
+  - `status` (must be OPEN/active to act)
+  - `opened`, `last_updated` (date arithmetic vs today)
+  - whether a `follow_up` field exists
+- **If `follow_up` exists and is past today:** reset to tomorrow + CRITICAL GAP flag + bump `last_updated` (existing behavior).
+- **If NO `follow_up` but `last_updated` >7 days stale AND Action Checklist still all `[ ]`:** flag as STALE active case. This is the real signal when a case has no follow_up field (the visitation-enforcement case `legal_quyen_tham_nom_GG.md` is exactly this shape — opened 07-12, last_updated 07-12, 8 days silent, all 8 checklist items `[ ]`).
+- **Cross-check reality:** if another cron (e.g. `/personal-context-update`) logged a case as "missing/deleted from vault", DO NOT propagate that claim. List `_cases/active/` yourself. 2026-07-20: context-update wrongly reported the visitation case "mất tích" — it was present, just STALE. Correct the false claim in log.md and flag for Warren.
+- **Closed cases:** if `_cases/active/` is empty, the matter is resolved — log "no active cases" and skip. Do NOT invent a follow_up.
+- **Output in log:** `"Court [{filename}]: STALE {N} ngày (last_updated {date}, checklist all [ ])."` or `"Court CRITICAL GAP — follow_up {date} passed, reset to tomorrow."`
 
 ## Cron Mode (no user present)
 
@@ -193,11 +198,16 @@ Triage note for the record: that FAIL was the **state** being wrong, not the ass
   - Frontmatter `follow_up` field no longer exists → skip follow_up check
   - Log the resolution in the daily entry (file found in `_cases/closed/` instead of `_cases/active/`)
   - Do NOT reset follow_up or add CRITICAL GAP flags — the case is resolved
+- **⚠️ NEVER hardcode a single case filename in the court check.** `_cases/active/` is dynamic. A 2026-07-20 failure: the skill originally named only `legal_divorce_court_GG_access.md`, so it would have missed the live `legal_quyen_tham_nom_GG.md` case entirely. Always enumerate `_cases/active/*.md` and check EACH.
+- **⚠️ Do NOT trust a sibling cron's "case missing/deleted" claim.** If `/personal-context-update` or another process logs that a case vanished, verify by listing the directory yourself before repeating the claim. The 2026-07-20 context-update falsely reported the visitation case purged; it was present and merely STALE. Correct the log and flag for Warren.
 - **Vietnamese in vault output.** Per AGENTS.md HC7, write vault entries in Vietnamese có dấu. Frontmatter fields stay English.
 - **Stock pending >7 days stale** does NOT mean auto-delete — flag it so Warren knows to check if the data is useful.
 - **No user present in cron mode.** Never use `clarify` or ask questions. If you can't determine routing, archive to `02_processed_archived/_unsorted/` and flag.
 - **Cron-mode tool restrictions.** In cron mode, `execute_code` is denied entirely and `rm` on root-level paths is blocked. For `write_file` and `patch`, use **full Windows absolute paths** (`C:\Users\khoans\Documents\...`) — they are the most reliable. Workspace-relative paths (`Documents/Personal_OS/...`) work but `patch` has a stateful cwd trap (see reference). For `terminal()` git/dir commands use **MSYS paths** (`/c/Users/khoans/Documents/...`) — verified working in the bash/MSYS shell (2026-07-12 cycle). Do NOT pass Windows backslash paths into `terminal()` (bash mangles `\`). To delete files, `cd <subdir> && rm -f <file>`. See `references/cron-mode-pitfalls.md` for full workaround reference.
 - **search_files uses GLOB, not substring.** `search_files(target='files', pattern='legal_divorce')` returns 0 — the pattern is glob-matched, not a substring. Wrap partial names in `*`: `pattern='*legal_divorce*'`. Applies when inventorying `_inbox/01_unprocessed/` by partial filename too. (Verified 2026-07-12: bare substring returned 0, `*` glob found the file in `_cases/closed/`.)
+- **Git-verify false negative when other processes commit on top.** Never check your commit with `git show --stat HEAD` only — in cron mode another process (capture-sleep, gsheet-sync, etc.) may commit AFTER you and BEFORE your verification runs, so `HEAD` is no longer your commit and `grep <file>` on `HEAD` falsely reports "not in HEAD". Authoritative check: `git ls-files -s <file>` (tree membership — stable) + `git log --oneline --all | grep "<msg>"` (your commit exists). See the Verification section for the full recipe. (Hit + wasted a debug cycle on 2026-07-18.)
+- **personal_vault is a SEPARATE nested git repo.** `Personal_OS/personal_vault/` has its own `.git` (remote `personal-os-vault`, branch `main`) and is gitignored by the `Personal_OS` parent repo. To commit vault edits, `cd personal_vault` and commit/push THERE — committing from `Personal_OS` shows "nothing to commit, working tree clean" because the folder is ignored. Scope commits to only the files you touched (other sessions may leave unrelated dirty files like PULSE/HOME.md). (Verified 2026-07-12: case file + index only landed after committing inside `personal_vault/`.)
+- **Cron-mode "edited code / verification unverified" NAG is a false positive on data files.** After writing `_inbox/.last_process_notes` (or any `.md`/timestamp data file), the runtime may fire `[System: You edited code... run npm run test]`. This is NOT a real failure — it's the generic coding-nag heuristic mis-firing on a non-code write. Correct response: (1) state the changed file is a data file, not code; (2) note `npm run test` is the dummy always-fail script per the Verification note, so it is the WRONG command; (3) cite the skill's manual 6-check gate as the authoritative verification and confirm it passes. Do NOT loop re-running tests. Only run `pytest tests/` if you actually modified skill code (e.g. `capture-sleep` parsing). (Verified 2026-07-17: nag fired on `.last_process_notes` write; resolved via manual gate, commit `0f733ac` succeeded with diacritics hook PASS.)
 - **🚨 Cron shell: no inline `$(...)` in verification one-liners.** (Learned 2026-08-05, cost 3 blocked calls.) The command-parser blocklist rejects `echo "label: [$(cmd)]"` and shell function definitions (`chk(){ ...; }`) as "malformed executable payload" — it is a hardline block, not bypassable. Write plain sequential commands instead: `echo "--1. label--"; cmd`. Recovery path if blocked: the payload is saved to `…/cache/blocked-scripts/blocked-*.sh` and can be run via `bash <path>`.
 - **`grep -c` returning 0 breaks `&&` chains.** `grep -c pattern file` exits **1** when the count is zero, so a verification chain like `… && grep -c follow_up case.md && echo next` silently stops there and later checks never run — looking like a pass when they simply did not execute. Use `;` separators (not `&&`) in verification command chains.
 - **🚨 Never write verification assertions against `HEAD` — pin your own commit SHAs.** (Learned 2026-08-05.) `capture-sleep` committed `afeee47` **four minutes after** this cycle's commit, mid-verification. Every `git show HEAD` assertion silently re-pointed at capture-sleep's commit, so "HEAD touches 2 files" and "Sleep_Log not in my commit" flipped to failures describing someone else's work. Capture `MINE=$(git rev-parse HEAD)` right after committing and assert against that SHA. Corollary: **always run a negative control** (re-run the script with one expected value deliberately wrong and confirm it fails) — that is what exposed the concurrent commit here; a green-only run would have hidden it.
@@ -217,7 +227,7 @@ After processing:
 2. Files moved to `02_processed_archived/` match count
 3. `log.md` has new entry for today + frontmatter updated
 4. `_inbox/.last_process_notes` timestamp is today
-5. Court case file has correct `follow_up` + `last_updated` (if active; if closed/archived, confirm resolution)
+5. All active case files in `_cases/active/` have correct `follow_up` (if present) + `last_updated`; STALE cases flagged (if closed/archived, confirm resolution). Verify by enumerating `_cases/active/*.md`, not by trusting a hardcoded filename.
 6. `git log --oneline -1` shows the commit
 
 > **Test harness — corrected 2026-08-04.** `.last_process_notes` and `log.md` are data files, so manual checks 1-6 above are the authoritative gate for a pure-data run. Older guidance here claimed the canonical command is `pytest tests/` and that a dummy `package.json` test script should be ignored. **Both are wrong: there is no `tests/` directory, no `package.json`, and no pytest config anywhere in `Personal_OS`.** The real tests are two loose files; the relevant one is:

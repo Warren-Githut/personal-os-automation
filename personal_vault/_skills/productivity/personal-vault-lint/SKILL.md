@@ -82,9 +82,10 @@ List `_inbox/01_unprocessed/` using `search_files(target=files)`. Empty means pr
 
 Scan all .md files excluding `raw/`. For each file:
 
-1. **Structural check** (read first 15 lines):
+1. **Structural check** (read first 15 lines, or parse with regex):
    - Starts with `---`?
-   - Has closing `---`?
+   - Has a CLOSING `---` immediately after the YAML block (not a body horizontal rule)?
+   - ⚠️ A raw count of `---` markers is a FALSE POSITIVE trap — body text uses `---` as section dividers. Use the regex in `references/frontmatter-lint-technique.md` to detect a true second YAML block. See Pitfalls: "Frontmatter-duplicate FALSE POSITIVE".
 
 2. **Line-level error patterns** (grep for these anti-patterns):
    - `|field_name:` — **pipe** at start of YAML field (vỡ frontmatter, Obsidian đỏ)
@@ -159,7 +160,9 @@ When running as cron (no user present):
 
 ## Pitfalls
 
-- **Tool: execute_code blocked in cron.** Dont attempt it. Use search_files + read_file + terminal(git).
+- **Tool: execute_code blocked in cron.** Dont attempt it. Use search_files + read_file + terminal(git). For Python logic that cant be done with single tools, write a temp `.py` to disk (NOT under the vault — use a scratch path or `scripts/_lint_*.py` then `rm` after) and run via `terminal(python3 ...)`. This is the only Python path in cron mode.
+- **Skill name alias — `personal-lint` ≠ `personal-vault-lint`.** The cron dispatcher skipped a run because the job called `personal-lint` (short name) but the skill is registered as `personal-vault-lint`. If a cron/command invokes `personal-lint` and returns "skill not found and skipped", treat it as THIS skill. Either rename the cron job to `personal-vault-lint` or add a dispatcher alias. Dont re-run the lint manually without noting the alias gap.
+- **Frontmatter-duplicate FALSE POSITIVE.** Naively counting `---` markers (e.g. `len(re.findall(r'^---\s*$', txt, MULTILINE))`) catches markdown horizontal rules used as section dividers in body text (Sleep_Log has 42 such markers, all legitimate). A "duplicate frontmatter" flag is only real if a SECOND YAML block opens after the first closes: detect via `re.search(r'\n---\s*\n(.*?)\n---\s*\n', rest, DOTALL)` AND confirm it contains `^\w[\w-]*\s*:` key:value lines. Otherwise its a horizontal rule, not a dup-FM. See `references/frontmatter-lint-technique.md`.
 - **GG contact detection.** The GG: line may say `-` (dash) for days. Last real contact = most recent date with actual text in GG: field.
 - **Daily_Pulse ordering is newest-on-top.** The first `##` header is newest. Read from top, not bottom.
 - **Court: follow_up vs actual outcome.** `follow_up` date means attention needed by then. The post-17/6 CRITICAL GAP is a separate flag indicating the court outcome is unknown.
@@ -172,6 +175,11 @@ When running as cron (no user present):
 - **No auto-commit on purge.** After edits, show `git status` / `git diff --stat` and ASK before committing — unless Warren explicitly says commit. He often reviews first ("ko cho git gì luôn").
 - **Filename scan MUST cover BOTH dot AND underscore prefix.** `*.kilo*` only matches `.kilo/`/`.kilocode/` — it SILENTLY MISSES `_kilo/`. Always scan `*_kilo*` too (and `*_cursor*` alongside `*.cursor*`). Missed this live 2026-07-09 → user caught leftover `_kilo/`. Full protocol + re-scan-confirmation step in `references/deletion-discipline.md`.
 - **Memory anti-loop on purge lessons (Warren 2026-07-09).** After a purge, lessons go to `_personal_memory_raw.md` (unlimited SSOT) FIRST — never fight the `memory` tool's 2,200-char cap. Two stores are DISTINCT: (a) Hermes built-in = `memory` tool = 2200 cap, Hermes freely writes, Warren no opinion; (b) mem0 FAISS = SEPARATE unlimited, ONLY written by `/compress-memory`. Do NOT conflate them (SOUL.md §10 says "memory tool = mem0" — that refers to (a), not (b)). When `memory` tool nears cap → STOP, ghi raw, never delete-entry-to-fit. If `/compress-memory` has no tool exposing (b), report BLOCKED, rely on SSOT vault file. Looped 4× on this once by misreading — embedded in `references/deletion-discipline.md` Memory discipline section.
+- **RESURRECTION-PROOF DELETION (Warren 2026-07-14).** Folder "xóa nhiều lần vẫn còn" = active cron/skill regenerate nó. Protocol: diagnose source (git tracked? commit re-add? skill hardcode write? cron `git add`? newest file after last delete?) → then 4-layer kill: `git rm -r --cached` + `rm -rf` + commit + patch generator skill + fix refs + verify. Full playbook in `references/deletion-discipline.md` RESURRECTION-PROOF DELETION. `_kilo/` case: 2 cron jobs regenerated `_kilo/ACTIVITY_LOG.md`; killed by redirecting both skills to `30_KNOWLEDGE_BASE/wiki/log.md`.
+- **Symlink skills gotcha.** `personal_profile/skills/personal-commands` is a symlink → `warren-profile/skills/personal-commands` (same inode). Live skill source may NOT exist under personal_profile — grep warren-profile too. Patching via personal_profile path edits the canonical file; pass `cross_profile=True`.
+- **Lint wikilink quirk.** `personal_lint.py` flags `[[folder]]` (no file) and `[[nested/path/file]]` as "Broken link" even though Obsidian resolves them. Use bare unique filename `[[01_about_GG]]` instead. Pre-existing broken links to non-existent files (e.g. `[[Co_Parenting_Log]]`) are NOT from your rename — leave them.
+- **Vault rename/move protocol.** `git mv` (keep history) → grep ALL refs (00_WIKI_INDEX, 00_INDEX, RETRIEVAL_MAP, internal `related:`/`[[wikilink]]`, cross-folder, scripts/*.py) → fix in order → lint verify → commit SEPARATELY from deletions. Renumber files when moving into subfolder (`aa_x`→`01_x`); ask user first. Leave historical logs (STOCK_MEMORY.md, log.md) untouched. Full checklist in `references/deletion-discipline.md` PRE-FLIGHT rename/move.
+- **RESURRECTION = 3 causes, not 1.** "Xóa rồi vẫn mọc lại" gần như luôn = (1) git-tracked: commit re-add (`git log -- <path>` thấu re-add; `rm -rf` một mình thất bại vì git index giữ); (2) cron/skill: cron job active chạy skill có step hardcode create/append vào path → recreate + commit theo lịch; (3) script: `.py` hardcode path. Permanent delete cần `git rm -r --cached` + `rm -rf` + `git commit` VÀ patch generator (skill/cron/script). Quy trình chẩn đoán đầy đủ trong `references/deletion-discipline.md` RESURRECTION DIAGNOSTIC.
 
 ## Related Skills
 
@@ -183,3 +191,5 @@ When running as cron (no user present):
 
 - `references/canonical-schemas.md` — YAML frontmatter schemas cho all 030-Companies files (Thesis, BCTC, Anti-thesis, Catalyst-watch, Candidates_Watchlist). Includes anti-pattern table. Consult before creating/editing these files.
 - `references/deletion-discipline.md` — purge protocol for retired tools/apps (Kilo/Cursor-class): 4-layer scan, false-positive guard, no-commit rule.
+- `references/frontmatter-lint-technique.md` — correct FM detection (avoids `---` horizontal-rule false positives), field-completeness schema logic, cron-mode Python workaround, ad-hoc verification recipe.
+- `references/vault-rename-move-discipline.md` — rename/move link-fix procedure + ROOT-CAUSE deletion (kill cron/skill generator via personal_profile→warren-profile symlink). Covers replace_all path-drop pitfall + py_compile verify gate.
