@@ -1,47 +1,98 @@
 ---
 name: op-case-file
-description: "Cập nhật case LU3 Closure hoặc case vận hành khác trên Google Drive cho bố. Use when bố asks update case, thêm to-do, sửa follow-up, hoặc điền bảng TO-DO trong Google Doc case."
+description: "Tạo hoặc cập nhật case file ops trên Google Drive cho bố. Cấu trúc cố định: TO-DO trước, executive summary, cập nhật theo ngày newest-on-top. Luôn viết cùng core-report-writing. STE100. Use when bố asks update case, thêm to-do, tạo case, hoặc điền bảng TO-DO."
 type: workflow
 lifecycle: active
 ---
 
-# Case Update for Bố — LU3 Closure and Ops Cases
+# Case File for Bố — Structure and Update Rules
 
-Cập nhật Google Doc case trên Drive của bố. Ưu tiên bảng TO-DO / FOLLOW-UP LIST.
+Áp dụng cho mọi case file ops (LU3 Closure, LU5 Closing, và case khác).
 
-## Workflow
+Luôn dùng skill này cùng **core-report-writing**.
+- Skill này: cấu trúc section, thứ tự, bảng TO-DO, quy tắc cập nhật.
+- core-report-writing: cách viết EXECUTIVE SUMMARY và entry CẬP NHẬT THEO NGÀY (answer first, tách fact/assumption/recommendation, kết bằng "Bố cần làm gì?").
 
-1. Tìm case bằng google_drive_search với query "LU3 CLOSURE" hoặc tên case bố đưa.
-2. Đọc document bằng cursor__bridge___user-Google-docs-read_5fdocument___16 để lấy table start index và cell indexes.
-3. Nếu cần thêm hàng vào bảng TO-DO:
-   - **Ưu tiên**: Bố tự tạo row trống ngay dưới header. Mình chỉ điền nội dung vào các cell của row đó.
-   - Số mới = số cao nhất hiện tại + 1. Row mới luôn nằm ngay dưới header.
-   - Không di chuyển hoặc sắp xếp lại các row cũ.
-   - Nếu bố không tạo sẵn: không xóa toàn bộ bảng. Hỏi bố xác nhận trước.
-4. Điền cell:
-   - Luôn dùng revisionId mới nhất sau mỗi lần insert_text.
-   - Điền đúng cột theo header: # | Việc | Người làm | Hạn | Trạng thái | Ngày xong | Ghi chú.
-   - Ghi chú dài đặt vào cột Ghi chú, không nhầm sang Ngày xong.
-   - Trạng thái chỉ dùng: CHƯA LÀM, ĐANG LÀM, XONG, BỎ, CHẶN.
-   - Khi đổi sang XONG hoặc BỎ: ghi ngày xong. Tô xám toàn bộ cell của hàng đó (#D9D9D9). Strikethrough do bố tự làm (tool không hỗ trợ dễ).
-   - Re-read sau mỗi vài lần điền để xác nhận index.
-5. Cập nhật các mục liên quan (executive summary, ngày quan trọng, cập nhật theo ngày) bằng replace_text hoặc insert_text.
-   - Phần "CẬP NHẬT THEO NGÀY": luôn đặt bản cập nhật mới nhất ngay dưới heading section, trên các bản cũ (newest on top).
-   - Không append xuống cuối document.
-6. Nếu bố yêu cầu Google Calendar trong project này (LU3 / ops case), tạo event bằng google_calendar_create_event. Tiêu đề dạng: “Việc [số]: [nội dung] [Tên case]”. Ví dụ: “Việc 5: Gửi số đếm rượu cho Pang [LU3 Closure]”. Sau khi tạo, set màu Tangerine (colorId 6). Màu này chỉ áp dụng trong project này.
-7. Báo lại và xác nhận đã xong.
+Viết 100% STE100. Ngôn ngữ của bố.
 
-## Lưu ý kỹ thuật (từ thực tế 10/10/2026)
+## Section order (cố định)
 
-- **Cấm xóa bất cứ nội dung nào nếu chưa hỏi ý bố.** Nếu tự tin muốn xóa, prompt nhờ bố xác nhận trước.
-- Không có tool “insert row vào bảng có sẵn”. Cách an toàn nhất: bố tạo row trống dưới header → mình điền vào cell có sẵn.
-- Mỗi insert_text làm lệch toàn bộ index phía sau. Luôn lấy revisionId trả về cho lần tiếp theo.
-- delete_content trên range bảng dễ báo lỗi nếu chạm biên cell. Thử range nhỏ hơn nếu cần.
-- Version history là cách khôi phục nhanh nhất khi xóa nhầm.
-- Khi tạo Google Calendar event/task trong project này: tiêu đề dạng “Việc [số]: [nội dung] [Tên case]”. Ví dụ “Việc 5: Gửi số đếm rượu cho Pang [LU3 Closure]”. Dùng màu Tangerine (colorId 6). Chỉ áp dụng project này.
-- Khi cập nhật "CẬP NHẬT THEO NGÀY": insert ngay dưới heading section, newest on top. Không để dưới cùng.
+0. Header block (ngắn, chỉ các field này):
+   - Case name
+   - Status (Active / Closed)
+   - Owner
+   - Created date
+   - Last updated date
+   - Next follow-up
+   - Source
+   - Không thêm migration note, tags, frontmatter, auto-status.
+
+1. TO-DO / FOLLOW-UP LIST (luôn đầu tiên)
+   - Một bảng. Cột: # | Việc | Người làm | Hạn (DD/MM/YYYY) | Trạng thái | Ngày xong | Ghi chú
+   - Trạng thái chỉ dùng: CHƯA LÀM, ĐANG LÀM, XONG, BỎ, CHẶN (nói rõ bị chặn bởi gì trong Ghi chú)
+   - Row order cố định theo số. Số mới nhất ở trên. Thêm việc mới = row mới ngay dưới header, số = max hiện tại + 1
+   - Không di chuyển hoặc sắp xếp lại row cũ. Chỉ sửa cell status, ngày xong, hạn, ghi chú tại chỗ
+   - Mọi việc phải có hạn. Không có thì viết "Chưa có hạn" và ghi chú
+   - Không xóa việc đã xong. Đánh XONG + ngày xong
+   - Row XONG hoặc BỎ: tô xám toàn bộ cell (#D9D9D9)
+   - Người làm không biết = "Chưa rõ". Không đoán
+
+2. EXECUTIVE SUMMARY
+   - Viết theo core-report-writing
+   - 3–7 câu số. Mở "Tính đến DD/MM/YYYY"
+   - Tình trạng, quyết định mới nhất, ngày tiếp theo, rủi ro chính
+   - Kết bằng "Bố cần làm gì?"
+   - Viết lại toàn bộ mỗi lần cập nhật
+
+3. CẬP NHẬT THEO NGÀY
+   - Một sub-heading mỗi lần: "CẬP NHẬT DD/MM/YYYY: <tiêu đề>"
+   - NEWEST FIRST. Chèn ngay dưới heading section. Không append xuống cuối
+   - Mỗi entry ghi nguồn. Viết theo core-report-writing (fact trước, assumption sau, kết "Bố cần làm gì?")
+   - Quote quyết định verbatim khi có
+
+4. NGÀY QUAN TRỌNG
+   - Một dòng một ngày. Ghi fixed hoặc tentative
+
+5. BỐI CẢNH
+   - Fact ngắn. Có nguồn
+
+6. Các section chủ đề nếu cần (nhân sự, tiền, landlord, tài sản...)
+   - Fact + nguồn
+
+7. KHÔNG ĐƯỢC LÀM (nếu có rule cấm)
+
+## Update rules
+
+1. Mỗi lần cập nhật:
+   - Thêm entry log mới ngay dưới heading CẬP NHẬT THEO NGÀY (newest on top)
+   - Sửa bảng TO-DO tại chỗ
+   - Viết lại EXECUTIVE SUMMARY theo core-report-writing
+   - Cập nhật header dates
+2. Sửa document tại chỗ. Không rebuild. Giữ link.
+3. Khi ngày đổi, thay ngày cũ ở mọi nơi ngoài log.
+4. Không invent ngày, tên, số. Không biết = "Chưa rõ" hoặc "Chưa có hạn".
+5. Mirror mốc ngày quan trọng lên Google Calendar khi bố yêu cầu.
+6. Sau khi sửa, đọc lại section đã đổi cho bố.
+
+## Kỹ thuật Google Docs
+
+- Ưu tiên: bố tạo sẵn row trống ngay dưới header bảng TO-DO. Mình chỉ điền cell.
+- Số mới = số cao nhất + 1. Row mới luôn dưới header.
+- Không xóa nội dung nếu chưa hỏi bố.
+- Mỗi insert_text lệch index phía sau. Luôn lấy revisionId mới.
+- delete_content trên bảng dễ lỗi. Thử range nhỏ hoặc hỏi bố.
+- Version history là cách khôi phục nhanh.
+
+## Calendar (project này)
+
+- Tiêu đề: "Việc [số]: [nội dung] [Tên case]"
+- Màu Tangerine (colorId 6). Chỉ dùng trong project này.
+- Khi bố nói "việc X xong": đánh XONG, điền ngày xong, tô xám. Nếu số trùng nhiều case thì hỏi case nào trước.
+
+## Closing a case
+
+Khi bố muốn đóng case: làm post-mortem theo quy trình trong skill (hỏi từng câu, ghi bài học, chuyển folder, cập nhật index).
 
 ## Khi nào dùng
 
-- Bố nói "update case", "thêm việc to-do", "sửa follow-up", "điền bảng".
-- Liên quan LU3 closing, handover, retail clearance, hoặc case ops khác.
+Bố nói "update case", "thêm to-do", "tạo case", "điền bảng", hoặc liên quan closing / handover / ops case.
